@@ -1,31 +1,65 @@
-
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class CtrlComandes {
 
-    // Mapa donde se almacena el nombre de la comanda y la comanda en sí
-    private Map<String, Comanda> comandes_creades;
+    private Map<String, Comanda> comandes_creades; // Mapa de comandas
 
     // Constructor
     public CtrlComandes() {
-        comandes_creades = new HashMap<>(); // Inicializamos el mapa
+        this.comandes_creades = new HashMap<>();
     }
 
-    // Método para añadir una comanda al mapa
-    public void afegirComanda(String nomC, Comanda comanda) {
-        comandes_creades.put(nomC, comanda);
+    // Método para crear una nueva comanda
+    public String crearComanda(String nomComanda) {
+        if (nomComanda == null || nomComanda.isEmpty()) {
+            return "Error: El nom de la comanda no pot estar buit.";
+        }
+        if (comandes_creades.containsKey(nomComanda)) {
+            return "Error: Ja existeix una comanda amb aquest nom.";
+        }
+        comandes_creades.put(nomComanda, new Comanda(nomComanda));
+        return "Comanda creada correctament.";
     }
 
-    // Método para obtener una comanda por su nombre
-    public Comanda obtenirComanda(String nomC) {
-        return comandes_creades.get(nomC);
+    // Método para añadir un producto a una comanda
+    public String afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) {
+        Comanda comanda = comandes_creades.get(nomComanda);
+        if (comanda == null) {
+            return "Error: No existeix la comanda amb aquest nom.";
+        }
+        comanda.afegirProducte(nomProducte, quantitat);
+        return "Producte afegit correctament a la comanda.";
     }
 
-    // Método para eliminar una comanda por su nombre
-    public void eliminarComanda(String nomC) {
-        comandes_creades.remove(nomC);
+    // Método para eliminar una comanda
+    public String eliminarComanda(String nomComanda) {
+        if (comandes_creades.remove(nomComanda) != null) {
+            return "Comanda eliminada correctament.";
+        }
+        return "Error: No s'ha trobat cap comanda amb aquest nom.";
     }
 
+    // Método para obtener una lista de comandas a partir de nombres
+    public Map<String, Comanda> obtenirComandes(String[] nomsComandes) {
+        Map<String, Comanda> comandesAExecutar = new HashMap<>();
+        for (String nomComanda : nomsComandes) {
+            Comanda comanda = comandes_creades.get(nomComanda);
+            if (comanda != null) {
+                comandesAExecutar.put(nomComanda, comanda);
+            }
+        }
+        return comandesAExecutar;
+    }
+
+    // Método para ejecutar las comandas seleccionadas (solo simulación)
+    public String executarComandes(String[] nomsComandes) {
+        Map<String, Comanda> comandesAExecutar = obtenirComandes(nomsComandes);
+        if (comandesAExecutar.isEmpty()) {
+            return "Error: No s'han trobat les comandes seleccionades.";
+        }
+        // Aquí realizarías la lógica para procesar las comandas (ej. añadir productos al magatzem)
+        // Este es un simple mensaje de ejemplo.
+        return "Comandes executades correctament.";
+    }
 }
