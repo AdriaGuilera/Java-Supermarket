@@ -52,14 +52,4 @@ public class CtrlComandes {
         return comandesAExecutar;
     }
 
-    // Método para ejecutar las comandas seleccionadas (solo simulación)
-    public String executarComandes(String[] nomsComandes) {
-        Map<String, Comanda> comandesAExecutar = obtenirComandes(nomsComandes);
-        if (comandesAExecutar.isEmpty()) {
-            return "Error: No s'han trobat les comandes seleccionades.";
-        }
-        // Aquí realizarías la lógica para procesar las comandas (ej. añadir productos al magatzem)
-        // Este es un simple mensaje de ejemplo.
-        return "Comandes executades correctament.";
-    }
 }
