@@ -71,10 +71,9 @@ public class Prestatgeria {
 public void incrementar_quantitat(String nomP, Integer quantitat) {
 	Pair<Integer, Integer> currentPair = productes.get(nomP);
 
-    if (currentPair != null) {
-        // Obtenemos los valores actuales del Pair
-        int firstValue = currentPair.getKey();     // Primer valor
-        int secondValue = currentPair.getValue();  // Segundo valor
+    if (currentPair != null) { 
+        int firstValue = currentPair.getKey();     
+        int secondValue = currentPair.getValue();  
         if(secondValue + quantitat <= max_producte_buit) {
         	Pair<Integer, Integer> newPair = new Pair<>(firstValue, secondValue + quantitat);
         	productes.put(nomP, newPair);
@@ -85,9 +84,8 @@ public void decrementar_quantitat(String nomP, Integer quantitat) {
 	Pair<Integer, Integer> currentPair = productes.get(nomP);
 
     if (currentPair != null) {
-        // Obtenemos los valores actuales del Pair
-        int firstValue = currentPair.getKey();     // Primer valor
-        int secondValue = currentPair.getValue();  // Segundo valor
+        int firstValue = currentPair.getKey();     
+        int secondValue = currentPair.getValue();  
         if(secondValue - quantitat > 0) {
         	Pair<Integer, Integer> newPair = new Pair<>(firstValue, secondValue - quantitat);
         	productes.put(nomP, newPair);
