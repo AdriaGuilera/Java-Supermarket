@@ -3,7 +3,7 @@ import java.util.Map;
 
 public class CtrlComandes {
 
-    private Map<String, Comanda> comandes_creades; // Mapa de comandes
+    private static Map<String, Comanda> comandes_creades; // Mapa de comandes
 
     // Constructor
     public CtrlComandes() {
@@ -11,7 +11,7 @@ public class CtrlComandes {
     }
 
     // Método para crear una nueva comanda
-    public String crearComanda(String nomComanda) {
+    public static String crearComanda(String nomComanda) {
         if (nomComanda == null || nomComanda.isEmpty()) {
             return "Error: El nom de la comanda no pot estar buit.";
         }
@@ -23,7 +23,7 @@ public class CtrlComandes {
     }
 
     // Método para añadir un producto a una comanda
-    public String afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) {
+    public static String afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) {
         Comanda comanda = comandes_creades.get(nomComanda);
         if (comanda == null) {
             return "Error: No existeix la comanda amb aquest nom.";
@@ -33,7 +33,7 @@ public class CtrlComandes {
     }
 
     // Método para eliminar una comanda
-    public String eliminarComanda(String nomComanda) {
+    public static String eliminarComanda(String nomComanda) {
         if (comandes_creades.remove(nomComanda) != null) {
             return "Comanda eliminada correctament.";
         }
@@ -41,7 +41,7 @@ public class CtrlComandes {
     }
 
     // Método para obtener una lista de comandas a partir de nombres
-    public Map<String, Comanda> obtenirComandes(String[] nomsComandes) {
+    public static Map<String, Comanda> obtenirComandes(String[] nomsComandes) {
         Map<String, Comanda> comandesAExecutar = new HashMap<>();
         for (String nomComanda : nomsComandes) {
             Comanda comanda = comandes_creades.get(nomComanda);

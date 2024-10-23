@@ -1,2 +1,10 @@
 public class CtrlProducte {
+
+
+
+
+
+
+
+
 }
