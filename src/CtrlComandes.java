@@ -3,7 +3,7 @@ import java.util.Map;
 
 public class CtrlComandes {
 
-    private Map<String, Comanda> comandes_creades; // Mapa de comandas
+    private Map<String, Comanda> comandes_creades; // Mapa de comandes
 
     // Constructor
     public CtrlComandes() {
