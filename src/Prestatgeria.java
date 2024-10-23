@@ -63,6 +63,7 @@ public class Prestatgeria {
 	public void afegir_prestatge() {
 		this.buits += mida_prestatge;
 	}
+	
 	public void eliminar_prestatge() {
 		this.buits -= mida_prestatge;
 	}
