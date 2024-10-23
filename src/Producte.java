@@ -15,7 +15,7 @@ public class Producte {
     private Map<String, Float> similitud;
     private int stock_magatzem;
 
-    public Producte Producte(String n, Tcategoria cat, float pv, float pc, int mh, int mm) {
+    public Producte(String n, Tcategoria cat, float pv, float pc, int mh, int mm) {
         nom = n;
         categoria = cat;
         preu_compra = pc;
