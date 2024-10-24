@@ -121,4 +121,12 @@ public void imprimir_productes() {
 		
 	}
 }
+
+public boolean esta_a_prestatgeria(String nom) {
+		return productes.containsKey(nom);
+}
+
+public int get_quantProducte(String nom) {
+	productes.
+}
 }

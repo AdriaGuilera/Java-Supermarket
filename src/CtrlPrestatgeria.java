@@ -37,6 +37,7 @@ public class CtrlPrestatgeria {
 	//Mou un producte del magatzem a la prestatgeria
 	public int moureProducte(String nom, int quantitat, String id_prest, int max_hueco) {
 		Prestatgeria pr = prestatgeries.get(id_prest);
-		if ()
+		if (pr.getProductesSize() >= buits || ) return -1;
+
 	}
 }
