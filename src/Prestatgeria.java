@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 
 
 
@@ -12,6 +13,7 @@ public class Prestatgeria {
 	private int max_producte_buit;
 	private Map<String, Pair<Integer, Integer>> productes;// productes: map<nom:string, pair(posicio:int, quantitat:int)>
 	private Map<String, Boolean> productes_fixats;
+	private Vector<String> distribucio;
 	
 	public Prestatgeria(String id, int buits,int max, int mida_prestatge) {
 		this.id = id;
@@ -20,17 +22,21 @@ public class Prestatgeria {
 		this.mida_prestatge=mida_prestatge;
 		this.productes= new HashMap<>();
 		this.productes_fixats= new HashMap<>();
+		this.distribucio= new Vector<>(this.buits);
 		
 	}
 	
 	public void afegir_producte(String nomP, Integer quantitat) {
 		if(productes.size() < buits) {
-			Pair<Integer, Integer> newPair= new Pair<>(0, quantitat);
+			distribucio.add(nomP);
+			int pos = distribucio.indexOf(nomP);
+			Pair<Integer, Integer> newPair= new Pair<>(pos, quantitat);
 			productes.put(nomP, newPair);
 			productes_fixats.put(nomP, false);
 		}
 	}
 	public void eliminar_producte(String nomP) {
+		distribucio.remove(nomP);
 		productes.remove(nomP);
 		productes_fixats.remove(nomP);
 	}
@@ -40,8 +46,8 @@ public class Prestatgeria {
 	}
 	
 	
-	public  Map<String, Pair<Integer, Integer>> getProductes(){
-		return productes;
+	public  Vector<String> getProductes(){
+		return distribucio;
 	}
 	
 	public Set<Pair<String, Integer>> auto_reomplir(){
@@ -103,5 +109,12 @@ public void fixar_producte_prestatgeria(String nomP) {
 }
 public void desfixar_producte_prestatgeria(String nomP) {
 	productes_fixats.put(nomP, false);
+}
+
+public void imprimir_productes() {
+	for(String element: distribucio) {
+		System.out.println(element);
+		
+	}
 }
 }
