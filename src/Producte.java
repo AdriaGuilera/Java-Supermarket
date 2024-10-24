@@ -15,7 +15,7 @@ public class Producte {
     private Map<String, Float> similitud;
     private int stock_magatzem;
 
-    public Producte(String n, Tcategoria cat, float pv, float pc, int mh, int mm) {
+    public Producte Producte(String n, Tcategoria cat, float pv, float pc, int mh, int mm) {
         nom = n;
         categoria = cat;
         preu_compra = pc;
@@ -54,7 +54,7 @@ public class Producte {
 
     }
 
-    //Si el Producte nom ja té similitud assignada, es sobrescriurà amb la nova
+    //Si el Producte nom ja té similitud assignada, es sobreescriurà amb la nova
     public void afegir_similitud(String nom, float valor) {
         similitud.put(nom, valor);
     }
