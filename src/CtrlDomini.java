@@ -21,7 +21,7 @@ public class CtrlDomini {
         int max_hueco = CtrlProducte.comprovaQuantitats(nom, quantitat);
         if (max_hueco == -1) System.out.println("Error: El producte no es pot col·locar");
         else {
-            CtrlPrestatgeria.
+            CtrlPrestatgeria
         }
     }
 }
