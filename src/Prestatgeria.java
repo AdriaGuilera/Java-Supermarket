@@ -50,6 +50,10 @@ public class Prestatgeria {
 		return distribucio;
 	}
 	
+	public Integer getProductesSize(){
+		return productes.size();
+	}
+	
 	public Set<Pair<String, Integer>> auto_reomplir(){
 		Set<Pair<String, Integer>> set = new HashSet<>();
 		productes.forEach((key, value) -> {
