@@ -133,6 +133,6 @@ public boolean esta_a_prestatgeria(String nom) {
 }
 
 public int get_quantProducte(String nom) {
-	productes.
+		return productes.get(nom).getValue();
 }
 }

@@ -42,6 +42,10 @@ public class Producte {
         return stock_magatzem;
     }
 
+    public Map<String, Float> getSimilitud(String nom) {
+        return similitud.get(nom);
+    }
+
     public void mod_preu_venda(float nou_preu) {
         preu_venda = nou_preu;
     }
