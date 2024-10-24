@@ -12,8 +12,12 @@ public class Prestatgeria {
 	private int mida_prestatge;
 	private int max_producte_buit;
 	private Map<String, Pair<Integer, Integer>> productes;// productes: map<nom:string, pair(posicio:int, quantitat:int)>
-	private Map<String, Boolean> productes_fixats;
+	private Set<String> productes_fixats;
 	private Vector<String> distribucio;
+	
+	public Set<String> getProductesFixats(){
+		return productes_fixats;
+	}
 	
 	public Prestatgeria(String id, int buits,int max, int mida_prestatge) {
 		this.id = id;
@@ -21,7 +25,7 @@ public class Prestatgeria {
 		this.max_producte_buit= max;
 		this.mida_prestatge=mida_prestatge;
 		this.productes= new HashMap<>();
-		this.productes_fixats= new HashMap<>();
+		this.productes_fixats= new HashSet<>();
 		this.distribucio= new Vector<>(this.buits);
 		
 	}
@@ -32,7 +36,8 @@ public class Prestatgeria {
 			int pos = distribucio.indexOf(nomP);
 			Pair<Integer, Integer> newPair= new Pair<>(pos, quantitat);
 			productes.put(nomP, newPair);
-			productes_fixats.put(nomP, false);
+			productes_fixats.add(nomP);
+			
 		}
 	}
 	public void eliminar_producte(String nomP) {
@@ -50,7 +55,8 @@ public class Prestatgeria {
 		return distribucio;
 	}
 	
-	public Integer getProductesSize(){
+	 
+	public int getProductesSize(){
 		return productes.size();
 	}
 	
@@ -108,11 +114,11 @@ public void decrementar_quantitat(String nomP, Integer quantitat) {
 }
 
 public void fixar_producte_prestatgeria(String nomP) {
-	productes_fixats.put(nomP, true);
+	productes_fixats.add(nomP);
 	
 }
 public void desfixar_producte_prestatgeria(String nomP) {
-	productes_fixats.put(nomP, false);
+	productes_fixats.remove(nomP);
 }
 
 public void imprimir_productes() {
