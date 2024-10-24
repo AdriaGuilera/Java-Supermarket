@@ -40,7 +40,7 @@ public class Prestatgeria {
 		productes.remove(nomP);
 		productes_fixats.remove(nomP);
 	}
-	
+	//hola
 	public String getid() {
 		return id;
 	}
