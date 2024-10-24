@@ -33,6 +33,10 @@ public class CtrlPrestatgeria {
 	public void fixarProducte(String id, String nomP) {
 		
 	}
-	
-	
+
+	//Mou un producte del magatzem a la prestatgeria
+	public int moureProducte(String nom, int quantitat, String id_prest, int max_hueco) {
+		Prestatgeria pr = prestatgeries.get(id_prest);
+		if ()
+	}
 }

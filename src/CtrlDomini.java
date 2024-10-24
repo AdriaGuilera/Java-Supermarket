@@ -17,10 +17,11 @@ public class CtrlDomini {
         return CtrlComandes.obtenirComandes(nomsComandes);
     }
 
-
-
-
-
-
-
+    public void mourePrestatgeria(String nom, int quantitat, String id_prest) {
+        int max_hueco = CtrlProducte.comprovaQuantitats(nom, quantitat);
+        if (max_hueco == -1) System.out.println("Error: El producte no es pot col·locar");
+        else {
+            CtrlPrestatgeria.
+        }
+    }
 }

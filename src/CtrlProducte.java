@@ -3,43 +3,48 @@ import java.util.HashMap;
 
 public class CtrlProducte {
 
-    public void incrementar_stock(String nomP, int quantitat) {
+    //En aquest map hi ha tots els productes, tot i que n'hi hagi 0 al magatzem
+    private static Map<String, Producte> productes_magatzem;
+
+    public static void incrementar_stock(String nomP, int quantitat) {
 
     }
 
-    public void decrementar_stock(String nomP, int quantitat) {
+    public static void decrementar_stock(String nomP, int quantitat) {
 
     }
 
-    public void imprimirProducte(String nom) {
+    public static void imprimirProducte(String nom) {
 
     }
 
-    public int comprovaQuantitats(String nom, int quantitat) {
+    public static int comprovaQuantitats(String nom, int quantitat) {
+        Producte p = productes_magatzem.get(nom);
+        if (quantitat > p.get_max_hueco() || quantitat > p.get_stock()) return -1;
+        return p.get_max_hueco();
+    }
+
+    public static void generarComandaAutomatica() {
 
     }
 
-    public void generarComandaAutomatica() {
+    public static void executar_comandes(Map<String, Comanda> comandes) {
 
     }
 
-    public void executar_comandes(Map<String, Comanda> comandes) {
+    public static void eliminar_producte(String nom) {
 
     }
 
-    public void eliminar_producte(String nom) {
+    public static void altaproducte(String nom, Tcategoria categoria, float pv, float pc, int mh) {
 
     }
 
-    public void altaproducte(String nom, Tcategoria categoria, float pv, float pc, int mh) {
+    public static List<String> Buscarproducte(List<Tcategoria> categoria, float pvm, float pvm2, float pcm, float pcm2) {
 
     }
 
-    public List<String> Buscarproducte(List<Tcategoria> categoria, float pvm, float pvm2, float pcm, float pcm2) {
-
-    }
-
-    public void modificarproducte(String nom, Tcategoria categoria, float pv, float pc, int mh) {
+    public static void modificarproducte(String nom, Tcategoria categoria, float pv, float pc, int mh) {
 
     }
 
