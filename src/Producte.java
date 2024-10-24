@@ -38,6 +38,10 @@ public class Producte {
         return max_hueco;
     }
 
+    public int get_stock() {
+        return stock_magatzem;
+    }
+
     public void mod_preu_venda(float nou_preu) {
         preu_venda = nou_preu;
     }
@@ -59,7 +63,7 @@ public class Producte {
         similitud.put(nom, valor);
     }
 
-    public void moure_a_prestatge(int quantitat, String nom, Pos posicio) {
+    public void moure_a_prestatge(int quantitat, String nom, int posicio) {
 
     }
 
