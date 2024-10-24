@@ -30,7 +30,28 @@ public class CtrlPrestatgeria {
 		return "Prestatgeria eliminada correctament";
 	}
 	
-	public void fixarProducte(String id, String nomP) {
+	public String fixarProducte(String id, String nomP) {
+		if (id == null || id.isEmpty()) {
+            return "Error: El nom de la prestatgeria no pot estar buit.";
+        }
+		if(!prestatgeries.containsKey(id)) {
+			return "Error: No existeix una prestatgeria amb aquest identificador.";
+		}
+		
+		prestatgeries.get(id).fixar_producte_prestatgeria(nomP);
+		return "Producte fixat.";
+		
+	}
+	
+	public String desfixarProducte(String id, String nomP) {
+		if (id == null || id.isEmpty()) {
+            return "Error: El nom de la prestatgeria no pot estar buit.";
+        }
+		if(!prestatgeries.containsKey(id)) {
+			return "Error: No existeix una prestatgeria amb aquest identificador.";
+		}
+		prestatgeries.get(id).fixar_producte_prestatgeria(nomP);
+		return "Producte fixat.";
 		
 	}
 
