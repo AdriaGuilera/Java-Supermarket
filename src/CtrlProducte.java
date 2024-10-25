@@ -47,5 +47,12 @@ public class CtrlProducte {
     public static void modificarproducte(String nom, Tcategoria categoria, float pv, float pc, int mh) {
 
     }
+    public boolean existeix_producte(String nom) {
+        return productes_magatzem.containsKey(nom);
+    }
+
+    public double getpreu(String nom) {
+        return productes_magatzem.get(nom).get_preu_venda();
+    }
 
 }
