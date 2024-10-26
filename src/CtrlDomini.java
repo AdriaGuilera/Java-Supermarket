@@ -49,5 +49,7 @@ public class CtrlDomini {
         }
     }
 
-
+    public void generarComandaAutomatica() {
+        CtrlProducte.generarComandaAutomatica();
+    }
 }

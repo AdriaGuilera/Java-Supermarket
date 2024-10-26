@@ -15,7 +15,7 @@ public class Producte {
     private Map<String, Float> similitud;
     private int stock_magatzem;
 
-    public Producte Producte(String n, Tcategoria cat, float pv, float pc, int mh, int mm) {
+    Producte(String n, Tcategoria cat, float pv, float pc, int mh, int mm) {
         nom = n;
         categoria = cat;
         preu_compra = pc;
@@ -30,6 +30,10 @@ public class Producte {
         return preu_venda;
     }
 
+    public String get_categoria() {
+        return categoria;
+    }
+
     public float get_preu_compra() {
         return preu_compra;
     }
@@ -38,8 +42,16 @@ public class Producte {
         return max_hueco;
     }
 
+    public int get_max_magatzem() {
+        return max_magatzem;
+    }
+
     public int get_stock() {
         return stock_magatzem;
+    }
+
+    public void imprimir_similituds() {
+        similitud.forEach((key, value) -> System.out.println("Nom: " + key + ", Similitud: " + value));
     }
 
     public Map<String, Float> getSimilitud(String nom) {
@@ -54,8 +66,20 @@ public class Producte {
         preu_compra = nou_preu;
     }
 
+    public void mod_cat(Tcategoria cat) {
+        categoria = cat;
+    }
+
     public void mod_nom(String nou_nom) {
         nom = nou_nom;
+    }
+
+    public void mod_mh(int mh) {
+        max_hueco = mh;
+    }
+
+    public void mod_mm(int mm) {
+        max_magatzem = mm;
     }
 
     public void mod_stock(int nou_stock) {
@@ -67,16 +91,10 @@ public class Producte {
         similitud.put(nom, valor);
     }
 
-    public void moure_a_prestatge(int quantitat, String nom, int posicio) {
-
-    }
-
-    //Això no s'hauria d'implementar a la classe Prestatgeria?
     public void moure_stock_a_magatzem(int quantitat) {
 
     }
 
-    //Això no s'hauria d'implementar a la classe Prestatgeria?
     public void retirar_producte() {
 
     }

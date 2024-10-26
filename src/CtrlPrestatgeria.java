@@ -86,6 +86,5 @@ public class CtrlPrestatgeria {
     public boolean contains_producte(String nom_producte, int quantiat, String id_prestatgeria, int quantitat_ja_afegida) {
         Prestatgeria pr = prestatgeries.get(id_prestatgeria);
         return pr.esta_a_prestatgeria(nom_producte) && ((pr.get_quantProducte(nom_producte)-quantitat_ja_afegida) >= quantiat);
-
     }
 }
