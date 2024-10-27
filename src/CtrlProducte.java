@@ -1,19 +1,16 @@
+import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
 
 public class CtrlProducte {
 
     //En aquest map hi ha tots els productes, tot i que n'hi hagi 0 al magatzem
     private static Map<String, Producte> productes_magatzem;
 
-    public static void incrementar_stock(String nomP, int quantitat) {
-        Producte p = productes_magatzem.get(nomP);
-        p.mod_stock(p.get_stock() + quantitat);
-    }
-
     public static void decrementar_stock(String nomP, int quantitat) {
         Producte p = productes_magatzem.get(nomP);
-        p.mod_stock(p.get_stock() - quantitat);
+        p.decrementar_stock(quantitat);
     }
 
     public static void imprimirProducte(String nom) {
@@ -36,16 +33,22 @@ public class CtrlProducte {
     }
 
     public static void generarComandaAutomatica() {
-        productes_magatzem.forEach((value) -> {
+        productes_magatzem.forEach((key, value) -> {
             value.mod_stock(value.get_max_magatzem());
         });
     }
 
-    //pq map de string comanda i no llista de comandes?
-    public static void executar_comandes(Map<String, Comanda> comandes) {
-        comandes.forEach((value) -> {
-            value.getOrdres()
-        });
+    public static String executar_comandes(Map<String, Comanda> comandes) {
+        for (Map.Entry<String, Comanda> comanda : comandes.entrySet()) {
+            for (Map.Entry<String, Integer> ordre : comanda.getValue().getOrdres().entrySet()) {
+                String nom = ordre.getKey();
+                int quant = ordre.getValue();
+                Producte p = productes_magatzem.get(nom);
+                if (p.get_stock() + quant > p.get_max_magatzem()) return "Error: les comandes no caben al magatzem";
+                p.incrementar_stock(quant);
+            }
+        }
+        return "Les comandes s'han executat correctament";
     }
 
     //Si no existia no fa res
@@ -53,7 +56,7 @@ public class CtrlProducte {
         productes_magatzem.remove(nom);
     }
 
-    public static void altaproducte(String nom, Tcategoria categoria, float pv, float pc, int mh, int mm) {
+    public static void altaProducte(String nom, Tcategoria categoria, float pv, float pc, int mh, int mm) {
         if (productes_magatzem.containsKey(nom)) {
             System.out.println("Error: Ja existeix el producte\n");
             return;
@@ -62,11 +65,45 @@ public class CtrlProducte {
         productes_magatzem.put(nom, p);
     }
 
-    public static List<String> Buscarproducte(List<Tcategoria> categoria, float pvm, float pvm2, float pcm, float pcm2) {
-
+    /*
+       Si s'han introduït categories, es mostren els productes que pertanyin a una de les categories
+       introduïdes. Si s'han introduït pvm i pvm2, es mostren els productes amb preu de venta entre pvm
+       i pvm2. Idem per pcm i pcm2.
+    */
+    public static List<String> buscarProducte(List<Tcategoria> categoria, Float pvm, Float pvm2, Float pcm, Float pcm2) {
+        Map<String, Boolean> correcte = new HashMap<String, Boolean>();
+        productes_magatzem.forEach((key, value) -> {
+            if (value.get_stock() != 0) correcte.put(key, true);
+        });
+        if (categoria != null) {
+            productes_magatzem.forEach((key, value) -> {
+                if (correcte.get(key)) {
+                    boolean trobat = false;
+                    for (Tcategoria cat : categoria) {
+                        if (value.get_categoria() == cat) trobat = true;
+                    }
+                    if (!trobat) correcte.put(key, false);
+                }
+            });
+        }
+        if (pvm != null && pvm2 != null) {
+            productes_magatzem.forEach((key, value) -> {
+                if (correcte.get(key) && (value.get_preu_venda() < pvm || value.get_preu_venda() < pvm2)) correcte.put(key, false);
+            });
+        }
+        if (pcm != null && pcm2 != null) {
+            productes_magatzem.forEach((key, value) -> {
+                if (correcte.get(key) && (value.get_preu_compra() < pcm || value.get_preu_compra() < pcm2)) correcte.put(key, false);
+            });
+        }
+        List<String> s = Arrays.asList();
+        correcte.forEach((key, value) -> {
+            if (value) s.add(key);
+        });
+        return s;
     }
 
-    public static void modificarproducte(String nom, String nou_nom, Tcategoria categoria, Float pc, Float pv, Integer mh, Integer mm, Integer sm) {
+    public static void modificarProducte(String nom, String nou_nom, Tcategoria categoria, Float pc, Float pv, Integer mh, Integer mm, Integer sm) {
         Producte p = productes_magatzem.get(nom);
         if (nou_nom != null) p.mod_nom(nou_nom);
         if (categoria != null) p.mod_cat(categoria);

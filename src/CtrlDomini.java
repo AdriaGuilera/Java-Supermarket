@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Map;
 
 public class CtrlDomini {
@@ -51,5 +52,31 @@ public class CtrlDomini {
 
     public void generarComandaAutomatica() {
         CtrlProducte.generarComandaAutomatica();
+    }
+
+    public void executarComandes(String[] noms) {
+        Map<String, Comanda> comandesAExecutar = CtrlComandes.obtenirComandes(noms);
+        String s = CtrlProducte.executar_comandes(comandesAExecutar);
+        System.out.println(s);
+    }
+
+    public void buscarProducte(List<Tcategoria> categoria, Float pvm, Float pvm2, Float pcm, Float pcm2) {
+        List<String> noms = CtrlProducte.buscarProducte(categoria, pvm, pvm2, pcm, pcm2);
+        if (noms.size() == 0) System.out.println("No s'han trobat productes");
+        else {
+            for (String nom : noms) System.out.println(nom);
+        }
+    }
+
+    public void modificarProducte(String nom, String nou_nom, Tcategoria categoria, Float pc, Float pv, Integer mh, Integer mm, Integer sm) {
+        CtrlProducte.modificarProducte(nom, nou_nom, categoria, pc, pv, mh, mm, sm);
+    }
+
+    public void eliminar_producte(String nom) {
+        CtrlProducte.eliminar_producte(nom);
+    }
+
+    public void altaProducte(String nom, Tcategoria categoria, float pv, float pc, int mh, int mm) {
+        CtrlProducte.altaProducte(nom, categoria, pv, pc, mh, mm);
     }
 }

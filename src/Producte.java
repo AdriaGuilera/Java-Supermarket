@@ -30,7 +30,7 @@ public class Producte {
         return preu_venda;
     }
 
-    public String get_categoria() {
+    public Tcategoria get_categoria() {
         return categoria;
     }
 
@@ -54,7 +54,7 @@ public class Producte {
         similitud.forEach((key, value) -> System.out.println("Nom: " + key + ", Similitud: " + value));
     }
 
-    public Map<String, Float> getSimilitud(String nom) {
+    public float getSimilitud(String nom) {
         return similitud.get(nom);
     }
 
@@ -83,7 +83,15 @@ public class Producte {
     }
 
     public void mod_stock(int nou_stock) {
+        stock_magatzem = nou_stock;
+    }
 
+    public void incrementar_stock(int quant) {
+        stock_magatzem += quant;
+    }
+
+    public void decrementar_stock(int quant) {
+        stock_magatzem -= quant;
     }
 
     //Si el Producte nom ja té similitud assignada, es sobreescriurà amb la nova
