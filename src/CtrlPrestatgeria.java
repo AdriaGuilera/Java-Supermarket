@@ -73,11 +73,12 @@ public class CtrlPrestatgeria {
     //Mou un producte del magatzem a la prestatgeria
     public int moureProducte(String nom, int quantitat, String id_prest, int max_hueco) {
         Prestatgeria pr = prestatgeries.get(id_prest);
+        int buits = pr.getBuits();
         if (pr.getProductesSize() >= buits) return -1;
         boolean ja_hi_es = pr.esta_a_prestatgeria(nom);
         if (ja_hi_es) {
             int q = pr.get_quantProducte(nom);
-            if (q + quant > max_hueco) return -1;
+            if (q + quantitat > max_hueco) return -1;
             pr.incrementar_quantitat(nom, quantitat);
         }
         else pr.afegir_producte(nom, quantitat);
@@ -87,4 +88,6 @@ public class CtrlPrestatgeria {
         Prestatgeria pr = prestatgeries.get(id_prestatgeria);
         return pr.esta_a_prestatgeria(nom_producte) && ((pr.get_quantProducte(nom_producte)-quantitat_ja_afegida) >= quantiat);
     }
+
+    //Recordar implementar les funcionalitats Moure stock al magatzem i Retirar producte prestatgeria
 }

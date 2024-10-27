@@ -49,6 +49,10 @@ public class Prestatgeria {
 	public String getid() {
 		return id;
 	}
+
+	public int getBuits() {
+		return buits;
+	}
 	
 	
 	public  Vector<String> getProductes(){

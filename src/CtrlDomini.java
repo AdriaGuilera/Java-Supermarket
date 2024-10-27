@@ -79,4 +79,13 @@ public class CtrlDomini {
     public void altaProducte(String nom, Tcategoria categoria, float pv, float pc, int mh, int mm) {
         CtrlProducte.altaProducte(nom, categoria, pv, pc, mh, mm);
     }
+
+    public void afegir_similitud(String nom1, String nom2, float value) {
+        String s = CtrlProducte.afegir_similitud(nom1, nom2, value);
+        System.out.println(s);
+    }
+
+    public void imprimir_producte(String nom) {
+        CtrlProducte.imprimirProducte(nom);
+    }
 }

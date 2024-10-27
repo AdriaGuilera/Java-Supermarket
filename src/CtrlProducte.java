@@ -15,15 +15,18 @@ public class CtrlProducte {
 
     public static void imprimirProducte(String nom) {
         Producte p = productes_magatzem.get(nom);
-        System.out.println("Dades del producte");
-        System.out.printf("Nom: %s\n", nom);
-        System.out.printf("Categoria: %s\n", p.get_categoria());
-        System.out.printf("Preu compra: %f\n", p.get_preu_compra());
-        System.out.printf("Preu venda: %f\n", p.get_preu_venda());
-        System.out.printf("Màxima capacitat en un forat: %d\n", p.get_max_hueco());
-        System.out.printf("Stock al magatzem: %d\n", p.get_stock());
-        System.out.printf("Màxima capacitat al magatzem: %d\n", p.get_max_magatzem());
-        p.imprimir_similituds();
+        if (p == null) System.out.println("Error: el producte no existeix");
+        else {
+            System.out.println("Dades del producte");
+            System.out.printf("Nom: %s\n", nom);
+            System.out.printf("Categoria: %s\n", p.get_categoria());
+            System.out.printf("Preu compra: %f\n", p.get_preu_compra());
+            System.out.printf("Preu venda: %f\n", p.get_preu_venda());
+            System.out.printf("Màxima capacitat en un forat: %d\n", p.get_max_hueco());
+            System.out.printf("Stock al magatzem: %d\n", p.get_stock());
+            System.out.printf("Màxima capacitat al magatzem: %d\n", p.get_max_magatzem());
+            p.imprimir_similituds();
+        }
     }
 
     public static int comprovaQuantitats(String nom, int quantitat) {
@@ -122,4 +125,13 @@ public class CtrlProducte {
         return productes_magatzem.get(nom).get_preu_venda();
     }
 
+    public String afegir_similitud(String nom1, String nom2, float value) {
+        if (nom1 == nom2) return "Error: els dos productes són el mateix";
+        Producte p1 = productes_magatzem.get(nom1);
+        Producte p2 = productes_magatzem.get(nom2);
+        if (p1 == null || p2 == null) return "Error: algun dels productes no existeix";
+        p1.afegir_similitud(nom2, value);
+        p2.afegir_similitud(nom1, value);
+        return "La similitud s'ha afegit correctament";
+    }
 }
