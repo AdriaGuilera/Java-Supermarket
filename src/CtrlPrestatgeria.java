@@ -51,11 +51,20 @@ public class CtrlPrestatgeria {
         }
         Prestatgeria pr = prestatgeries.get(id);
         if(pr.esta_a_prestatgeria(nomP)) {
-            pr.fixar_producte_prestatgeria(nomP);
-            return "Producte fixat.";
+            pr.desfixar_producte_prestatgeria(nomP);
+            return "Producte desfixat.";
         }
         return "El producte no està en la prestatgeria amb l'identificador introduït.";
 
+    }
+    //funcion auxiliar para reponer una prestatgeria (se usara en una función del ctrl de domini)
+    public void reposarPrestatgeria(String id) {
+    	//if (id == null || id.isEmpty()) return "Error: El nom de la prestatgeria no pot estar buit.";
+        //if(!prestatgeries.containsKey(id)) return "Error: No existeix una prestatgeria amb aquest identificador.";
+        Prestatgeria pr = prestatgeries.get(id);
+        pr.auto_reomplir();
+       
+    	
     }
 
     public String afegir_prestatge(String id) {
