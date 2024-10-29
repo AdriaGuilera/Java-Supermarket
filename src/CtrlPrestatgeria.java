@@ -1,5 +1,7 @@
 import java.util.Map;
+import java.util.Set;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class CtrlPrestatgeria {
 	public Map<String, Prestatgeria> prestatgeries;
@@ -58,13 +60,11 @@ public class CtrlPrestatgeria {
 
     }
     //funcion auxiliar para reponer una prestatgeria (se usara en una función del ctrl de domini)
-    public void reposarPrestatgeria(String id) {
-    	//if (id == null || id.isEmpty()) return "Error: El nom de la prestatgeria no pot estar buit.";
-        //if(!prestatgeries.containsKey(id)) return "Error: No existeix una prestatgeria amb aquest identificador.";
+    public Set<Pair<String, Integer>> reposarPrestatgeria(String id) {
+    	if (id == null || id.isEmpty()) return new HashSet<>();
+        if(!prestatgeries.containsKey(id)) return new HashSet<>();//en la función que llame a esta función se tendrá que mirar que no fevuelva vacío
         Prestatgeria pr = prestatgeries.get(id);
-        pr.auto_reomplir();
-       
-    	
+        return pr.auto_reomplir();
     }
 
     public String afegir_prestatge(String id) {
