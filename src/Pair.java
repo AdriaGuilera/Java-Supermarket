@@ -2,6 +2,11 @@
 public class Pair<K,V> {
 	private K key;
     private V value;
+    
+    public Pair() {
+    	this.key = null;
+    	this.value = null;
+    }
 
     public Pair(K key, V value) {
         this.key = key;

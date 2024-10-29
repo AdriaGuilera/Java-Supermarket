@@ -8,7 +8,7 @@ import java.util.Vector;
 
 public class Prestatgeria {
 	private String id;
-	private int buits;
+	private int mida_prestatgeria;
 	private int mida_prestatge;
 	private int max_producte_buit;
 	private Map<String, Pair<Integer, Integer>> productes;// productes: map<nom:string, pair(posicio:int, quantitat:int)>
@@ -21,17 +21,17 @@ public class Prestatgeria {
 	
 	public Prestatgeria(String id, int buits,int max, int mida_prestatge) {
 		this.id = id;
-		this.buits= buits;
+		this.mida_prestatgeria= buits;
 		this.max_producte_buit= max;
 		this.mida_prestatge=mida_prestatge;
 		this.productes= new HashMap<>();
 		this.productes_fixats= new HashSet<>();
-		this.distribucio= new Vector<>(this.buits);
+		this.distribucio= new Vector<>(this.mida_prestatgeria);
 		
 	}
 	
 	public void afegir_producte(String nomP, Integer quantitat) {
-		if(productes.size() < buits) {
+		if(productes.size() < mida_prestatgeria) {
 			distribucio.add(nomP);
 			int pos = distribucio.indexOf(nomP);
 			Pair<Integer, Integer> newPair= new Pair<>(pos, quantitat);
@@ -50,10 +50,13 @@ public class Prestatgeria {
 		return id;
 	}
 
-	public int getBuits() {
-		return buits;
+	public int getMidaPrestatgeria() {
+		return mida_prestatgeria;
 	}
 	
+	public int getMaxBuit() {
+		return max_producte_buit;
+	}
 	
 	public  Vector<String> getProductes(){
 		return distribucio;
@@ -81,11 +84,11 @@ public class Prestatgeria {
 	}
 	
 	public void afegir_prestatge() {
-		this.buits += mida_prestatge;
+		this.mida_prestatgeria += mida_prestatge;
 	}
 	
 	public void eliminar_prestatge() {
-		this.buits -= mida_prestatge;
+		this.mida_prestatgeria -= mida_prestatge;
 	}
 	
 public void incrementar_quantitat(String nomP, Integer quantitat) {
