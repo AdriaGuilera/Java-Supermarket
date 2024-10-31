@@ -103,7 +103,7 @@ public class Producte {
 
     }
 
-    public void retirar_producte() {
+    public static void retirar_producte() {
 
     }
 }

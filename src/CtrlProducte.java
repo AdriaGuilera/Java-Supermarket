@@ -134,4 +134,9 @@ public class CtrlProducte {
         p2.afegir_similitud(nom1, value);
         return "La similitud s'ha afegit correctament";
     }
+
+
+    public static double obtenir_similitud(String nom1, String nom2) {
+        return productes_magatzem.get(nom1).getSimilitud(nom2);
+    }
 }
