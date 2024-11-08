@@ -2,8 +2,6 @@ package drivers;
 
 import java.util.Scanner;
 import classes.Producte;
-import classes.Tcategoria;
-import java.io.File;
 
 public class DriverProducte {
 
@@ -28,7 +26,6 @@ public class DriverProducte {
     private static final String HELPTXT = "Introduïu un dels següents números per executar la corresponent comanda:\n" +
             "   " + CREAR_PRODUCTE + " - Crear un nou producte\n" +
             "   " + MOD_NOM + " - Modificar el nom del producte\n" +
-            "   " + MOD_CATEGORIA + " - Modificar la categoria del producte\n" +
             "   " + MOD_MAX_HUECO + " - Modificar el màxim de hueco\n" +
             "   " + MOD_MAX_MAGATZEM + " - Modificar el màxim de magatzem\n" +
             "   " + MOD_STOCK + " - Modificar el stock actual\n" +
@@ -38,7 +35,6 @@ public class DriverProducte {
             "   " + GET_SIMILITUD + " - Obtenir la similitud amb un altre producte\n" +
             "   " + IMPRIMIR_SIMILITUDS + " - Imprimir totes les similituds\n" +
             "   " + GET_STOCK + " - Obtenir el stock actual\n" +
-            "   " + GET_CATEGORIA + " - Obtenir la categoria del producte\n" +
             "   " + GET_MAX_HUECO + " - Obtenir el màxim hueco\n" +
             "   " + GET_MAX_MAGATZEM + " - Obtenir el màxim magatzem\n" +
             "   " + HELP + " - Mostra totes les comandes disponibles\n" +
@@ -55,8 +51,7 @@ public class DriverProducte {
         System.out.println("Introdueix el nom del producte:");
         String nom = readLine(scanner);
 
-        System.out.println("Introdueix la categoria del producte:");
-        Tcategoria categoria = Tcategoria.valueOf(readLine(scanner).toUpperCase());
+
 
         System.out.println("Introdueix el màxim hueco:");
         int max_hueco = Integer.parseInt(readLine(scanner));
@@ -64,7 +59,7 @@ public class DriverProducte {
         System.out.println("Introdueix el màxim magatzem:");
         int max_magatzem = Integer.parseInt(readLine(scanner));
 
-        P = new Producte(nom, categoria, 0, 0, max_hueco, max_magatzem);
+        P = new Producte(nom, max_hueco, max_magatzem);
         System.out.println("Producte creat correctament");
     }
 
@@ -75,12 +70,6 @@ public class DriverProducte {
         System.out.println("Nom del producte modificat a: " + nou_nom);
     }
 
-    public static void testModCategoria(Scanner scanner) {
-        System.out.println("Introdueix la nova categoria del producte:");
-        Tcategoria nova_categoria = Tcategoria.valueOf(readLine(scanner).toUpperCase());
-        P.mod_cat(nova_categoria);
-        System.out.println("Categoria del producte modificada a: " + nova_categoria);
-    }
 
     public static void testModMaxHueco(Scanner scanner) {
         System.out.println("Introdueix el nou màxim de hueco:");
@@ -145,10 +134,6 @@ public class DriverProducte {
         System.out.println("Stock actual: " + stock);
     }
 
-    public static void testGetCategoria() {
-        Tcategoria categoria = P.get_categoria();
-        System.out.println("Categoria del producte: " + categoria);
-    }
 
     public static void testGetMaxHueco() {
         int maxHueco = P.get_max_hueco();
@@ -170,13 +155,6 @@ public class DriverProducte {
                     System.out.println(NO_HI_HA_PRODUCTE);
                 } else {
                     testModNom(scanner);
-                }
-                break;
-            case MOD_CATEGORIA:
-                if (P == null) {
-                    System.out.println(NO_HI_HA_PRODUCTE);
-                } else {
-                    testModCategoria(scanner);
                 }
                 break;
             case MOD_MAX_HUECO:
@@ -242,13 +220,7 @@ public class DriverProducte {
                     testGetStock();
                 }
                 break;
-            case GET_CATEGORIA:
-                if (P == null) {
-                    System.out.println(NO_HI_HA_PRODUCTE);
-                } else {
-                    testGetCategoria();
-                }
-                break;
+
             case GET_MAX_HUECO:
                 if (P == null) {
                     System.out.println(NO_HI_HA_PRODUCTE);

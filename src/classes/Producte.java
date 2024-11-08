@@ -9,15 +9,15 @@ public class Producte {
 
 
     private String nom;
-    private Tcategoria categoria;
+
     private int max_hueco;
     private int max_magatzem;
     private Map<String, Float> similitud;
     private int stock_magatzem;
 
-    public Producte(String n, Tcategoria cat, float pv, float pc, int mh, int mm) {
+    public Producte(String n,  int mh, int mm) {
         nom = n;
-        categoria = cat;
+
         max_hueco = mh;
         max_magatzem = mm;
         similitud = new HashMap<>(); //Si un producte no apareix en el map, s'entén que la seva similitud és 0.
@@ -26,9 +26,7 @@ public class Producte {
 
 
 
-    public Tcategoria get_categoria() {
-        return categoria;
-    }
+
 
 
     public int get_max_hueco() {
@@ -49,10 +47,6 @@ public class Producte {
 
     public float getSimilitud(String nom) {
         return similitud.get(nom);
-    }
-
-    public void mod_cat(Tcategoria cat) {
-        categoria = cat;
     }
 
     public void mod_nom(String nou_nom) {

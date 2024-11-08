@@ -2,11 +2,8 @@ package controladors;
 
 import classes.Comanda;
 import classes.Producte;
-import classes.Tcategoria;
-import java.util.Arrays;
+
 import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
 
 public class CtrlProducte {
 
@@ -24,7 +21,6 @@ public class CtrlProducte {
         else {
             System.out.println("Dades del producte");
             System.out.printf("Nom: %s\n", nom);
-            System.out.printf("Categoria: %s\n", p.get_categoria());
             System.out.printf("Màxima capacitat en un forat: %d\n", p.get_max_hueco());
             System.out.printf("Stock al magatzem: %d\n", p.get_stock());
             System.out.printf("Màxima capacitat al magatzem: %d\n", p.get_max_magatzem());
@@ -62,12 +58,12 @@ public class CtrlProducte {
         productes_magatzem.remove(nom);
     }
 
-    public static void altaProducte(String nom, Tcategoria categoria, float pv, float pc, int mh, int mm) {
+    public static void altaProducte(String nom, int mh, int mm) {
         if (productes_magatzem.containsKey(nom)) {
             System.out.println("Error: Ja existeix el producte\n");
             return;
         }
-        Producte p = new Producte(nom, categoria, pv, pc, mh, mm);
+        Producte p = new Producte(nom, mh, mm);
         productes_magatzem.put(nom, p);
     }
 
@@ -113,10 +109,9 @@ public class CtrlProducte {
 
 
 
-    public static void modificarProducte(String nom, String nou_nom, Tcategoria categoria, Integer mh, Integer mm, Integer sm) {
+    public static void modificarProducte(String nom, String nou_nom, Integer mh, Integer mm, Integer sm) {
         Producte p = productes_magatzem.get(nom);
         if (nou_nom != null) p.mod_nom(nou_nom);
-        if (categoria != null) p.mod_cat(categoria);
         if (mh != null) p.mod_mh(mh);
         if (mm != null) p.mod_mm(mm);
         if (sm != null) p.mod_stock(sm);

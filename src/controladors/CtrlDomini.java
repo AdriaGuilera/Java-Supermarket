@@ -1,10 +1,9 @@
 package controladors;
 
-import java.util.List;
 import java.util.Map;
 
 import classes.*;
-import classes.Tcategoria;
+
 public class CtrlDomini {
     public CtrlProducte CtrlProducte;
     public CtrlPrestatgeria CtrlPrestatgeria;
@@ -73,16 +72,16 @@ public class CtrlDomini {
         }
     }
 */
-    public void modificarProducte(String nom, String nou_nom, Tcategoria categoria, Float pc, Float pv, Integer mh, Integer mm, Integer sm) {
-        CtrlProducte.modificarProducte(nom, nou_nom, categoria, mh, mm, sm);
+    public void modificarProducte(String nom, String nou_nom, Integer mh, Integer mm, Integer sm) {
+        CtrlProducte.modificarProducte(nom, nou_nom,  mh, mm, sm);
     }
 
     public void eliminar_producte(String nom) {
         CtrlProducte.eliminar_producte(nom);
     }
 
-    public void altaProducte(String nom, Tcategoria categoria, float pv, float pc, int mh, int mm) {
-        CtrlProducte.altaProducte(nom, categoria, pv, pc, mh, mm);
+    public void altaProducte(String nom, int mh, int mm) {
+        CtrlProducte.altaProducte(nom, mh, mm);
     }
 
     public void afegir_similitud(String nom1, String nom2, float value) {
