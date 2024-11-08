@@ -1,3 +1,8 @@
+package controladors;
+
+import classes.Comanda;
+import classes.Producte;
+import classes.Tcategoria;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;

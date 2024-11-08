@@ -1,8 +1,12 @@
+package controladors;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import classes.Pair;
+import classes.Prestatgeria;
 public class CtrlPrestatgeria {
 	public Map<String, Prestatgeria> prestatgeries;
 	

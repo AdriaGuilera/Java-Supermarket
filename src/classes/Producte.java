@@ -1,11 +1,13 @@
+package classes;
+
 import java.util.Map;
 import java.util.HashMap;
 
-enum Tcategoria {
 
-}
 
 public class Producte {
+
+
     private String nom;
     private Tcategoria categoria;
     private float preu_compra;
@@ -15,7 +17,7 @@ public class Producte {
     private Map<String, Float> similitud;
     private int stock_magatzem;
 
-    Producte(String n, Tcategoria cat, float pv, float pc, int mh, int mm) {
+    public Producte(String n, Tcategoria cat, float pv, float pc, int mh, int mm) {
         nom = n;
         categoria = cat;
         preu_compra = pc;

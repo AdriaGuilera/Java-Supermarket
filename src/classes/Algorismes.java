@@ -1,5 +1,7 @@
-import java.util.*;
+package classes;
 
+import java.util.*;
+import controladors.CtrlProducte;
 public class Algorismes {
 
         /////////////////BACKTRACKING//////////////////////////////
@@ -127,10 +129,10 @@ public class Algorismes {
         public double calcularSimilitudTotal(Vector<String> distribucio){
 
             int tamano_distribucio=distribucio.size();
-            double similitud_total=CtrlProducte.obtenir_similitud(distribucio.get(0),distribucio.get(tamano_distribucio-1));
+            double similitud_total= CtrlProducte.obtenir_similitud(distribucio.get(0),distribucio.get(tamano_distribucio-1));
 
             for(int i=0; i<tamano_distribucio-1; ++i){
-                similitud_total+=CtrlProducte.obtenir_similitud(distribucio.get(i),distribucio.get(i+1));
+                similitud_total+= CtrlProducte.obtenir_similitud(distribucio.get(i),distribucio.get(i+1));
             }
             return similitud_total;
         }

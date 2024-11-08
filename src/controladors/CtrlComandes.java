@@ -1,6 +1,8 @@
+package controladors;
+
 import java.util.HashMap;
 import java.util.Map;
-
+import classes.Comanda;
 public class CtrlComandes {
 
     private static Map<String, Comanda> comandes_creades; // Mapa de comandes

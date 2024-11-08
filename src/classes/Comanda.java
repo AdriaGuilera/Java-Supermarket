@@ -1,3 +1,5 @@
+package classes;
+
 import java.util.HashMap;
 import java.util.Map;
 

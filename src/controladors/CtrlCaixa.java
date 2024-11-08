@@ -1,5 +1,7 @@
+package controladors;
+
 public class CtrlCaixa {
-    public Caixa Caixa;
+    public classes.Caixa Caixa;
     public void afegir_producte(String nom_producte, double preu, int quantitat, String id_prestatgeria) {
         Caixa.afegir_producte(nom_producte, preu, quantitat, id_prestatgeria);
     }

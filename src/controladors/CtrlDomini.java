@@ -1,10 +1,14 @@
+package controladors;
+
 import java.util.List;
 import java.util.Map;
 
+import classes.*;
+import classes.Tcategoria;
 public class CtrlDomini {
     public CtrlProducte CtrlProducte;
     public CtrlPrestatgeria CtrlPrestatgeria;
-    public CtrlCaixa CtrlCaixa;
+    public controladors.CtrlCaixa CtrlCaixa;
 
     //Funciones del CtrlComandes
 
