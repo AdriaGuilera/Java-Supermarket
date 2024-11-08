@@ -10,18 +10,18 @@ public class CtrlDomini {
     public CtrlPrestatgeria CtrlPrestatgeria;
     public classes.Caixa Caixa;
     public CtrlComandes CtrlComandes;
-    public classes.Supermercat Supermercat;
+
 
     //Funciones del CtrlComandes
 
     public void crearComanda(String nomComanda) {
-        String mensaje = CtrlComandes.crearComanda(nomComanda);
+        CtrlComandes.crearComanda(nomComanda);
     }
     public void eliminarComanda(String nomComanda) {
-        String mensaje = CtrlComandes.eliminarComanda(nomComanda);
+         CtrlComandes.eliminarComanda(nomComanda);
     }
     public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) {
-        String mensaje = CtrlComandes.afegirProducteComanda(nomComanda,nomProducte,quantitat);
+        CtrlComandes.afegirProducteComanda(nomComanda,nomProducte,quantitat);
     }
     public Map<String, Comanda> obtenirComandes(String[] nomsComandes) {
         return CtrlComandes.obtenirComandes(nomsComandes);
@@ -64,7 +64,7 @@ public class CtrlDomini {
         String s = CtrlProducte.executar_comandes(comandesAExecutar);
         System.out.println(s);
     }
-
+/*
     public void buscarProducte(List<Tcategoria> categoria, Float pvm, Float pvm2, Float pcm, Float pcm2) {
         List<String> noms = CtrlProducte.buscarProducte(categoria, pvm, pvm2, pcm, pcm2);
         if (noms.size() == 0) System.out.println("No s'han trobat productes");
@@ -72,9 +72,9 @@ public class CtrlDomini {
             for (String nom : noms) System.out.println(nom);
         }
     }
-
+*/
     public void modificarProducte(String nom, String nou_nom, Tcategoria categoria, Float pc, Float pv, Integer mh, Integer mm, Integer sm) {
-        CtrlProducte.modificarProducte(nom, nou_nom, categoria, pc, pv, mh, mm, sm);
+        CtrlProducte.modificarProducte(nom, nou_nom, categoria, mh, mm, sm);
     }
 
     public void eliminar_producte(String nom) {

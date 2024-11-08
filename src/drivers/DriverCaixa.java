@@ -48,7 +48,7 @@ public class DriverCaixa {
         String id = readLine(scanner);
 
         C.afegir_producte(nom, quantitat, id);
-        System.out.println("Producte" + nom + "amb quantitat" + quantitat + "de prestatgeria" + id "afegit correctament");
+        System.out.println("Producte" + nom + "amb quantitat" + quantitat + "de prestatgeria" + id + "afegit correctament");
     }
     //Write the rest of the tests below
     public static void testretirarproducte(){
@@ -69,16 +69,16 @@ public class DriverCaixa {
                 testretirarproducte();
                 break;
             case GET_QUANTITAT:
-                testgetquantitat();
+               // testgetquantitat();
                 break;
             case PRINTPRODUCTE:
-                testprintproducte();
+              //  testprintproducte();
                 break;
             case PRINTTICKET:
-                testprintticket();
+             //   testprintticket();
                 break;
             case PAGAR:
-                testpagar();
+              //  testpagar();
                 break;
             case HELP:
                 System.out.println(HELPTXT);

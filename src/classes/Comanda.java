@@ -22,14 +22,14 @@ public class Comanda {
         ordres.put(nomProducte, quantitat);
     }
 
-    // Método para obtener el mapa de productos y cantidades
-    public Map<String, Integer> getOrdres() {
-        return ordres;
-    }
-
     // Método para eliminar un producto de la comanda
     public void eliminarProducte(String nomProducte) {
         ordres.remove(nomProducte);
+    }
+
+    // Método para obtener el mapa de productos y cantidades
+    public Map<String, Integer> getOrdres() {
+        return ordres;
     }
 
     // Método para obtener la cantidad de un producto específico

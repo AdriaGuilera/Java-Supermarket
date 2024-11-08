@@ -25,8 +25,6 @@ public class CtrlProducte {
             System.out.println("Dades del producte");
             System.out.printf("Nom: %s\n", nom);
             System.out.printf("Categoria: %s\n", p.get_categoria());
-            System.out.printf("Preu compra: %f\n", p.get_preu_compra());
-            System.out.printf("Preu venda: %f\n", p.get_preu_venda());
             System.out.printf("Màxima capacitat en un forat: %d\n", p.get_max_hueco());
             System.out.printf("Stock al magatzem: %d\n", p.get_stock());
             System.out.printf("Màxima capacitat al magatzem: %d\n", p.get_max_magatzem());
@@ -78,6 +76,7 @@ public class CtrlProducte {
        introduïdes. Si s'han introduït pvm i pvm2, es mostren els productes amb preu de venta entre pvm
        i pvm2. Idem per pcm i pcm2.
     */
+    /*
     public static List<String> buscarProducte(List<Tcategoria> categoria, Float pvm, Float pvm2, Float pcm, Float pcm2) {
         Map<String, Boolean> correcte = new HashMap<String, Boolean>();
         productes_magatzem.forEach((key, value) -> {
@@ -110,13 +109,14 @@ public class CtrlProducte {
         });
         return s;
     }
+*/
 
-    public static void modificarProducte(String nom, String nou_nom, Tcategoria categoria, Float pc, Float pv, Integer mh, Integer mm, Integer sm) {
+
+
+    public static void modificarProducte(String nom, String nou_nom, Tcategoria categoria, Integer mh, Integer mm, Integer sm) {
         Producte p = productes_magatzem.get(nom);
         if (nou_nom != null) p.mod_nom(nou_nom);
         if (categoria != null) p.mod_cat(categoria);
-        if (pc != null) p.mod_preu_compra(pc);
-        if (pv != null) p.mod_preu_venda(pv);
         if (mh != null) p.mod_mh(mh);
         if (mm != null) p.mod_mm(mm);
         if (sm != null) p.mod_stock(sm);
@@ -126,9 +126,7 @@ public class CtrlProducte {
         return productes_magatzem.containsKey(nom);
     }
 
-    public double getpreu(String nom) {
-        return productes_magatzem.get(nom).get_preu_venda();
-    }
+
 
     public String afegir_similitud(String nom1, String nom2, float value) {
         if (nom1 == nom2) return "Error: els dos productes són el mateix";
