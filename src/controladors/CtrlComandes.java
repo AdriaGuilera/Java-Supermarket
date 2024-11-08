@@ -55,4 +55,10 @@ public class CtrlComandes {
         return comandesAExecutar;
     }
 
+    public static Map<String, Comanda> getComandesCreades(){
+        return comandes_creades;
+    }
+
+
+
 }
