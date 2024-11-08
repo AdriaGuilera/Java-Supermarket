@@ -9,6 +9,8 @@ public class CtrlDomini {
     public CtrlProducte CtrlProducte;
     public CtrlPrestatgeria CtrlPrestatgeria;
     public controladors.CtrlCaixa CtrlCaixa;
+    public controladors.CtrlComandes CtrlComandes;
+    public controladors.CtrlSupermercat CtrlSupermercat;
 
     //Funciones del CtrlComandes
 
