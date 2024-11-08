@@ -25,7 +25,7 @@ public class CtrlComandes {
     }
 
     // Método para añadir un producto a una comanda
-    public static String afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) {
+    public static void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) {
         Comanda comanda = comandes_creades.get(nomComanda);
         if (comanda == null) {
             return "Error: No existeix la comanda amb aquest nom.";
@@ -33,6 +33,7 @@ public class CtrlComandes {
         comanda.afegirProducte(nomProducte, quantitat);
         return "Producte afegit correctament a la comanda.";
     }
+
 
     // Método para eliminar una comanda
     public static String eliminarComanda(String nomComanda) {

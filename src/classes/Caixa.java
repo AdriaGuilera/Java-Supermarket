@@ -5,12 +5,10 @@ import java.util.HashMap;
 import java.util.Vector;
 
 public class Caixa {
-
-    private double valor;
     private Map<String, Vector<Pair<String, Integer>>> productes;
 
     public Caixa(){
-        valor = 0.0;
+
         productes = new HashMap<>();
     }
 
@@ -26,14 +24,12 @@ public class Caixa {
         }
         if (!found) {
             pairs.add(new Pair<>(id_prestatgeria, quantitat));
-            valor += preu*quantitat;
         }
 
         else{
             Vector<Pair<String, Integer>> newPairs = new Vector<>();
             newPairs.add(new Pair<>(id_prestatgeria, quantitat));
             productes.put(nom_producte, newPairs);
-            valor += preu * quantitat;
         }
 
     }
@@ -69,8 +65,6 @@ public class Caixa {
         return 0;
     }
     public void pagar(){
-        valor = 0.0;
         productes.clear();
-
     }
 }

@@ -7,13 +7,11 @@ public class Comanda {
 
     private String nom; // Nombre de la comanda
     private Map<String, Integer> ordres; // Mapa de productos y cantidades
-
     // Constructor
     public Comanda(String nom) {
         this.nom = nom;
         this.ordres = new HashMap<>();
     }
-
     // Getter para obtener el nombre de la comanda
     public String getNom() {
         return nom;
