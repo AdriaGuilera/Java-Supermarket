@@ -8,7 +8,6 @@ public class Caixa {
     private Map<String, Vector<Pair<String, Integer>>> productes;
 
     public Caixa(){
-
         productes = new HashMap<>();
     }
 
@@ -64,6 +63,18 @@ public class Caixa {
         }
         return 0;
     }
+
+    public void imprimir_ticket(){
+        for (Map.Entry<String, Vector<Pair<String, Integer>>> entry : productes.entrySet()) {
+            String key = entry.getKey();
+            Vector<Pair<String, Integer>> value = entry.getValue();
+            System.out.println(key + ":");
+            for (Pair<String, Integer> pair : value) {
+                System.out.println(pair.getKey() + " " + pair.getValue());
+            }
+        }
+    }
+
     public void pagar(){
         productes.clear();
     }

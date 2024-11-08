@@ -36,7 +36,7 @@ public class CtrlComandes {
 
 
     // Método para eliminar una comanda
-    public static String eliminarComanda(String nomComanda) {
+    public static void eliminarComanda(String nomComanda) {
         if (comandes_creades.remove(nomComanda) != null) {
             return "Comanda eliminada correctament.";
         }
