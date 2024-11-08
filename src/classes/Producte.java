@@ -84,11 +84,4 @@ public class Producte {
         similitud.put(nom, valor);
     }
 
-    public void moure_stock_a_magatzem(int quantitat) {
-
-    }
-
-    public static void retirar_producte() {
-
-    }
 }
