@@ -46,8 +46,7 @@ public class CtrlDomini {
                 System.out.println("Error: El producte no està a la prestatgeria o no hi ha suficient quantitat");
             }
             else{
-                double preu = CtrlProducte.getpreu(nom_producte);
-                Caixa.afegir_producte(nom_producte, preu, quantitat, id_prestatgeria);
+                Caixa.afegir_producte(nom_producte, quantitat, id_prestatgeria);
             }
 
         }

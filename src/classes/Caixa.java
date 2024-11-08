@@ -11,7 +11,7 @@ public class Caixa {
         productes = new HashMap<>();
     }
 
-    public void afegir_producte(String nom_producte, double preu, int quantitat, String id_prestatgeria){
+    public void afegir_producte(String nom_producte, int quantitat, String id_prestatgeria){
         Vector<Pair<String, Integer>> pairs = productes.get(nom_producte);
         boolean found = false;
         for (Pair<String, Integer> pair : pairs) {
@@ -73,6 +73,18 @@ public class Caixa {
                 System.out.println(pair.getKey() + " " + pair.getValue());
             }
         }
+    }
+
+    public int get_quantitat_producte(String nom, String id_prestatgeria){
+        if(productes.containsKey(nom)){
+            Vector<Pair<String, Integer>> pairs = productes.get(nom);
+            for (Pair<String, Integer> pair : pairs) {
+                if (pair.getKey().equals(id_prestatgeria)) {
+                    return pair.getValue();
+                }
+            }
+        }
+        return 0;
     }
 
     public void pagar(){
