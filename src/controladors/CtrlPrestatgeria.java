@@ -8,7 +8,7 @@ import java.util.HashSet;
 import classes.Pair;
 import classes.Prestatgeria;
 public class CtrlPrestatgeria {
-	public Map<String, Prestatgeria> prestatgeries;
+	public Map<String, classes.Prestatgeria> prestatgeries;
 	
 	public CtrlPrestatgeria() {
 	 prestatgeries = new HashMap<>();

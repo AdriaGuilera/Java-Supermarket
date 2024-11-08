@@ -8,9 +8,9 @@ import classes.Tcategoria;
 public class CtrlDomini {
     public CtrlProducte CtrlProducte;
     public CtrlPrestatgeria CtrlPrestatgeria;
-    public controladors.CtrlCaixa CtrlCaixa;
-    public controladors.CtrlComandes CtrlComandes;
-    public controladors.CtrlSupermercat CtrlSupermercat;
+    public classes.Caixa Caixa;
+    public CtrlComandes CtrlComandes;
+    public classes.Supermercat Supermercat;
 
     //Funciones del CtrlComandes
 
@@ -41,13 +41,13 @@ public class CtrlDomini {
     public void afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria){
 
         if(CtrlProducte.existeix_producte(nom_producte)){
-            int quantitat_ja_afegida = CtrlCaixa.get_quantitat(nom_producte, id_prestatgeria);
+            int quantitat_ja_afegida = Caixa.get_quantitat(nom_producte, id_prestatgeria);
             if(!CtrlPrestatgeria.contains_producte(nom_producte, quantitat, id_prestatgeria, quantitat_ja_afegida)){
                 System.out.println("Error: El producte no està a la prestatgeria o no hi ha suficient quantitat");
             }
             else{
                 double preu = CtrlProducte.getpreu(nom_producte);
-                CtrlCaixa.afegir_producte(nom_producte, preu, quantitat, id_prestatgeria);
+                Caixa.afegir_producte(nom_producte, preu, quantitat, id_prestatgeria);
             }
 
         }
