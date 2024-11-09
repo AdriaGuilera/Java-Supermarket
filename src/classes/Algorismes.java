@@ -3,7 +3,7 @@ package classes;
 import java.util.*;
 import controladors.CtrlProducte;
 public class Algorismes {
-/*
+
         /////////////////BACKTRACKING//////////////////////////////
 
     double maxSimilitud = 0.0;
@@ -137,5 +137,5 @@ public class Algorismes {
             return similitud_total;
         }
 
-*/
+
 }

@@ -9,7 +9,7 @@ public class CtrlDomini {
     public CtrlPrestatgeria CtrlPrestatgeria = new CtrlPrestatgeria();
     public classes.Caixa Caixa = new Caixa();
     public CtrlComandes CtrlComandes = new CtrlComandes();
-
+    public Algorismes Algorismes = new Algorismes();
 
     //Funciones del CtrlComandes
 

@@ -19,6 +19,10 @@ public class DriverCtrlDomini {
     //Prestatgeria
     private static final String MOURE_PRESTATGERIA = "5";
 
+    //Millor Distribució
+    private static final String BACKTRACKING = "5";
+    private static final String HILL_CLIMBING = "5";
+
     //Caixa
     private static final String AFEGIR_PRODUCTE_CAIXA = "6";
     private static final String CREAR_CAIXA = "51";
@@ -55,6 +59,10 @@ public class DriverCtrlDomini {
             "GESTIÓ DE PRESTATGERIA:  \n"+
             "   " + MOURE_PRESTATGERIA + " - Mover producto a Prestatgeria\n" +
             "  \n"+
+            "MILLOR DISTRIBUCIÓ:  \n"+
+            "   " + BACKTRACKING + " - Mover producto a Prestatgeria\n" +
+            "   " + HILL_CLIMBING + " - Mover producto a Prestatgeria\n" +
+            "  \n"+
             "GESTIÓ DE CAIXA:  \n"+
             "   " + AFEGIR_PRODUCTE_CAIXA + " - Agregar producto a Caixa\n" +
             "   " + CREAR_CAIXA + " - Crear una nova caixa\n" +
@@ -87,7 +95,7 @@ public class DriverCtrlDomini {
     // Métodos de prueba para cada funcionalidad
 
 
-
+    //Comandes
     public static void testCrearComanda(Scanner scanner) {
         System.out.println("Nombre de la Comanda:");
         String nomComanda = readLine(scanner);
@@ -121,6 +129,7 @@ public class DriverCtrlDomini {
         ctrlDomini.consultarComandes();
     }
 
+    //Prestatgeria
     public static void testMourePrestatgeria(Scanner scanner) {
         System.out.println("Nombre del Producto:");
         String nom = readLine(scanner);
@@ -131,6 +140,17 @@ public class DriverCtrlDomini {
         ctrlDomini.mourePrestatgeria(nom, quantitat, idPrest);
     }
 
+    //Millor Distribució
+
+    public static void testBacktrcking(Scanner scanner) {
+
+    }
+
+    public static void testHillClimbing(Scanner scanner) {
+
+    }
+
+    //Caixa
     public static void testAfegirProducteCaixa(Scanner scanner) {
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
@@ -141,6 +161,7 @@ public class DriverCtrlDomini {
         ctrlDomini.afegir_producte_caixa(nomProducte, quantitat, idPrestatgeria);
     }
 
+    //Magatzem(Productes)
     public static void testGenerarComandaAutomatica() {
         ctrlDomini.generarComandaAutomatica();
     }
