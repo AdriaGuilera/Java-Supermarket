@@ -31,7 +31,7 @@ public class DriverCtrlComandes {
             "   " + EXIT                          + " - Sortir del programa\n";
 
     // Controller instance
-    static CtrlComandes ctrlComandes;
+    static CtrlComandes ctrlComandes = new CtrlComandes();
 
     private static String readLine(Scanner scanner) {
         return scanner.nextLine();
@@ -49,7 +49,7 @@ public class DriverCtrlComandes {
     public static void testCrearComanda(Scanner scanner) {
         System.out.println("Escrigui el nom de la nova Comanda:");
         String nomComanda = readLine(scanner);
-        CtrlComandes.crearComanda(nomComanda);
+        ctrlComandes.crearComanda(nomComanda);
     }
 
     // Adds a product to a specific Comanda
@@ -63,7 +63,7 @@ public class DriverCtrlComandes {
         System.out.println("Escrigui la quantitat del Producte:");
         int quantitat = Integer.parseInt(readLine(scanner));
 
-        CtrlComandes.afegirProducteComanda(nomComanda, nomProducte, quantitat);
+        ctrlComandes.afegirProducteComanda(nomComanda, nomProducte, quantitat);
     }
 
     // Removes an existing Comanda
@@ -71,7 +71,7 @@ public class DriverCtrlComandes {
         System.out.println("Escrigui el nom de la Comanda a eliminar:");
         String nomComanda = readLine(scanner);
 
-        CtrlComandes.eliminarComanda(nomComanda);
+        ctrlComandes.eliminarComanda(nomComanda);
     }
 
     // Retrieves specified Comandes
@@ -80,7 +80,7 @@ public class DriverCtrlComandes {
         String input = readLine(scanner);
         String[] nomsComandes = input.split(",");
 
-        Map<String, Comanda> comandes = CtrlComandes.obtenirComandes(nomsComandes);
+        Map<String, Comanda> comandes = ctrlComandes.obtenirComandes(nomsComandes);
 
         System.out.println("Comandes trobades:");
         for (String nom : comandes.keySet()) {
@@ -90,20 +90,8 @@ public class DriverCtrlComandes {
 
 
     public static void testConsultarComandes() {
-        Map<String, Comanda> comandes_creades = ctrlComandes.getComandesCreades();
-        if (comandes_creades.isEmpty()) {
-            System.out.println("No hi ha comandes creades.");
-            return;
-        }
+        ctrlComandes.consultarComandes();
 
-        System.out.println("Llista de totes les comandes:");
-        for (Map.Entry<String, Comanda> entry : comandes_creades.entrySet()) {
-            String nomComanda = entry.getKey();
-            Comanda comanda = entry.getValue();
-
-            System.out.println("Comanda: " + nomComanda);
-            System.out.println("Productes i quantitats: " + comanda.getOrdres());
-        }
     }
 
         // Command processor

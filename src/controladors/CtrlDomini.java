@@ -5,15 +5,16 @@ import java.util.Map;
 import classes.*;
 
 public class CtrlDomini {
-    public CtrlProducte CtrlProducte;
-    public CtrlPrestatgeria CtrlPrestatgeria;
-    public classes.Caixa Caixa;
-    public CtrlComandes CtrlComandes;
+    public CtrlProducte CtrlProducte = new CtrlProducte();
+    public CtrlPrestatgeria CtrlPrestatgeria = new CtrlPrestatgeria();
+    public classes.Caixa Caixa = new Caixa();
+    public CtrlComandes CtrlComandes = new CtrlComandes();
 
 
     //Funciones del CtrlComandes
 
     public void crearComanda(String nomComanda) {
+
         CtrlComandes.crearComanda(nomComanda);
     }
     public void eliminarComanda(String nomComanda) {
@@ -25,7 +26,11 @@ public class CtrlDomini {
     public Map<String, Comanda> obtenirComandes(String[] nomsComandes) {
         return CtrlComandes.obtenirComandes(nomsComandes);
     }
+    public void consultarComandes() {
+        CtrlComandes.consultarComandes();
+    }
 
+    //Prestatgeria
     //Mou producte del magatzem a la prestatgeria
     public void mourePrestatgeria(String nom, int quantitat, String id_prest) {
         int max_hueco = CtrlProducte.comprovaQuantitats(nom, quantitat);
@@ -37,6 +42,9 @@ public class CtrlDomini {
             else CtrlProducte.decrementar_stock(nom, quantitat);
         }
     }
+
+
+    //Caixa
     public void afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria){
 
         if(CtrlProducte.existeix_producte(nom_producte)){
@@ -53,7 +61,35 @@ public class CtrlDomini {
             System.out.println("Error: El producte no existeix");
         }
     }
+    // Retirar producto de la caja
+    public void retirar_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria) {
+        Caixa.retirar_producte(nom_producte, quantitat, id_prestatgeria);
+    }
 
+    // Consultar la cantidad de un producto específico en una estantería de la caja
+    public int consultar_quantitat_caixa(String nom_producte, String id_prestatgeria) {
+        return Caixa.get_quantitat(nom_producte, id_prestatgeria);
+    }
+
+    // Imprimir el ticket con el desglose de productos por estantería
+    public void imprimir_ticket_per_prestatgeries() {
+        Caixa.imprimir_ticket_per_prestatgeries();
+    }
+
+    // Imprimir el ticket con el total de cada producto en la caja
+    public void imprimir_ticket_caixa() {
+        Caixa.imprimirticket();
+    }
+
+    // Pagar y vaciar la caja
+    public void pagar_caixa() {
+        Caixa.pagar();
+    }
+
+
+
+
+    //Magatzem (Productes)
     public void generarComandaAutomatica() {
         CtrlProducte.generarComandaAutomatica();
     }
@@ -63,17 +99,9 @@ public class CtrlDomini {
         String s = CtrlProducte.executar_comandes(comandesAExecutar);
         System.out.println(s);
     }
-/*
-    public void buscarProducte(List<Tcategoria> categoria, Float pvm, Float pvm2, Float pcm, Float pcm2) {
-        List<String> noms = CtrlProducte.buscarProducte(categoria, pvm, pvm2, pcm, pcm2);
-        if (noms.size() == 0) System.out.println("No s'han trobat productes");
-        else {
-            for (String nom : noms) System.out.println(nom);
-        }
-    }
-*/
-    public void modificarProducte(String nom, String nou_nom, Integer mh, Integer mm, Integer sm) {
-        CtrlProducte.modificarProducte(nom, nou_nom,  mh, mm, sm);
+
+    public void modificarProducte(String nom, String nou_nom, Integer mh, Integer mm) {
+        CtrlProducte.modificarProducte(nom, nou_nom,  mh, mm);
     }
 
     public void eliminar_producte(String nom) {
@@ -85,11 +113,14 @@ public class CtrlDomini {
     }
 
     public void afegir_similitud(String nom1, String nom2, float value) {
-        String s = CtrlProducte.afegir_similitud(nom1, nom2, value);
-        System.out.println(s);
+        CtrlProducte.afegir_similitud(nom1, nom2, value);
     }
 
     public void imprimir_producte(String nom) {
         CtrlProducte.imprimirProducte(nom);
+    }
+
+    public void imprimir_magatzem(String nom) {
+        CtrlProducte.imprimirMagatzem(nom);
     }
 }

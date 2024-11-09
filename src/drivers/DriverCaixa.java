@@ -32,7 +32,7 @@ public class DriverCaixa {
 
 
     private static final String NOHIHACAIXA = "No hi ha cap caixa creada. Crea una caixa primer.";
-    private static Caixa C;
+    private static Caixa C = new Caixa();
 
     private static String readLine(Scanner scanner) {
         return scanner.nextLine();

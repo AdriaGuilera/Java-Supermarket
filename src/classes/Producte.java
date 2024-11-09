@@ -12,7 +12,7 @@ public class Producte {
 
     private int max_hueco;
     private int max_magatzem;
-    private Map<String, Float> similitud;
+    private Map<String, Float> similitud = new HashMap<>();
     private int stock_magatzem;
 
     public Producte(String n,  int mh, int mm) {
