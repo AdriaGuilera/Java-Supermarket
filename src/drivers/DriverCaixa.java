@@ -54,7 +54,7 @@ public class DriverCaixa {
         String id = readLine(scanner);
 
         C.afegir_producte(nom, quantitat, id);
-        System.out.println("Producte" + nom + "amb quantitat" + quantitat + "de prestatgeria" + id + "afegit correctament");
+        System.out.println("Producte " + nom + " amb quantitat " + quantitat + " de prestatgeria " + id + " afegit correctament");
     }
 
     public static void testretirarproducte(Scanner scanner){

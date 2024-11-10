@@ -5,14 +5,22 @@ import java.util.HashMap;
 import java.util.Vector;
 
 public class Caixa {
-    private Map<String, Vector<Pair<String, Integer>>> productes;
+    private Map<String, Vector<Pair<String, Integer>>> productes=new HashMap<>();
 
     public Caixa(){
         productes = new HashMap<>();
     }
 
     public void afegir_producte(String nom_producte, int quantitat, String id_prestatgeria){
-        Vector<Pair<String, Integer>> pairs = productes.get(nom_producte);
+        Vector<Pair<String, Integer>> pairs =  productes.get(nom_producte);
+
+        if(pairs==null) {
+            Vector<Pair<String, Integer>> newPairs = new Vector<>();
+            newPairs.add(new Pair<>(id_prestatgeria, quantitat));
+            productes.put(nom_producte, newPairs);
+            return;
+        }
+
         boolean found = false;
         for (Pair<String, Integer> pair : pairs) {
             if (pair.getKey().equals(id_prestatgeria)) {
