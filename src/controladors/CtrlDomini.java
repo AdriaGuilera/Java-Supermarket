@@ -83,6 +83,7 @@ public class CtrlDomini {
 
     // Pagar y vaciar la caja
     public void pagar_caixa() {
+        CtrlPrestatgeria.
         Caixa.pagar();
     }
 

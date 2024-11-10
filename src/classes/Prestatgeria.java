@@ -88,7 +88,8 @@ public class Prestatgeria {
 	public void afegir_prestatge() {
 		this.mida_prestatgeria += mida_prestatge;
 	}
-	
+
+	//ARREGLAR ESTO
 	public void eliminar_prestatge() {
 		this.mida_prestatgeria -= mida_prestatge;
 	}

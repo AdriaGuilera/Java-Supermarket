@@ -127,22 +127,22 @@ public class DriverCtrlPrestatgeria {
         System.out.println("Introdueix la quantitat:");
         int quantitat = Integer.parseInt(readLine(scanner));
 
-        Pair<String, Integer> result = ctrlPrestatgeria.moureStockMagatzem(id, nomP, quantitat);
-        System.out.println("Producte mogut: " + result.getKey() + ", Quantitat: " + result.getValue());
+        ctrlPrestatgeria.decrementar_quantitat_producte(id, nomP, quantitat);
+        System.out.println("Quantitat de " + nomP + "a prestatgeria "+ id +  " decrementada en " + quantitat);
     }
 
     public static void testAfegirPrestatge(Scanner scanner) {
         System.out.println("Introdueix l'ID de la prestatgeria:");
         String id = readLine(scanner);
 
-        System.out.println(ctrlPrestatgeria.afegir_prestatge(id));
+        System.out.println(ctrlPrestatgeria.afegir_prestatgeria(id));
     }
 
     public static void testEliminarPrestatge(Scanner scanner) {
         System.out.println("Introdueix l'ID de la prestatgeria:");
         String id = readLine(scanner);
 
-        System.out.println(ctrlPrestatgeria.eliminar_prestatge(id));
+        System.out.println(ctrlPrestatgeria.eliminar_prestatgeria(id));
     }
 
     public static void testMoureProducte(Scanner scanner) {

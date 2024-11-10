@@ -78,23 +78,18 @@ public class CtrlPrestatgeria {
         return new Pair<>(nomP, quantitat);
     }
     
-    public Pair<String, Integer> moureStockMagatzem(String id, String nomP, int quantitat){
-    	if (id == null || id.isEmpty()) return new Pair<>();
-    	
-        if(!prestatgeries.containsKey(id)) return new Pair<>();
-        Prestatgeria pr = prestatgeries.get(id);
-        if(!pr.esta_a_prestatgeria(nomP)) return new Pair<>();
-        int quantitat_actual=pr.get_quantProducte(nomP);
-        if ( quantitat_actual>= quantitat) {
-        	pr.decrementar_quantitat(nomP, quantitat);
-        	return new Pair<>(nomP,quantitat);
-        }
-        return new Pair<>();
-        
-        
+    public void decrementar_quantitat_producte(String id, String nomP, int quantitat){
+        	if (id == null || id.isEmpty()) return;
+
+            if(!prestatgeries.containsKey(id)) return;
+
+            Prestatgeria pr = prestatgeries.get(id);
+            if(!pr.esta_a_prestatgeria(nomP)) return;
+
+            pr.decrementar_quantitat(nomP, quantitat);
     }
     
-    public String afegir_prestatge(String id) {
+    public String afegir_prestatgeria(String id) {
         if (id == null || id.isEmpty()) return "Error: El nom de la prestatgeria no pot estar buit.";
         
         if(!prestatgeries.containsKey(id)) return "Error: No existeix una prestatgeria amb aquest identificador.";
@@ -104,7 +99,7 @@ public class CtrlPrestatgeria {
         return "S'ha afegit un prestatge";
     }
     
-    public String eliminar_prestatge(String id) {
+    public String eliminar_prestatgeria(String id) {
         if (id == null || id.isEmpty()) return "Error: El nom de la prestatgeria no pot estar buit.";
         
         if(!prestatgeries.containsKey(id)) return "Error: No existeix una prestatgeria amb aquest identificador.";
@@ -115,19 +110,17 @@ public class CtrlPrestatgeria {
     }
 
     //Mou un producte del magatzem a la prestatgeria
-    public int moureProducte(String nom, int quantitat, String id_prest, int max_hueco) {
+    public void moureProducte(String nom, int quantitat, String id_prest, int max_hueco) {
         Prestatgeria pr = prestatgeries.get(id_prest);
         int mida_prestatgeria = pr.getMidaPrestatgeria();
-        //int max_buit = pr.getMaxBuit();
-        if (pr.getProductesSize() >= mida_prestatgeria) return -1;
+        if (pr.getProductesSize() >= mida_prestatgeria) return;
         boolean ja_hi_es = pr.esta_a_prestatgeria(nom);
         if (ja_hi_es) {
             int q = pr.get_quantProducte(nom);
-            if (q + quantitat > max_hueco) return -1;
+            if (q + quantitat > max_hueco) return;
             pr.incrementar_quantitat(nom, quantitat);
         }
         else pr.afegir_producte(nom, quantitat);
-        return 0;
     }
     public boolean contains_producte(String nom_producte, int quantiat, String id_prestatgeria, int quantitat_ja_afegida) {
         Prestatgeria pr = prestatgeries.get(id_prestatgeria);
