@@ -27,7 +27,9 @@ public class Producte {
 
 
 
-
+    public String get_nom() {
+        return nom;
+    }
 
     public int get_max_hueco() {
         return max_hueco;
