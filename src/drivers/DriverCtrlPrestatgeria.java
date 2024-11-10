@@ -158,8 +158,8 @@ public class DriverCtrlPrestatgeria {
         System.out.println("Introdueix el màxim buit:");
         int max_hueco = Integer.parseInt(readLine(scanner));
 
-        int result = ctrlPrestatgeria.moureProducte(nom, quantitat, id_prest, max_hueco);
-        System.out.println(result == 0 ? "Producte mogut correctament" : "Error en moure el producte");
+        ctrlPrestatgeria.moureProducte(nom, quantitat, id_prest, max_hueco);
+        System.out.println("Producte mogut correctament");
     }
 
     public static void testContainsProducte(Scanner scanner) {
