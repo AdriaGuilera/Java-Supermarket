@@ -134,5 +134,5 @@ public class CtrlPrestatgeria {
         return pr.esta_a_prestatgeria(nom_producte) && ((pr.get_quantProducte(nom_producte)-quantitat_ja_afegida) >= quantiat);
     }
 
-    //Recordar implementar les funcionalitats Moure stock al magatzem i Retirar producte prestatgeria
+
 }

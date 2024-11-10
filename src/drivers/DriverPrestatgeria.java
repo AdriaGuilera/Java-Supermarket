@@ -2,6 +2,8 @@ package drivers;
 
 import classes.Prestatgeria;
 import classes.Pair;
+
+import java.io.File;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Vector;
@@ -50,6 +52,7 @@ public class DriverPrestatgeria {
             EXIT + " - Sortir del programa\n";
 
     private static Prestatgeria P;
+    private static final String NO_HI_HA_PRESTATGERIA = "No hi ha cap prestatgeria creada. Crea una prestatgeria primer.";
 
     public static void crearPrestatgeria(Scanner scanner) {
         System.out.println("Introdueix l'ID de la prestatgeria:");
@@ -168,112 +171,112 @@ public class DriverPrestatgeria {
                 break;
             case AFEGIR_PRODUCTE:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 afegirProducte(scanner);
                 break;
             case ELIMINAR_PRODUCTE:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 eliminarProducte(scanner);
                 break;
             case INCREMENTAR_QUANTITAT:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 incrementarQuantitat(scanner);
                 break;
             case DECREMENTAR_QUANTITAT:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 decrementarQuantitat(scanner);
                 break;
             case FIXAR_PRODUCTE:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 fixarProducte(scanner);
                 break;
             case DESFIXAR_PRODUCTE:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 desfixarProducte(scanner);
                 break;
             case IMPRIMIR_PRODUCTES:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 imprimirProductes();
                 break;
             case AUTO_REOMPLIR:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 autoReomplir();
                 break;
             case GET_ID:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 getId();
                 break;
             case GET_MIDA_PRESTATGERIA:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 getMidaPrestatgeria();
                 break;
             case GET_MAX_BUIT:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 getMaxBuit();
                 break;
             case GET_PRODUCTES:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 getProductes();
                 break;
             case GET_PRODUCTES_SIZE:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 getProductesSize();
                 break;
             case ESTA_A_PRESTATGERIA:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 estaAPrestatgeria(scanner);
                 break;
             case GET_POS:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 getPos(scanner);
                 break;
             case GET_PRODUCTES_FIXATS:
                 if (P == null) {
-                    System.out.println("No hi ha prestatgeria.");
+                    System.out.println(NO_HI_HA_PRESTATGERIA);
                     break;
                 }
                 getProductesFixats();
@@ -292,8 +295,22 @@ public class DriverPrestatgeria {
 
     public static void main(String[] args) {
         boolean run = true;
+        if (args.length != 0) {
+            try {
+                File file = new File(args[0]);
+                Scanner myReader = new Scanner(file);
+                while (myReader.hasNextLine() && run)
+                    run = commands(myReader.nextLine(), myReader);
+                myReader.close();
+            } catch (Exception e) {
+                System.out.println("Error: Arxiu no admès.");
+            }
+        }
+
+        if (run){
+            System.out.println(HELPTXT);
+        }
         Scanner in = new Scanner(System.in);
-        System.out.println(HELPTXT);
         while (run) {
             run = commands(in.nextLine(), in);
         }
