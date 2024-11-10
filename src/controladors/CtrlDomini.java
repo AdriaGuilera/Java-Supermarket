@@ -31,15 +31,14 @@ public class CtrlDomini {
     }
 
     //Prestatgeria
+
     //Mou producte del magatzem a la prestatgeria
     public void mourePrestatgeria(String nom, int quantitat, String id_prest) {
         int max_hueco = CtrlProducte.comprovaQuantitats(nom, quantitat);
         if (max_hueco == -1) System.out.println("Error: El producte no hi cap");
         else {
-            if (CtrlPrestatgeria.moureProducte(nom, quantitat, id_prest, max_hueco) == -1) {
-                System.out.println("Error: El producte no hi cap");
-            }
-            else CtrlProducte.decrementar_stock(nom, quantitat);
+            CtrlPrestatgeria.moureProducte(nom, quantitat, id_prest, max_hueco);
+            CtrlProducte.decrementar_stock(nom, quantitat);
         }
     }
 
@@ -83,7 +82,6 @@ public class CtrlDomini {
 
     // Pagar y vaciar la caja
     public void pagar_caixa() {
-        CtrlPrestatgeria.
         Caixa.pagar();
     }
 
