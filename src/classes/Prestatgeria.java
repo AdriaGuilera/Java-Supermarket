@@ -103,47 +103,65 @@ public class Prestatgeria {
 		 return productes_eliminats;
 	}
 	
-public void incrementar_quantitat(String nomP, Integer quantitat) {
-	if(productes.containsKey(nomP)) {
-        productes.compute(nomP, (k, currentQuantitat) -> currentQuantitat + quantitat);
-	}
-}
-public void decrementar_quantitat(String nomP, Integer quantitat) {
-	if(productes.containsKey(nomP)) {
-		int quantitat_actual = productes.get(nomP);
-		if(quantitat_actual - quantitat >= 0) {
-			productes.compute(nomP, (k, currentQuantitat) -> currentQuantitat - quantitat);
+	public void incrementar_quantitat(String nomP, Integer quantitat) {
+		if(productes.containsKey(nomP)) {
+			productes.compute(nomP, (k, currentQuantitat) -> currentQuantitat + quantitat);
 		}
 	}
-}
-
-public void fixar_producte_prestatgeria(String nomP) {
-	productes_fixats.add(nomP);
-	
-}
-public void desfixar_producte_prestatgeria(String nomP) {
-	productes_fixats.remove(nomP);
-}
-
-public void imprimir_productes() {
-	for(Map.Entry<Integer, String> entry: posicions.entrySet()) {
-		String nomP = entry.getValue();
-		Integer quantitat = productes.get(nomP);
-		Integer posicio = entry.getKey();
-		Boolean fixat = productes_fixats.contains(nomP);
-		System.out.println("Posició: " + posicio + " " + nomP + " " + quantitat + " " + "Fixat : " + fixat.toString());
+	public void decrementar_quantitat(String nomP, Integer quantitat) {
+		if(productes.containsKey(nomP)) {
+			int quantitat_actual = productes.get(nomP);
+			if(quantitat_actual - quantitat >= 0) {
+				productes.compute(nomP, (k, currentQuantitat) -> currentQuantitat - quantitat);
+			}
+		}
 	}
-}
 
-public boolean esta_a_prestatgeria(String nom) { return productes.containsKey(nom);
-}
+	public void fixar_producte_prestatgeria(String nomP) {
+		productes_fixats.add(nomP);
 
-public int get_quantProducte(String nom) {
-		return productes.get(nom);
-}
+	}
+	public void desfixar_producte_prestatgeria(String nomP) {
+		productes_fixats.remove(nomP);
+	}
 
-public void print_prestatgeria(String nom) {
+	public void imprimirdistribucio() {
+		for(Map.Entry<Integer, String> entry: posicions.entrySet()) {
+			String nomP = entry.getValue();
+			Integer quantitat = productes.get(nomP);
+			Integer posicio = entry.getKey();
+			Boolean fixat = productes_fixats.contains(nomP);
+			System.out.println("Posició: " + posicio + " " + nomP + " " + quantitat + " " + "Fixat : " + fixat.toString());
+		}
+	}
 
+	public boolean esta_a_prestatgeria(String nom) { return productes.containsKey(nom);
+	}
+
+	public int get_quantProducte(String nom) {
+			return productes.get(nom);
+	}
+	public void moure_producte(int hueco_origen, int hueco_desti) {
+		if(!posicions.containsKey(hueco_origen)) {
+			System.out.println("Error: No existeix un producte a la posicio origen.");
+			return;
+		}
+		if(posicions.containsKey(hueco_desti)) {
+			System.out.println("Error: Ja existeix un producte a la posicio desti.");
+			return;
+		}
+		String nomP = posicions.get(hueco_origen);
+		posicions.remove(hueco_origen);
+		posicions.put(hueco_desti, nomP);
+	}
+
+	public void setDistribucio(Vector<String> ordre) {
+		int i = 0;
+		posicions.clear();
+		for(String nomP: ordre) {
+			posicions.put(i, nomP);
+			i++;
+		}
 	}
 
 

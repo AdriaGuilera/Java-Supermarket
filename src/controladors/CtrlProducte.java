@@ -15,6 +15,17 @@ public class CtrlProducte {
         Producte p = productes_magatzem.get(nomP);
         p.decrementar_stock(quantitat);
     }
+    public void incrementar_stock(String nomP, int quantitat) {
+        Producte p = productes_magatzem.get(nomP);
+        int stock = p.get_stock();
+        int max = p.get_max_magatzem();
+        if(stock + quantitat > max) {
+            System.out.println("Error: la quantitat a afegir supera la capacitat del magatzem, stock set to max");
+            p.mod_stock(max);
+        }
+        else p.incrementar_stock(quantitat);
+
+    }
 
     public void imprimirProducte(String nom) {
         Producte p = productes_magatzem.get(nom);
@@ -138,5 +149,8 @@ public class CtrlProducte {
 
     public static double obtenir_similitud(String nom1, String nom2) {
         return productes_magatzem.get(nom1).getSimilitud(nom2);
+    }
+    public int getmaxhueco(String nom) {
+        return productes_magatzem.get(nom).get_max_hueco();
     }
 }

@@ -79,6 +79,16 @@ public class CtrlPrestatgeria {
             pr.incrementar_quantitat(nomP, quantitat);
         }
     }
+    public Vector<String> getnomsproductes(String id){
+        if(!prestatgeries.containsKey(id)){
+            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
+            return new Vector<>();
+        }
+        else{
+            Prestatgeria pr = prestatgeries.get(id);
+            return pr.getNomsProductes();
+        }
+    }
 
 
 
@@ -129,7 +139,7 @@ public class CtrlPrestatgeria {
     }
 
     //Mou un producte del magatzem a la prestatgeria
-    public void afegirProducte(String nom, int quantitat, String id_prest) {
+    public void afegirProducte(String nom, String id_prest,int quantitat) {
         if(!prestatgeries.containsKey(id_prest)) {
             System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
             return;
@@ -152,6 +162,68 @@ public class CtrlPrestatgeria {
         else{
             Prestatgeria pr = prestatgeries.get(id);
             return pr.getNomsProductes();
+        }
+    }
+
+    public void printPrestatgeria(String id) {
+        if(!prestatgeries.containsKey(id)){
+            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
+            return;
+        }
+        else{
+            Prestatgeria pr = prestatgeries.get(id);
+            pr.imprimirdistribucio();
+        }
+    }
+
+    public void moureProducte(String id_prestatgeria,int hueco_origen, int hueco_desti) {
+        if(!prestatgeries.containsKey(id_prestatgeria)){
+            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
+            return;
+        }
+        else{
+            Prestatgeria pr = prestatgeries.get(id_prestatgeria);
+            pr.moure_producte(hueco_origen, hueco_desti);
+        }
+    }
+    public int get_quantitat_producte(String id_prestatgeria, String nomProducte){
+        if(!prestatgeries.containsKey(id_prestatgeria)){
+            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
+            return -1;
+        }
+        else{
+            Prestatgeria pr = prestatgeries.get(id_prestatgeria);
+            return pr.get_quantProducte(nomProducte);
+        }
+    }
+    public Vector<String> getNomsProducte(String id){
+        if(!prestatgeries.containsKey(id)){
+            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
+            return new Vector<>();
+        }
+        else{
+            Prestatgeria pr = prestatgeries.get(id);
+            return pr.getNomsProductes();
+        }
+    }
+    public void setDistribucio(String id, Vector<String> ordre){
+        if(!prestatgeries.containsKey(id)){
+            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
+            return;
+        }
+        else{
+            Prestatgeria pr = prestatgeries.get(id);
+            pr.setDistribucio(ordre);
+        }
+    }
+    public Set<String> getProductesFixats(String id){
+        if(!prestatgeries.containsKey(id)){
+            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
+            return new HashSet<>();
+        }
+        else{
+            Prestatgeria pr = prestatgeries.get(id);
+            return pr.getProductesFixats();
         }
     }
 }

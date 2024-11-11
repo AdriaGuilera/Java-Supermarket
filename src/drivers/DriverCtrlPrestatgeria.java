@@ -143,7 +143,7 @@ public class DriverCtrlPrestatgeria {
         System.out.println("Introdueix l'ID de la prestatgeria:");
         String id_prest = readLine(scanner);
 
-        ctrlPrestatgeria.afegirProducte(nom, quantitat, id_prest);
+        ctrlPrestatgeria.afegirProducte(id_prest, nom, quantitat);
         System.out.println("Producte mogut correctament");
     }
 
