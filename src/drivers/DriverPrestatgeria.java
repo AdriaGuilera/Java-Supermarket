@@ -57,13 +57,11 @@ public class DriverPrestatgeria {
     public static void crearPrestatgeria(Scanner scanner) {
         System.out.println("Introdueix l'ID de la prestatgeria:");
         String id = scanner.nextLine();
-        System.out.println("Introdueix la mida buida:");
-        int buits = Integer.parseInt(scanner.nextLine());
-        System.out.println("Introdueix el màxim de producte buits:");
-        int max = Integer.parseInt(scanner.nextLine());
+        System.out.println("Introdueix la mida de la prestatgeria:");
+        int midaPrestatgeria = Integer.parseInt(scanner.nextLine());
         System.out.println("Introdueix la mida del prestatge:");
         int midaPrestatge = Integer.parseInt(scanner.nextLine());
-        P = new Prestatgeria(id, max, midaPrestatge);
+        P = new Prestatgeria(id, midaPrestatgeria, midaPrestatge);
         System.out.println("Prestatgeria creada correctament.");
     }
 
@@ -117,12 +115,12 @@ public class DriverPrestatgeria {
 
     public static void imprimirProductes() {
         System.out.println("Productes en la prestatgeria:");
-        P.imprimir_productes();
+        P.imprimirdistribucio();
     }
 
     public static void autoReomplir() {
-        Set<Pair<String, Integer>> productes = P.auto_reomplir();
-        productes.forEach(pair -> System.out.println("Producte: " + pair.getKey() + ", Quantitat: " + pair.getValue()));
+       // Set<Pair<String, Integer>> productes = P.auto_reomplir();
+        //productes.forEach(pair -> System.out.println("Producte: " + pair.getKey() + ", Quantitat: " + pair.getValue()));
     }
 
     public static void getId() {
@@ -133,13 +131,10 @@ public class DriverPrestatgeria {
         System.out.println("Mida de la prestatgeria: " + P.getMidaPrestatgeria());
     }
 
-    public static void getMaxBuit() {
-        System.out.println("Màxim de productes buits: " + P.getMaxBuit());
-    }
 
     public static void getProductes() {
-        Vector<String> productes = P.getProductes();
-        System.out.println("Productes en la prestatgeria: " + productes);
+        //   Vector<String> productes = P.getProductes();
+        //System.out.println("Productes en la prestatgeria: " + productes);
     }
 
     public static void getProductesSize() {
@@ -238,13 +233,6 @@ public class DriverPrestatgeria {
                     break;
                 }
                 getMidaPrestatgeria();
-                break;
-            case GET_MAX_BUIT:
-                if (P == null) {
-                    System.out.println(NO_HI_HA_PRESTATGERIA);
-                    break;
-                }
-                getMaxBuit();
                 break;
             case GET_PRODUCTES:
                 if (P == null) {

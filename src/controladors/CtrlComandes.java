@@ -99,4 +99,11 @@ public class CtrlComandes {
         System.out.println("Detalls de la comanda: " + nomComanda);
         System.out.println("Productes i quantitats: " + comanda.getOrdres());
     }
+
+    public void crearComandaAutomatica(String nomComanda, Map<String, Integer> productosFaltantes) {
+        crearComanda(nomComanda);
+        for (Map.Entry<String, Integer> entry : productosFaltantes.entrySet()) {
+            afegirProducteComanda(nomComanda, entry.getKey(), entry.getValue());
+        }
+    }
 }

@@ -41,8 +41,12 @@ public class CtrlProducte {
 
     }
 
-    public void imprimirMagatzem(String nom) {
-        System.out.println(productes_magatzem);
+    public void imprimirMagatzem() {
+        // Recorremos todos los productos del magatzem
+        for (String nom : productes_magatzem.keySet()) {
+            // Llamamos a la función imprimirProducte para cada producto
+            imprimirProducte(nom);
+        }
     }
 
     public void executar_comandes(Map<String, Comanda> comandes) {
@@ -51,17 +55,22 @@ public class CtrlProducte {
                 String nom = ordre.getKey();
                 int quant = ordre.getValue();
                 Producte p = productes_magatzem.get(nom);
-                if (p.get_stock() + quant > p.get_max_magatzem()) System.out.println("Error: les comandes no caben al magatzem");
-                p.incrementar_stock(quant);
+                if(p==null)  {System.out.println( "El producte "+nom+" no existeix"); return;}
+                if (p.get_stock() + quant > p.get_max_magatzem()) p.incrementar_stock(p.get_max_magatzem()-p.get_stock());
+                else p.incrementar_stock(quant);
             }
         }
         System.out.println( "Les comandes s'han executat correctament");
     }
 
-    public void generarComandaAutomatica() {
+    public Map<String,Integer> obtenirComandaAutomatica() {
+        Map<String,Integer> productosRestantes = new HashMap<>();
         productes_magatzem.forEach((key, value) -> {
-            value.mod_stock(value.get_max_magatzem());
+            int maximo = value.get_max_magatzem();
+            int diferencia = maximo - value.get_stock();
+            productosRestantes.put(key,diferencia);
         });
+        return productosRestantes;
     }
 
 

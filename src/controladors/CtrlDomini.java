@@ -237,8 +237,11 @@ public class CtrlDomini {
         CtrlProducte.executar_comandes(comandesAExecutar);
     }
 
-    public void obtenirComandaAutomatica() {
-        CtrlProducte.generarComandaAutomatica();
+    public void obtenirComandaAutomatica(String nomComanda) {
+        //Primero obtenemos un map de <string,int> con los productos y cantidades que faltan por rellenar;
+        Map<String, Integer> productosFaltantes = CtrlProducte.obtenirComandaAutomatica();
+        //Creamos una comanda con los productos
+        CtrlComandes.crearComandaAutomatica(nomComanda, productosFaltantes);
     }
 
 
@@ -271,6 +274,6 @@ public class CtrlDomini {
     }
 
     public void printMagatzem() {
-
+        CtrlProducte.imprimirMagatzem();
     }
 }
