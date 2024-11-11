@@ -36,4 +36,9 @@ public class Comanda {
     public int obtenirQuantitatProducte(String nomProducte) {
         return ordres.getOrDefault(nomProducte, 0);
     }
+
+    // Método para eliminar un producto de la comanda
+    public boolean conteProducte(String nomProducte) {
+        return ordres.containsKey(nomProducte);
+    }
 }

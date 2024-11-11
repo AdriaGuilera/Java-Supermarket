@@ -38,6 +38,19 @@ public class CtrlComandes {
         comanda.afegirProducte(nomProducte, quantitat);
         System.out.println("Producte afegit correctament a la comanda.");
     }
+    public void eliminarProducteComanda(String nomComanda, String nomProducte) {
+        Comanda comanda = comandes_creades.get(nomComanda);
+        if (comanda == null) {
+            System.out.println("Error: No existeix la comanda amb aquest nom.");
+            return;
+        }
+        if (comanda.conteProducte(nomProducte)) {
+            comanda.eliminarProducte(nomProducte);
+            System.out.println("Producte eliminat correctament de la comanda.");
+        } else {
+            System.out.println("Error: El producte no es troba a la comanda.");
+        }
+    }
 
     // Método para eliminar una comanda
     public void eliminarComanda(String nomComanda) {
@@ -61,7 +74,7 @@ public class CtrlComandes {
     }
 
     // Método para consultar todas las comandas creadas
-    public void consultarComandes() {
+    public void printComandes() {
         if (comandes_creades.isEmpty()) {
             System.out.println("No hi ha comandes creades.");
             return;
@@ -75,5 +88,15 @@ public class CtrlComandes {
             System.out.println("Comanda: " + nomComanda);
             System.out.println("Productes i quantitats: " + comanda.getOrdres());
         }
+    }
+    public void printComandaUnica(String nomComanda) {
+        Comanda comanda = comandes_creades.get(nomComanda);
+        if (comanda == null) {
+            System.out.println("Error: No s'ha trobat cap comanda amb aquest nom.");
+            return;
+        }
+
+        System.out.println("Detalls de la comanda: " + nomComanda);
+        System.out.println("Productes i quantitats: " + comanda.getOrdres());
     }
 }

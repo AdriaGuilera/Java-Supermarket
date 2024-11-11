@@ -90,7 +90,7 @@ public class DriverCtrlComandes {
 
 
     public static void testConsultarComandes() {
-        ctrlComandes.consultarComandes();
+        ctrlComandes.printComandes();
 
     }
 

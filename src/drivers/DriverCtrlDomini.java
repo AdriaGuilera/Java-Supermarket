@@ -13,8 +13,9 @@ public class DriverCtrlDomini {
     private static final String ELIMINAR_COMANDA = "2";
     private static final String AFEGIR_PRODUCTE_COMANDA = "3";
     private static final String ELIMINAR_PRODUCTE_COMANDA = "4";
-    private static final String PRINT_COMANDES = "5";
-    private static final String PRINT_COMANDA_UNICA = "6";
+    private static final String PRINT_COMANDA_UNICA = "5";
+    private static final String PRINT_COMANDES = "6";
+
 
     // Prestatgeria
     private static final String AFEGIR_PRODUCTE_PRESTATGERIA = "7";
@@ -49,9 +50,10 @@ public class DriverCtrlDomini {
     private static final String AFEGIR_SIMILITUD = "32";
     private static final String ELIMINA_SIMILITUD = "33";
     private static final String MODIFICAR_SIMILITUD = "34";
-    private static final String PRINT_PRODUCTE = "35";
-    private static final String PRINT_MAGATZEM = "36";
-    private static final String MOURE_PRODUCTE_A_PRESTATGERIA = "37";
+    private static final String MOURE_PRODUCTE_A_PRESTATGERIA = "35";
+    private static final String PRINT_PRODUCTE = "36";
+    private static final String PRINT_MAGATZEM = "37";
+
 
     // Extras
     private static final String HELP = "help";
@@ -100,9 +102,10 @@ public class DriverCtrlDomini {
             "   " + AFEGIR_SIMILITUD + " - Agregar similitud entre productos\n" +
             "   " + ELIMINA_SIMILITUD + " - Eliminar similitud entre productos\n" +
             "   " + MODIFICAR_SIMILITUD + " - Modificar similitud entre productos\n" +
+            "   " + MOURE_PRODUCTE_A_PRESTATGERIA + " - Mover producto a Prestatgeria\n" +
             "   " + PRINT_PRODUCTE + " - Imprimir detalles de producto\n" +
             "   " + PRINT_MAGATZEM + " - Imprimir detalles de Magatzem\n" +
-            "   " + MOURE_PRODUCTE_A_PRESTATGERIA + " - Mover producto a Prestatgeria\n" +
+
             "  \n"+
             "EXTRAS:  \n"+
             "   " + HELP + " - Mostrar comandos disponibles\n" +
@@ -139,20 +142,30 @@ public class DriverCtrlDomini {
         int quantitat = Integer.parseInt(readLine(scanner));
         ctrlDomini.afegirProducteComanda(nomComanda, nomProducte, quantitat);
     }
+    public static void testEliminarProducteComanda(Scanner scanner) {
+        System.out.println("Nombre de la Comanda:");
+        String nomComanda = readLine(scanner);
+        System.out.println("Nombre del Producto:");
+        String nomProducte = readLine(scanner);
+        ctrlDomini.eliminarProducteComanda(nomComanda,nomProducte);
+
+
+    }
 
     public static void testPrintComandes(Scanner scanner) {
-        System.out.println("Nombres de las Comandas (separados por comas):");
-        String[] nomsComandes = readLine(scanner).split(",");
-        ctrlDomini.obtenirComandes(nomsComandes).forEach((nom, comanda) ->
-                System.out.println("Comanda: " + nom + ", Productos: " + comanda.getOrdres()));
+        ctrlDomini.printComandes();
     }
-    public static void testEliminarProducteComanda(Scanner scanner) {}
 
-    public static void testPrintComandaUnica(Scanner scanner) {}
 
-    public static void testConsultarComandes() {
-        ctrlDomini.consultarComandes();
+    public static void testPrintComandaUnica(Scanner scanner) {
+        System.out.println("Nombre de la Comanda:");
+        String nomComanda = readLine(scanner);
+        ctrlDomini.printComandaUnica(nomComanda);
     }
+
+
+
+
 
     //Prestatgeria
     public static void testAfegirProductePrestatgeria(Scanner scanner) {}
@@ -187,7 +200,7 @@ public class DriverCtrlDomini {
 
     public static void testPrintPrestatgeria(Scanner scanner) {}
 
-    //Millor Distribució
+
 
 
     //Caixa
@@ -307,7 +320,7 @@ public class DriverCtrlDomini {
                 testPrintComandaUnica(scanner);
                 break;
             case PRINT_COMANDES:
-                testConsultarComandes();
+                testPrintComandes(scanner);
                 break;
 
             // Prestatgeria
