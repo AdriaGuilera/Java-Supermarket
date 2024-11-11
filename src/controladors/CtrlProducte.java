@@ -41,24 +41,26 @@ public class CtrlProducte {
         return p.get_max_hueco();
     }
 
+    public void executar_comandes(Map<String, Comanda> comandes) {
+        for (Map.Entry<String, Comanda> comanda : comandes.entrySet()) {
+            for (Map.Entry<String, Integer> ordre : comanda.getValue().getOrdres().entrySet()) {
+                String nom = ordre.getKey();
+                int quant = ordre.getValue();
+                Producte p = productes_magatzem.get(nom);
+                if (p.get_stock() + quant > p.get_max_magatzem()) System.out.println("Error: les comandes no caben al magatzem");
+                p.incrementar_stock(quant);
+            }
+        }
+        System.out.println( "Les comandes s'han executat correctament");
+    }
+
     public void generarComandaAutomatica() {
         productes_magatzem.forEach((key, value) -> {
             value.mod_stock(value.get_max_magatzem());
         });
     }
 
-    public String executar_comandes(Map<String, Comanda> comandes) {
-        for (Map.Entry<String, Comanda> comanda : comandes.entrySet()) {
-            for (Map.Entry<String, Integer> ordre : comanda.getValue().getOrdres().entrySet()) {
-                String nom = ordre.getKey();
-                int quant = ordre.getValue();
-                Producte p = productes_magatzem.get(nom);
-                if (p.get_stock() + quant > p.get_max_magatzem()) return "Error: les comandes no caben al magatzem";
-                p.incrementar_stock(quant);
-            }
-        }
-        return "Les comandes s'han executat correctament";
-    }
+
 
     //Si no existia no fa res
     public void eliminar_producte(String nom) {
@@ -71,13 +73,13 @@ public class CtrlProducte {
     }
 
     public void altaProducte(String nom, int mh, int mm) {
-        System.out.println("HOLA\n");
         if (productes_magatzem.containsKey(nom)) {
             System.out.println("Error: Ja existeix el producte\n");
             return;
         }
         Producte p = new Producte(nom, mh, mm);
         productes_magatzem.put(nom, p);
+        System.out.println("Producto añadido al Almacén!");
     }
 
 
@@ -106,6 +108,29 @@ public class CtrlProducte {
         else {
             p1.afegir_similitud(nom2, value);
             p2.afegir_similitud(nom1, value);
+            System.out.println( "La similitud s'ha afegit correctament");
+        }
+    }
+    public void eliminarSimilitud(String nom1, String nom2) {
+        if (nom1 == nom2) System.out.println( "Error: els dos productes són el mateix");
+        Producte p1 = productes_magatzem.get(nom1);
+        Producte p2 = productes_magatzem.get(nom2);
+        if (p1 == null || p2 == null) System.out.println( "Error: algun dels productes no existeix");
+        else {
+            p1.eliminarSimilitud(nom2);
+            p2.eliminarSimilitud(nom1);
+            System.out.println( "La similitud s'ha afegit correctament");
+        }
+    }
+
+    public void modificarSimilitud(String nom1, String nom2, float value) {
+        if (nom1 == nom2) System.out.println( "Error: els dos productes són el mateix");
+        Producte p1 = productes_magatzem.get(nom1);
+        Producte p2 = productes_magatzem.get(nom2);
+        if (p1 == null || p2 == null) System.out.println( "Error: algun dels productes no existeix");
+        else {
+            p1.modificarSimilitud(nom2, value);
+            p2.modificarSimilitud(nom1, value);
             System.out.println( "La similitud s'ha afegit correctament");
         }
     }

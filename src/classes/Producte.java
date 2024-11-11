@@ -80,4 +80,12 @@ public class Producte {
         similitud.put(nom, valor);
     }
 
+    public void eliminarSimilitud(String nom) {
+        similitud.remove(nom);
+    }
+
+    public void modificarSimilitud(String nom,float value) {
+        similitud.put(nom,value);
+    }
+
 }

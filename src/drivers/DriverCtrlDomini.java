@@ -45,8 +45,8 @@ public class DriverCtrlDomini {
     // Magatzem (Producte)
     private static final String EXECUTAR_COMANDES = "28";
     private static final String OBTENIR_COMANDA_AUTOMATICA = "29";
-    private static final String ELIMINAR_PRODUCTE = "30";
-    private static final String ALTA_PRODUCTE = "31";
+    private static final String ALTA_PRODUCTE = "30";
+    private static final String ELIMINAR_PRODUCTE = "31";
     private static final String AFEGIR_SIMILITUD = "32";
     private static final String ELIMINA_SIMILITUD = "33";
     private static final String MODIFICAR_SIMILITUD = "34";
@@ -168,7 +168,13 @@ public class DriverCtrlDomini {
 
 
     //Prestatgeria
-    public static void testAfegirProductePrestatgeria(Scanner scanner) {}
+    public static void testAfegirProductePrestatgeria(Scanner scanner) {
+        System.out.println("Nombre del Producto:");
+        String nomProducte = readLine(scanner);
+        System.out.println("Cantidad:");
+        int quantitat = Integer.parseInt(readLine(scanner));
+
+    }
 
     public static void testMoureProducteDeHueco(Scanner scanner) {}
 
@@ -246,15 +252,8 @@ public class DriverCtrlDomini {
         ctrlDomini.executarComandes(noms);
     }
     public static void testObtenirComandaAutomatica() {
-        ctrlDomini.generarComandaAutomatica();
+        ctrlDomini.obtenirComandaAutomatica();
     }
-
-    public static void testEliminarProducte(Scanner scanner) {
-        System.out.println("Nombre del Producto:");
-        String nom = readLine(scanner);
-        ctrlDomini.eliminar_producte(nom);
-    }
-
     public static void testAltaProducte(Scanner scanner) {
         System.out.println("Nombre del Producto:");
         String nom = readLine(scanner);
@@ -263,8 +262,15 @@ public class DriverCtrlDomini {
         System.out.println("Stock Máximo posible en Magatzem:");
         int mm = Integer.parseInt(readLine(scanner));
         ctrlDomini.altaProducte(nom, mh, mm);
-        System.out.println("Producto añadido al Almacén!");
+
     }
+    public static void testEliminarProducte(Scanner scanner) {
+        System.out.println("Nombre del Producto:");
+        String nom = readLine(scanner);
+        ctrlDomini.eliminar_producte(nom);
+    }
+
+
 
     public static void testAfegirSimilitud(Scanner scanner) {
         System.out.println("Nombre del primer Producto:");
@@ -275,28 +281,40 @@ public class DriverCtrlDomini {
         float value = Float.parseFloat(readLine(scanner));
         ctrlDomini.afegir_similitud(nom1, nom2, value);
     }
-    public static void testMoureProducteAPrestatgeria(Scanner scanner) {
-        System.out.println("Nombre del Producto:");
-        String nomProducte = readLine(scanner);
-        System.out.println("Cantidad:");
-        int quantitat = Integer.parseInt(readLine(scanner));
-        System.out.println("ID de la Prestatgeria:");
-        String idPrestatgeria = readLine(scanner);
-        ctrlDomini.moure_producte_a_prestatgeria(nomProducte, quantitat, idPrestatgeria);
-        System.out.println(quantitat + "unidades del producto " + nomProducte + " movidos a la prestatgeria " + idPrestatgeria +  "!");
+
+
+    public static void testEliminarSimilitud(Scanner scanner) {
+        System.out.println("Nombre del primer Producto:");
+        String nom1 = readLine(scanner);
+        System.out.println("Nombre del segundo Producto:");
+        String nom2 = readLine(scanner);
+        ctrlDomini.eliminarSimilitud(nom1,nom2);
     }
 
-    public static void testEliminarSimilitud(Scanner scanner) {}
 
-    public static void testImprimirProducte(Scanner scanner) {
+    public static void testModificarSimilitud(Scanner scanner) {
+        System.out.println("Nombre del primer Producto:");
+        String nom1 = readLine(scanner);
+        System.out.println("Nombre del segundo Producto:");
+        String nom2 = readLine(scanner);
+        System.out.println("Valor de similitud:");
+        float value = Float.parseFloat(readLine(scanner));
+        ctrlDomini.modificarSimilitud(nom1, nom2, value);
+
+    }
+
+    public static void testMoureProducteAPrestatgeria(Scanner scanner) {}
+
+
+    public static void testPrintProducte(Scanner scanner) {
         System.out.println("Nombre del Producto:");
         String nom = readLine(scanner);
-        ctrlDomini.imprimir_producte(nom);
+        ctrlDomini.print_producte(nom);
     }
+    public static void testPrintMagatzem() {
+        ctrlDomini.printMagatzem();
 
-    public static void testModificarSimilitud(Scanner scanner) {}
-    public static void testPrintProducte() {}
-    public static void testPrintMagatzem() {}
+    }
 
 
     // Procesador de comandos
@@ -413,7 +431,7 @@ public class DriverCtrlDomini {
                 testModificarSimilitud(scanner);
                 break;
             case PRINT_PRODUCTE:
-                testImprimirProducte(scanner);
+                testPrintProducte(scanner);
                 break;
             case PRINT_MAGATZEM:
                 testPrintMagatzem();

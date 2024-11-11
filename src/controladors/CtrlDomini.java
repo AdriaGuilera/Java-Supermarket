@@ -42,17 +42,73 @@ public class CtrlDomini {
 
     //Prestatgeria
 
-    //Mou producte del magatzem a la prestatgeria
-    public void mourePrestatgeria(String nom, int quantitat, String id_prest) {
-        int max_hueco = CtrlProducte.comprovaQuantitats(nom, quantitat);
-        if (max_hueco == -1) System.out.println("Error: El producte no hi cap");
-        else {
-            CtrlPrestatgeria.moureProducte(nom, quantitat, id_prest, max_hueco);
-            CtrlProducte.decrementar_stock(nom, quantitat);
-        }
+    // Implementación de los métodos de Prestatgeria
+
+    public void afegirProductePrestatgeria(String nomProducte, int quantitat) {
+        // Código para agregar un producto a la prestatgeria
+        System.out.println("Producto " + nomProducte + " agregado con cantidad " + quantitat + " a la prestatgeria.");
+    }
+
+    public void moureProducteDeHueco(String nomProducte, int huecoOrigen, int huecoDestino) {
+        // Código para mover el producto de un hueco a otro
+        System.out.println("Producto " + nomProducte + " movido de hueco " + huecoOrigen + " a " + huecoDestino + ".");
     }
     //
 
+    public void decrementarStockAProducte(String nomProducte, int quantitat) {
+        // Código para decrementar el stock de un producto
+        System.out.println("Stock de " + quantitat + " unidades decrementado para el producto " + nomProducte + ".");
+    }
+
+    public void afegirStockAProducte(String nomProducte, int quantitat) {
+        // Código para agregar stock a un producto
+        System.out.println("Stock de " + quantitat + " unidades agregado para el producto " + nomProducte + ".");
+    }
+
+    public void generarDistribucio() {
+        // Código para generar distribución en la prestatgeria
+        System.out.println("Distribución generada en la prestatgeria.");
+    }
+
+    public void generarDistribucioBacktracking() {
+        // Código para generar distribución usando el método Backtracking
+        System.out.println("Distribución generada mediante Backtracking.");
+    }
+
+    public void generarDistribucioHillClimbing() {
+        // Código para generar distribución usando el método Hill Climbing
+        System.out.println("Distribución generada mediante Hill Climbing.");
+    }
+
+    public void afegirPrestatgeria(String idPrestatgeria) {
+        // Código para agregar una nueva prestatgeria
+        System.out.println("Prestatgeria " + idPrestatgeria + " agregada.");
+    }
+
+    public void eliminarPrestatgeria(String idPrestatgeria) {
+        // Código para eliminar una prestatgeria
+        System.out.println("Prestatgeria " + idPrestatgeria + " eliminada.");
+    }
+
+    public void afegirPrestatge(String idPrestatgeria, int prestatgeId) {
+        // Código para agregar un prestatge
+        System.out.println("Prestatge " + prestatgeId + " agregado a la prestatgeria " + idPrestatgeria + ".");
+    }
+
+    public void eliminarPrestatge(String idPrestatgeria, int prestatgeId) {
+        // Código para eliminar un prestatge
+        System.out.println("Prestatge " + prestatgeId + " eliminado de la prestatgeria " + idPrestatgeria + ".");
+    }
+
+    public void reposarPrestatgeria() {
+        // Código para reponer la prestatgeria
+        System.out.println("Prestatgeria repuesta.");
+    }
+
+    public void printPrestatgeria() {
+        // Código para imprimir los detalles de la prestatgeria
+        System.out.println("Detalles de la prestatgeria impresos.");
+    }
 
     //Caixa
     public void afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria){
@@ -74,6 +130,21 @@ public class CtrlDomini {
     // Retirar producto de la caja
     public void retirar_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria) {
         Caixa.retirar_producte(nom_producte, quantitat, id_prestatgeria);
+    }
+
+    public void fixarProducte(String nomProducte, int hueco) {
+        // Código para fijar el producto en un hueco
+        System.out.println("Producto " + nomProducte + " fijado en el hueco " + hueco + ".");
+    }
+
+    public void desfixarProducte(String nomProducte) {
+        // Código para desfijar el producto de un hueco
+        System.out.println("Producto " + nomProducte + " desfijado del hueco.");
+    }
+
+    public void retirarProducteAMagatzem(String nomProducte) {
+        // Código para retirar el producto y mandarlo a Magatzem
+        System.out.println("Producto " + nomProducte + " retirado a Magatzem.");
     }
 
     // Consultar la cantidad de un producto específico en una estantería de la caja
@@ -107,38 +178,46 @@ public class CtrlDomini {
         Caixa.pagar();
     }
 
+
     //Magatzem (Productes)
-    public void generarComandaAutomatica() {
+    public void executarComandes(String[] noms) {
+        Map<String, Comanda> comandesAExecutar = CtrlComandes.obtenirComandes(noms);
+        CtrlProducte.executar_comandes(comandesAExecutar);
+    }
+
+    public void obtenirComandaAutomatica() {
         CtrlProducte.generarComandaAutomatica();
     }
 
-    public void executarComandes(String[] noms) {
-        Map<String, Comanda> comandesAExecutar = CtrlComandes.obtenirComandes(noms);
-        String s = CtrlProducte.executar_comandes(comandesAExecutar);
-        System.out.println(s);
-    }
-
-    public void modificarProducte(String nom, String nou_nom, Integer mh, Integer mm) {
-        CtrlProducte.modificarProducte(nom, nou_nom,  mh, mm);
-    }
-
-    public void eliminar_producte(String nom) {
-        CtrlProducte.eliminar_producte(nom);
-    }
 
     public void altaProducte(String nom, int mh, int mm) {
         CtrlProducte.altaProducte(nom, mh, mm);
     }
 
+    public void eliminar_producte(String nom) {
+        //Lo eliminamos del almacen
+        CtrlProducte.eliminar_producte(nom);
+        //Lo eliminamos de las prestatgerias
+    }
+
+
+
     public void afegir_similitud(String nom1, String nom2, float value) {
         CtrlProducte.afegir_similitud(nom1, nom2, value);
     }
 
-    public void imprimir_producte(String nom) {
+    public void eliminarSimilitud(String nom1, String nom2) {
+        CtrlProducte.eliminarSimilitud(nom1, nom2);
+    }
+    public void modificarSimilitud(String nom1, String nom2, float value) {
+        CtrlProducte.eliminarSimilitud(nom1, nom2);
+    }
+
+    public void print_producte(String nom) {
         CtrlProducte.imprimirProducte(nom);
     }
 
-    public void imprimir_magatzem(String nom) {
-        CtrlProducte.imprimirMagatzem(nom);
+    public void printMagatzem() {
+
     }
 }

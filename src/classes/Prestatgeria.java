@@ -141,4 +141,14 @@ public boolean esta_a_prestatgeria(String nom) { return productes.containsKey(no
 public int get_quantProducte(String nom) {
 		return productes.get(nom);
 }
+
+public void print_prestatgeria(String nom) {
+
+	}
+
+
+
+
+
+
 }
