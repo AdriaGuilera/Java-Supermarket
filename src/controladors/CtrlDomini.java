@@ -17,9 +17,13 @@ public class CtrlDomini {
 
         CtrlComandes.crearComanda(nomComanda);
     }
+
     public void eliminarComanda(String nomComanda) {
-         CtrlComandes.eliminarComanda(nomComanda);
+
+        CtrlComandes.eliminarComanda(nomComanda);
     }
+
+
     public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) {
         CtrlComandes.afegirProducteComanda(nomComanda,nomProducte,quantitat);
     }
@@ -80,13 +84,21 @@ public class CtrlDomini {
         Caixa.imprimirticket();
     }
 
-    // Pagar y vaciar la caja
+    // Pagar y vaciar la caja, decrementando la cantidad de productos en las estanterías
     public void pagar_caixa() {
+        Map<String, Map<String, Integer>> productes_venuts = Caixa.get_productes();
+        for(Map.Entry<String, Map<String, Integer>> entry : productes_venuts.entrySet()){
+            String id_prestatgeria = entry.getKey();
+            Map<String, Integer> productes = entry.getValue();
+            for(Map.Entry<String, Integer> entry2 : productes.entrySet()){
+                String nom_producte = entry2.getKey();
+                int quantitat = entry2.getValue();
+                CtrlPrestatgeria.decrementar_quantitat_producte(id_prestatgeria, nom_producte, quantitat);
+            }
+        }
+        Caixa.imprimirticket();
         Caixa.pagar();
     }
-
-
-
 
     //Magatzem (Productes)
     public void generarComandaAutomatica() {
