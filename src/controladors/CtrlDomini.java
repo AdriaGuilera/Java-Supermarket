@@ -45,6 +45,7 @@ public class CtrlDomini {
             CtrlProducte.decrementar_stock(nom, quantitat);
         }
     }
+    //
 
 
     //Caixa

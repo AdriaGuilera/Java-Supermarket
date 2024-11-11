@@ -262,7 +262,16 @@ public class DriverCtrlDomini {
         float value = Float.parseFloat(readLine(scanner));
         ctrlDomini.afegir_similitud(nom1, nom2, value);
     }
-    public static void testMoureProducteAPrestatgeria(Scanner scanner) {}
+    public static void testMoureProducteAPrestatgeria(Scanner scanner) {
+        System.out.println("Nombre del Producto:");
+        String nomProducte = readLine(scanner);
+        System.out.println("Cantidad:");
+        int quantitat = Integer.parseInt(readLine(scanner));
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        ctrlDomini.moure_producte_a_prestatgeria(nomProducte, quantitat, idPrestatgeria);
+        System.out.println(quantitat + "unidades del producto " + nomProducte + " movidos a la prestatgeria " + idPrestatgeria +  "!");
+    }
 
     public static void testEliminarSimilitud(Scanner scanner) {}
 

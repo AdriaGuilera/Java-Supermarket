@@ -12,40 +12,44 @@ public class Prestatgeria {
 	private String id;
 	private int mida_prestatgeria;
 	private int mida_prestatge;
-	private int max_producte_buit;
-	private Map<String, Pair<Integer, Integer>> productes;// productes: map<nom:string, pair(posicio:int, quantitat:int)>
+	private Map<String, Integer> productes; //nom, quantitat
+	private Map<Integer, String> posicions; //posicio, nom
 	private Set<String> productes_fixats;
-	private Vector<String> distribucio;
 	
 	public Set<String> getProductesFixats(){
 		return productes_fixats;
 	}
 	
-	public Prestatgeria(String id, int buits,int max, int mida_prestatge) {
+	public Prestatgeria(String id, int buits, int mida_prestatge) {
 		this.id = id;
 		this.mida_prestatgeria= buits;
-		this.max_producte_buit= max;
 		this.mida_prestatge=mida_prestatge;
 		this.productes= new HashMap<>();
+		this.posicions = new HashMap<>();
 		this.productes_fixats= new HashSet<>();
-		this.distribucio= new Vector<>(this.mida_prestatgeria);
 		
 	}
 	
 	public void afegir_producte(String nomP, Integer quantitat) {
-		if(productes.size() < mida_prestatgeria) {
-			distribucio.add(nomP);
-			int pos = distribucio.indexOf(nomP);
-			Pair<Integer, Integer> newPair= new Pair<>(pos, quantitat);
-			productes.put(nomP, newPair);
-			productes_fixats.add(nomP);
-			
+		if(!productes.containsKey(nomP)) {
+			productes.put(nomP, quantitat);
+			int pos = 0;
+			while(posicions.containsKey(pos)) {
+				pos++;
+			}
+			posicions.put(pos, nomP);
+		}
+		else {
+			incrementar_quantitat(nomP, quantitat);
 		}
 	}
 	public void eliminar_producte(String nomP) {
-		distribucio.remove(nomP);
-		productes.remove(nomP);
-		productes_fixats.remove(nomP);
+		if(productes.containsKey(nomP)){
+			productes.remove(nomP);
+			productes_fixats.remove(nomP);
+			int pos = get_pos(nomP);
+			posicions.remove(pos);
+		}
 	}
 	
 	public String getid() {
@@ -56,71 +60,61 @@ public class Prestatgeria {
 		return mida_prestatgeria;
 	}
 	
-	public int getMaxBuit() {
-		return max_producte_buit;
+	public  Vector<String> getNomsProductes(){
+		return new Vector<>(productes.keySet());
 	}
-	
-	public  Vector<String> getProductes(){
-		return distribucio;
-	}
-	
-	 
+
 	public int getProductesSize(){
 		return productes.size();
 	}
-	
-	public Set<Pair<String, Integer>> auto_reomplir(){
-		Set<Pair<String, Integer>> set = new HashSet<>();
-		productes.forEach((key, value) -> {
-			Pair<String, Integer> cantidad =  new Pair<>(key, value.getValue());
-			if( cantidad.getValue() < max_producte_buit) {
-				set.add(cantidad);
-			}
-		});
-		return set;
-		
+
+	public Map<String,Integer> get_productes(){
+		return productes;
 	}
+
 	
 	public int get_pos(String nomP){
-		return productes.get(nomP).getKey();
+		for(Map.Entry<Integer, String> entry: posicions.entrySet()) {
+			if(entry.getValue().equals(nomP)) {
+				return entry.getKey();
+			}
+		}
+		return -1;
 	}
 	
 	public void afegir_prestatge() {
 		this.mida_prestatgeria += mida_prestatge;
 	}
 
-	//ARREGLAR ESTO
-	public void eliminar_prestatge() {
-		this.mida_prestatgeria -= mida_prestatge;
+
+	public Map<String,Integer> eliminar_prestatge() {
+		Map<String,Integer> productes_eliminats = new HashMap<>();
+		 for(int i = mida_prestatgeria - mida_prestatge; i<mida_prestatgeria; i++) {
+			 if(posicions.containsKey(i)) {
+				 String nomP = posicions.get(i);
+				 productes_eliminats.put(nomP, productes.get(nomP));
+
+				 productes.remove(nomP);
+				 productes_fixats.remove(nomP);
+				 posicions.remove(i);
+			 }
+		 }
+		 mida_prestatgeria -= mida_prestatge;
+		 return productes_eliminats;
 	}
 	
 public void incrementar_quantitat(String nomP, Integer quantitat) {
-	Pair<Integer, Integer> currentPair = productes.get(nomP);
-
-    if (currentPair != null) { 
-        int firstValue = currentPair.getKey();     
-        int secondValue = currentPair.getValue();  
-        if(secondValue + quantitat <= max_producte_buit) {
-        	Pair<Integer, Integer> newPair = new Pair<>(firstValue, secondValue + quantitat);
-        	productes.put(nomP, newPair);
-        }
-    }
+	if(productes.containsKey(nomP)) {
+        productes.compute(nomP, (k, currentQuantitat) -> currentQuantitat + quantitat);
+	}
 }
 public void decrementar_quantitat(String nomP, Integer quantitat) {
-	Pair<Integer, Integer> currentPair = productes.get(nomP);
-
-    if (currentPair != null) {
-        int firstValue = currentPair.getKey();     
-        int secondValue = currentPair.getValue();  
-        if(secondValue - quantitat > 0) {
-        	Pair<Integer, Integer> newPair = new Pair<>(firstValue, secondValue - quantitat);
-        	productes.put(nomP, newPair);
-        }
-        else if(secondValue - quantitat == 0) {
-        	eliminar_producte(nomP);
-        	
-        }
-    }
+	if(productes.containsKey(nomP)) {
+		int quantitat_actual = productes.get(nomP);
+		if(quantitat_actual - quantitat >= 0) {
+			productes.compute(nomP, (k, currentQuantitat) -> currentQuantitat - quantitat);
+		}
+	}
 }
 
 public void fixar_producte_prestatgeria(String nomP) {
@@ -132,9 +126,12 @@ public void desfixar_producte_prestatgeria(String nomP) {
 }
 
 public void imprimir_productes() {
-	for(String element: distribucio) {
-		System.out.println(element);
-		
+	for(Map.Entry<Integer, String> entry: posicions.entrySet()) {
+		String nomP = entry.getValue();
+		Integer quantitat = productes.get(nomP);
+		Integer posicio = entry.getKey();
+		Boolean fixat = productes_fixats.contains(nomP);
+		System.out.println("Posició: " + posicio + " " + nomP + " " + quantitat + " " + "Fixat : " + fixat.toString());
 	}
 }
 
@@ -142,6 +139,6 @@ public boolean esta_a_prestatgeria(String nom) { return productes.containsKey(no
 }
 
 public int get_quantProducte(String nom) {
-		return productes.get(nom).getValue();
+		return productes.get(nom);
 }
 }

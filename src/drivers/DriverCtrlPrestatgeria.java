@@ -58,13 +58,11 @@ public class DriverCtrlPrestatgeria {
         System.out.println("Introdueix la mida de la prestatgeria:");
         int mida = Integer.parseInt(readLine(scanner));
 
-        System.out.println("Introdueix el màxim de la prestatgeria:");
-        int max = Integer.parseInt(readLine(scanner));
-
         System.out.println("Introdueix la mida de prestatge:");
         int mida_prestatge = Integer.parseInt(readLine(scanner));
 
-        System.out.println(ctrlPrestatgeria.afegirPrestatgeria(id, mida, max, mida_prestatge));
+        ctrlPrestatgeria.afegirPrestatgeria(id, mida, mida_prestatge);
+        System.out.println("Prestatgeria afegida correctament");
     }
 
     public static void testEliminarPrestatgeria(Scanner scanner) {
@@ -92,18 +90,6 @@ public class DriverCtrlPrestatgeria {
         String nomP = readLine(scanner);
 
         System.out.println(ctrlPrestatgeria.desfixarProducte(id, nomP));
-    }
-
-    public static void testReposarPrestatgeria(Scanner scanner) {
-        System.out.println("Introdueix l'ID de la prestatgeria a reposar:");
-        String id = readLine(scanner);
-
-        Set<Pair<String, Integer>> result = ctrlPrestatgeria.reposarPrestatgeria(id);
-        if (result.isEmpty()) {
-            System.out.println("No s'ha pogut reposar la prestatgeria o està buida.");
-        } else {
-            result.forEach(pair -> System.out.println("Producte: " + pair.getKey() + ", Quantitat: " + pair.getValue()));
-        }
     }
 
     public static void testRetirarProductePrestatgeria(Scanner scanner) {
@@ -135,14 +121,16 @@ public class DriverCtrlPrestatgeria {
         System.out.println("Introdueix l'ID de la prestatgeria:");
         String id = readLine(scanner);
 
-        System.out.println(ctrlPrestatgeria.afegir_prestatgeria(id));
+        ctrlPrestatgeria.afegir_prestatge(id);
+        System.out.println("Prestatge afegit correctament");
     }
 
     public static void testEliminarPrestatge(Scanner scanner) {
         System.out.println("Introdueix l'ID de la prestatgeria:");
         String id = readLine(scanner);
 
-        System.out.println(ctrlPrestatgeria.eliminar_prestatgeria(id));
+        ctrlPrestatgeria.eliminar_prestatge(id);
+        System.out.println("Prestatge eliminat correctament");
     }
 
     public static void testMoureProducte(Scanner scanner) {
@@ -155,10 +143,7 @@ public class DriverCtrlPrestatgeria {
         System.out.println("Introdueix l'ID de la prestatgeria:");
         String id_prest = readLine(scanner);
 
-        System.out.println("Introdueix el màxim buit:");
-        int max_hueco = Integer.parseInt(readLine(scanner));
-
-        ctrlPrestatgeria.moureProducte(nom, quantitat, id_prest, max_hueco);
+        ctrlPrestatgeria.afegirProducte(nom, quantitat, id_prest);
         System.out.println("Producte mogut correctament");
     }
 
@@ -195,9 +180,6 @@ public class DriverCtrlPrestatgeria {
                 break;
             case DESFIXAR_PRODUCTE:
                 testDesfixarProducte(scanner);
-                break;
-            case REPOSAR_PRESTATGERIA:
-                testReposarPrestatgeria(scanner);
                 break;
             case RETIRAR_PRODUCTE_PRESTATGERIA:
                 testRetirarProductePrestatgeria(scanner);
