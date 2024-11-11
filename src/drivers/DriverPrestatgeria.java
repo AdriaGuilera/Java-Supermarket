@@ -63,7 +63,7 @@ public class DriverPrestatgeria {
         int max = Integer.parseInt(scanner.nextLine());
         System.out.println("Introdueix la mida del prestatge:");
         int midaPrestatge = Integer.parseInt(scanner.nextLine());
-        P = new Prestatgeria(id, buits, max, midaPrestatge);
+        P = new Prestatgeria(id, max, midaPrestatge);
         System.out.println("Prestatgeria creada correctament.");
     }
 

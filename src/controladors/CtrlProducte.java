@@ -45,13 +45,6 @@ public class CtrlProducte {
         System.out.println(productes_magatzem);
     }
 
-
-    public int comprovaQuantitats(String nom, int quantitat) {
-        Producte p = productes_magatzem.get(nom);
-        if (quantitat > p.get_max_hueco() || quantitat > p.get_stock()) return -1;
-        return p.get_max_hueco();
-    }
-
     public void executar_comandes(Map<String, Comanda> comandes) {
         for (Map.Entry<String, Comanda> comanda : comandes.entrySet()) {
             for (Map.Entry<String, Integer> ordre : comanda.getValue().getOrdres().entrySet()) {
@@ -152,5 +145,11 @@ public class CtrlProducte {
     }
     public int getmaxhueco(String nom) {
         return productes_magatzem.get(nom).get_max_hueco();
+    }
+    public int get_stock(String nom) {
+        return productes_magatzem.get(nom).get_stock();
+    }
+    public int getmaxmagatzem(String nom) {
+        return productes_magatzem.get(nom).get_max_magatzem();
     }
 }

@@ -20,9 +20,9 @@ public class Prestatgeria {
 		return productes_fixats;
 	}
 	
-	public Prestatgeria(String id, int buits, int mida_prestatge) {
+	public Prestatgeria(String id, int mida_prestatgeria, int mida_prestatge) {
 		this.id = id;
-		this.mida_prestatgeria= buits;
+		this.mida_prestatgeria= mida_prestatgeria;
 		this.mida_prestatge=mida_prestatge;
 		this.productes= new HashMap<>();
 		this.posicions = new HashMap<>();
@@ -40,7 +40,7 @@ public class Prestatgeria {
 			posicions.put(pos, nomP);
 		}
 		else {
-			incrementar_quantitat(nomP, quantitat);
+			System.out.println("Error: Ja existeix un producte amb aquest nom a la prestatgeria, utilitza la funcio de incrementar.");
 		}
 	}
 	public void eliminar_producte(String nomP) {

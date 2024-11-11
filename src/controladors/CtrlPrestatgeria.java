@@ -79,16 +79,6 @@ public class CtrlPrestatgeria {
             pr.incrementar_quantitat(nomP, quantitat);
         }
     }
-    public Vector<String> getnomsproductes(String id){
-        if(!prestatgeries.containsKey(id)){
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return new Vector<>();
-        }
-        else{
-            Prestatgeria pr = prestatgeries.get(id);
-            return pr.getNomsProductes();
-        }
-    }
 
 
 
@@ -149,9 +139,20 @@ public class CtrlPrestatgeria {
             pr.afegir_producte(nom, quantitat);
         }
     }
-    public boolean contains_producte(String nom_producte, int quantiat, String id_prestatgeria, int quantitat_ja_afegida) {
+    public boolean contains_quantitat(String nom_producte, int quantiat, String id_prestatgeria, int quantitat_ja_afegida) {
         Prestatgeria pr = prestatgeries.get(id_prestatgeria);
         return pr.esta_a_prestatgeria(nom_producte) && ((pr.get_quantProducte(nom_producte)-quantitat_ja_afegida) >= quantiat);
+    }
+
+    public boolean contains_producte(String id, String nom_producte){
+        if(!prestatgeries.containsKey(id)){
+            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
+            return false;
+        }
+        else{
+            Prestatgeria pr = prestatgeries.get(id);
+            return pr.esta_a_prestatgeria(nom_producte);
+        }
     }
 
     public Vector<String> getNomsProductes(String id){
@@ -196,16 +197,6 @@ public class CtrlPrestatgeria {
             return pr.get_quantProducte(nomProducte);
         }
     }
-    public Vector<String> getNomsProducte(String id){
-        if(!prestatgeries.containsKey(id)){
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return new Vector<>();
-        }
-        else{
-            Prestatgeria pr = prestatgeries.get(id);
-            return pr.getNomsProductes();
-        }
-    }
     public void setDistribucio(String id, Vector<String> ordre){
         if(!prestatgeries.containsKey(id)){
             System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
@@ -224,6 +215,11 @@ public class CtrlPrestatgeria {
         else{
             Prestatgeria pr = prestatgeries.get(id);
             return pr.getProductesFixats();
+        }
+    }
+    public void eliminar_producte(String nom){
+        for(Prestatgeria pr : prestatgeries.values()){
+            pr.eliminar_producte(nom);
         }
     }
 }

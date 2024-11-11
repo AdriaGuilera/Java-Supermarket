@@ -48,7 +48,35 @@ public class CtrlDomini {
 
     public void afegirProductePrestatgeria(String nomProducte, int quantitat, String idPrestatgeria) {
         // Código para agregar un producto a la prestatgeria
-        CtrlPrestatgeria.afegirProducte(idPrestatgeria, nomProducte, quantitat);
+        int maxhueco = CtrlProducte.getmaxhueco(nomProducte);
+        int stock = CtrlProducte.get_stock(nomProducte);
+
+        if(stock >= quantitat) {
+            if (CtrlPrestatgeria.contains_producte(idPrestatgeria, nomProducte)) {
+                int actual = CtrlPrestatgeria.get_quantitat_producte(idPrestatgeria, nomProducte);
+
+                if (quantitat + actual > maxhueco) {
+                    CtrlPrestatgeria.incrementar_quantitat_producte(idPrestatgeria, nomProducte, maxhueco - actual);
+                    CtrlProducte.decrementar_stock(nomProducte, maxhueco - actual);
+                } else {
+                    CtrlPrestatgeria.incrementar_quantitat_producte(idPrestatgeria, nomProducte, quantitat);
+                    CtrlProducte.decrementar_stock(nomProducte, quantitat);
+                }
+            } else {
+                if (quantitat > maxhueco) {
+                    CtrlPrestatgeria.afegirProducte(idPrestatgeria, nomProducte, maxhueco);
+                    CtrlProducte.decrementar_stock(nomProducte, maxhueco);
+                } else {
+                    CtrlPrestatgeria.afegirProducte(idPrestatgeria, nomProducte, quantitat);
+                    CtrlProducte.decrementar_stock(nomProducte, quantitat);
+                }
+            }
+        }
+        else{
+            System.out.println("Error: No hi ha suficient stock del producte");
+        }
+        return;
+
     }
 
     public void moureProducteDeHueco(String id_prestatgeria, String nomProducte, int huecoOrigen, int huecoDestino) {
@@ -60,20 +88,9 @@ public class CtrlDomini {
     public void decrementarStockAProducte(String id_prestatgeria, String nomProducte, int quantitat) {
         // Código para decrementar el stock de un producto
         CtrlPrestatgeria.decrementar_quantitat_producte(id_prestatgeria, nomProducte, quantitat);
+        CtrlProducte.incrementar_stock(nomProducte, quantitat);
     }
 
-    public void afegirStockAProducte(String id_prestatgeria,String nomProducte, int quantitat) {
-        // Código para agregar stock a un producto
-        int maxhueco = CtrlProducte.getmaxhueco(nomProducte);
-        int stock = CtrlPrestatgeria.get_quantitat_producte(id_prestatgeria, nomProducte);
-        if(stock == -1 || stock + quantitat > maxhueco){
-            System.out.println("Error: No es pot afegir més stock del que hi cap a la prestatgeria");
-            return;
-        }
-        else{
-            CtrlPrestatgeria.incrementar_quantitat_producte(id_prestatgeria, nomProducte, quantitat);
-        }
-    }
 
     public void generarDistribucioBacktracking(String id_prestatgeria) {
         // Código para generar distribución usando el método Backtracking
@@ -103,27 +120,61 @@ public class CtrlDomini {
             int quantitat = entry.getValue();
             CtrlProducte.incrementar_stock(nom, quantitat);
         }
-        System.out.println("Prestatgeria " + idPrestatgeria + " eliminada.");
     }
 
     public void afegirPrestatge(String idPrestatgeria, int prestatgeId) {
         // Código para agregar un prestatge
-        System.out.println("Prestatge " + prestatgeId + " agregado a la prestatgeria " + idPrestatgeria + ".");
+        CtrlPrestatgeria.afegir_prestatge(idPrestatgeria);
     }
 
-    public void eliminarPrestatge(String idPrestatgeria, int prestatgeId) {
+    public void eliminarPrestatge(String idPrestatgeria) {
         // Código para eliminar un prestatge
-        System.out.println("Prestatge " + prestatgeId + " eliminado de la prestatgeria " + idPrestatgeria + ".");
+        Map<String,Integer> eliminats = CtrlPrestatgeria.eliminar_prestatge(idPrestatgeria);
+        for(Map.Entry<String, Integer> entry : eliminats.entrySet()){
+            String nom = entry.getKey();
+            int quantitat = entry.getValue();
+            CtrlProducte.incrementar_stock(nom, quantitat);
+        }
     }
 
-    public void reposarPrestatgeria() {
-        // Código para reponer la prestatgeria
-        System.out.println("Prestatgeria repuesta.");
+    public void reposarPrestatgeria(String id) {
+        Map<String,Integer> productes = CtrlPrestatgeria.getProductesPrestatgeria(id);
+        for(Map.Entry<String, Integer> entry : productes.entrySet()){
+            int stock = CtrlProducte.get_stock(entry.getKey());
+            int max = CtrlProducte.getmaxhueco(entry.getKey());
+            int actual = entry.getValue();
+            if(actual < max){
+                int aafegir = max - actual;
+                if(aafegir <= stock){
+                    CtrlPrestatgeria.afegirProducte(id, entry.getKey(), aafegir);
+                    CtrlProducte.decrementar_stock(entry.getKey(), aafegir);
+                }
+                else{
+                    CtrlPrestatgeria.afegirProducte(id, entry.getKey(), stock);
+                    CtrlProducte.decrementar_stock(entry.getKey(), stock);
+                }
+            }
+        }
+    }
+    public void fixarProducte(String id, String nomProducte) {
+        CtrlPrestatgeria.fixarProducte(id, nomProducte);
     }
 
-    public void printPrestatgeria() {
-        // Código para imprimir los detalles de la prestatgeria
-        System.out.println("Detalles de la prestatgeria impresos.");
+    public void desfixarProducte(String id, String nomProducte) {
+        CtrlPrestatgeria.desfixarProducte(id, nomProducte);
+    }
+
+    public void retirarProducteAMagatzem(String id,String nomProducte) {
+        Pair<String,Integer> producteretirat = CtrlPrestatgeria.retirarProductePrestatgeria(id, nomProducte);
+        if(producteretirat.getKey() != null){
+            String nom = producteretirat.getKey();
+            int quantitat = producteretirat.getValue();
+            CtrlProducte.incrementar_stock(nom, quantitat);
+        }
+    }
+
+    public void printPrestatgeria(String id) {
+        CtrlPrestatgeria.printPrestatgeria(id);
     }
 
     //Caixa
@@ -131,7 +182,7 @@ public class CtrlDomini {
 
         if(CtrlProducte.existeix_producte(nom_producte)){
             int quantitat_ja_afegida = Caixa.get_quantitat(nom_producte, id_prestatgeria);
-            if(!CtrlPrestatgeria.contains_producte(nom_producte, quantitat, id_prestatgeria, quantitat_ja_afegida)){
+            if(!CtrlPrestatgeria.contains_quantitat(nom_producte, quantitat, id_prestatgeria, quantitat_ja_afegida)){
                 System.out.println("Error: El producte no està a la prestatgeria o no hi ha suficient quantitat");
             }
             else{
@@ -146,21 +197,6 @@ public class CtrlDomini {
     // Retirar producto de la caja
     public void retirar_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria) {
         Caixa.retirar_producte(nom_producte, quantitat, id_prestatgeria);
-    }
-
-    public void fixarProducte(String nomProducte, int hueco) {
-        // Código para fijar el producto en un hueco
-        System.out.println("Producto " + nomProducte + " fijado en el hueco " + hueco + ".");
-    }
-
-    public void desfixarProducte(String nomProducte) {
-        // Código para desfijar el producto de un hueco
-        System.out.println("Producto " + nomProducte + " desfijado del hueco.");
-    }
-
-    public void retirarProducteAMagatzem(String nomProducte) {
-        // Código para retirar el producto y mandarlo a Magatzem
-        System.out.println("Producto " + nomProducte + " retirado a Magatzem.");
     }
 
     // Consultar la cantidad de un producto específico en una estantería de la caja
@@ -212,6 +248,7 @@ public class CtrlDomini {
 
     public void eliminar_producte(String nom) {
         //Lo eliminamos del almacen
+        CtrlPrestatgeria.eliminar_producte(nom);
         CtrlProducte.eliminar_producte(nom);
         //Lo eliminamos de las prestatgerias
     }

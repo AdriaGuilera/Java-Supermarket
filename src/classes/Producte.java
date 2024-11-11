@@ -3,6 +3,7 @@ package classes;
 import java.util.Map;
 import java.util.HashMap;
 
+import static java.lang.Integer.max;
 
 
 public class Producte {
@@ -68,11 +69,15 @@ public class Producte {
     }
 
     public void incrementar_stock(int quant) {
-        stock_magatzem += quant;
+        if(stock_magatzem + quant > max_magatzem) {
+            System.out.println("Error: la quantitat a afegir supera la capacitat del magatzem, stock set to max");
+            stock_magatzem = max_magatzem;
+        }
+        else stock_magatzem += quant;
     }
 
     public void decrementar_stock(int quant) {
-        stock_magatzem -= quant;
+        stock_magatzem = max(stock_magatzem - quant, 0);
     }
 
     //Si el Producte nom ja té similitud assignada, es sobreescriurà amb la nova
