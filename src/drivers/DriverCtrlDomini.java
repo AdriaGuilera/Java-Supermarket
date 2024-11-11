@@ -199,14 +199,31 @@ public class DriverCtrlDomini {
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
         ctrlDomini.afegir_producte_caixa(nomProducte, quantitat, idPrestatgeria);
+        System.out.println(quantitat + "unidades del producto " + nomProducte + " de la prestatgeria " + idPrestatgeria +  " añadidos a la Caja!");
     }
-    public static void testRetirarProducteCaixa(Scanner scanner) {}
+    public static void testRetirarProducteCaixa(Scanner scanner) {
+        System.out.println("Nombre del Producto:");
+        String nomProducte = readLine(scanner);
+        System.out.println("Cantidad:");
+        int quantitat = Integer.parseInt(readLine(scanner));
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        ctrlDomini.retirar_producte_caixa(nomProducte, quantitat, idPrestatgeria);
+        System.out.println(quantitat + "unidades del producto " + nomProducte + " de la prestatgeria " + idPrestatgeria +  " retirados de la Caja!");
+    }
 
-    public static void testPrintTicket() {}
+    public static void testPrintTicket() {
+        ctrlDomini.imprimir_ticket_caixa();
+    }
 
-    public static void testPrintTicketPerPrestatgeries() {}
+    public static void testPrintTicketPerPrestatgeries(){
+        ctrlDomini.imprimir_ticket_per_prestatgeries();
+    }
 
-    public static void testPagar() {}
+    public static void testPagar() {
+        ctrlDomini.pagar_caixa();
+        System.out.println("Caja pagada y vaciada!");
+    }
 
     //Magatzem(Productes)
 
