@@ -63,7 +63,7 @@ public class DriverComanda {
         System.out.println("Producte eliminat correctament de la Comanda!");
     }
 
-    public static void testGetOrdres(){
+    public static void testPrintOrdres(){
         System.out.println(comanda.getOrdres());
     }
 
@@ -87,7 +87,7 @@ public class DriverComanda {
                 testEliminarProducte(scanner);
                 break;
             case GET_ORDRES:
-                testGetOrdres();
+                testPrintOrdres();
                 break;
             case OBTENIR_QUANTITAT_PRODUCTE:
                 testObtenirQuantitatProducte(scanner);
