@@ -168,43 +168,130 @@ public class DriverCtrlDomini {
 
 
     //Prestatgeria
+// Métodos de Prestatgeria
+
     public static void testAfegirProductePrestatgeria(Scanner scanner) {
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
         System.out.println("Cantidad:");
         int quantitat = Integer.parseInt(readLine(scanner));
-
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        ctrlDomini.afegirProductePrestatgeria(nomProducte, quantitat, idPrestatgeria);
+        System.out.println("Producto añadido a la prestatgeria.");
     }
 
-    public static void testMoureProducteDeHueco(Scanner scanner) {}
+    public static void testMoureProducteDeHueco(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        System.out.println("Nombre del Producto:");
+        String nomProducte = readLine(scanner);
+        System.out.println("Hueco de origen:");
+        int huecoOrigen = Integer.parseInt(readLine(scanner));
+        System.out.println("Hueco de destino:");
+        int huecoDestino = Integer.parseInt(readLine(scanner));
+        ctrlDomini.moureProducteDeHueco(idPrestatgeria, nomProducte, huecoOrigen, huecoDestino);
+        System.out.println("Producto movido de hueco.");
+    }
 
-    public static void testFixarProducte(Scanner scanner) {}
+    public static void testFixarProducte(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        System.out.println("Nombre del Producto:");
+        String nomProducte = readLine(scanner);
+        ctrlDomini.fixarProducte(idPrestatgeria, nomProducte);
+        System.out.println("Producto fijado en la prestatgeria.");
+    }
 
-    public static void testDesfixarProducte(Scanner scanner) {}
+    public static void testDesfixarProducte(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        System.out.println("Nombre del Producto:");
+        String nomProducte = readLine(scanner);
+        ctrlDomini.desfixarProducte(idPrestatgeria, nomProducte);
+        System.out.println("Producto desfijado de la prestatgeria.");
+    }
 
-    public static void testRetirarProducteAMagatzem(Scanner scanner) {}
+    public static void testRetirarProducteAMagatzem(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        System.out.println("Nombre del Producto:");
+        String nomProducte = readLine(scanner);
+        ctrlDomini.retirarProducteAMagatzem(idPrestatgeria, nomProducte);
+        System.out.println("Producto retirado al magatzem.");
+    }
 
-    public static void testDecrementarStockAProducte(Scanner scanner) {}
+    public static void testDecrementarStockAProducte(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        System.out.println("Nombre del Producto:");
+        String nomProducte = readLine(scanner);
+        System.out.println("Cantidad a decrementar:");
+        int cantidad = Integer.parseInt(readLine(scanner));
+        ctrlDomini.decrementarStockAProducte(idPrestatgeria, nomProducte, cantidad);
+        System.out.println("Stock decrementado.");
+    }
 
-    public static void testAfegirStockAProducte(Scanner scanner) {}
+    public static void testGenerarDistribucioBacktracking(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        ctrlDomini.generarDistribucioBacktracking(idPrestatgeria);
+        System.out.println("Distribución generada (Backtracking) en prestatgeria.");
+    }
 
-    public static void testGenerarDistribucio() {}
+    public static void testGenerarDistribucioHillClimbing(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        ctrlDomini.generarDistribucioHillClimbing(idPrestatgeria);
+        System.out.println("Distribución generada (Hill Climbing) en prestatgeria.");
+    }
 
-    public static void testGenerarDistribucioBacktracking() {}
+    public static void testAfegirPrestatgeria(Scanner scanner) {
+        System.out.println("ID de la nueva Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        System.out.println("Mida prestage:");
+        int midaPrestatge = Integer.parseInt(readLine(scanner));
+        System.out.println("Mida prestatgeria");
+        int midaPrestatgeria = Integer.parseInt(readLine(scanner));
+        ctrlDomini.afegirPrestatgeria(idPrestatgeria, midaPrestatge,midaPrestatgeria);
+        System.out.println("Prestatgeria añadida.");
+    }
 
-    public static void testGenerarDistribucioHillClimbing() {}
+    public static void testEliminarPrestatgeria(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria a eliminar:");
+        String idPrestatgeria = readLine(scanner);
+        ctrlDomini.eliminarPrestatgeria(idPrestatgeria);
+        System.out.println("Prestatgeria eliminada.");
+    }
 
-    public static void testAfegirPrestatgeria(Scanner scanner) {}
+    public static void testAfegirPrestatge(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        ctrlDomini.afegirPrestatge(idPrestatgeria);
+        System.out.println("Prestatge añadido a la prestatgeria.");
+    }
 
-    public static void testEliminarPrestatgeria(Scanner scanner) {}
+    public static void testEliminarPrestatge(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
 
-    public static void testAfegirPrestatge(Scanner scanner) {}
+        ctrlDomini.eliminarPrestatge(idPrestatgeria);
+        System.out.println("Prestatge eliminado de la prestatgeria.");
+    }
 
-    public static void testEliminarPrestatge(Scanner scanner) {}
+    public static void testReposarPrestatgeria(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        ctrlDomini.reposarPrestatgeria(idPrestatgeria);
+        System.out.println("Prestatgeria repuesta.");
+    }
 
-    public static void testReposarPrestatgeria(Scanner scanner) {}
+    public static void testPrintPrestatgeria(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        ctrlDomini.printPrestatgeria(idPrestatgeria);
+    }
 
-    public static void testPrintPrestatgeria(Scanner scanner) {}
 
 
 
@@ -361,17 +448,11 @@ public class DriverCtrlDomini {
             case DECREMENTAR_STOCK_A_PRODUCTE:
                 testDecrementarStockAProducte(scanner);
                 break;
-            case AFEGIR_STOCK_A_PRODUCTE:
-                testAfegirStockAProducte(scanner);
-                break;
-            case GENERAR_DISTRIBUCIO:
-                testGenerarDistribucio();
-                break;
             case GENERAR_DISTRIBUCIO_BACKTRACKING:
-                testGenerarDistribucioBacktracking();
+                testGenerarDistribucioBacktracking(scanner);
                 break;
             case GENERAR_DISTRIBUCIO_HILL_CLIMBING:
-                testGenerarDistribucioHillClimbing();
+                testGenerarDistribucioHillClimbing(scanner);
                 break;
             case AFEGIR_PRESTATGERIA:
                 testAfegirPrestatgeria(scanner);

@@ -14,13 +14,19 @@ public class CtrlPrestatgeria {
 
     public  void afegirPrestatgeria(String id, int mida, int mida_prestatge) {
         if (!prestatgeries.containsKey(id)){
-            Prestatgeria pr = new Prestatgeria(id, mida, mida_prestatge);
-            prestatgeries.put(id, pr);
+            if(mida%mida_prestatge!=0){
+                System.out.println("Error: La mida de la prestatgeria a de ser multiple de la del prestatge");
+            }else {
+                Prestatgeria pr = new Prestatgeria(id, mida, mida_prestatge);
+                prestatgeries.put(id, pr);
+            }
+
         }
         else {
             System.out.println("Error: Ja existeix una prestatgeria amb aquest identificador.");
         }
     }
+
     public Map<String,Integer> getProductesPrestatgeria(String id) {
         if (prestatgeries.containsKey(id)){
             return prestatgeries.get(id).get_productes();

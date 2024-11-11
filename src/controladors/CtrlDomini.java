@@ -122,7 +122,7 @@ public class CtrlDomini {
         }
     }
 
-    public void afegirPrestatge(String idPrestatgeria, int prestatgeId) {
+    public void afegirPrestatge(String idPrestatgeria) {
         // Código para agregar un prestatge
         CtrlPrestatgeria.afegir_prestatge(idPrestatgeria);
     }
