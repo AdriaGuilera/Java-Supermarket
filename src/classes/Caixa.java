@@ -14,31 +14,27 @@ public class Caixa {
     public void afegir_producte(String nom_producte, int quantitat, String id_prestatgeria){
         Vector<Pair<String, Integer>> pairs =  productes.get(nom_producte);
 
-        if(pairs==null) {
-            Vector<Pair<String, Integer>> newPairs = new Vector<>();
-            newPairs.add(new Pair<>(id_prestatgeria, quantitat));
-            productes.put(nom_producte, newPairs);
-            return;
-        }
-
-        boolean found = false;
-        for (Pair<String, Integer> pair : pairs) {
-            if (pair.getKey().equals(id_prestatgeria)) {
-            pair.setValue(pair.getValue() + quantitat);
-                found = true;
-                break;
+        if(pairs != null) {
+            boolean found = false;
+            int i = 0;
+            while (i < pairs.size() && !found) {
+                Pair<String, Integer> pair = pairs.get(i);
+                if (pair.getKey().equals(id_prestatgeria)) {
+                    pair.setValue(pair.getValue() + quantitat);
+                    found = true;
+                }
+                i++;
+            }
+            if (!found) {
+                pairs.add(new Pair<>(id_prestatgeria, quantitat));
+                productes.get(nom_producte).add(new Pair<>(id_prestatgeria, quantitat));
             }
         }
-        if (!found) {
-            pairs.add(new Pair<>(id_prestatgeria, quantitat));
-        }
-
         else{
             Vector<Pair<String, Integer>> newPairs = new Vector<>();
             newPairs.add(new Pair<>(id_prestatgeria, quantitat));
             productes.put(nom_producte, newPairs);
         }
-
     }
 
     public void retirar_producte(String nom_producte, int quantitat, String id_prestatgeria){
@@ -49,22 +45,24 @@ public class Caixa {
             while (i < pairs.size() && !found) {
                 Pair<String, Integer> pair = pairs.get(i);
                 if (pair.getKey().equals(id_prestatgeria)) {
-                    if (pair.getValue() > quantitat) {
+                    if (pair.getValue() >= quantitat) {
                         pair.setValue(pair.getValue() - quantitat);
+                        if (pair.getValue() == 0) {
+                            pairs.remove(pair);
+                        }
                     } else {
                         System.out.println("Error: quantitat a retirar major que la quantitat a la caixa.");
                     }
                     found = true;
-                    if(pair.getValue() == 0){
-                        pairs.remove(pair);
-                    }
                 }
                 i++;
             }
+            productes.put(nom_producte, pairs); //actualitzem el producte
             if (!found) {
                 System.out.println("Error: Prestatgeria del producte erronea.");
             }
-        } else {
+        }
+        else {
         System.out.println("Error: Producte no esta a Caixa.");
     }
     }
@@ -105,7 +103,6 @@ public class Caixa {
         }
 
     }
-
 
 
     public void pagar(){
