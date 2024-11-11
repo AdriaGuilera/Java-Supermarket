@@ -27,11 +27,17 @@ public class CtrlDomini {
     public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) {
         CtrlComandes.afegirProducteComanda(nomComanda,nomProducte,quantitat);
     }
+    public void eliminarProducteComanda(String nomComanda, String nomProducte) {
+        CtrlComandes.eliminarProducteComanda(nomComanda,nomProducte);
+    }
     public Map<String, Comanda> obtenirComandes(String[] nomsComandes) {
         return CtrlComandes.obtenirComandes(nomsComandes);
     }
-    public void consultarComandes() {
-        CtrlComandes.consultarComandes();
+    public void printComandes() {
+        CtrlComandes.printComandes();
+    }
+    public void printComandaUnica(String nomComanda) {
+        CtrlComandes.printComandaUnica(nomComanda);
     }
 
     //Prestatgeria
