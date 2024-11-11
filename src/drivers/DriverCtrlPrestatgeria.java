@@ -151,16 +151,12 @@ public class DriverCtrlPrestatgeria {
         System.out.println("Introdueix el nom del producte:");
         String nom_producte = readLine(scanner);
 
-        System.out.println("Introdueix la quantitat:");
-        int quantitat = Integer.parseInt(readLine(scanner));
 
         System.out.println("Introdueix l'ID de la prestatgeria:");
         String id_prestatgeria = readLine(scanner);
 
-        System.out.println("Introdueix la quantitat ja afegida:");
-        int quantitat_ja_afegida = Integer.parseInt(readLine(scanner));
 
-        boolean result = ctrlPrestatgeria.contains_producte(nom_producte, quantitat, id_prestatgeria, quantitat_ja_afegida);
+        boolean result = ctrlPrestatgeria.contains_producte(id_prestatgeria, nom_producte);
         System.out.println(result ? "El producte està a la prestatgeria" : "El producte no està a la prestatgeria");
     }
 
