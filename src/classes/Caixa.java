@@ -108,4 +108,27 @@ public class Caixa {
     public void pagar(){
         productes.clear();
     }
+
+    //retorna els productes de la caixa, amb un mapa de <id_prestatgeria, <nom_producte, quantitat>> "girant" el mapa
+    public Map<String, Map<String, Integer>> get_productes(){
+        Map<String, Map<String, Integer>> productes_caixa = new HashMap<>();
+        for (Map.Entry<String, Vector<Pair<String, Integer>>> entry : productes.entrySet()) {
+            String key = entry.getKey();
+            Vector<Pair<String, Integer>> value = entry.getValue();
+            for (Pair<String, Integer> pair : value) {
+                String id_prestatgeria = pair.getKey();
+                int quantitat = pair.getValue();
+                if(productes_caixa.containsKey(id_prestatgeria)){
+                    productes_caixa.get(id_prestatgeria).put(key, quantitat);
+                }
+                else{
+                    Map<String, Integer> productes = new HashMap<>();
+                    productes.put(key, quantitat);
+                    productes_caixa.put(id_prestatgeria, productes);
+                }
+            }
+        }
+        return productes_caixa;
+    }
+
 }
