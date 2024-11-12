@@ -1,1 +1,74 @@
+//Crear prestatgeria
+17
+pres1
+5
+20
+//Afegir 4 producte Magatzem
+30
+pera1
+5
+5
+
+30
+pera2
+5
+5
+
+30
+pera3
+5
+5
+
+30
+pera4
+5
+5
+//Generar comanda automatica
+29
+comandaAuto
+
+//Executar comanda automatica guardada
+28
+comandaAuto
+
+//Añadimos los productos a la prestatgeria
 7
+pera1
+5
+pres1
+
+7
+pera2
+5
+pres1
+
+7
+pera3
+5
+pres1
+
+7
+pera4
+5
+pres1
+//Añadimos una similitud
+32
+pera2
+pera4
+7
+//Movemos producto de sitio
+
+8
+pres1
+pera3
+2
+7
+
+//fijamos un producto
+9
+pres1
+pera3
+
+//invocamos la funcion de ordenar (Backtracking)
+15
+pres1

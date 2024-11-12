@@ -24,8 +24,6 @@ public class DriverCtrlDomini {
     private static final String DESFIXAR_PRODUCTE = "10";
     private static final String RETIRAR_PRODUCTE_A_MAGATZEM = "11";
     private static final String DECREMENTAR_STOCK_A_PRODUCTE = "12";
-    private static final String AFEGIR_STOCK_A_PRODUCTE = "13";
-    private static final String GENERAR_DISTRIBUCIO = "14";
     private static final String GENERAR_DISTRIBUCIO_BACKTRACKING = "15";
     private static final String GENERAR_DISTRIBUCIO_HILL_CLIMBING = "16";
     private static final String AFEGIR_PRESTATGERIA = "17";
@@ -76,8 +74,6 @@ public class DriverCtrlDomini {
             "   " + DESFIXAR_PRODUCTE + " - Desfijar un producto de un hueco\n" +
             "   " + RETIRAR_PRODUCTE_A_MAGATZEM + " - Retirar producto a Magatzem\n" +
             "   " + DECREMENTAR_STOCK_A_PRODUCTE + " - Decrementar stock de un producto\n" +
-            "   " + AFEGIR_STOCK_A_PRODUCTE + " - Agregar stock a un producto\n" +
-            "   " + GENERAR_DISTRIBUCIO + " - Generar distribución en Prestatgeria\n" +
             "   " + GENERAR_DISTRIBUCIO_BACKTRACKING + " - Generar distribución (Backtracking)\n" +
             "   " + GENERAR_DISTRIBUCIO_HILL_CLIMBING + " - Generar distribución (Hill Climbing)\n" +
             "   " + AFEGIR_PRESTATGERIA + " - Agregar una nueva Prestatgeria\n" +
@@ -95,8 +91,8 @@ public class DriverCtrlDomini {
             "   " + PAGAR + " - Pagar y vaciar la Caixa\n" +
             "  \n"+
             "GESTIÓ DE MAGATZEM (PRODUCTES):  \n"+
-            "   " + EXECUTAR_COMANDES + " - Ejecutar Comandas pendientes\n" +
-            "   " + OBTENIR_COMANDA_AUTOMATICA + " - Obtener Comanda automática\n" +
+            "   " + EXECUTAR_COMANDES + " - Ejecutar Comandas seleccionadas\n" +
+            "   " + OBTENIR_COMANDA_AUTOMATICA + " - Obtener Comanda automática con los productos que faltan en el Almacen\n" +
             "   " + ALTA_PRODUCTE + " - Dar de alta un nuevo producto\n" +
             "   " + ELIMINAR_PRODUCTE + " - Eliminar un producto\n" +
             "   " + AFEGIR_SIMILITUD + " - Agregar similitud entre productos\n" +
@@ -268,7 +264,7 @@ public class DriverCtrlDomini {
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
         ctrlDomini.afegirPrestatge(idPrestatgeria);
-        System.out.println("Prestatge añadido a la prestatgeria.");
+
     }
 
     public static void testEliminarPrestatge(Scanner scanner) {

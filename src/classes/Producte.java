@@ -49,7 +49,7 @@ public class Producte {
     }
 
     public float getSimilitud(String nom) {
-        return similitud.get(nom);
+        return similitud.getOrDefault(nom, 0f); // Retorna 0 si 'nom' no está en el mapa
     }
 
     public void mod_nom(String nou_nom) {

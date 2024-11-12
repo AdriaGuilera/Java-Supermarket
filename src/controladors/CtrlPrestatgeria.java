@@ -120,6 +120,7 @@ public class CtrlPrestatgeria {
         else{
             Prestatgeria pr = prestatgeries.get(id);
             pr.afegir_prestatge();
+            System.out.println("Prestatge añadido a la prestatgeria.");
         }
     }
     
@@ -135,7 +136,7 @@ public class CtrlPrestatgeria {
     }
 
     //Mou un producte del magatzem a la prestatgeria
-    public void afegirProducte(String nom, String id_prest,int quantitat) {
+    public void afegirProducte(String id_prest, String nom,int quantitat) {
         if(!prestatgeries.containsKey(id_prest)) {
             System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
             return;
@@ -178,6 +179,7 @@ public class CtrlPrestatgeria {
             return;
         }
         else{
+            System.out.println("Prestatgeria " + id + ":");
             Prestatgeria pr = prestatgeries.get(id);
             pr.imprimirdistribucio();
         }

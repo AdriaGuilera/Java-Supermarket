@@ -96,14 +96,18 @@ public class CtrlDomini {
         // Código para generar distribución usando el método Backtracking
         Vector<String> productes = CtrlPrestatgeria.getNomsProductes(id_prestatgeria);
         Set<String> fixats = CtrlPrestatgeria.getProductesFixats(id_prestatgeria);
+        System.out.println(productes);
         Vector<String> novadist = Algorismes.encontrarMejorDistribucionBacktracking(productes , fixats);
+        System.out.println(novadist);
         CtrlPrestatgeria.setDistribucio(id_prestatgeria, novadist);
     }
 
     public void generarDistribucioHillClimbing(String id_prestatgeria) {
         Vector<String> productes = CtrlPrestatgeria.getNomsProductes(id_prestatgeria);
         Set<String> fixats = CtrlPrestatgeria.getProductesFixats(id_prestatgeria);
+        System.out.println("HOLA");
         Vector<String> novadist = Algorismes.encontrarMejorDistribucionHillClimbing(productes , fixats);
+        System.out.println("HOLA");
         CtrlPrestatgeria.setDistribucio(id_prestatgeria, novadist);
 
     }
@@ -130,11 +134,16 @@ public class CtrlDomini {
     public void eliminarPrestatge(String idPrestatgeria) {
         // Código para eliminar un prestatge
         Map<String,Integer> eliminats = CtrlPrestatgeria.eliminar_prestatge(idPrestatgeria);
-        for(Map.Entry<String, Integer> entry : eliminats.entrySet()){
-            String nom = entry.getKey();
-            int quantitat = entry.getValue();
-            CtrlProducte.incrementar_stock(nom, quantitat);
-        }
+        System.out.println(eliminats);
+
+            for(Map.Entry<String, Integer> entry : eliminats.entrySet()){
+                System.out.println("manuel");
+                String nom = entry.getKey();
+                int quantitat = entry.getValue();
+                CtrlProducte.incrementar_stock(nom, quantitat);
+            }
+
+
     }
 
     public void reposarPrestatgeria(String id) {
@@ -146,11 +155,11 @@ public class CtrlDomini {
             if(actual < max){
                 int aafegir = max - actual;
                 if(aafegir <= stock){
-                    CtrlPrestatgeria.afegirProducte(id, entry.getKey(), aafegir);
+                    CtrlPrestatgeria.incrementar_quantitat_producte(id, entry.getKey(), aafegir);
                     CtrlProducte.decrementar_stock(entry.getKey(), aafegir);
                 }
                 else{
-                    CtrlPrestatgeria.afegirProducte(id, entry.getKey(), stock);
+                    CtrlPrestatgeria.incrementar_quantitat_producte(id, entry.getKey(), stock);
                     CtrlProducte.decrementar_stock(entry.getKey(), stock);
                 }
             }

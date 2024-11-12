@@ -61,7 +61,15 @@ public class Prestatgeria {
 	}
 	
 	public  Vector<String> getNomsProductes(){
-		return new Vector<>(productes.keySet());
+		Vector<String> nombres = new Vector<>();
+		for(int i=0; i<mida_prestatgeria; ++i){
+			if(posicions.containsKey(i)){
+				nombres.add(posicions.get(i));
+			}else{
+				nombres.add(null);
+			}
+		}
+		return nombres;
 	}
 
 	public int getProductesSize(){
@@ -83,23 +91,32 @@ public class Prestatgeria {
 	}
 	
 	public void afegir_prestatge() {
+		for(int i =0; i<mida_prestatge; ++i){
+			posicions.put(mida_prestatgeria+i,null);
+		}
 		this.mida_prestatgeria += mida_prestatge;
 	}
 
 
 	public Map<String,Integer> eliminar_prestatge() {
 		Map<String,Integer> productes_eliminats = new HashMap<>();
-		 for(int i = mida_prestatgeria - mida_prestatge; i<mida_prestatgeria; i++) {
-			 if(posicions.containsKey(i)) {
-				 String nomP = posicions.get(i);
-				 productes_eliminats.put(nomP, productes.get(nomP));
+		if(mida_prestatge<=mida_prestatgeria) {
+			for (int i = mida_prestatgeria - mida_prestatge; i < mida_prestatgeria; i++) {
+				System.out.println("bolivia");
 
-				 productes.remove(nomP);
-				 productes_fixats.remove(nomP);
-				 posicions.remove(i);
-			 }
-		 }
-		 mida_prestatgeria -= mida_prestatge;
+				if (posicions.containsKey(i)) {
+					String nomP = posicions.get(i);
+					if (nomP != null) productes_eliminats.put(nomP, productes.get(nomP));
+
+
+					productes.remove(nomP);
+					productes_fixats.remove(nomP);
+					posicions.remove(i);
+				}
+			}
+			mida_prestatgeria -= mida_prestatge;
+			System.out.println(posicions);
+		}
 		 return productes_eliminats;
 	}
 	
@@ -147,21 +164,30 @@ public class Prestatgeria {
 			return;
 		}
 		if(posicions.containsKey(hueco_desti)) {
-			System.out.println("Error: Ja existeix un producte a la posicio desti.");
-			return;
+			System.out.println("Swap productes");
+			String nomPdesti = posicions.get(hueco_desti);
+			String nomP = posicions.get(hueco_origen);
+			posicions.remove(hueco_origen);
+			posicions.remove(hueco_desti);
+			posicions.put(hueco_desti, nomP);
+			posicions.put(hueco_origen, nomPdesti);
+		}else{
+			String nomP = posicions.get(hueco_origen);
+			posicions.remove(hueco_origen);
+			posicions.put(hueco_desti, nomP);
 		}
-		String nomP = posicions.get(hueco_origen);
-		posicions.remove(hueco_origen);
-		posicions.put(hueco_desti, nomP);
+
 	}
 
 	public void setDistribucio(Vector<String> ordre) {
 		int i = 0;
 		posicions.clear();
+		System.out.println("hola5");
 		for(String nomP: ordre) {
 			posicions.put(i, nomP);
 			i++;
 		}
+		System.out.println("hola5");
 	}
 
 

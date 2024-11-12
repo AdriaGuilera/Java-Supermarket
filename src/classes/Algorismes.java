@@ -11,7 +11,7 @@ public class Algorismes {
 
     public Vector<String> encontrarMejorDistribucionBacktracking(Vector<String> distribucion, Set<String> productosFijos) {
         maxSimilitud = 0.0;
-        mejorDistribucion = null;
+        mejorDistribucion = distribucion;
 
 
         // Creamos una lista de índices que no están fijos
@@ -88,6 +88,7 @@ public class Algorismes {
 
         boolean hayMejora = true;
         while (hayMejora) {
+            System.out.println(mejorDistribucion);
             hayMejora = false;
             Vector<String> mejorVecino = null;
             double mejorSimilitudVecino = maxSimilitud;
@@ -118,7 +119,7 @@ public class Algorismes {
                 maxSimilitud = mejorSimilitudVecino;
             }
         }
-
+        System.out.println(maxSimilitud);
         return mejorDistribucion;
     }
 
