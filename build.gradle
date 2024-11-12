@@ -2,8 +2,7 @@ plugins {
     id 'java'  // Aplica el plugin de Java
 }
 
-group = 'com.ejemplo'        // Nombre del grupo, como el paquete base de tu proyecto
-version = '1.0.0'            // Versión del proyecto
+
 
 repositories {
     mavenCentral()           // Gradle descargará dependencias desde Maven Central
