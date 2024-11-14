@@ -24,12 +24,9 @@ public class CtrlDomini {
         }
     }
 
-    public void eliminarComanda(String nomComanda) {
-        try {
+    public void eliminarComanda(String nomComanda) throws ComandaNotFoundException {
             CtrlComandes.eliminarComanda(nomComanda);
-        } catch (IllegalArgumentException e) {
-            throw e; // Reenvía la excepción
-        }
+
     }
 
 

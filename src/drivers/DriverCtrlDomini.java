@@ -124,13 +124,22 @@ public class DriverCtrlDomini {
     public static void testCrearComanda(Scanner scanner) {
         System.out.println("Nombre de la Comanda:");
         String nomComanda = readLine(scanner);
-        ctrlDomini.crearComanda(nomComanda);
+        try {
+            ctrlDomini.crearComanda(nomComanda);
+            System.out.println("Comanda creada correctament.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
-
     public static void testEliminarComanda(Scanner scanner) {
         System.out.println("Nombre de la Comanda a eliminar:");
         String nomComanda = readLine(scanner);
-        ctrlDomini.eliminarComanda(nomComanda);
+        try {
+            ctrlDomini.eliminarComanda(nomComanda);
+            System.out.println("Comanda eliminada correctament.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public static void testAfegirProducteComanda(Scanner scanner) {
@@ -140,36 +149,47 @@ public class DriverCtrlDomini {
         String nomProducte = readLine(scanner);
         System.out.println("Cantidad:");
         int quantitat = Integer.parseInt(readLine(scanner));
-        try{
+
+        try {
             ctrlDomini.afegirProducteComanda(nomComanda, nomProducte, quantitat);
-            System.out.println("Producto añadido a la comanda.");
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("Producte afegit correctament a la comanda.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
+
     public static void testEliminarProducteComanda(Scanner scanner) {
         System.out.println("Nombre de la Comanda:");
         String nomComanda = readLine(scanner);
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
-        ctrlDomini.eliminarProducteComanda(nomComanda,nomProducte);
 
-
+        try {
+            ctrlDomini.eliminarProducteComanda(nomComanda, nomProducte);
+            System.out.println("Producte eliminat correctament de la comanda.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
-    public static void testGetComandes(Scanner scanner) {
-        ctrlDomini.getComandes();
+    public static void testGetComandes() {
+        try {
+            ctrlDomini.getComandes();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
-
 
     public static void testGetComandaUnica(Scanner scanner) {
         System.out.println("Nombre de la Comanda:");
         String nomComanda = readLine(scanner);
-        ctrlDomini.getComandaUnica(nomComanda);
+
+        try {
+            ctrlDomini.getComandaUnica(nomComanda);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
-
-
 
 
 
@@ -442,7 +462,7 @@ public class DriverCtrlDomini {
                 testGetComandaUnica(scanner);
                 break;
             case PRINT_COMANDES:
-                testGetComandes(scanner);
+                testGetComandes();
                 break;
 
             // Prestatgeria

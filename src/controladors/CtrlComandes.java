@@ -55,9 +55,9 @@ public class CtrlComandes {
     }
 
     // Método para eliminar una comanda
-    public void eliminarComanda(String nomComanda) {
+    public void eliminarComanda(String nomComanda) throws IllegalArgumentException{
         if (comandes_creades.remove(nomComanda) == null) {
-            throw new IllegalArgumentException("No s'ha trobat cap comanda amb aquest nom.");
+            throw new ComandaNotFoundException(nomComanda);
         }
     }
 
