@@ -33,31 +33,23 @@ public class CtrlDomini {
     }
 
 
-    public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) {
-        try {
+    public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) throws QuanitatInvalidException, ComandaNotFoundException,ProductNotFound  {
+           if(!CtrlProducte.existeix_producte(nomProducte)) {
+               throw new ProductNotFound(nomProducte);
+           }
             CtrlComandes.afegirProducteComanda(nomComanda, nomProducte, quantitat);
-        } catch (ProducteJaExisteixException | IllegalArgumentException e) {
-            throw e; // Reenvía la excepción
-        }
     }
 
-    public void eliminarProducteComanda(String nomComanda, String nomProducte) {
-        try {
+    public void eliminarProducteComanda(String nomComanda, String nomProducte) throws ProductNotFoundComandaException{
+
             CtrlComandes.eliminarProducteComanda(nomComanda, nomProducte);
-        } catch (ProductNotFoundComandaException | IllegalArgumentException e) {
-            throw e; // Reenvía la excepción
-        }
     }
 
     public void getComandes() {
         CtrlComandes.getComandes();
     }
     public void getComandaUnica(String nomComanda) {
-        try {
             CtrlComandes.getComandaUnica(nomComanda);
-        } catch (ComandaNoExisteix e){
-            throw e;
-        }
     }
 
     //Prestatgeria
@@ -209,10 +201,7 @@ public class CtrlDomini {
     }
 
     //Caixa
-    public int afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria){
-        if(quantitat < 0) {
-            throw new QuanitatInvalidException();
-        }
+    public int afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria) throws QuanitatInvalidException, ProductNotFound {
         if(!CtrlProducte.existeix_producte(nom_producte)){
             throw new ProductNotFound(nom_producte);
         }

@@ -2,6 +2,7 @@ package classes;
 
 import Exepcions.ProducteJaExisteixException;
 import Exepcions.ProductNotFoundComandaException;
+import Exepcions.QuanitatInvalidException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,14 +29,14 @@ public class Comanda {
      * @throws ProducteJaExisteixException si el producto ya existe en la comanda.
      * @throws IllegalArgumentException si la cantidad es menor o igual a cero.
      */
-    public void afegirProducte(String nomProducte, int quantitat) {
+    public void afegirProducte(String nomProducte, int quantitat) throws QuanitatInvalidException {
         if (quantitat <= 0) {
-            throw new IllegalArgumentException("La quantitat ha de ser positiva.");
+            throw new QuanitatInvalidException();
         }
         if (ordres.containsKey(nomProducte)) {
-            throw new ProducteJaExisteixException(nomProducte);
+            ordres.compute(nomProducte, (k, v) -> v + quantitat);
         }
-        ordres.put(nomProducte, quantitat);
+        else ordres.put(nomProducte, quantitat);
     }
 
     /**

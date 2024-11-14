@@ -140,7 +140,13 @@ public class DriverCtrlDomini {
         String nomProducte = readLine(scanner);
         System.out.println("Cantidad:");
         int quantitat = Integer.parseInt(readLine(scanner));
-        ctrlDomini.afegirProducteComanda(nomComanda, nomProducte, quantitat);
+        try{
+            ctrlDomini.afegirProducteComanda(nomComanda, nomProducte, quantitat);
+            System.out.println("Producto añadido a la comanda.");
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     public static void testEliminarProducteComanda(Scanner scanner) {
         System.out.println("Nombre de la Comanda:");

@@ -3,7 +3,9 @@ package controladors;
 import java.util.HashMap;
 import java.util.Map;
 
-import Exepcions.ComandaNoExisteix;
+import Exepcions.ComandaNotFoundException;
+import Exepcions.ComandaNotFoundException;
+import Exepcions.QuanitatInvalidException;
 import classes.Comanda;
 import Exepcions.ProducteJaExisteixException;
 import Exepcions.ProductNotFoundComandaException;
@@ -30,16 +32,13 @@ public class CtrlComandes {
     }
 
     // Método para añadir un producto a una comanda
-    public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) {
+    public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) throws QuanitatInvalidException, ComandaNotFoundException {
         Comanda comanda = comandes_creades.get(nomComanda);
         if (comanda == null) {
-            throw new IllegalArgumentException("No existeix la comanda amb aquest nom.");
+            throw new ComandaNotFoundException(nomComanda);
         }
-        try {
-            comanda.afegirProducte(nomProducte, quantitat);
-        } catch (ProducteJaExisteixException | IllegalArgumentException e) {
-            throw e; // Reenvía la excepción
-        }
+        comanda.afegirProducte(nomProducte, quantitat);
+
     }
 
     // Método para eliminar un producto de una comanda
@@ -81,7 +80,7 @@ public class CtrlComandes {
     public Comanda getComandaUnica(String nomComanda) {
         if (comandes_creades.containsKey(nomComanda)) {        return comandes_creades.get(nomComanda);}
         else{
-            throw new ComandaNoExisteix(nomComanda);
+            throw new ComandaNotFoundException(nomComanda);
         }
     }
 

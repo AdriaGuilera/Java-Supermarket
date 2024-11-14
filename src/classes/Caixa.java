@@ -2,6 +2,7 @@ package classes;
 
 import Exepcions.NotEnoughQuantityCaixaWarning;
 import Exepcions.ProductNotFoundCaixaException;
+import Exepcions.QuanitatInvalidException;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -13,8 +14,11 @@ public class Caixa {
         productes = new HashMap<>();
     }
 
-    public void afegir_producte(String nom_producte, int quantitat){
-        if(productes.containsKey(nom_producte) && quantitat > 0){
+    public void afegir_producte(String nom_producte, int quantitat) throws QuanitatInvalidException{
+        if(quantitat <= 0){
+            throw new QuanitatInvalidException();
+        }
+        if(productes.containsKey(nom_producte)){
             productes.put(nom_producte, productes.get(nom_producte) + quantitat);
         }
         else{
@@ -22,7 +26,7 @@ public class Caixa {
         }
     }
 
-    public void retirar_producte(String nom_producte, int quantitat){
+    public void retirar_producte(String nom_producte, int quantitat) throws NotEnoughQuantityCaixaWarning, ProductNotFoundCaixaException{
         if(productes.containsKey(nom_producte)){
             if(productes.get(nom_producte) >= quantitat){
                 productes.put(nom_producte, productes.get(nom_producte) - quantitat);
