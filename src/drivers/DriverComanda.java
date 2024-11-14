@@ -59,7 +59,9 @@ public class DriverComanda {
     public static void testEliminarProducte(Scanner scanner){
         System.out.println("Escrigui el nom de Producte:");
         String nomProducte = readLine(scanner);
-        comanda.eliminarProducte(nomProducte);
+        System.out.println("Escrigui el nom de Producte:");
+        int quantitat = Integer.parseInt(readLine(scanner));
+        comanda.eliminarProducte(nomProducte,quantitat);
         System.out.println("Producte eliminat correctament de la Comanda!");
     }
 

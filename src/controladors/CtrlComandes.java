@@ -21,9 +21,7 @@ public class CtrlComandes {
 
     // Método para crear una nueva comanda
     public void crearComanda(String nomComanda) {
-        if (nomComanda == null || nomComanda.isEmpty()) {
-            throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
-        }
+
         if (comandes_creades.containsKey(nomComanda)) {
             throw new IllegalArgumentException("Ja existeix una comanda amb aquest nom.");
         }
@@ -34,24 +32,18 @@ public class CtrlComandes {
     // Método para añadir un producto a una comanda
     public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) throws QuanitatInvalidException, ComandaNotFoundException {
         Comanda comanda = comandes_creades.get(nomComanda);
-        if (comanda == null) {
-            throw new ComandaNotFoundException(nomComanda);
-        }
         comanda.afegirProducte(nomProducte, quantitat);
 
     }
 
     // Método para eliminar un producto de una comanda
-    public void eliminarProducteComanda(String nomComanda, String nomProducte) {
+    public void eliminarProducteComanda(String nomComanda, String nomProducte, int quantitat) throws ProductNotFoundComandaException,ComandaNotFoundException {
         Comanda comanda = comandes_creades.get(nomComanda);
         if (comanda == null) {
-            throw new IllegalArgumentException("No existeix la comanda amb aquest nom.");
+            throw new ComandaNotFoundException(nomComanda);
         }
-        try {
-            comanda.eliminarProducte(nomProducte);
-        } catch (ProductNotFoundComandaException e) {
-            throw e; // Reenvía la excepción
-        }
+
+            comanda.eliminarProducte(nomProducte, quantitat);
     }
 
     // Método para eliminar una comanda
@@ -77,7 +69,9 @@ public class CtrlComandes {
     public Map<String, Comanda> getComandes() {
         return new HashMap<>(comandes_creades); // Retorna una copia para evitar modificaciones externas
     }
-    public Comanda getComandaUnica(String nomComanda) {
+
+    //Devuelve una sola comanda
+    public Comanda getComandaUnica(String nomComanda) throws ComandaNotFoundException {
         if (comandes_creades.containsKey(nomComanda)) {        return comandes_creades.get(nomComanda);}
         else{
             throw new ComandaNotFoundException(nomComanda);
@@ -88,11 +82,13 @@ public class CtrlComandes {
     public void crearComandaAutomatica(String nomComanda, Map<String, Integer> productosFaltantes) {
         crearComanda(nomComanda);
         for (Map.Entry<String, Integer> entry : productosFaltantes.entrySet()) {
-            try {
                 afegirProducteComanda(nomComanda, entry.getKey(), entry.getValue());
-            } catch (ProducteJaExisteixException | IllegalArgumentException e) {
-                throw e; // Reenvía la excepción si ocurre
-            }
         }
     }
+
+    public boolean existeixComanda(String nomComanda) {
+        return comandes_creades.containsKey(nomComanda);
+    }
+
+
 }

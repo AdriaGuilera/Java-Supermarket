@@ -4,9 +4,11 @@ import Exepcions.NotEnoughQuantityPrestatgeriaWarning;
 import Exepcions.PrestatgeriaNotFoundException;
 import Exepcions.ProductNotFoundPrestatgeriaException;
 import Exepcions.QuanitatInvalidException;
+import classes.Comanda;
 import controladors.CtrlDomini;
 
 import java.io.File;
+import java.util.Map;
 import java.util.Scanner;
 
 public class DriverCtrlDomini {
@@ -148,8 +150,12 @@ public class DriverCtrlDomini {
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
         System.out.println("Cantidad:");
-        int quantitat = Integer.parseInt(readLine(scanner));
-
+        int quantitat=0;
+        try {
+             quantitat= Integer.parseInt(readLine(scanner));
+        }catch (Exception e) {
+            System.out.println("Error: Quantitat no pot ser null" );
+        }
         try {
             ctrlDomini.afegirProducteComanda(nomComanda, nomProducte, quantitat);
             System.out.println("Producte afegit correctament a la comanda.");
@@ -163,32 +169,35 @@ public class DriverCtrlDomini {
         String nomComanda = readLine(scanner);
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
-
+        System.out.println("Quantitat:");
+        int quantitat=0;
         try {
-            ctrlDomini.eliminarProducteComanda(nomComanda, nomProducte);
+            quantitat= Integer.parseInt(readLine(scanner));
+        }catch (Exception e) {
+            System.out.println("Error: Quantitat no pot ser null" );
+        }
+        try {
+            ctrlDomini.eliminarProducteComanda(nomComanda, nomProducte, quantitat);
             System.out.println("Producte eliminat correctament de la comanda.");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
 
-    public static void testGetComandes() {
-        try {
-            ctrlDomini.getComandes();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+    public static Map<String, Comanda> testGetComandes() {
+            return ctrlDomini.getComandes();
     }
 
-    public static void testGetComandaUnica(Scanner scanner) {
+    public static Comanda testGetComandaUnica(Scanner scanner) {
         System.out.println("Nombre de la Comanda:");
         String nomComanda = readLine(scanner);
 
         try {
-            ctrlDomini.getComandaUnica(nomComanda);
+            return ctrlDomini.getComandaUnica(nomComanda);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
+        return new Comanda(null);
     }
 
 
@@ -200,7 +209,13 @@ public class DriverCtrlDomini {
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
         System.out.println("Cantidad:");
-        int quantitat = Integer.parseInt(readLine(scanner));
+        int quantitat=0;
+        try {
+            quantitat= Integer.parseInt(readLine(scanner));
+        }catch (Exception e) {
+            System.out.println("Error: Quantitat no pot ser null" );
+        }
+
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
         try {

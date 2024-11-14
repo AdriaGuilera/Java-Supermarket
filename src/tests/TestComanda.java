@@ -45,13 +45,13 @@ public class TestComanda {
     @Test
     public void testEliminarProducte_ProductoExistente() throws ProducteJaExisteixException, ProductNotFoundComandaException {
         comanda.afegirProducte("Manzana", 10);
-        comanda.eliminarProducte("Manzana");
+        comanda.eliminarProducte("Manzana",10);
         assertFalse(comanda.conteProducte("Manzana"));
     }
 
     @Test
     public void testEliminarProducte_ProductoNoExistente() {
-        assertThrows(ProductNotFoundComandaException.class, () -> comanda.eliminarProducte("Plátano"));
+        assertThrows(ProductNotFoundComandaException.class, () -> comanda.eliminarProducte("Plátano",10));
     }
 
     @Test
