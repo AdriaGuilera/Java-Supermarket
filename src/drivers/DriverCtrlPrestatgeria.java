@@ -79,7 +79,7 @@ public class DriverCtrlPrestatgeria {
         System.out.println("Introdueix el nom del producte:");
         String nomP = readLine(scanner);
 
-        System.out.println(ctrlPrestatgeria.fixarProducte(id, nomP));
+        ctrlPrestatgeria.fixarProducte(id, nomP);
     }
 
     public static void testDesfixarProducte(Scanner scanner) {
@@ -89,7 +89,7 @@ public class DriverCtrlPrestatgeria {
         System.out.println("Introdueix el nom del producte:");
         String nomP = readLine(scanner);
 
-        System.out.println(ctrlPrestatgeria.desfixarProducte(id, nomP));
+        ctrlPrestatgeria.desfixarProducte(id, nomP);
     }
 
     public static void testRetirarProductePrestatgeria(Scanner scanner) {

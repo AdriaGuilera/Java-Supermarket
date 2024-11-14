@@ -1,14 +1,9 @@
 package controladors;
 
 import java.util.*;
-
-
 import Exepcions.*;
-import Exepcions.PrestatgeriaNotFoundException;
-import Exepcions.ProductNotFoundPrestatgeriaException;
 import classes.Pair;
 import classes.Prestatgeria;
-import Exepcions.ProductNotFoundPrestatgeriaException;
 
 public class CtrlPrestatgeria {
 	public Map<String, classes.Prestatgeria> prestatgeries;
@@ -17,10 +12,11 @@ public class CtrlPrestatgeria {
 	 prestatgeries = new HashMap<>();
 	}
 
-    public  void afegirPrestatgeria(String id, int mida, int mida_prestatge) {
+    public  void afegirPrestatgeria(String id, int mida, int mida_prestatge)
+    throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteix {
         if (!prestatgeries.containsKey(id)){
-            if(mida%mida_prestatge!=0){
-                System.out.println("Error: La mida de la prestatgeria a de ser multiple de la del prestatge");
+            if(mida >= mida_prestatge && mida%mida_prestatge!=0){
+                throw new MidaPrestatgeriaInvalidException();
             }else {
                 Prestatgeria pr = new Prestatgeria(id, mida, mida_prestatge);
                 prestatgeries.put(id, pr);
@@ -28,21 +24,22 @@ public class CtrlPrestatgeria {
 
         }
         else {
-            System.out.println("Error: Ja existeix una prestatgeria amb aquest identificador.");
+            throw new PrestatgeriaJaExisteix(id);
         }
     }
 
-    public Map<String,Integer> getProductesPrestatgeria(String id) {
+    public Map<String,Integer> getProductesPrestatgeria(String id)
+    throws PrestatgeriaNotFoundException {
         if (prestatgeries.containsKey(id)){
             return prestatgeries.get(id).get_productes();
         }
         else {
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return new HashMap<>();
+            throw new PrestatgeriaNotFoundException(id);
         }
     }
 
-    public Map<String,Integer> eliminarPrestatgeria(String id) {
+    public Map<String,Integer> eliminarPrestatgeria(String id)
+    throws PrestatgeriaNotFoundException {
         if (prestatgeries.containsKey(id)){
             Prestatgeria pr = prestatgeries.get(id);
             Map<String,Integer> productes = pr.get_productes();
@@ -50,40 +47,37 @@ public class CtrlPrestatgeria {
             return productes;
         }
         else {
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
+            throw new PrestatgeriaNotFoundException(id);
         }
-        return new HashMap<>();
     }
 
-    public  String fixarProducte(String id, String nomP) {
-        if (id == null || id.isEmpty()) return "Error: El nom de la prestatgeria no pot estar buit.";
-        
-        if(!prestatgeries.containsKey(id)) return "Error: No existeix una prestatgeria amb aquest identificador.";
-        
-
+    public void fixarProducte(String id, String nomP)
+    throws PrestatgeriaNotFoundException {
+        if(!prestatgeries.containsKey(id)){
+            throw new PrestatgeriaNotFoundException(id);
+        }
         prestatgeries.get(id).fixar_producte_prestatgeria(nomP);
-        return "Producte fixat.";
-
     }
 
-    public String desfixarProducte(String id, String nomP) {
-        if (id == null || id.isEmpty()) return "Error: El nom de la prestatgeria no pot estar buit.";
-        
-        if(!prestatgeries.containsKey(id)) return "Error: No existeix una prestatgeria amb aquest identificador.";
-        
+    public void desfixarProducte(String id, String nomP)
+    throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException {
+
+        if(!prestatgeries.containsKey(id)){
+            throw new PrestatgeriaNotFoundException(id);
+        }
         Prestatgeria pr = prestatgeries.get(id);
         if(pr.esta_a_prestatgeria(nomP)) {
             pr.desfixar_producte_prestatgeria(nomP);
-            return "Producte desfixat.";
         }
-        return "El producte no està en la prestatgeria amb l'identificador introduït.";
-
+        else{
+            throw new ProductNotFoundPrestatgeriaException(id, nomP);
+        }
     }
 
-    public void incrementar_quantitat_producte(String id, String nomP, int quantitat){
+    public void incrementar_quantitat_producte(String id, String nomP, int quantitat)
+    throws QuanitatInvalidException, PrestatgeriaNotFoundException {
         if(!prestatgeries.containsKey(id)){
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return;
+            throw new PrestatgeriaNotFoundException(id);
         }
         else{
             Prestatgeria pr = prestatgeries.get(id);
@@ -92,48 +86,44 @@ public class CtrlPrestatgeria {
     }
 
 
-
     //función auxiliar que elimina el producto de prestatgeria y devuelve el nombre y la cantidad que habrá que aumentar en el almacén
-    public Pair<String, Integer> retirarProductePrestatgeria(String id, String nomP){
+    public Pair<String, Integer> retirarProductePrestatgeria(String id, String nomP)
+    throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException{
         if(!prestatgeries.containsKey(id)){
             throw new PrestatgeriaNotFoundException(id);
         }
         Prestatgeria pr = prestatgeries.get(id);
-        if(!pr.esta_a_prestatgeria(nomP)){
-            throw new ProductNotFoundPrestatgeriaException(id, nomP);
-        }
-        
         int quantitat = pr.get_quantProducte(nomP);
         pr.eliminar_producte(nomP);
         return new Pair<>(nomP, quantitat);
     }
     
-    public int decrementar_quantitat_producte(String id, String nomP, int quantitat) throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException, PrestatgeriaNotFoundException {
-            if(!prestatgeries.containsKey(id)){
-                throw new PrestatgeriaNotFoundException(id);
-            }
-            else{
-                Prestatgeria pr = prestatgeries.get(id);
-                return pr.decrementar_quantitat(nomP, quantitat);
-            }
+    public int decrementar_quantitat_producte(String id, String nomP, int quantitat)
+    throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException, PrestatgeriaNotFoundException {
+        if(!prestatgeries.containsKey(id)){
+            throw new PrestatgeriaNotFoundException(id);
+        }
+        else{
+            Prestatgeria pr = prestatgeries.get(id);
+            return pr.decrementar_quantitat(nomP, quantitat);
+        }
     }
     
-    public void afegir_prestatge(String id) {
+    public void afegir_prestatge(String id)
+    throws PrestatgeriaNotFoundException {
         if(!prestatgeries.containsKey(id)){
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return;
+            throw new PrestatgeriaNotFoundException(id);
         }
         else{
             Prestatgeria pr = prestatgeries.get(id);
             pr.afegir_prestatge();
-            System.out.println("Prestatge añadido a la prestatgeria.");
         }
     }
     
-    public Map<String,Integer> eliminar_prestatge(String id) {
+    public Map<String,Integer> eliminar_prestatge(String id)
+    throws PrestatgeriaNotFoundException {
         if(!prestatgeries.containsKey(id)){
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return new HashMap<>();
+            throw new PrestatgeriaNotFoundException(id);
         }
         else{
             Prestatgeria pr = prestatgeries.get(id);
@@ -142,25 +132,21 @@ public class CtrlPrestatgeria {
     }
 
     //Mou un producte del magatzem a la prestatgeria
-    public void afegirProducte(String id_prest, String nom,int quantitat) {
+    public void afegirProducte(String id_prest, String nom,int quantitat)
+    throws PrestatgeriaNotFoundException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
         if(!prestatgeries.containsKey(id_prest)) {
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return;
+            throw new PrestatgeriaNotFoundException(id_prest);
         }
         else{
             Prestatgeria pr = prestatgeries.get(id_prest);
             pr.afegir_producte(nom, quantitat);
         }
     }
-    public boolean contains_quantitat(String nom_producte, int quantiat, String id_prestatgeria, int quantitat_ja_afegida) {
-        Prestatgeria pr = prestatgeries.get(id_prestatgeria);
-        return pr.esta_a_prestatgeria(nom_producte) && ((pr.get_quantProducte(nom_producte)-quantitat_ja_afegida) >= quantiat);
-    }
 
-    public boolean contains_producte(String id, String nom_producte){
+    public boolean contains_producte(String id, String nom_producte)
+    throws PrestatgeriaNotFoundException {
         if(!prestatgeries.containsKey(id)){
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return false;
+            throw new PrestatgeriaNotFoundException(id);
         }
         else{
             Prestatgeria pr = prestatgeries.get(id);
@@ -168,10 +154,10 @@ public class CtrlPrestatgeria {
         }
     }
 
-    public Vector<String> getNomsProductes(String id){
+    public Vector<String> getNomsProductes(String id)
+    throws PrestatgeriaNotFoundException {
         if(!prestatgeries.containsKey(id)){
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return new Vector<>();
+            throw new PrestatgeriaNotFoundException(id);
         }
         else{
             Prestatgeria pr = prestatgeries.get(id);
@@ -179,59 +165,60 @@ public class CtrlPrestatgeria {
         }
     }
 
-    public void printPrestatgeria(String id) {
+    public Prestatgeria getPrestatgeria(String id){
         if(!prestatgeries.containsKey(id)){
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return;
+            throw new PrestatgeriaNotFoundException(id);
         }
-        else{
-            System.out.println("Prestatgeria " + id + ":");
-            Prestatgeria pr = prestatgeries.get(id);
-            pr.imprimirdistribucio();
-        }
+        return prestatgeries.get(id);
     }
 
-    public void moureProducte(String id_prestatgeria,int hueco_origen, int hueco_desti) {
+    public void moureProducte(String id_prestatgeria,int hueco_origen, int hueco_desti)
+    throws PrestatgeriaNotFoundException {
         if(!prestatgeries.containsKey(id_prestatgeria)){
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return;
+            throw new PrestatgeriaNotFoundException(id_prestatgeria);
         }
         else{
             Prestatgeria pr = prestatgeries.get(id_prestatgeria);
             pr.moure_producte(hueco_origen, hueco_desti);
         }
     }
-    public int get_quantitat_producte(String id_prestatgeria, String nomProducte){
+
+
+    public int get_quantitat_producte(String id_prestatgeria, String nomProducte)
+    throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException {
         if(!prestatgeries.containsKey(id_prestatgeria)){
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return -1;
+            throw new PrestatgeriaNotFoundException(id_prestatgeria);
         }
         else{
             Prestatgeria pr = prestatgeries.get(id_prestatgeria);
             return pr.get_quantProducte(nomProducte);
         }
     }
-    public void setDistribucio(String id, Vector<String> ordre){
+
+
+    public void setDistribucio(String id, Vector<String> ordre)
+    throws PrestatgeriaNotFoundException {
         if(!prestatgeries.containsKey(id)){
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return;
+            throw new PrestatgeriaNotFoundException(id);
         }
         else{
             Prestatgeria pr = prestatgeries.get(id);
             pr.setDistribucio(ordre);
         }
     }
-    public Set<String> getProductesFixats(String id){
+
+    public Set<String> getProductesFixats(String id)
+    throws PrestatgeriaNotFoundException {
         if(!prestatgeries.containsKey(id)){
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return new HashSet<>();
+            throw new PrestatgeriaNotFoundException(id);
         }
         else{
             Prestatgeria pr = prestatgeries.get(id);
             return pr.getProductesFixats();
         }
     }
-    public void eliminar_producte(String nom){
+    public void eliminar_producte(String nom)
+    throws ProductNotFoundPrestatgeriaException{
         for(Prestatgeria pr : prestatgeries.values()){
             pr.eliminar_producte(nom);
         }

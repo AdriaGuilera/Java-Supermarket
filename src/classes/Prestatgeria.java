@@ -1,7 +1,6 @@
 package classes;
 
-import Exepcions.ProductNotFoundPrestatgeriaException;
-import Exepcions.QuanitatInvalidException;
+import Exepcions.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,25 +32,33 @@ public class Prestatgeria {
 		
 	}
 	
-	public void afegir_producte(String nomP, Integer quantitat) {
+	public void afegir_producte(String nomP, Integer quantitat)
+	throws JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
 		if(!productes.containsKey(nomP)) {
-			productes.put(nomP, quantitat);
 			int pos = 0;
 			while(posicions.containsKey(pos)) {
 				pos++;
 			}
-			posicions.put(pos, nomP);
+			if(pos < mida_prestatgeria){
+				posicions.put(pos, nomP);
+				productes.put(nomP, quantitat);
+			}
+			else throw new PrestatgeriaFullException(id);
 		}
 		else {
-			System.out.println("Error: Ja existeix un producte amb aquest nom a la prestatgeria, utilitza la funcio de incrementar.");
+			throw new JaExisteixProucteaPrestatgeriaException(nomP, id);
 		}
 	}
-	public void eliminar_producte(String nomP) {
+	public void eliminar_producte(String nomP)
+	throws ProductNotFoundPrestatgeriaException {
 		if(productes.containsKey(nomP)){
 			productes.remove(nomP);
 			productes_fixats.remove(nomP);
 			int pos = get_pos(nomP);
 			posicions.remove(pos);
+		}
+		else{
+			throw new ProductNotFoundPrestatgeriaException(id, nomP);
 		}
 	}
 	
@@ -64,15 +71,7 @@ public class Prestatgeria {
 	}
 	
 	public  Vector<String> getNomsProductes(){
-		Vector<String> nombres = new Vector<>();
-		for(int i=0; i<mida_prestatgeria; ++i){
-			if(posicions.containsKey(i)){
-				nombres.add(posicions.get(i));
-			}else{
-				nombres.add(null);
-			}
-		}
-		return nombres;
+		return new Vector<>(productes.keySet());
 	}
 
 	public int getProductesSize(){
@@ -83,8 +82,15 @@ public class Prestatgeria {
 		return productes;
 	}
 
-	
-	public int get_pos(String nomP){
+	public Map<Integer, String> getPosicions() {
+		return posicions;
+	}
+
+	public int get_pos(String nomP)
+	throws ProductNotFoundPrestatgeriaException {
+		if(!productes.containsKey(nomP)) {
+			throw new ProductNotFoundPrestatgeriaException(id, nomP);
+		}
 		for(Map.Entry<Integer, String> entry: posicions.entrySet()) {
 			if(entry.getValue().equals(nomP)) {
 				return entry.getKey();
@@ -94,10 +100,7 @@ public class Prestatgeria {
 	}
 	
 	public void afegir_prestatge() {
-		for(int i =0; i<mida_prestatge; ++i){
-			posicions.put(mida_prestatgeria+i,null);
-		}
-		this.mida_prestatgeria += mida_prestatge;
+		mida_prestatgeria += mida_prestatge;
 	}
 
 
@@ -105,12 +108,9 @@ public class Prestatgeria {
 		Map<String,Integer> productes_eliminats = new HashMap<>();
 		if(mida_prestatge<=mida_prestatgeria) {
 			for (int i = mida_prestatgeria - mida_prestatge; i < mida_prestatgeria; i++) {
-				System.out.println("bolivia");
-
 				if (posicions.containsKey(i)) {
 					String nomP = posicions.get(i);
 					if (nomP != null) productes_eliminats.put(nomP, productes.get(nomP));
-
 
 					productes.remove(nomP);
 					productes_fixats.remove(nomP);
@@ -118,12 +118,12 @@ public class Prestatgeria {
 				}
 			}
 			mida_prestatgeria -= mida_prestatge;
-			System.out.println(posicions);
 		}
 		 return productes_eliminats;
 	}
 	
-	public void incrementar_quantitat(String nomP, Integer quantitat) throws QuanitatInvalidException {
+	public void incrementar_quantitat(String nomP, Integer quantitat)
+	throws QuanitatInvalidException {
 		if(quantitat <= 0) {
 			throw new QuanitatInvalidException();
 		}
@@ -151,35 +151,35 @@ public class Prestatgeria {
 
 	public void fixar_producte_prestatgeria(String nomP) {
 		productes_fixats.add(nomP);
-
 	}
 	public void desfixar_producte_prestatgeria(String nomP) {
 		productes_fixats.remove(nomP);
 	}
 
-	public void imprimirdistribucio() {
-		for(Map.Entry<Integer, String> entry: posicions.entrySet()) {
-			String nomP = entry.getValue();
-			Integer quantitat = productes.get(nomP);
-			Integer posicio = entry.getKey();
-			Boolean fixat = productes_fixats.contains(nomP);
-			System.out.println("Posició: " + posicio + " " + nomP + " " + quantitat + " " + "Fixat : " + fixat.toString());
-		}
+	public Map<Integer,String> getdistribucio() {
+		return posicions;
 	}
 
 	public boolean esta_a_prestatgeria(String nom) { return productes.containsKey(nom);
 	}
 
-	public int get_quantProducte(String nom) {
-			return productes.get(nom);
+	public int get_quantProducte(String nom)
+	throws ProductNotFoundPrestatgeriaException {
+		if(!productes.containsKey(nom)) {
+			throw new ProductNotFoundPrestatgeriaException(id, nom);
+		}
+		return productes.get(nom);
 	}
-	public void moure_producte(int hueco_origen, int hueco_desti) {
+
+	public void moure_producte(int hueco_origen, int hueco_desti)
+	throws ProducteNotInHuecoException, InvalidHuecosException {
+		if(hueco_desti < 0 || hueco_desti >= mida_prestatgeria || hueco_origen < 0 || hueco_origen >= mida_prestatgeria || hueco_origen == hueco_desti) {
+			throw new InvalidHuecosException();
+		}
 		if(!posicions.containsKey(hueco_origen)) {
-			System.out.println("Error: No existeix un producte a la posicio origen.");
-			return;
+			throw new ProducteNotInHuecoException(hueco_origen);
 		}
 		if(posicions.containsKey(hueco_desti)) {
-			System.out.println("Swap productes");
 			String nomPdesti = posicions.get(hueco_desti);
 			String nomP = posicions.get(hueco_origen);
 			posicions.remove(hueco_origen);
@@ -197,12 +197,10 @@ public class Prestatgeria {
 	public void setDistribucio(Vector<String> ordre) {
 		int i = 0;
 		posicions.clear();
-		System.out.println("hola5");
 		for(String nomP: ordre) {
 			posicions.put(i, nomP);
 			i++;
 		}
-		System.out.println("hola5");
 	}
 
 
