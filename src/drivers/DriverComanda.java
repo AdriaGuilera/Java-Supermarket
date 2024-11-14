@@ -70,7 +70,7 @@ public class DriverComanda {
     public static void testObtenirQuantitatProducte(Scanner scanner){
         System.out.println("Escrigui el nom del Producte:");
         String nomProducte= readLine(scanner);
-        System.out.println(comanda.obtenirQuantitatProducte(nomProducte));
+        System.out.println(comanda.getQuantitat(nomProducte));
     }
 
     //Main

@@ -1,69 +1,101 @@
 package tests;
 
-
 import classes.Comanda;
-import org.junit.Before;
-import org.junit.Test;
+import Exepcions.ProducteJaExisteixException;
+import Exepcions.ProductNotFoundComandaException;
+import org.junit.*;
 
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
+import java.util.*;
 
 public class TestComanda {
-
     private Comanda comanda;
 
     @Before
     public void setUp() {
-        comanda = new Comanda("Comanda Test");
+        comanda = new Comanda("Test Order");
     }
 
     @Test
-    public void testGetNom() {
-        assertEquals("Comanda Test", comanda.getNom());
+    public void testConstructor() {
+        assertEquals("Test Order", comanda.getNom());
+        assertTrue(comanda.getOrdres().isEmpty());
     }
 
     @Test
-    public void testAfegirProducte() {
-        comanda.afegirProducte("Pa", 3);
-        comanda.afegirProducte("Llet", 2);
-
-        Map<String, Integer> ordres = comanda.getOrdres();
-        assertEquals(2, ordres.size());
-        assertTrue(ordres.containsKey("Pa"));
-        assertEquals(3, (int) ordres.get("Pa"));
-        assertTrue(ordres.containsKey("Llet"));
-        assertEquals(2, (int) ordres.get("Llet"));
+    public void testAfegirProducte_ProductoNuevo() throws ProducteJaExisteixException {
+        comanda.afegirProducte("Manzana", 10);
+        assertEquals(10, comanda.getQuantitat("Manzana"));
     }
 
     @Test
-    public void testEliminarProducte() {
-        comanda.afegirProducte("Cafè", 1);
-        assertTrue(comanda.getOrdres().containsKey("Cafè"));
-
-        comanda.eliminarProducte("Cafè");
-        assertFalse(comanda.getOrdres().containsKey("Cafè"));
+    public void testAfegirProducte_ProductoExistente() {
+        assertThrows(ProducteJaExisteixException.class, () -> {
+            comanda.afegirProducte("Manzana", 10);
+            comanda.afegirProducte("Manzana", 5); // Debería lanzar la excepción
+        });
     }
 
     @Test
-    public void testObtenirQuantitatProducte() {
-        comanda.afegirProducte("Suc", 5);
-        assertEquals(5, comanda.obtenirQuantitatProducte("Suc"));
+    public void testAfegirProducte_CantidadInvalida() {
+        assertThrows(IllegalArgumentException.class, () -> comanda.afegirProducte("Pera", 0));
+        assertThrows(IllegalArgumentException.class, () -> comanda.afegirProducte("Pera", -5));
+    }
 
-        // Si el producto no existe, debe devolver 0
-        assertEquals(0, comanda.obtenirQuantitatProducte("Pa"));
+    @Test
+    public void testEliminarProducte_ProductoExistente() throws ProducteJaExisteixException, ProductNotFoundComandaException {
+        comanda.afegirProducte("Manzana", 10);
+        comanda.eliminarProducte("Manzana");
+        assertFalse(comanda.conteProducte("Manzana"));
+    }
+
+    @Test
+    public void testEliminarProducte_ProductoNoExistente() {
+        assertThrows(ProductNotFoundComandaException.class, () -> comanda.eliminarProducte("Plátano"));
+    }
+
+    @Test
+    public void testGetQuantitat_ProductoExistente() throws ProducteJaExisteixException {
+        comanda.afegirProducte("Manzana", 10);
+        assertEquals(10, comanda.getQuantitat("Manzana"));
+    }
+
+    @Test
+    public void testGetQuantitat_ProductoNoExistente() {
+        assertThrows(ProductNotFoundComandaException.class, () -> comanda.getQuantitat("Pera"));
+    }
+
+    @Test
+    public void testConteProducte_ProductoExistente() throws ProducteJaExisteixException {
+        comanda.afegirProducte("Manzana", 10);
+        assertTrue(comanda.conteProducte("Manzana"));
+    }
+
+    @Test
+    public void testConteProducte_ProductoNoExistente() {
+        assertFalse(comanda.conteProducte("Pera"));
     }
 
     @Test
     public void testGetOrdres() {
-        comanda.afegirProducte("Aigua", 2);
-        comanda.afegirProducte("Refresc", 3);
-
-        Map<String, Integer> ordres = comanda.getOrdres();
-        assertEquals(2, ordres.size());
-        assertEquals(2, (int) ordres.get("Aigua"));
-        assertEquals(3, (int) ordres.get("Refresc"));
+        comanda.afegirProducte("Manzana", 10);
+        comanda.afegirProducte("Pera", 5);
+        assertEquals(2, comanda.getOrdres().size());
     }
+
+    @Test
+    public void testGetOrdres_Inmutabilidad() throws ProducteJaExisteixException {
+        comanda.afegirProducte("Manzana", 10);
+        Map<String, Integer> ordres = comanda.getOrdres();
+        ordres.put("Pera", 5); // Intento de modificar la copia
+        assertFalse(comanda.conteProducte("Pera")); // La comanda original no debería cambiar
+    }
+
+    @Test
+    public void testAfegirProducte_CantidadNegativa() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            comanda.afegirProducte("Manzana", -10);
+        });
+    }
+
 }
