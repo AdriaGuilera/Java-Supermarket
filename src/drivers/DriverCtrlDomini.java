@@ -203,8 +203,12 @@ public class DriverCtrlDomini {
         int quantitat = Integer.parseInt(readLine(scanner));
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
-        ctrlDomini.afegirProductePrestatgeria(nomProducte, quantitat, idPrestatgeria);
-        System.out.println("Producto añadido a la prestatgeria.");
+        try {
+            ctrlDomini.afegirProductePrestatgeria(nomProducte, quantitat, idPrestatgeria);
+            System.out.println("Producto añadido a la prestatgeria correctamente.");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void testMoureProducteDeHueco(Scanner scanner) {
@@ -259,8 +263,12 @@ public class DriverCtrlDomini {
         String nomProducte = readLine(scanner);
         System.out.println("Cantidad a decrementar:");
         int cantidad = Integer.parseInt(readLine(scanner));
-        ctrlDomini.decrementarStockAProducte(idPrestatgeria, nomProducte, cantidad);
-        System.out.println("Stock decrementado.");
+        try {
+            ctrlDomini.decrementarStockAProducte(idPrestatgeria, nomProducte, cantidad);
+            System.out.println("Stock decrementado.");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void testGenerarDistribucioBacktracking(Scanner scanner) {

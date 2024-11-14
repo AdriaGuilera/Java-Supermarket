@@ -53,11 +53,10 @@ public class CtrlDomini {
 
     // Implementación de los métodos de Prestatgeria
 
-    public void afegirProductePrestatgeria(String nomProducte, int quantitat, String idPrestatgeria) {
-        // Código para agregar un producto a la prestatgeria
-        // Código para agregar un producto a la prestatgeria
+    public void afegirProductePrestatgeria(String nomProducte, int quantitat, String idPrestatgeria)
+    throws PrestatgeriaNotFoundException {
         int maxhueco = CtrlProducte.getmaxhueco(nomProducte);
-        int stock = CtrlProducte.get_stock(nomProducte);
+        int stock = CtrlProducte.get_stock_magatzem(nomProducte);
 
         if(stock >= quantitat) {
             if (CtrlPrestatgeria.contains_producte(idPrestatgeria, nomProducte)) {
@@ -66,6 +65,7 @@ public class CtrlDomini {
                 if (quantitat + actual > maxhueco) {
                     CtrlPrestatgeria.incrementar_quantitat_producte(idPrestatgeria, nomProducte, maxhueco - actual);
                     CtrlProducte.decrementar_stock(nomProducte, maxhueco - actual);
+                    throw new MaxHuecoWarning(nomProducte);
                 } else {
                     CtrlPrestatgeria.incrementar_quantitat_producte(idPrestatgeria, nomProducte, quantitat);
                     CtrlProducte.decrementar_stock(nomProducte, quantitat);
@@ -74,6 +74,7 @@ public class CtrlDomini {
                 if (quantitat > maxhueco) {
                     CtrlPrestatgeria.afegirProducte(idPrestatgeria, nomProducte, maxhueco);
                     CtrlProducte.decrementar_stock(nomProducte, maxhueco);
+                    throw new MaxHuecoWarning(nomProducte);
                 } else {
                     CtrlPrestatgeria.afegirProducte(idPrestatgeria, nomProducte, quantitat);
                     CtrlProducte.decrementar_stock(nomProducte, quantitat);
@@ -93,7 +94,8 @@ public class CtrlDomini {
     }
     //
 
-    public void decrementarStockAProducte(String id_prestatgeria, String nomProducte, int quantitat) throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException, PrestatgeriaNotFoundException {
+    public void decrementarStockAProducte(String id_prestatgeria, String nomProducte, int quantitat)
+            throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException,MaxMagatzemWarning, ProductNotFound {
         // Código para decrementar el stock de un producto
         CtrlPrestatgeria.decrementar_quantitat_producte(id_prestatgeria, nomProducte, quantitat);
         CtrlProducte.incrementar_stock(nomProducte, quantitat);
@@ -157,7 +159,7 @@ public class CtrlDomini {
     public void reposarPrestatgeria(String id) {
         Map<String,Integer> productes = CtrlPrestatgeria.getProductesPrestatgeria(id);
         for(Map.Entry<String, Integer> entry : productes.entrySet()){
-            int stock = CtrlProducte.get_stock(entry.getKey());
+            int stock = CtrlProducte.get_stock_magatzem(entry.getKey());
             int max = CtrlProducte.getmaxhueco(entry.getKey());
             int actual = entry.getValue();
             if(actual < max){
@@ -191,10 +193,6 @@ public class CtrlDomini {
             int quantitat = producteretirat.getValue();
             CtrlProducte.incrementar_stock(nom, quantitat);
         }
-    }
-
-    public void printPrestatgeria(String id) {
-        CtrlPrestatgeria.printPrestatgeria(id);
     }
 
     //Caixa

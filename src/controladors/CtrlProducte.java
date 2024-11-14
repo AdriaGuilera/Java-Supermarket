@@ -1,5 +1,7 @@
 package controladors;
 
+import Exepcions.MaxMagatzemWarning;
+import Exepcions.ProductNotFound;
 import classes.Comanda;
 import classes.Producte;
 
@@ -15,13 +17,16 @@ public class CtrlProducte {
         Producte p = productes_magatzem.get(nomP);
         p.decrementar_stock(quantitat);
     }
-    public void incrementar_stock(String nomP, int quantitat) {
+    public void incrementar_stock(String nomP, int quantitat) throws MaxMagatzemWarning, ProductNotFound {
+        if(!existeix_producte(nomP)) {
+            throw new ProductNotFound(nomP);
+        }
         Producte p = productes_magatzem.get(nomP);
         int stock = p.get_stock();
         int max = p.get_max_magatzem();
         if(stock + quantitat > max) {
             p.mod_stock(max);
-            System.out.println("Error: la quantitat a afegir supera la capacitat del magatzem, stock set to max");
+            throw new MaxMagatzemWarning(nomP);
         }
         else p.incrementar_stock(quantitat);
 
@@ -153,13 +158,12 @@ public class CtrlProducte {
         if(nom1==null ||nom2==null) return 0;
         return productes_magatzem.get(nom1).getSimilitud(nom2);
     }
-    public int getmaxhueco(String nom) {
+    public int getmaxhueco(String nom) throws ProductNotFound {
+        if(productes_magatzem.get(nom)==null) throw new ProductNotFound(nom);
         return productes_magatzem.get(nom).get_max_hueco();
     }
-    public int get_stock(String nom) {
+    public int get_stock_magatzem(String nom) throws ProductNotFound {
+        if(productes_magatzem.get(nom)==null) throw new ProductNotFound(nom);
         return productes_magatzem.get(nom).get_stock();
-    }
-    public int getmaxmagatzem(String nom) {
-        return productes_magatzem.get(nom).get_max_magatzem();
     }
 }

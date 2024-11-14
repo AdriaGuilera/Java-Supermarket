@@ -112,6 +112,6 @@ public class TestPrestatgeria {
         prestatgeria.afegir_producte("Producto A", 10);
         prestatgeria.afegir_producte("Producto B", 20);
         // Este test verifica que no se lancen excepciones, sin capturar System.out.
-        prestatgeria.imprimirdistribucio();
+        prestatgeria.getdistribucio();
     }
 }

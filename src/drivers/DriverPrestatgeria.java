@@ -1,12 +1,10 @@
 package drivers;
 
 import classes.Prestatgeria;
-import classes.Pair;
 
 import java.io.File;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.Vector;
 
 public class DriverPrestatgeria {
 
@@ -115,7 +113,7 @@ public class DriverPrestatgeria {
 
     public static void imprimirProductes() {
         System.out.println("Productes en la prestatgeria:");
-        P.imprimirdistribucio();
+        P.getdistribucio();
     }
 
     public static void autoReomplir() {
