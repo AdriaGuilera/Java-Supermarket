@@ -168,4 +168,12 @@ public class CtrlProducte {
     public int getmaxmagatzem(String nom) {
         return productes_magatzem.get(nom).get_max_magatzem();
     }
+
+    public int get_stock_magatzem(String key) throws ProductNotFoundMagatzemException {
+        Producte producte = productes_magatzem.get(key);
+        if (producte == null) {
+            throw new ProductNotFoundMagatzemException(key);
+        }
+        return producte.get_stock();
+    }
 }

@@ -31,17 +31,6 @@ public class TestProducte {
         assertEquals("Producto B", producte.get_nom());
     }
 
-    @Test
-    public void testModMaxHueco() {
-        producte.mod_mh(150);
-        assertEquals(150, producte.get_max_hueco());
-    }
-
-    @Test
-    public void testModMaxMagatzem() {
-        producte.mod_mm(600);
-        assertEquals(600, producte.get_max_magatzem());
-    }
 
     @Test
     public void testModStock() {

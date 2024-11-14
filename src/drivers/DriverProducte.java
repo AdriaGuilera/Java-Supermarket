@@ -71,19 +71,7 @@ public class DriverProducte {
     }
 
 
-    public static void testModMaxHueco(Scanner scanner) {
-        System.out.println("Introdueix el nou màxim de hueco:");
-        int max_hueco = Integer.parseInt(readLine(scanner));
-        P.mod_mh(max_hueco);
-        System.out.println("Màxim hueco modificat a: " + max_hueco);
-    }
 
-    public static void testModMaxMagatzem(Scanner scanner) {
-        System.out.println("Introdueix el nou màxim de magatzem:");
-        int max_magatzem = Integer.parseInt(readLine(scanner));
-        P.mod_mm(max_magatzem);
-        System.out.println("Màxima quantitat al magatzem modificada a: " + max_magatzem);
-    }
 
     public static void testModStock(Scanner scanner) {
         System.out.println("Introdueix el nou stock:");
@@ -155,20 +143,6 @@ public class DriverProducte {
                     System.out.println(NO_HI_HA_PRODUCTE);
                 } else {
                     testModNom(scanner);
-                }
-                break;
-            case MOD_MAX_HUECO:
-                if (P == null) {
-                    System.out.println(NO_HI_HA_PRODUCTE);
-                } else {
-                    testModMaxHueco(scanner);
-                }
-                break;
-            case MOD_MAX_MAGATZEM:
-                if (P == null) {
-                    System.out.println(NO_HI_HA_PRODUCTE);
-                } else {
-                    testModMaxMagatzem(scanner);
                 }
                 break;
             case MOD_STOCK:
