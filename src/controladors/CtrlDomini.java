@@ -93,7 +93,7 @@ public class CtrlDomini {
     }
     //
 
-    public void decrementarStockAProducte(String id_prestatgeria, String nomProducte, int quantitat) {
+    public void decrementarStockAProducte(String id_prestatgeria, String nomProducte, int quantitat) throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException, PrestatgeriaNotFoundException {
         // Código para decrementar el stock de un producto
         CtrlPrestatgeria.decrementar_quantitat_producte(id_prestatgeria, nomProducte, quantitat);
         CtrlProducte.incrementar_stock(nomProducte, quantitat);
