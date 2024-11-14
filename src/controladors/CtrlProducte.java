@@ -1,5 +1,9 @@
 package controladors;
 
+
+import Exepcions.ProductNotFoundMagatzemException;
+import Exepcions.ProducteJaExisteixException;
+import Exepcions.calculMateixosProductesSimilitud;
 import classes.Comanda;
 import classes.Producte;
 
@@ -76,22 +80,21 @@ public class CtrlProducte {
 
 
     //Si no existia no fa res
-    public void eliminar_producte(String nom) {
-        if (productes_magatzem.containsKey(nom)) {
-            productes_magatzem.remove(nom);
-            System.out.println("Producto '" + nom + "' eliminado correctamente.");
+    public void eliminar_producte(String nomProducte) throws ProductNotFoundMagatzemException {
+        if (productes_magatzem.containsKey(nomProducte)) {
+            productes_magatzem.remove(nomProducte);
+            System.out.println("Producto '" + nomProducte + "' eliminado correctamente.");
         } else {
-            System.out.println("Producto '" + nom + "' no encontrado en el almacén.");
+            throw new ProductNotFoundMagatzemException(nomProducte);
         }
     }
 
-    public void altaProducte(String nom, int mh, int mm) {
-        if (productes_magatzem.containsKey(nom)) {
-            System.out.println("Error: Ja existeix el producte\n");
-            return;
+    public void altaProducte(String nomProducte, int mh, int mm) throws ProducteJaExisteixException{
+        if (productes_magatzem.containsKey(nomProducte)) {
+            throw new ProducteJaExisteixException(nomProducte);
         }
-        Producte p = new Producte(nom, mh, mm);
-        productes_magatzem.put(nom, p);
+        Producte p = new Producte(nomProducte, mh, mm);
+        productes_magatzem.put(nomProducte, p);
         System.out.println("Producto añadido al Almacén!");
     }
 
@@ -103,8 +106,8 @@ public class CtrlProducte {
     public void modificarProducte(String nom, String nou_nom, Integer mh, Integer mm) {
         Producte p = productes_magatzem.get(nom);
         if (nou_nom != null) p.mod_nom(nou_nom);
-        if (mh != null) p.mod_mh(mh);
-        if (mm != null) p.mod_mm(mm);
+        if (mh != null) p.mod_max_hueco(mh);
+        if (mm != null) p.mod_max_magatzem(mm);
     }
 
     public boolean existeix_producte(String nom) {
@@ -113,34 +116,37 @@ public class CtrlProducte {
 
 
 
-    public void afegir_similitud(String nom1, String nom2, float value) {
-        if (nom1 == nom2) System.out.println( "Error: els dos productes són el mateix");
+    public void afegir_similitud(String nom1, String nom2, float value) throws ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
+        if (nom1 == nom2) throw new calculMateixosProductesSimilitud(nom1);
         Producte p1 = productes_magatzem.get(nom1);
         Producte p2 = productes_magatzem.get(nom2);
-        if (p1 == null || p2 == null) System.out.println( "Error: algun dels productes no existeix");
+        if (!productes_magatzem.containsKey(nom1) ) throw new ProductNotFoundMagatzemException(nom1);
+        else if(!productes_magatzem.containsKey(nom2)) throw new ProductNotFoundMagatzemException(nom2);
         else {
             p1.afegir_similitud(nom2, value);
             p2.afegir_similitud(nom1, value);
             System.out.println( "La similitud s'ha afegit correctament");
         }
     }
-    public void eliminarSimilitud(String nom1, String nom2) {
-        if (nom1 == nom2) System.out.println( "Error: els dos productes són el mateix");
+    public void eliminarSimilitud(String nom1, String nom2) throws ProductNotFoundMagatzemException, calculMateixosProductesSimilitud{
+        if (nom1 == nom2) throw new calculMateixosProductesSimilitud(nom1);
         Producte p1 = productes_magatzem.get(nom1);
         Producte p2 = productes_magatzem.get(nom2);
-        if (p1 == null || p2 == null) System.out.println( "Error: algun dels productes no existeix");
+        if (!productes_magatzem.containsKey(nom1) ) throw new ProductNotFoundMagatzemException(nom1);
+        else if(!productes_magatzem.containsKey(nom2)) throw new ProductNotFoundMagatzemException(nom2);
         else {
             p1.eliminarSimilitud(nom2);
             p2.eliminarSimilitud(nom1);
-            System.out.println( "La similitud s'ha afegit correctament");
+            System.out.println( "La similitud s'ha eliminat correctament");
         }
     }
 
-    public void modificarSimilitud(String nom1, String nom2, float value) {
-        if (nom1 == nom2) System.out.println( "Error: els dos productes són el mateix");
+    public void modificarSimilitud(String nom1, String nom2, float value) throws  ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
+        if (nom1 == nom2) throw new calculMateixosProductesSimilitud(nom1);
         Producte p1 = productes_magatzem.get(nom1);
         Producte p2 = productes_magatzem.get(nom2);
-        if (p1 == null || p2 == null) System.out.println( "Error: algun dels productes no existeix");
+        if (!productes_magatzem.containsKey(nom1) ) throw new ProductNotFoundMagatzemException(nom1);
+        else if(!productes_magatzem.containsKey(nom2)) throw new ProductNotFoundMagatzemException(nom2);
         else {
             p1.modificarSimilitud(nom2, value);
             p2.modificarSimilitud(nom1, value);

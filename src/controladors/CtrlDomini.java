@@ -61,7 +61,7 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
         if (quantitat <=0) {
-            throw new IllegalArgumentException("La quantitat no pot estar buida.");
+            throw new IllegalArgumentException("La quantitat no pot ser negativa o 0.");
         }
             CtrlComandes.eliminarProducteComanda(nomComanda, nomProducte, quantitat);
     }
@@ -266,32 +266,72 @@ public class CtrlDomini {
     }
 
 
-    public void altaProducte(String nom, int mh, int mm) {
-        CtrlProducte.altaProducte(nom, mh, mm);
+    public void altaProducte(String nomProducte, int max_h, int max_m) throws IllegalArgumentException, ProducteJaExisteixException{
+        if (nomProducte == null || nomProducte.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
+        }
+        if (max_h<=0) {
+            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+        }
+        if (max_m <=0) {
+            throw new IllegalArgumentException("La quantitat no pot ser negativa o 0.");
+        }
+        CtrlProducte.altaProducte(nomProducte, max_h, max_m);
     }
 
-    public void eliminar_producte(String nom) {
-        //Lo eliminamos del almacen
-        CtrlPrestatgeria.eliminar_producte(nom);
-        CtrlProducte.eliminar_producte(nom);
-        //Lo eliminamos de las prestatgerias
+    public void eliminar_producte(String nomProducte) throws IllegalArgumentException, ProductNotFoundMagatzemException {
+        if (nomProducte == null || nomProducte.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
+        }
+        //Lo eliminamos del almacen   //Lo eliminamos de las prestatgerias
+        CtrlPrestatgeria.eliminar_producte(nomProducte);
+        CtrlProducte.eliminar_producte(nomProducte);
+
     }
 
 
 
-    public void afegir_similitud(String nom1, String nom2, float value) {
+    public void afegir_similitud(String nom1, String nom2, float value)  throws IllegalArgumentException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
+        if (nom1 == null || nom1.isEmpty()) {
+            throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
+        }
+        if (nom2 == null || nom2.isEmpty()) {
+            throw new IllegalArgumentException("El nom del segon producte no pot estar buit.");
+        }
+        if (value<=0) {
+            throw new IllegalArgumentException("El valor de la similitud ha de ser superior a 0");
+        }
         CtrlProducte.afegir_similitud(nom1, nom2, value);
     }
 
-    public void eliminarSimilitud(String nom1, String nom2) {
-        CtrlProducte.eliminarSimilitud(nom1, nom2);
-    }
-    public void modificarSimilitud(String nom1, String nom2, float value) {
+    public void eliminarSimilitud(String nom1, String nom2) throws IllegalArgumentException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud{
+        if (nom1 == null || nom1.isEmpty()) {
+            throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
+        }
+        if (nom2 == null || nom2.isEmpty()) {
+            throw new IllegalArgumentException("El nom del segon producte no pot estar buit.");
+        }
         CtrlProducte.eliminarSimilitud(nom1, nom2);
     }
 
-    public void print_producte(String nom) {
-        CtrlProducte.imprimirProducte(nom);
+    public void modificarSimilitud(String nom1, String nom2, float value) throws IllegalArgumentException,  ProductNotFoundMagatzemException, calculMateixosProductesSimilitud{
+        if (nom1 == null || nom1.isEmpty()) {
+            throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
+        }
+        if (nom2 == null || nom2.isEmpty()) {
+            throw new IllegalArgumentException("El nom del segon producte no pot estar buit.");
+        }
+        if (value<=0) {
+            throw new IllegalArgumentException("El valor de la similitud ha de ser superior a 0");
+        }
+        CtrlProducte.modificarSimilitud(nom1, nom2, value);
+    }
+
+    public void print_producte(String nomProducte) throws IllegalArgumentException{
+        if (nomProducte == null || nomProducte.isEmpty()) {
+            throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
+        }
+        CtrlProducte.imprimirProducte(nomProducte);
     }
 
     public void printMagatzem() {

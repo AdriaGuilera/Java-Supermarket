@@ -16,11 +16,11 @@ public class Producte {
     private Map<String, Float> similitud = new HashMap<>();
     private int stock_magatzem;
 
-    public Producte(String n,  int mh, int mm) {
+    public Producte(String n,  int max_h, int max_m) {
         nom = n;
 
-        max_hueco = mh;
-        max_magatzem = mm;
+        max_hueco = max_h;
+        max_magatzem = max_m;
         similitud = new HashMap<>(); //Si un producte no apareix en el map, s'entén que la seva similitud és 0.
         stock_magatzem = 0;
     }
@@ -56,12 +56,12 @@ public class Producte {
         nom = nou_nom;
     }
 
-    public void mod_mh(int mh) {
-        max_hueco = mh;
+    public void mod_max_hueco(int max_h) {
+        max_hueco = max_h;
     }
 
-    public void mod_mm(int mm) {
-        max_magatzem = mm;
+    public void mod_max_magatzem(int max_m) {
+        max_magatzem = max_m;
     }
 
     public void mod_stock(int nou_stock) {

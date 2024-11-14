@@ -398,16 +398,35 @@ public class DriverCtrlDomini {
         System.out.println("Nombre del Producto:");
         String nom = readLine(scanner);
         System.out.println("Stock Máximo posible en Prestatgeria:");
-        int mh = Integer.parseInt(readLine(scanner));
+        int max_h=0;
+        try {
+            max_h= Integer.parseInt(readLine(scanner));
+        }catch (Exception e) {
+            System.out.println("Error: El stock máxim a prestatgeria no pot ser null" );
+        }
         System.out.println("Stock Máximo posible en Magatzem:");
-        int mm = Integer.parseInt(readLine(scanner));
-        ctrlDomini.altaProducte(nom, mh, mm);
-
+        int max_m =0;
+        try {
+            max_m= Integer.parseInt(readLine(scanner));
+        }catch (Exception e) {
+            System.out.println("Error: El stock máxim a magatzem no pot ser null" );
+        }
+        try{
+            ctrlDomini.altaProducte(nom, max_h, max_m);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
+
+
     public static void testEliminarProducte(Scanner scanner) {
         System.out.println("Nombre del Producto:");
         String nom = readLine(scanner);
-        ctrlDomini.eliminar_producte(nom);
+        try {
+            ctrlDomini.eliminar_producte(nom);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 
@@ -418,8 +437,17 @@ public class DriverCtrlDomini {
         System.out.println("Nombre del segundo Producto:");
         String nom2 = readLine(scanner);
         System.out.println("Valor de similitud:");
-        float value = Float.parseFloat(readLine(scanner));
-        ctrlDomini.afegir_similitud(nom1, nom2, value);
+        float value = 0.0F;
+        try{
+            value = Float.parseFloat(readLine(scanner));
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        try{
+            ctrlDomini.afegir_similitud(nom1, nom2, value);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 
@@ -428,7 +456,11 @@ public class DriverCtrlDomini {
         String nom1 = readLine(scanner);
         System.out.println("Nombre del segundo Producto:");
         String nom2 = readLine(scanner);
-        ctrlDomini.eliminarSimilitud(nom1,nom2);
+        try {
+            ctrlDomini.eliminarSimilitud(nom1,nom2);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -438,8 +470,17 @@ public class DriverCtrlDomini {
         System.out.println("Nombre del segundo Producto:");
         String nom2 = readLine(scanner);
         System.out.println("Valor de similitud:");
-        float value = Float.parseFloat(readLine(scanner));
-        ctrlDomini.modificarSimilitud(nom1, nom2, value);
+        float value = 0.0F;
+        try{
+            value = Float.parseFloat(readLine(scanner));
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        try{
+            ctrlDomini.modificarSimilitud(nom1, nom2, value);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
 
     }
 
