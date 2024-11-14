@@ -53,7 +53,7 @@ public class DriverCaixa {
         System.out.println("Introdueix l'id de la prestatgeria on es troba el producte:");
         String id = readLine(scanner);
 
-        C.afegir_producte(nom, quantitat, id);
+        C.afegir_producte(nom, quantitat);
         System.out.println("Producte " + nom + " amb quantitat " + quantitat + " de prestatgeria " + id + " afegit correctament");
     }
 
@@ -80,14 +80,6 @@ public class DriverCaixa {
 
         int quantitat = C.get_quantitat(nom, id);
         System.out.println("La quantitat del producte" + nom + "de prestatgeria" + id + "és" + quantitat);
-    }
-
-    public static void testprintticket(){
-        C.imprimirticket();
-    }
-
-    public static void testimprimirprestatgeries(){
-        C.imprimir_ticket_per_prestatgeries();
     }
 
     public static void testpagar(){
@@ -125,7 +117,7 @@ public class DriverCaixa {
                 if(C == null) {
                     System.out.println(NOHIHACAIXA);
                 } else {
-                testprintticket();
+                //
                 }
                 break;
             case PRINTTICKETPERPRESTATGERIES:
@@ -133,7 +125,7 @@ public class DriverCaixa {
                     System.out.println(NOHIHACAIXA);
                 }
                 else {
-                    testimprimirprestatgeries();
+                    //
                 }
                 break;
             case PAGAR:

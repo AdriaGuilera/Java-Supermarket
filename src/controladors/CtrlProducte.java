@@ -20,8 +20,8 @@ public class CtrlProducte {
         int stock = p.get_stock();
         int max = p.get_max_magatzem();
         if(stock + quantitat > max) {
-            System.out.println("Error: la quantitat a afegir supera la capacitat del magatzem, stock set to max");
             p.mod_stock(max);
+            System.out.println("Error: la quantitat a afegir supera la capacitat del magatzem, stock set to max");
         }
         else p.incrementar_stock(quantitat);
 

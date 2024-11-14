@@ -1,5 +1,9 @@
 package drivers;
 
+import Exepcions.NotEnoughQuantityPrestatgeriaWarning;
+import Exepcions.PrestatgeriaNotFoundException;
+import Exepcions.ProductNotFoundPrestatgeriaException;
+import Exepcions.QuanitatInvalidException;
 import controladors.CtrlDomini;
 
 import java.io.File;
@@ -164,7 +168,7 @@ public class DriverCtrlDomini {
 
 
     //Prestatgeria
-// Métodos de Prestatgeria
+    // Métodos de Prestatgeria
 
     public static void testAfegirProductePrestatgeria(Scanner scanner) {
         System.out.println("Nombre del Producto:");
@@ -213,8 +217,13 @@ public class DriverCtrlDomini {
         String idPrestatgeria = readLine(scanner);
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
-        ctrlDomini.retirarProducteAMagatzem(idPrestatgeria, nomProducte);
-        System.out.println("Producto retirado al magatzem.");
+        try{
+            ctrlDomini.retirarProducteAMagatzem(idPrestatgeria, nomProducte);
+            System.out.println("Producto " + nomProducte + " de prestatgeria " + idPrestatgeria +  " retirado al magatzem.");
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void testDecrementarStockAProducte(Scanner scanner) {
@@ -300,8 +309,14 @@ public class DriverCtrlDomini {
         int quantitat = Integer.parseInt(readLine(scanner));
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
-        ctrlDomini.afegir_producte_caixa(nomProducte, quantitat, idPrestatgeria);
-        System.out.println(quantitat + "unidades del producto " + nomProducte + " de la prestatgeria " + idPrestatgeria +  " añadidos a la Caja!");
+        try{
+            int quantitat_afegida = ctrlDomini.afegir_producte_caixa(nomProducte, quantitat, idPrestatgeria);
+            System.out.println(quantitat_afegida + "unidades del producto " + nomProducte + " de la prestatgeria " + idPrestatgeria +  " añadidos a la Caja!");
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
     }
     public static void testRetirarProducteCaixa(Scanner scanner) {
         System.out.println("Nombre del Producto:");
@@ -310,16 +325,14 @@ public class DriverCtrlDomini {
         int quantitat = Integer.parseInt(readLine(scanner));
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
-        ctrlDomini.retirar_producte_caixa(nomProducte, quantitat, idPrestatgeria);
-        System.out.println(quantitat + "unidades del producto " + nomProducte + " de la prestatgeria " + idPrestatgeria +  " retirados de la Caja!");
-    }
+        try{
+            ctrlDomini.retirar_producte_caixa(nomProducte, quantitat, idPrestatgeria);
+            System.out.println(quantitat + "unidades del producto " + nomProducte + " de la prestatgeria " + idPrestatgeria +  " retirados de la Caja!");
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
 
-    public static void testPrintTicket() {
-        ctrlDomini.imprimir_ticket_caixa();
-    }
-
-    public static void testPrintTicketPerPrestatgeries(){
-        ctrlDomini.imprimir_ticket_per_prestatgeries();
     }
 
     public static void testPagar() {
@@ -338,6 +351,7 @@ public class DriverCtrlDomini {
         System.out.println("Nombre de la Comanda:");
         String nom = readLine(scanner);
         ctrlDomini.obtenirComandaAutomatica(nom);
+        ctrlDomini.printComandaUnica(nom);
     }
     public static void testAltaProducte(Scanner scanner) {
         System.out.println("Nombre del Producto:");
@@ -477,10 +491,10 @@ public class DriverCtrlDomini {
                 testRetirarProducteCaixa(scanner);
                 break;
             case PRINTTICKET:
-                testPrintTicket();
+                //
                 break;
             case PRINTTICKETPERPRESTATGERIES:
-                testPrintTicketPerPrestatgeries();
+                //
                 break;
             case PAGAR:
                 testPagar();
