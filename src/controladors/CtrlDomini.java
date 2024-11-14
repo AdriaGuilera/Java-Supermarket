@@ -16,37 +16,64 @@ public class CtrlDomini {
 
     //Funciones del CtrlComandes
 
-    public void crearComanda(String nomComanda) {
-        try {
-            CtrlComandes.crearComanda(nomComanda);
-        } catch (IllegalArgumentException e) {
-            throw e; // Reenvía la excepción para que sea manejada en un nivel superior
+    public void crearComanda(String nomComanda) throws IllegalArgumentException{
+        if (nomComanda == null || nomComanda.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
-    }
-
-    public void eliminarComanda(String nomComanda) throws ComandaNotFoundException {
-            CtrlComandes.eliminarComanda(nomComanda);
+            CtrlComandes.crearComanda(nomComanda);
 
     }
 
+    public void eliminarComanda(String nomComanda) throws ProductNotFoundComandaException,ComandaNotFoundException,IllegalArgumentException {
+        if (nomComanda == null || nomComanda.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
+        }
+        CtrlComandes.eliminarComanda(nomComanda);
 
-    public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) throws QuanitatInvalidException, ComandaNotFoundException,ProductNotFound  {
-           if(!CtrlProducte.existeix_producte(nomProducte)) {
+    }
+
+
+    public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) throws QuanitatInvalidException, ComandaNotFoundException,ProductNotFound, IllegalArgumentException  {
+        if (nomComanda == null || nomComanda.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
+        }
+        if (nomProducte == null || nomProducte.isEmpty()) {
+            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+        }
+        if (quantitat <=0) {
+            throw new IllegalArgumentException("La quantitat no pot estar buida.");
+        }
+        if(!CtrlComandes.existeixComanda(nomComanda)) {
+            throw new ComandaNotFoundException(nomComanda);
+        }
+        if(!CtrlProducte.existeix_producte(nomProducte)) {
                throw new ProductNotFound(nomProducte);
-           }
+        }
             CtrlComandes.afegirProducteComanda(nomComanda, nomProducte, quantitat);
     }
 
-    public void eliminarProducteComanda(String nomComanda, String nomProducte) throws ProductNotFoundComandaException{
+    public void eliminarProducteComanda(String nomComanda, String nomProducte, int quantitat) throws ProductNotFoundComandaException, IllegalArgumentException{
 
-            CtrlComandes.eliminarProducteComanda(nomComanda, nomProducte);
+        if (nomComanda == null || nomComanda.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
+        }
+        if (nomProducte == null || nomProducte.isEmpty()) {
+            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+        }
+        if (quantitat <=0) {
+            throw new IllegalArgumentException("La quantitat no pot estar buida.");
+        }
+            CtrlComandes.eliminarProducteComanda(nomComanda, nomProducte, quantitat);
     }
 
-    public void getComandes() {
-        CtrlComandes.getComandes();
+    public Map<String, Comanda> getComandes() {
+        return CtrlComandes.getComandes();
     }
-    public void getComandaUnica(String nomComanda) {
-            CtrlComandes.getComandaUnica(nomComanda);
+    public Comanda getComandaUnica(String nomComanda)throws ComandaNotFoundException,IllegalArgumentException {
+        if (nomComanda == null || nomComanda.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
+        }
+           return CtrlComandes.getComandaUnica(nomComanda);
     }
 
     //Prestatgeria
@@ -83,7 +110,7 @@ public class CtrlDomini {
         else{
             System.out.println("Error: No hi ha suficient stock del producte");
         }
-        return;
+
 
     }
 
@@ -122,7 +149,7 @@ public class CtrlDomini {
 
     //Midaprestatgeria%midaPrestatge == 0
     public void afegirPrestatgeria(String idPrestatgeria, int midaPrestatge, int midaPrestatgeria) {
-        CtrlPrestatgeria.afegirPrestatgeria(idPrestatgeria, midaPrestatgeria, midaPrestatge);;
+        CtrlPrestatgeria.afegirPrestatgeria(idPrestatgeria, midaPrestatgeria, midaPrestatge);
     }
 
     public void eliminarPrestatgeria(String idPrestatgeria) {
