@@ -3,9 +3,8 @@ package controladors;
 import java.util.*;
 
 
+import Exepcions.*;
 import Exepcions.PrestatgeriaNotFoundException;
-import Exepcions.PrestatgeriaNotFoundException;
-import Exepcions.ProductNotFoundPrestatgeriaException;
 import Exepcions.ProductNotFoundPrestatgeriaException;
 import classes.Pair;
 import classes.Prestatgeria;
@@ -109,15 +108,12 @@ public class CtrlPrestatgeria {
         return new Pair<>(nomP, quantitat);
     }
     
-    public int decrementar_quantitat_producte(String id, String nomP, int quantitat){
+    public int decrementar_quantitat_producte(String id, String nomP, int quantitat) throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException, PrestatgeriaNotFoundException {
             if(!prestatgeries.containsKey(id)){
                 throw new PrestatgeriaNotFoundException(id);
             }
             else{
                 Prestatgeria pr = prestatgeries.get(id);
-                if(!pr.esta_a_prestatgeria(nomP)){
-                    throw new ProductNotFoundPrestatgeriaException(nomP, id);
-                }
                 return pr.decrementar_quantitat(nomP, quantitat);
             }
     }

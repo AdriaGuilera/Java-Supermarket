@@ -154,8 +154,6 @@ public class DriverCtrlDomini {
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
         ctrlDomini.eliminarProducteComanda(nomComanda,nomProducte);
-
-
     }
 
     public static void testGetComandes(Scanner scanner) {
