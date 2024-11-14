@@ -343,7 +343,7 @@ public class DriverCtrlDomini {
     public static void testPrintPrestatgeria(Scanner scanner) {
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
-        ctrlDomini.printPrestatgeria(idPrestatgeria);
+        //ctrlDomini.printPrestatgeria(idPrestatgeria);
     }
 
 

@@ -81,9 +81,12 @@ public class CtrlDomini {
     // Implementación de los métodos de Prestatgeria
 
     public void afegirProductePrestatgeria(String nomProducte, int quantitat, String idPrestatgeria)
-    throws PrestatgeriaNotFoundException {
+    throws PrestatgeriaNotFoundException, QuanitatInvalidException, MaxHuecoWarning, ProductNotFound, JaExisteixProucteaPrestatgeriaException {
         int maxhueco = CtrlProducte.getmaxhueco(nomProducte);
         int stock = CtrlProducte.get_stock_magatzem(nomProducte);
+        if(quantitat <= 0) {
+            throw new QuanitatInvalidException();
+        }
 
         if(stock >= quantitat) {
             if (CtrlPrestatgeria.contains_producte(idPrestatgeria, nomProducte)) {

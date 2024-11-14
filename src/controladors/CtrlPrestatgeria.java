@@ -133,7 +133,7 @@ public class CtrlPrestatgeria {
 
     //Mou un producte del magatzem a la prestatgeria
     public void afegirProducte(String id_prest, String nom,int quantitat)
-    throws PrestatgeriaNotFoundException {
+    throws PrestatgeriaNotFoundException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
         if(!prestatgeries.containsKey(id_prest)) {
             throw new PrestatgeriaNotFoundException(id_prest);
         }
@@ -165,8 +165,7 @@ public class CtrlPrestatgeria {
         }
     }
 
-    public Prestatgeria getPrestatgeria(String id)
-    throws PrestatgeriaNotFoundException {
+    public Prestatgeria getPrestatgeria(String id){
         if(!prestatgeries.containsKey(id)){
             throw new PrestatgeriaNotFoundException(id);
         }
@@ -183,17 +182,22 @@ public class CtrlPrestatgeria {
             pr.moure_producte(hueco_origen, hueco_desti);
         }
     }
-    public int get_quantitat_producte(String id_prestatgeria, String nomProducte){
+
+
+    public int get_quantitat_producte(String id_prestatgeria, String nomProducte)
+    throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException {
         if(!prestatgeries.containsKey(id_prestatgeria)){
-            System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-            return -1;
+            throw new PrestatgeriaNotFoundException(id_prestatgeria);
         }
         else{
             Prestatgeria pr = prestatgeries.get(id_prestatgeria);
             return pr.get_quantProducte(nomProducte);
         }
     }
-    public void setDistribucio(String id, Vector<String> ordre){
+
+
+    public void setDistribucio(String id, Vector<String> ordre)
+    throws PrestatgeriaNotFoundException {
         if(!prestatgeries.containsKey(id)){
             throw new PrestatgeriaNotFoundException(id);
         }
@@ -202,6 +206,7 @@ public class CtrlPrestatgeria {
             pr.setDistribucio(ordre);
         }
     }
+
     public Set<String> getProductesFixats(String id)
     throws PrestatgeriaNotFoundException {
         if(!prestatgeries.containsKey(id)){
@@ -212,7 +217,8 @@ public class CtrlPrestatgeria {
             return pr.getProductesFixats();
         }
     }
-    public void eliminar_producte(String nom){
+    public void eliminar_producte(String nom)
+    throws ProductNotFoundPrestatgeriaException{
         for(Prestatgeria pr : prestatgeries.values()){
             pr.eliminar_producte(nom);
         }

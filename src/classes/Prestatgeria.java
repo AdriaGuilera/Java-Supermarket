@@ -71,15 +71,7 @@ public class Prestatgeria {
 	}
 	
 	public  Vector<String> getNomsProductes(){
-		Vector<String> nombres = new Vector<>();
-		for(int i=0; i<mida_prestatgeria; ++i){
-			if(posicions.containsKey(i)){
-				nombres.add(posicions.get(i));
-			}else{
-				nombres.add(null);
-			}
-		}
-		return nombres;
+		return new Vector<>(productes.keySet());
 	}
 
 	public int getProductesSize(){
@@ -94,7 +86,11 @@ public class Prestatgeria {
 		return posicions;
 	}
 
-	public int get_pos(String nomP){
+	public int get_pos(String nomP)
+	throws ProductNotFoundPrestatgeriaException {
+		if(!productes.containsKey(nomP)) {
+			throw new ProductNotFoundPrestatgeriaException(id, nomP);
+		}
 		for(Map.Entry<Integer, String> entry: posicions.entrySet()) {
 			if(entry.getValue().equals(nomP)) {
 				return entry.getKey();
@@ -112,12 +108,9 @@ public class Prestatgeria {
 		Map<String,Integer> productes_eliminats = new HashMap<>();
 		if(mida_prestatge<=mida_prestatgeria) {
 			for (int i = mida_prestatgeria - mida_prestatge; i < mida_prestatgeria; i++) {
-				System.out.println("bolivia");
-
 				if (posicions.containsKey(i)) {
 					String nomP = posicions.get(i);
 					if (nomP != null) productes_eliminats.put(nomP, productes.get(nomP));
-
 
 					productes.remove(nomP);
 					productes_fixats.remove(nomP);
@@ -125,7 +118,6 @@ public class Prestatgeria {
 				}
 			}
 			mida_prestatgeria -= mida_prestatge;
-			System.out.println(posicions);
 		}
 		 return productes_eliminats;
 	}
