@@ -1,5 +1,7 @@
 package classes;
 
+import Exepcions.ZeroStockMagatzemWarning;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -56,13 +58,6 @@ public class Producte {
         nom = nou_nom;
     }
 
-    public void mod_max_hueco(int max_h) {
-        max_hueco = max_h;
-    }
-
-    public void mod_max_magatzem(int max_m) {
-        max_magatzem = max_m;
-    }
 
     public void mod_stock(int nou_stock) {
         stock_magatzem = nou_stock;
@@ -70,7 +65,6 @@ public class Producte {
 
     public void incrementar_stock(int quant) {
         if(stock_magatzem + quant > max_magatzem) {
-            System.out.println("Error: la quantitat a afegir supera la capacitat del magatzem, stock set to max");
             stock_magatzem = max_magatzem;
         }
         else stock_magatzem += quant;
@@ -78,6 +72,7 @@ public class Producte {
 
     public void decrementar_stock(int quant) {
         stock_magatzem = max(stock_magatzem - quant, 0);
+        if(stock_magatzem == 0) throw new ZeroStockMagatzemWarning(nom);
     }
 
     //Si el Producte nom ja té similitud assignada, es sobreescriurà amb la nova

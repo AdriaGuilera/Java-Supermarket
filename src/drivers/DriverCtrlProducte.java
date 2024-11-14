@@ -61,29 +61,6 @@ public class DriverCtrlProducte {
         ctrlProducte.altaProducte(nom, mh, mm);
     }
 
-    // Modifies an existing Producte
-    public static void testModificarProducte(Scanner scanner) {
-        System.out.println("Escrigui el nom del producte a modificar:");
-        String nom = readLine(scanner);
-
-        System.out.println("Escrigui el nou nom del producte (o premeu Enter per no modificar-lo):");
-        String nouNom = readLine(scanner);
-        if (nouNom.isEmpty()) nouNom = null;
-
-        System.out.println("Escrigui la nova capacitat màxima al magatzem (o premeu Enter per no modificar-la):");
-        String mh = readLine(scanner);
-        Integer mhInt = mh.isEmpty() ? null : Integer.parseInt(mh);
-
-        System.out.println("Escrigui la nova capacitat màxima a l'estanteria (o premeu Enter per no modificar-la):");
-        String mm = readLine(scanner);
-        Integer mmInt = mm.isEmpty() ? null : Integer.parseInt(mm);
-
-        System.out.println("Escrigui el nou stock del producte (o premeu Enter per no modificar-lo):");
-        String stock = readLine(scanner);
-        Integer smInt = stock.isEmpty() ? null : Integer.parseInt(stock);
-
-        ctrlProducte.modificarProducte(nom, nouNom, mhInt, mmInt);
-    }
 
     // Decreases the stock of a product
     public static void testDecrementarStock(Scanner scanner) {
@@ -101,7 +78,7 @@ public class DriverCtrlProducte {
         System.out.println("Escrigui el nom del producte a imprimir:");
         String nom = readLine(scanner);
 
-        ctrlProducte.imprimirProducte(nom);
+        ctrlProducte.getProducte(nom);
     }
 
     // Removes a product from the warehouse
@@ -136,9 +113,6 @@ public class DriverCtrlProducte {
                 break;
             case ALTA_PRODUCTE:
                 testAltaProducte(scanner);
-                break;
-            case MODIFICAR_PRODUCTE:
-                testModificarProducte(scanner);
                 break;
             case DECREMENTAR_STOCK:
                 testDecrementarStock(scanner);

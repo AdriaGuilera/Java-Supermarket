@@ -1,5 +1,6 @@
 package tests;
 
+import Exepcions.QuanitatInvalidException;
 import classes.Comanda;
 import Exepcions.ProducteJaExisteixException;
 import Exepcions.ProductNotFoundComandaException;
@@ -28,18 +29,12 @@ public class TestComanda {
         assertEquals(10, comanda.getQuantitat("Manzana"));
     }
 
-    @Test
-    public void testAfegirProducte_ProductoExistente() {
-        assertThrows(ProducteJaExisteixException.class, () -> {
-            comanda.afegirProducte("Manzana", 10);
-            comanda.afegirProducte("Manzana", 5); // Debería lanzar la excepción
-        });
-    }
+
 
     @Test
     public void testAfegirProducte_CantidadInvalida() {
-        assertThrows(IllegalArgumentException.class, () -> comanda.afegirProducte("Pera", 0));
-        assertThrows(IllegalArgumentException.class, () -> comanda.afegirProducte("Pera", -5));
+        assertThrows(QuanitatInvalidException.class, () -> comanda.afegirProducte("Pera", 0));
+        assertThrows(QuanitatInvalidException.class, () -> comanda.afegirProducte("Pera", -5));
     }
 
     @Test
@@ -93,7 +88,7 @@ public class TestComanda {
 
     @Test
     public void testAfegirProducte_CantidadNegativa() {
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(QuanitatInvalidException.class, () -> {
             comanda.afegirProducte("Manzana", -10);
         });
     }

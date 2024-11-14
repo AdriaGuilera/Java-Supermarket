@@ -394,7 +394,11 @@ public class DriverCtrlDomini {
     public static void testExecutarComandes(Scanner scanner) {
         System.out.println("Nombres de las Comandas a ejecutar (separados por comas):");
         String[] noms = readLine(scanner).split(",");
-        ctrlDomini.executarComandes(noms);
+        try{
+            ctrlDomini.executarComandes(noms);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     public static void testObtenirComandaAutomatica(Scanner scanner) {
         System.out.println("Nombre de la Comanda:");
@@ -498,10 +502,10 @@ public class DriverCtrlDomini {
     public static void testPrintProducte(Scanner scanner) {
         System.out.println("Nombre del Producto:");
         String nom = readLine(scanner);
-        ctrlDomini.print_producte(nom);
+        ctrlDomini.get_producte(nom);
     }
     public static void testPrintMagatzem() {
-        ctrlDomini.printMagatzem();
+        ctrlDomini.getMagatzem();
     }
 
 

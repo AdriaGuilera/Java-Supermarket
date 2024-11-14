@@ -54,13 +54,14 @@ public class CtrlComandes {
     }
 
     // Método para obtener una lista de comandas a partir de nombres
-    public Map<String, Comanda> obtenirComandes(String[] nomsComandes) {
+    public Map<String, Comanda> obtenirComandes(String[] nomsComandes) throws ComandaNotFoundException{
         Map<String, Comanda> comandesAExecutar = new HashMap<>();
         for (String nomComanda : nomsComandes) {
             Comanda comanda = comandes_creades.get(nomComanda);
             if (comanda != null) {
                 comandesAExecutar.put(nomComanda, comanda);
             }
+            else throw new ComandaNotFoundException(nomComanda);
         }
         return comandesAExecutar;
     }

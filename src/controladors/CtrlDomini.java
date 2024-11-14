@@ -254,12 +254,20 @@ public class CtrlDomini {
 
 
     //Magatzem (Productes)
-    public void executarComandes(String[] noms) {
+    public void executarComandes(String[] noms) throws ComandaNotFoundException {
+        if (noms == null) {
+            throw new IllegalArgumentException("Els noms no poden estar buits.");
+        }
+
         Map<String, Comanda> comandesAExecutar = CtrlComandes.obtenirComandes(noms);
+
         CtrlProducte.executar_comandes(comandesAExecutar);
     }
 
     public void obtenirComandaAutomatica(String nomComanda) {
+        if (nomComanda == null || nomComanda.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
+        }
         //Primero obtenemos un map de <string,int> con los productos y cantidades que faltan por rellenar;
         Map<String, Integer> productosFaltantes = CtrlProducte.obtenirComandaAutomatica();
         //Creamos una comanda con los productos
@@ -328,14 +336,14 @@ public class CtrlDomini {
         CtrlProducte.modificarSimilitud(nom1, nom2, value);
     }
 
-    public void print_producte(String nomProducte) throws IllegalArgumentException{
+    public Producte get_producte(String nomProducte) throws IllegalArgumentException{
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
         }
-        CtrlProducte.imprimirProducte(nomProducte);
+        return CtrlProducte.getProducte(nomProducte);
     }
 
-    public void printMagatzem() {
-        CtrlProducte.imprimirMagatzem();
+    public Map<String, Producte> getMagatzem() {
+        return CtrlProducte.getMagatzem();
     }
 }
