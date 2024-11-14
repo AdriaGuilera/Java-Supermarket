@@ -2,7 +2,11 @@ package controladors;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import Exepcions.ComandaNoExisteix;
 import classes.Comanda;
+import Exepcions.ProducteJaExisteixException;
+import Exepcions.ProductNotFoundComandaException;
 
 public class CtrlComandes {
 
@@ -16,48 +20,45 @@ public class CtrlComandes {
     // Método para crear una nueva comanda
     public void crearComanda(String nomComanda) {
         if (nomComanda == null || nomComanda.isEmpty()) {
-            System.out.println("Error: El nom de la comanda no pot estar buit.");
-            return;
+            throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
         if (comandes_creades.containsKey(nomComanda)) {
-            System.out.println("Error: Ja existeix una comanda amb aquest nom.");
-            return;
+            throw new IllegalArgumentException("Ja existeix una comanda amb aquest nom.");
         }
 
         comandes_creades.put(nomComanda, new Comanda(nomComanda));
-        System.out.println("Comanda creada correctament.");
     }
 
     // Método para añadir un producto a una comanda
     public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) {
         Comanda comanda = comandes_creades.get(nomComanda);
         if (comanda == null) {
-            System.out.println("Error: No existeix la comanda amb aquest nom.");
-            return;
+            throw new IllegalArgumentException("No existeix la comanda amb aquest nom.");
         }
-        comanda.afegirProducte(nomProducte, quantitat);
-        System.out.println("Producte afegit correctament a la comanda.");
+        try {
+            comanda.afegirProducte(nomProducte, quantitat);
+        } catch (ProducteJaExisteixException | IllegalArgumentException e) {
+            throw e; // Reenvía la excepción
+        }
     }
+
+    // Método para eliminar un producto de una comanda
     public void eliminarProducteComanda(String nomComanda, String nomProducte) {
         Comanda comanda = comandes_creades.get(nomComanda);
         if (comanda == null) {
-            System.out.println("Error: No existeix la comanda amb aquest nom.");
-            return;
+            throw new IllegalArgumentException("No existeix la comanda amb aquest nom.");
         }
-        if (comanda.conteProducte(nomProducte)) {
+        try {
             comanda.eliminarProducte(nomProducte);
-            System.out.println("Producte eliminat correctament de la comanda.");
-        } else {
-            System.out.println("Error: El producte no es troba a la comanda.");
+        } catch (ProductNotFoundComandaException e) {
+            throw e; // Reenvía la excepción
         }
     }
 
     // Método para eliminar una comanda
     public void eliminarComanda(String nomComanda) {
-        if (comandes_creades.remove(nomComanda) != null) {
-            System.out.println("Comanda eliminada correctament.");
-        } else {
-            System.out.println("Error: No s'ha trobat cap comanda amb aquest nom.");
+        if (comandes_creades.remove(nomComanda) == null) {
+            throw new IllegalArgumentException("No s'ha trobat cap comanda amb aquest nom.");
         }
     }
 
@@ -74,36 +75,25 @@ public class CtrlComandes {
     }
 
     // Método para consultar todas las comandas creadas
-    public void printComandes() {
-        if (comandes_creades.isEmpty()) {
-            System.out.println("No hi ha comandes creades.");
-            return;
-        }
-
-        System.out.println("Llista de totes les comandes:");
-        for (Map.Entry<String, Comanda> entry : comandes_creades.entrySet()) {
-            String nomComanda = entry.getKey();
-            Comanda comanda = entry.getValue();
-
-            System.out.println("Comanda: " + nomComanda);
-            System.out.println("Productes i quantitats: " + comanda.getOrdres());
+    public Map<String, Comanda> getComandes() {
+        return new HashMap<>(comandes_creades); // Retorna una copia para evitar modificaciones externas
+    }
+    public Comanda getComandaUnica(String nomComanda) {
+        if (comandes_creades.containsKey(nomComanda)) {        return comandes_creades.get(nomComanda);}
+        else{
+            throw new ComandaNoExisteix(nomComanda);
         }
     }
-    public void printComandaUnica(String nomComanda) {
-        Comanda comanda = comandes_creades.get(nomComanda);
-        if (comanda == null) {
-            System.out.println("Error: No s'ha trobat cap comanda amb aquest nom.");
-            return;
-        }
 
-        System.out.println("Detalls de la comanda: " + nomComanda);
-        System.out.println("Productes i quantitats: " + comanda.getOrdres());
-    }
-
+    // Método para crear una comanda automática con productos
     public void crearComandaAutomatica(String nomComanda, Map<String, Integer> productosFaltantes) {
         crearComanda(nomComanda);
         for (Map.Entry<String, Integer> entry : productosFaltantes.entrySet()) {
-            afegirProducteComanda(nomComanda, entry.getKey(), entry.getValue());
+            try {
+                afegirProducteComanda(nomComanda, entry.getKey(), entry.getValue());
+            } catch (ProducteJaExisteixException | IllegalArgumentException e) {
+                throw e; // Reenvía la excepción si ocurre
+            }
         }
     }
 }

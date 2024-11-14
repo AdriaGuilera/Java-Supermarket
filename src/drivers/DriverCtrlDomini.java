@@ -152,15 +152,15 @@ public class DriverCtrlDomini {
 
     }
 
-    public static void testPrintComandes(Scanner scanner) {
-        ctrlDomini.printComandes();
+    public static void testGetComandes(Scanner scanner) {
+        ctrlDomini.getComandes();
     }
 
 
-    public static void testPrintComandaUnica(Scanner scanner) {
+    public static void testGetComandaUnica(Scanner scanner) {
         System.out.println("Nombre de la Comanda:");
         String nomComanda = readLine(scanner);
-        ctrlDomini.printComandaUnica(nomComanda);
+        ctrlDomini.getComandaUnica(nomComanda);
     }
 
 
@@ -351,7 +351,7 @@ public class DriverCtrlDomini {
         System.out.println("Nombre de la Comanda:");
         String nom = readLine(scanner);
         ctrlDomini.obtenirComandaAutomatica(nom);
-        ctrlDomini.printComandaUnica(nom);
+        ctrlDomini.getComandaUnica(nom);
     }
     public static void testAltaProducte(Scanner scanner) {
         System.out.println("Nombre del Producto:");
@@ -433,10 +433,10 @@ public class DriverCtrlDomini {
                 testEliminarProducteComanda(scanner);
                 break;
             case PRINT_COMANDA_UNICA:
-                testPrintComandaUnica(scanner);
+                testGetComandaUnica(scanner);
                 break;
             case PRINT_COMANDES:
-                testPrintComandes(scanner);
+                testGetComandes(scanner);
                 break;
 
             // Prestatgeria

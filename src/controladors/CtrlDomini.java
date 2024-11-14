@@ -17,30 +17,47 @@ public class CtrlDomini {
     //Funciones del CtrlComandes
 
     public void crearComanda(String nomComanda) {
-
-        CtrlComandes.crearComanda(nomComanda);
+        try {
+            CtrlComandes.crearComanda(nomComanda);
+        } catch (IllegalArgumentException e) {
+            throw e; // Reenvía la excepción para que sea manejada en un nivel superior
+        }
     }
 
     public void eliminarComanda(String nomComanda) {
-
-        CtrlComandes.eliminarComanda(nomComanda);
+        try {
+            CtrlComandes.eliminarComanda(nomComanda);
+        } catch (IllegalArgumentException e) {
+            throw e; // Reenvía la excepción
+        }
     }
 
 
     public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) {
-        CtrlComandes.afegirProducteComanda(nomComanda,nomProducte,quantitat);
+        try {
+            CtrlComandes.afegirProducteComanda(nomComanda, nomProducte, quantitat);
+        } catch (ProducteJaExisteixException | IllegalArgumentException e) {
+            throw e; // Reenvía la excepción
+        }
     }
+
     public void eliminarProducteComanda(String nomComanda, String nomProducte) {
-        CtrlComandes.eliminarProducteComanda(nomComanda,nomProducte);
+        try {
+            CtrlComandes.eliminarProducteComanda(nomComanda, nomProducte);
+        } catch (ProductNotFoundComandaException | IllegalArgumentException e) {
+            throw e; // Reenvía la excepción
+        }
     }
-    public Map<String, Comanda> obtenirComandes(String[] nomsComandes) {
-        return CtrlComandes.obtenirComandes(nomsComandes);
+
+    public void getComandes() {
+        CtrlComandes.getComandes();
     }
-    public void printComandes() {
-        CtrlComandes.printComandes();
-    }
-    public void printComandaUnica(String nomComanda) {
-        CtrlComandes.printComandaUnica(nomComanda);
+    public void getComandaUnica(String nomComanda) {
+        try {
+            CtrlComandes.getComandaUnica(nomComanda);
+        } catch (ComandaNoExisteix e){
+            throw e;
+        }
     }
 
     //Prestatgeria
