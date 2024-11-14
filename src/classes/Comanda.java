@@ -44,7 +44,7 @@ public class Comanda {
      * @param nomProducte Nombre del producto a eliminar.
      * @throws ProductNotFoundComandaException si el producto no se encuentra en la comanda.
      */
-    public void eliminarProducte(String nomProducte, int quantitat) throws QuanitatInvalidException {
+    public void eliminarProducte(String nomProducte) throws QuanitatInvalidException {
         if (!ordres.containsKey(nomProducte)) {
             throw new ProductNotFoundComandaException(nomProducte);
         }
