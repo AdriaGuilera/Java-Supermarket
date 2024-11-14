@@ -3,8 +3,14 @@ package controladors;
 import java.util.*;
 
 
+import Exepcions.PrestatgeriaNotFoundException;
+import Exepcions.PrestatgeriaNotFoundException;
+import Exepcions.ProductNotFoundPrestatgeriaException;
+import Exepcions.ProductNotFoundPrestatgeriaException;
 import classes.Pair;
 import classes.Prestatgeria;
+import Exepcions.ProductNotFoundPrestatgeriaException;
+
 public class CtrlPrestatgeria {
 	public Map<String, classes.Prestatgeria> prestatgeries;
 	
@@ -90,25 +96,29 @@ public class CtrlPrestatgeria {
 
     //función auxiliar que elimina el producto de prestatgeria y devuelve el nombre y la cantidad que habrá que aumentar en el almacén
     public Pair<String, Integer> retirarProductePrestatgeria(String id, String nomP){
-        if(!prestatgeries.containsKey(id)) return new Pair<>();
-        
+        if(!prestatgeries.containsKey(id)){
+            throw new PrestatgeriaNotFoundException(id);
+        }
         Prestatgeria pr = prestatgeries.get(id);
-        if(!pr.esta_a_prestatgeria(nomP)) return new Pair<>();
+        if(!pr.esta_a_prestatgeria(nomP)){
+            throw new ProductNotFoundPrestatgeriaException(id, nomP);
+        }
         
         int quantitat = pr.get_quantProducte(nomP);
         pr.eliminar_producte(nomP);
         return new Pair<>(nomP, quantitat);
     }
     
-    public void decrementar_quantitat_producte(String id, String nomP, int quantitat){
+    public int decrementar_quantitat_producte(String id, String nomP, int quantitat){
             if(!prestatgeries.containsKey(id)){
-                System.out.println("Error: No existeix una prestatgeria amb aquest identificador.");
-                return;
+                throw new PrestatgeriaNotFoundException(id);
             }
             else{
                 Prestatgeria pr = prestatgeries.get(id);
-                if(!pr.esta_a_prestatgeria(nomP)) return;
-                pr.decrementar_quantitat(nomP, quantitat);
+                if(!pr.esta_a_prestatgeria(nomP)){
+                    throw new ProductNotFoundPrestatgeriaException(nomP, id);
+                }
+                return pr.decrementar_quantitat(nomP, quantitat);
             }
     }
     

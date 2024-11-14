@@ -53,7 +53,7 @@ public class DriverCaixa {
         System.out.println("Introdueix l'id de la prestatgeria on es troba el producte:");
         String id = readLine(scanner);
 
-        C.afegir_producte(nom, quantitat, id);
+        C.afegir_producte(nom, quantitat);
         System.out.println("Producte " + nom + " amb quantitat " + quantitat + " de prestatgeria " + id + " afegit correctament");
     }
 
@@ -64,30 +64,18 @@ public class DriverCaixa {
         System.out.println("Introdueix la quantitat del producte a retirar:");
         int quantitat = Integer.parseInt(readLine(scanner));
 
-        System.out.println("Introdueix l'id de la prestatgeria on es troba el producte a retirar:");
-        String id = readLine(scanner);
 
-        C.retirar_producte(nom, quantitat, id);
-        System.out.println("Producte" + nom + "amb quantitat" + quantitat + "de prestatgeria" + id + "retirat correctament");
+        C.retirar_producte(nom, quantitat);
+        System.out.println("Producte" + nom + "amb quantitat" + quantitat + "retirat correctament");
     }
 
     public static void testgetquantitat(Scanner scanner){
         System.out.println("Introdueix el nom del producte del qual vols obtenir la quantitat:");
         String nom = readLine(scanner);
 
-        System.out.println("Introdueix l'id de la prestatgeria on es troba el producte:");
-        String id = readLine(scanner);
 
-        int quantitat = C.get_quantitat(nom, id);
-        System.out.println("La quantitat del producte" + nom + "de prestatgeria" + id + "és" + quantitat);
-    }
-
-    public static void testprintticket(){
-        C.imprimirticket();
-    }
-
-    public static void testimprimirprestatgeries(){
-        C.imprimir_ticket_per_prestatgeries();
+        int quantitat = C.get_quantitat(nom);
+        System.out.println("La quantitat del producte" + nom +  "és" + quantitat);
     }
 
     public static void testpagar(){
@@ -125,7 +113,7 @@ public class DriverCaixa {
                 if(C == null) {
                     System.out.println(NOHIHACAIXA);
                 } else {
-                testprintticket();
+                //
                 }
                 break;
             case PRINTTICKETPERPRESTATGERIES:
@@ -133,7 +121,7 @@ public class DriverCaixa {
                     System.out.println(NOHIHACAIXA);
                 }
                 else {
-                    testimprimirprestatgeries();
+                    //
                 }
                 break;
             case PAGAR:

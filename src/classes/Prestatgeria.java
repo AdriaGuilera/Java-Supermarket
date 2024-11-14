@@ -1,5 +1,7 @@
 package classes;
 
+import Exepcions.ProductNotFoundPrestatgeriaException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.HashSet;
@@ -125,12 +127,18 @@ public class Prestatgeria {
 			productes.compute(nomP, (k, currentQuantitat) -> currentQuantitat + quantitat);
 		}
 	}
-	public void decrementar_quantitat(String nomP, Integer quantitat) {
-		if(productes.containsKey(nomP)) {
+	public int decrementar_quantitat(String nomP, Integer quantitat) {
+		if (productes.containsKey(nomP)) {
 			int quantitat_actual = productes.get(nomP);
-			if(quantitat_actual - quantitat >= 0) {
-				productes.compute(nomP, (k, currentQuantitat) -> currentQuantitat - quantitat);
+			if (quantitat_actual - quantitat >= 0) {
+				productes.put(nomP, quantitat_actual - quantitat);
+				return quantitat;
+			} else {
+				productes.put(nomP, 0);
+				return quantitat_actual;
 			}
+		} else {
+			throw new ProductNotFoundPrestatgeriaException(id, nomP);
 		}
 	}
 

@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import Exepcions.*;
+import Exepcions.ProductNotFoundPrestatgeriaException;
 import classes.*;
 
 public class CtrlDomini {
@@ -47,6 +49,7 @@ public class CtrlDomini {
     // Implementación de los métodos de Prestatgeria
 
     public void afegirProductePrestatgeria(String nomProducte, int quantitat, String idPrestatgeria) {
+        // Código para agregar un producto a la prestatgeria
         // Código para agregar un producto a la prestatgeria
         int maxhueco = CtrlProducte.getmaxhueco(nomProducte);
         int stock = CtrlProducte.get_stock(nomProducte);
@@ -174,8 +177,11 @@ public class CtrlDomini {
     }
 
     public void retirarProducteAMagatzem(String id,String nomProducte) {
+        if(!CtrlProducte.existeix_producte(nomProducte)){
+            throw new ProductNotFound(nomProducte);
+        }
         Pair<String,Integer> producteretirat = CtrlPrestatgeria.retirarProductePrestatgeria(id, nomProducte);
-        if(producteretirat.getKey() != null){
+        if(producteretirat.getKey() != null) {
             String nom = producteretirat.getKey();
             int quantitat = producteretirat.getValue();
             CtrlProducte.incrementar_stock(nom, quantitat);
@@ -187,55 +193,32 @@ public class CtrlDomini {
     }
 
     //Caixa
-    public void afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria){
-
-        if(CtrlProducte.existeix_producte(nom_producte)){
-            int quantitat_ja_afegida = Caixa.get_quantitat(nom_producte, id_prestatgeria);
-            if(!CtrlPrestatgeria.contains_quantitat(nom_producte, quantitat, id_prestatgeria, quantitat_ja_afegida)){
-                System.out.println("Error: El producte no està a la prestatgeria o no hi ha suficient quantitat");
-            }
-            else{
-                Caixa.afegir_producte(nom_producte, quantitat, id_prestatgeria);
-            }
-
+    public int afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria){
+        if(quantitat < 0) {
+            throw new QuanitatInvalidException();
         }
-        else{
-            System.out.println("Error: El producte no existeix");
+        if(!CtrlProducte.existeix_producte(nom_producte)){
+            throw new ProductNotFound(nom_producte);
         }
+        int quantitat_a_afegir = CtrlPrestatgeria.decrementar_quantitat_producte(id_prestatgeria, nom_producte,quantitat);
+        Caixa.afegir_producte(nom_producte, quantitat_a_afegir);
+        return quantitat_a_afegir;
     }
+
     // Retirar producto de la caja
-    public void retirar_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria) {
-        Caixa.retirar_producte(nom_producte, quantitat, id_prestatgeria);
-    }
-
-    // Consultar la cantidad de un producto específico en una estantería de la caja
-    public int consultar_quantitat_caixa(String nom_producte, String id_prestatgeria) {
-        return Caixa.get_quantitat(nom_producte, id_prestatgeria);
-    }
-
-    // Imprimir el ticket con el desglose de productos por estantería
-    public void imprimir_ticket_per_prestatgeries() {
-        Caixa.imprimir_ticket_per_prestatgeries();
-    }
-
-    // Imprimir el ticket con el total de cada producto en la caja
-    public void imprimir_ticket_caixa() {
-        Caixa.imprimirticket();
+    public void retirar_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria) throws QuanitatInvalidException {
+        if(quantitat < 0) {
+            throw new QuanitatInvalidException();
+        }
+        Caixa.retirar_producte(nom_producte, quantitat);
     }
 
     // Pagar y vaciar la caja, decrementando la cantidad de productos en las estanterías
     public void pagar_caixa() {
-        Map<String, Map<String, Integer>> productes_venuts = Caixa.get_productes();
-        for(Map.Entry<String, Map<String, Integer>> entry : productes_venuts.entrySet()){
-            String id_prestatgeria = entry.getKey();
-            Map<String, Integer> productes = entry.getValue();
-            for(Map.Entry<String, Integer> entry2 : productes.entrySet()){
-                String nom_producte = entry2.getKey();
-                int quantitat = entry2.getValue();
-                CtrlPrestatgeria.decrementar_quantitat_producte(id_prestatgeria, nom_producte, quantitat);
-            }
+        Map<String, Integer> productes = Caixa.getticket();
+        for(Map.Entry<String, Integer> entry : productes.entrySet()){
+            CtrlProducte.incrementar_stock(entry.getKey(), entry.getValue());
         }
-        Caixa.imprimirticket();
         Caixa.pagar();
     }
 
