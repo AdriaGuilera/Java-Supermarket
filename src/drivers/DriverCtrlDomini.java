@@ -1,9 +1,5 @@
 package drivers;
 
-import Exepcions.NotEnoughQuantityPrestatgeriaWarning;
-import Exepcions.PrestatgeriaNotFoundException;
-import Exepcions.ProductNotFoundPrestatgeriaException;
-import Exepcions.QuanitatInvalidException;
 import classes.Comanda;
 import controladors.CtrlDomini;
 
@@ -19,44 +15,42 @@ public class DriverCtrlDomini {
     private static final String ELIMINAR_COMANDA = "2";
     private static final String AFEGIR_PRODUCTE_COMANDA = "3";
     private static final String ELIMINAR_PRODUCTE_COMANDA = "4";
-    private static final String PRINT_COMANDA_UNICA = "5";
-    private static final String PRINT_COMANDES = "6";
-
+    private static final String CONSULTAR_COMANDA_UNICA = "5";
+    private static final String CONSULTAR_COMANDES = "6";
+    private static final String GENERAR_COMANDA_AUTOMATICA = "7";
+    private static final String EXECUTAR_COMANDES = "8";
 
     // Prestatgeria
-    private static final String AFEGIR_PRODUCTE_PRESTATGERIA = "7";
-    private static final String MOURE_PRODUCTE_DE_HUECO = "8";
-    private static final String FIXAR_PRODUCTE = "9";
-    private static final String DESFIXAR_PRODUCTE = "10";
-    private static final String RETIRAR_PRODUCTE_A_MAGATZEM = "11";
-    private static final String DECREMENTAR_STOCK_A_PRODUCTE = "12";
-    private static final String GENERAR_DISTRIBUCIO_BACKTRACKING = "15";
-    private static final String GENERAR_DISTRIBUCIO_HILL_CLIMBING = "16";
-    private static final String AFEGIR_PRESTATGERIA = "17";
-    private static final String ELIMINAR_PRESTATGERIA = "18";
-    private static final String AFEGIR_PRESTATGE = "19";
-    private static final String ELIMINAR_PRESTATGE = "20";
+    private static final String AFEGIR_PRESTATGERIA = "9";
+    private static final String AFEGIR_PRESTATGE = "10";
+    private static final String ELIMINAR_PRESTATGERIA = "11";
+    private static final String ELIMINAR_PRESTATGE = "12";
+    private static final String AFEGIR_PRODUCTE_PRESTATGERIA = "13";
+    private static final String RETIRAR_PRODUCTE_A_MAGATZEM = "14";
+    private static final String DECREMENTAR_STOCK_A_PRODUCTE = "15";
+    private static final String MOURE_PRODUCTE_DE_HUECO = "16";
+    private static final String FIXAR_PRODUCTE = "17";
+    private static final String DESFIXAR_PRODUCTE = "18";
+    private static final String GENERAR_DISTRIBUCIO_BACKTRACKING = "19";
+    private static final String GENERAR_DISTRIBUCIO_HILL_CLIMBING = "20";
     private static final String REPOSAR_PRESTATGERIA = "21";
-    private static final String PRINT_PRESTATGERIA = "22";
+    private static final String CONSULTAR_PRESTATGERIA = "22";
 
     // Caixa
     private static final String AFEGIR_PRODUCTE_CAIXA = "23";
     private static final String RETIRAR_PRODUCTE_CAIXA = "24";
-    private static final String PRINTTICKET = "25";
-    private static final String PRINTTICKETPERPRESTATGERIES = "26";
-    private static final String PAGAR = "27";
+    private static final String PAGAR = "25";
+    private static final String CONSULTAR_CAIXA = "26";
 
     // Magatzem (Producte)
-    private static final String EXECUTAR_COMANDES = "28";
-    private static final String OBTENIR_COMANDA_AUTOMATICA = "29";
-    private static final String ALTA_PRODUCTE = "30";
-    private static final String ELIMINAR_PRODUCTE = "31";
-    private static final String AFEGIR_SIMILITUD = "32";
-    private static final String ELIMINA_SIMILITUD = "33";
-    private static final String MODIFICAR_SIMILITUD = "34";
-    private static final String MOURE_PRODUCTE_A_PRESTATGERIA = "35";
-    private static final String PRINT_PRODUCTE = "36";
-    private static final String PRINT_MAGATZEM = "37";
+
+    private static final String ALTA_PRODUCTE = "27";
+    private static final String ELIMINAR_PRODUCTE = "28";
+    private static final String AFEGIR_SIMILITUD = "29";
+    private static final String ELIMINA_SIMILITUD = "30";
+    private static final String MOURE_PRODUCTE_A_PRESTATGERIA = "31";
+    private static final String CONSULTAR_PRODUCTE = "32";
+    private static final String CONSULTAR_MAGATZEM = "33";
 
 
     // Extras
@@ -70,8 +64,8 @@ public class DriverCtrlDomini {
             "   " + ELIMINAR_COMANDA + " - Eliminar una Comanda\n" +
             "   " + AFEGIR_PRODUCTE_COMANDA + " - Agregar producto a Comanda\n" +
             "   " + ELIMINAR_PRODUCTE_COMANDA + " - Eliminar producto de Comanda\n" +
-            "   " + PRINT_COMANDA_UNICA + " - Obtener Comanda por nombre\n" +
-            "   " + PRINT_COMANDES + " - Consultar todas las Comandas creadas\n" +
+            "   " + CONSULTAR_COMANDA_UNICA + " - Obtener Comanda por nombre\n" +
+            "   " + CONSULTAR_COMANDES + " - Consultar todas las Comandas creadas\n" +
             "  \n"+
             "GESTIÓ DE PRESTATGERIA:  \n"+
             "   " + AFEGIR_PRODUCTE_PRESTATGERIA + " - Agregar un producto a Prestatgeria\n" +
@@ -87,26 +81,23 @@ public class DriverCtrlDomini {
             "   " + AFEGIR_PRESTATGE + " - Agregar un prestatge a Prestatgeria\n" +
             "   " + ELIMINAR_PRESTATGE + " - Eliminar un prestatge de Prestatgeria\n" +
             "   " + REPOSAR_PRESTATGERIA + " - Reposar Prestatgeria\n" +
-            "   " + PRINT_PRESTATGERIA + " - Imprimir detalles de Prestatgeria\n" +
+            "   " + CONSULTAR_PRESTATGERIA + " - Imprimir detalles de Prestatgeria\n" +
             "  \n"+
             "GESTIÓ DE CAIXA:  \n"+
             "   " + AFEGIR_PRODUCTE_CAIXA + " - Agregar producto a Caixa\n" +
             "   " + RETIRAR_PRODUCTE_CAIXA + " - Retirar producto de la Caixa\n" +
-            "   " + PRINTTICKET + " - Imprimir el ticket total\n" +
-            "   " + PRINTTICKETPERPRESTATGERIES + " - Imprimir ticket por Prestatgeries\n" +
+
             "   " + PAGAR + " - Pagar y vaciar la Caixa\n" +
             "  \n"+
             "GESTIÓ DE MAGATZEM (PRODUCTES):  \n"+
             "   " + EXECUTAR_COMANDES + " - Ejecutar Comandas seleccionadas\n" +
-            "   " + OBTENIR_COMANDA_AUTOMATICA + " - Obtener Comanda automática con los productos que faltan en el Almacen\n" +
             "   " + ALTA_PRODUCTE + " - Dar de alta un nuevo producto\n" +
             "   " + ELIMINAR_PRODUCTE + " - Eliminar un producto\n" +
             "   " + AFEGIR_SIMILITUD + " - Agregar similitud entre productos\n" +
             "   " + ELIMINA_SIMILITUD + " - Eliminar similitud entre productos\n" +
-            "   " + MODIFICAR_SIMILITUD + " - Modificar similitud entre productos\n" +
             "   " + MOURE_PRODUCTE_A_PRESTATGERIA + " - Mover producto a Prestatgeria\n" +
-            "   " + PRINT_PRODUCTE + " - Imprimir detalles de producto\n" +
-            "   " + PRINT_MAGATZEM + " - Imprimir detalles de Magatzem\n" +
+            "   " + CONSULTAR_PRODUCTE + " - Imprimir detalles de producto\n" +
+            "   " + CONSULTAR_MAGATZEM + " - Imprimir detalles de Magatzem\n" +
 
             "  \n"+
             "EXTRAS:  \n"+
@@ -128,11 +119,12 @@ public class DriverCtrlDomini {
         String nomComanda = readLine(scanner);
         try {
             ctrlDomini.crearComanda(nomComanda);
-            System.out.println("Comanda creada correctament.");
+            System.out.println("Comanda "+nomComanda+" creada correctament.");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
+
     public static void testEliminarComanda(Scanner scanner) {
         System.out.println("Nombre de la Comanda a eliminar:");
         String nomComanda = readLine(scanner);
@@ -184,9 +176,7 @@ public class DriverCtrlDomini {
         }
     }
 
-    public static Map<String, Comanda> testGetComandes() {
-            return ctrlDomini.getComandes();
-    }
+
 
     public static Comanda testGetComandaUnica(Scanner scanner) {
         System.out.println("Nombre de la Comanda:");
@@ -200,11 +190,58 @@ public class DriverCtrlDomini {
         return new Comanda(null);
     }
 
+    public static Map<String, Comanda> testGetComandes() {
+        return ctrlDomini.getComandes();
+    }
 
+    public static void testObtenirComandaAutomatica(Scanner scanner) {
+        System.out.println("Nombre de la Comanda:");
+        String nom = readLine(scanner);
+        ctrlDomini.obtenirComandaAutomatica(nom);
+        ctrlDomini.getComandaUnica(nom);
+    }
 
+    public static void testExecutarComandes(Scanner scanner) {
+        System.out.println("Nombres de las Comandas a ejecutar (separados por comas):");
+        String[] noms = readLine(scanner).split(",");
+        try{
+            ctrlDomini.executarComandes(noms);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
     //Prestatgeria
     // Métodos de Prestatgeria
 
+    public static void testAfegirPrestatgeria(Scanner scanner) {
+        System.out.println("ID de la nueva Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        System.out.println("Mida prestage:");
+        int midaPrestatge = Integer.parseInt(readLine(scanner));
+        System.out.println("Mida prestatgeria");
+        int midaPrestatgeria = Integer.parseInt(readLine(scanner));
+        ctrlDomini.afegirPrestatgeria(idPrestatgeria, midaPrestatge,midaPrestatgeria);
+        System.out.println("Prestatgeria añadida.");
+    }
+    public static void testAfegirPrestatge(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        ctrlDomini.afegirPrestatge(idPrestatgeria);
+
+    }
+    public static void testEliminarPrestatgeria(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria a eliminar:");
+        String idPrestatgeria = readLine(scanner);
+        ctrlDomini.eliminarPrestatgeria(idPrestatgeria);
+        System.out.println("Prestatgeria eliminada.");
+    }
+    public static void testEliminarPrestatge(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+
+        ctrlDomini.eliminarPrestatge(idPrestatgeria);
+        System.out.println("Prestatge eliminado de la prestatgeria.");
+    }
     public static void testAfegirProductePrestatgeria(Scanner scanner) {
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
@@ -225,7 +262,33 @@ public class DriverCtrlDomini {
             System.out.println(e.getMessage());
         }
     }
-
+    public static void testRetirarProducteAMagatzem(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        System.out.println("Nombre del Producto:");
+        String nomProducte = readLine(scanner);
+        try{
+            ctrlDomini.retirarProducteAMagatzem(idPrestatgeria, nomProducte);
+            System.out.println("Producto " + nomProducte + " de prestatgeria " + idPrestatgeria +  " retirado al magatzem.");
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    public static void testDecrementarStockAProducte(Scanner scanner) {
+        System.out.println("ID de la Prestatgeria:");
+        String idPrestatgeria = readLine(scanner);
+        System.out.println("Nombre del Producto:");
+        String nomProducte = readLine(scanner);
+        System.out.println("Cantidad a decrementar:");
+        int cantidad = Integer.parseInt(readLine(scanner));
+        try {
+            ctrlDomini.decrementarStockAProducte(idPrestatgeria, nomProducte, cantidad);
+            System.out.println("Stock decrementado.");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
     public static void testMoureProducteDeHueco(Scanner scanner) {
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
@@ -261,34 +324,9 @@ public class DriverCtrlDomini {
         System.out.println("Producto desfijado de la prestatgeria.");
     }
 
-    public static void testRetirarProducteAMagatzem(Scanner scanner) {
-        System.out.println("ID de la Prestatgeria:");
-        String idPrestatgeria = readLine(scanner);
-        System.out.println("Nombre del Producto:");
-        String nomProducte = readLine(scanner);
-        try{
-            ctrlDomini.retirarProducteAMagatzem(idPrestatgeria, nomProducte);
-            System.out.println("Producto " + nomProducte + " de prestatgeria " + idPrestatgeria +  " retirado al magatzem.");
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
 
-    public static void testDecrementarStockAProducte(Scanner scanner) {
-        System.out.println("ID de la Prestatgeria:");
-        String idPrestatgeria = readLine(scanner);
-        System.out.println("Nombre del Producto:");
-        String nomProducte = readLine(scanner);
-        System.out.println("Cantidad a decrementar:");
-        int cantidad = Integer.parseInt(readLine(scanner));
-        try {
-            ctrlDomini.decrementarStockAProducte(idPrestatgeria, nomProducte, cantidad);
-            System.out.println("Stock decrementado.");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
+
+
 
     public static void testGenerarDistribucioBacktracking(Scanner scanner) {
         System.out.println("ID de la Prestatgeria:");
@@ -304,38 +342,6 @@ public class DriverCtrlDomini {
         System.out.println("Distribución generada (Hill Climbing) en prestatgeria.");
     }
 
-    public static void testAfegirPrestatgeria(Scanner scanner) {
-        System.out.println("ID de la nueva Prestatgeria:");
-        String idPrestatgeria = readLine(scanner);
-        System.out.println("Mida prestage:");
-        int midaPrestatge = Integer.parseInt(readLine(scanner));
-        System.out.println("Mida prestatgeria");
-        int midaPrestatgeria = Integer.parseInt(readLine(scanner));
-        ctrlDomini.afegirPrestatgeria(idPrestatgeria, midaPrestatge,midaPrestatgeria);
-        System.out.println("Prestatgeria añadida.");
-    }
-
-    public static void testEliminarPrestatgeria(Scanner scanner) {
-        System.out.println("ID de la Prestatgeria a eliminar:");
-        String idPrestatgeria = readLine(scanner);
-        ctrlDomini.eliminarPrestatgeria(idPrestatgeria);
-        System.out.println("Prestatgeria eliminada.");
-    }
-
-    public static void testAfegirPrestatge(Scanner scanner) {
-        System.out.println("ID de la Prestatgeria:");
-        String idPrestatgeria = readLine(scanner);
-        ctrlDomini.afegirPrestatge(idPrestatgeria);
-
-    }
-
-    public static void testEliminarPrestatge(Scanner scanner) {
-        System.out.println("ID de la Prestatgeria:");
-        String idPrestatgeria = readLine(scanner);
-
-        ctrlDomini.eliminarPrestatge(idPrestatgeria);
-        System.out.println("Prestatge eliminado de la prestatgeria.");
-    }
 
     public static void testReposarPrestatgeria(Scanner scanner) {
         System.out.println("ID de la Prestatgeria:");
@@ -393,23 +399,9 @@ public class DriverCtrlDomini {
         System.out.println("Caja pagada y vaciada!");
     }
 
+
     //Magatzem(Productes)
 
-    public static void testExecutarComandes(Scanner scanner) {
-        System.out.println("Nombres de las Comandas a ejecutar (separados por comas):");
-        String[] noms = readLine(scanner).split(",");
-        try{
-            ctrlDomini.executarComandes(noms);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
-    public static void testObtenirComandaAutomatica(Scanner scanner) {
-        System.out.println("Nombre de la Comanda:");
-        String nom = readLine(scanner);
-        ctrlDomini.obtenirComandaAutomatica(nom);
-        ctrlDomini.getComandaUnica(nom);
-    }
     public static void testAltaProducte(Scanner scanner) {
         System.out.println("Nombre del Producto:");
         String nom = readLine(scanner);
@@ -452,9 +444,6 @@ public class DriverCtrlDomini {
             System.out.println(e.getMessage());
         }
     }
-
-
-
     public static void testAfegirSimilitud(Scanner scanner) {
         System.out.println("Nombre del primer Producto:");
         String nom1 = readLine(scanner);
@@ -486,11 +475,12 @@ public class DriverCtrlDomini {
             throw new RuntimeException(e);
         }
     }
+    public static void testMoureProducteAPrestatgeria(Scanner scanner) {
+
+    }
 
 
 
-
-    public static void testMoureProducteAPrestatgeria(Scanner scanner) {}
 
 
     public static void testPrintProducte(Scanner scanner) {
@@ -520,10 +510,10 @@ public class DriverCtrlDomini {
             case ELIMINAR_PRODUCTE_COMANDA:
                 testEliminarProducteComanda(scanner);
                 break;
-            case PRINT_COMANDA_UNICA:
+            case CONSULTAR_COMANDA_UNICA:
                 testGetComandaUnica(scanner);
                 break;
-            case PRINT_COMANDES:
+            case CONSULTAR_COMANDES:
                 testGetComandes();
                 break;
 
@@ -567,7 +557,7 @@ public class DriverCtrlDomini {
             case REPOSAR_PRESTATGERIA:
                 testReposarPrestatgeria(scanner);
                 break;
-            case PRINT_PRESTATGERIA:
+            case CONSULTAR_PRESTATGERIA:
                 testPrintPrestatgeria(scanner);
                 break;
 
@@ -578,12 +568,7 @@ public class DriverCtrlDomini {
             case RETIRAR_PRODUCTE_CAIXA:
                 testRetirarProducteCaixa(scanner);
                 break;
-            case PRINTTICKET:
-                //
-                break;
-            case PRINTTICKETPERPRESTATGERIES:
-                //
-                break;
+
             case PAGAR:
                 testPagar();
                 break;
@@ -591,9 +576,6 @@ public class DriverCtrlDomini {
             // Magatzem (Producte)
             case EXECUTAR_COMANDES:
                 testExecutarComandes(scanner);
-                break;
-            case OBTENIR_COMANDA_AUTOMATICA:
-                testObtenirComandaAutomatica(scanner);
                 break;
             case ALTA_PRODUCTE:
                 testAltaProducte(scanner);
@@ -607,10 +589,10 @@ public class DriverCtrlDomini {
             case ELIMINA_SIMILITUD:
                 testEliminarSimilitud(scanner);
                 break;
-            case PRINT_PRODUCTE:
+            case CONSULTAR_PRODUCTE:
                 testPrintProducte(scanner);
                 break;
-            case PRINT_MAGATZEM:
+            case CONSULTAR_MAGATZEM:
                 testPrintMagatzem();
                 break;
             case MOURE_PRODUCTE_A_PRESTATGERIA:

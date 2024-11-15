@@ -1,0 +1,16 @@
+//Creem una comanda amb nom Comanda1
+1
+Comanda1
+
+
+
+//Creem una comanda amb nom Comanda1 -> Salta excepció per comanda ja existent amb mateix nom
+1
+Comanda1
+
+//Creem una comanda buita -> Salta excepció per comanda nula
+1
+
+//Creem una comanda amb nom Comanda2
+1
+Comanda2
