@@ -23,7 +23,6 @@ public class CtrlProducte {
                 else p.incrementar_stock(quant);
             }
         }
-        System.out.println( "Les comandes s'han executat correctament");
     }
 
     public Map<String,Integer> obtenirComandaAutomatica() {
@@ -41,7 +40,6 @@ public class CtrlProducte {
         }
         Producte p = new Producte(nomProducte, max_h, max_m);
         productes_magatzem.put(nomProducte, p);
-        System.out.println("Producto añadido al Almacén!");
     }
 
 
@@ -49,7 +47,6 @@ public class CtrlProducte {
     public void eliminar_producte(String nomProducte) throws ProductNotFoundMagatzemException {
         if (productes_magatzem.containsKey(nomProducte)) {
             productes_magatzem.remove(nomProducte);
-            System.out.println("Producto '" + nomProducte + "' eliminado correctamente.");
         } else {
             throw new ProductNotFoundMagatzemException(nomProducte);
         }
@@ -64,7 +61,6 @@ public class CtrlProducte {
         else {
             p1.afegir_similitud(nom2, value);
             p2.afegir_similitud(nom1, value);
-            System.out.println( "La similitud s'ha afegit correctament");
         }
     }
     public void eliminarSimilitud(String nom1, String nom2) throws ProductNotFoundMagatzemException, calculMateixosProductesSimilitud{
@@ -76,7 +72,6 @@ public class CtrlProducte {
         else {
             p1.eliminarSimilitud(nom2);
             p2.eliminarSimilitud(nom1);
-            System.out.println( "La similitud s'ha eliminat correctament");
         }
     }
 
@@ -89,7 +84,6 @@ public class CtrlProducte {
         else {
             p1.modificarSimilitud(nom2, value);
             p2.modificarSimilitud(nom1, value);
-            System.out.println( "La similitud s'ha afegit correctament");
         }
     }
 

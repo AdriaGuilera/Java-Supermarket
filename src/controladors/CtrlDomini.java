@@ -1,5 +1,6 @@
 package controladors;
 
+import java.util.IllegalFormatException;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -270,9 +271,12 @@ public class CtrlDomini {
     }
 
     public void retirarProducteAMagatzem(String id_prestatgeria,String nomProducte)
-    throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, ProductNotFoundPrestatgeriaException{
-        if(!CtrlProducte.existeix_producte(nomProducte)){
-            throw new ProductNotFoundMagatzemException(nomProducte);
+    throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, ProductNotFoundPrestatgeriaException, QuanitatInvalidException, IllegalArgumentException {
+        if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
+        }
+        if(nomProducte == null || nomProducte.isEmpty()) {
+            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
         Pair<String,Integer> producteretirat = CtrlPrestatgeria.retirarProductePrestatgeria(id_prestatgeria, nomProducte);
         if(producteretirat.getKey() != null) {
@@ -287,7 +291,14 @@ public class CtrlDomini {
 
 
     //Caixa
-    public int afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria) throws QuanitatInvalidException, ProductNotFoundMagatzemException {
+    public int afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria)
+    throws QuanitatInvalidException, ProductNotFoundMagatzemException, ProductNotFoundPrestatgeriaException, PrestatgeriaNotFoundException, IllegalArgumentException {
+        if(nom_producte == null || nom_producte.isEmpty()) {
+            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+        }
+        if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
+        }
         if(!CtrlProducte.existeix_producte(nom_producte)){
             throw new ProductNotFoundMagatzemException(nom_producte);
         }
