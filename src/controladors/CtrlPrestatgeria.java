@@ -13,9 +13,9 @@ public class CtrlPrestatgeria {
 	}
 
     public  void afegirPrestatgeria(String id, int mida, int mida_prestatge)
-    throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteix {
+    throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
         if (!prestatgeries.containsKey(id)){
-            if(mida >= mida_prestatge && mida%mida_prestatge!=0){
+            if( mida_prestatge <= 0 || mida < 0 || mida < mida_prestatge || mida%mida_prestatge!=0 ){
                 throw new MidaPrestatgeriaInvalidException();
             }else {
                 Prestatgeria pr = new Prestatgeria(id, mida, mida_prestatge);
@@ -24,7 +24,7 @@ public class CtrlPrestatgeria {
 
         }
         else {
-            throw new PrestatgeriaJaExisteix(id);
+            throw new PrestatgeriaJaExisteixException(id);
         }
     }
 
@@ -52,7 +52,7 @@ public class CtrlPrestatgeria {
     }
 
     public void fixarProducte(String id, String nomP)
-    throws PrestatgeriaNotFoundException {
+    throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteFixatException {
         if(!prestatgeries.containsKey(id)){
             throw new PrestatgeriaNotFoundException(id);
         }
@@ -133,7 +133,7 @@ public class CtrlPrestatgeria {
 
     //Mou un producte del magatzem a la prestatgeria
     public void afegirProducte(String id_prest, String nom,int quantitat)
-    throws PrestatgeriaNotFoundException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+    throws PrestatgeriaNotFoundException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException, QuanitatInvalidException {
         if(!prestatgeries.containsKey(id_prest)) {
             throw new PrestatgeriaNotFoundException(id_prest);
         }
@@ -173,7 +173,7 @@ public class CtrlPrestatgeria {
     }
 
     public void moureProducte(String id_prestatgeria,int hueco_origen, int hueco_desti)
-    throws PrestatgeriaNotFoundException {
+    throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException {
         if(!prestatgeries.containsKey(id_prestatgeria)){
             throw new PrestatgeriaNotFoundException(id_prestatgeria);
         }
@@ -182,7 +182,6 @@ public class CtrlPrestatgeria {
             pr.moure_producte(hueco_origen, hueco_desti);
         }
     }
-
 
     public int get_quantitat_producte(String id_prestatgeria, String nomProducte)
     throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException {

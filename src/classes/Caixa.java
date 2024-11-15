@@ -26,7 +26,12 @@ public class Caixa {
         }
     }
 
-    public void retirar_producte(String nom_producte, int quantitat) throws NotEnoughQuantityCaixaWarning, ProductNotFoundCaixaException{
+    public void retirar_producte(String nom_producte, int quantitat)
+    throws NotEnoughQuantityCaixaWarning, ProductNotFoundCaixaException, QuanitatInvalidException{
+        if(quantitat <= 0){
+            throw new QuanitatInvalidException();
+        }
+
         if(productes.containsKey(nom_producte)){
             if(productes.get(nom_producte) >= quantitat){
                 productes.put(nom_producte, productes.get(nom_producte) - quantitat);
@@ -41,7 +46,8 @@ public class Caixa {
         }
     }
 
-    public int get_quantitat(String nom_producte){
+    public int get_quantitat(String nom_producte)
+    throws ProductNotFoundCaixaException{
         if(productes.containsKey(nom_producte)){
             return productes.get(nom_producte);
         }

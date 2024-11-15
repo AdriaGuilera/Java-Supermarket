@@ -1,12 +1,14 @@
 package tests;
 
+import classes.Prestatgeria;
+import Exepcions.*;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import classes.Prestatgeria;
+
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
-import java.util.Set;
+
+import static org.junit.Assert.*;
 
 public class TestPrestatgeria {
 
@@ -14,104 +16,161 @@ public class TestPrestatgeria {
 
     @Before
     public void setUp() {
-        // Este método se ejecuta antes de cada test para inicializar un nuevo objeto Prestatgeria
-        prestatgeria = new Prestatgeria("ID1", 2, 1);
+        // Initialize a new Prestatgeria object before each test
+        prestatgeria = new Prestatgeria("ID1", 10, 2);
     }
 
+    // Afegir Producte a Prestatgeria
     @Test
-    public void testConstructor() {
-        assertEquals("ID1", prestatgeria.getid());
-        assertEquals(2, prestatgeria.getMidaPrestatgeria());
-        assertEquals(0, prestatgeria.getProductesSize()); // La prestatgeria debería estar vacía al principio
+    public void testAfegirProducte() throws JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+        prestatgeria.afegir_producte("Producte A", 5);
+        assertTrue(prestatgeria.esta_a_prestatgeria("Producte A"));
     }
 
+    @Test(expected = PrestatgeriaFullException.class)
+    public void testAfegirProductePrestatgeriaPlena() throws JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+        for (int i = 0; i < 10; i++) {
+            prestatgeria.afegir_producte("Producte " + i, 1);
+        }
+        prestatgeria.afegir_producte("Producte Extra", 1);
+    }
+
+    @Test(expected = JaExisteixProucteaPrestatgeriaException.class)
+    public void testAfegirProducteJaExisteix() throws JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+        prestatgeria.afegir_producte("Producte A", 5);
+        prestatgeria.afegir_producte("Producte A", 5);
+    }
+
+    // Moure Producte de Hueco
     @Test
-    public void testAfegirProducte() {
-        prestatgeria.afegir_producte("Producto A", 10);
-        assertTrue(prestatgeria.esta_a_prestatgeria("Producto A"));
-        assertEquals(Integer.valueOf(10), prestatgeria.get_productes().get("Producto A"));
+    public void testMoureProducte() throws ProducteNotInHuecoException, InvalidHuecosException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+        prestatgeria.afegir_producte("Producte A", 5);
+        prestatgeria.moure_producte(0, 1);
+        assertEquals(1, prestatgeria.get_pos("Producte A"));
     }
 
+    @Test(expected = InvalidHuecosException.class)
+    public void testMoureProducteHuecoDestiNoExisteix() throws ProducteNotInHuecoException, InvalidHuecosException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+        prestatgeria.afegir_producte("Producte A", 5);
+        prestatgeria.moure_producte(0, 10);
+    }
+
+    // Fixar Producte
     @Test
-    public void testEliminarProducte() {
-        prestatgeria.afegir_producte("Producto A", 10);
-        prestatgeria.eliminar_producte("Producto A");
-        assertFalse(prestatgeria.esta_a_prestatgeria("Producto A"));
+    public void testFixarProducte() throws ProductNotFoundPrestatgeriaException, ProducteFixatException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+        prestatgeria.afegir_producte("Producte A", 5);
+        prestatgeria.fixar_producte_prestatgeria("Producte A");
+        assertTrue(prestatgeria.getProductesFixats().contains("Producte A"));
     }
 
+    @Test(expected = ProducteFixatException.class)
+    public void testFixarProducteJaFixat() throws ProductNotFoundPrestatgeriaException, ProducteFixatException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+        prestatgeria.afegir_producte("Producte A", 5);
+        prestatgeria.fixar_producte_prestatgeria("Producte A");
+        prestatgeria.fixar_producte_prestatgeria("Producte A");
+    }
+
+    // Desfixar Producte
     @Test
-    public void testIncrementarQuantitat() {
-        prestatgeria.afegir_producte("Producto A", 10);
-        prestatgeria.incrementar_quantitat("Producto A", 5);
-        assertEquals(Integer.valueOf(15), prestatgeria.get_productes().get("Producto A"));
+    public void testDesfixarProducte() throws ProductNotFoundPrestatgeriaException, ProducteFixatException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+        prestatgeria.afegir_producte("Producte A", 5);
+        prestatgeria.fixar_producte_prestatgeria("Producte A");
+        prestatgeria.desfixar_producte_prestatgeria("Producte A");
+        assertFalse(prestatgeria.getProductesFixats().contains("Producte A"));
+    }
+    @Test (expected = ProducteNoFixatException.class)
+    public void testDesfixarProducteNoFixat() throws ProductNotFoundPrestatgeriaException, ProducteNoFixatException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+        prestatgeria.afegir_producte("Producte A", 5);
+        prestatgeria.desfixar_producte_prestatgeria("Producte A");
     }
 
+    // Decrementar Stock a Producte
     @Test
-    public void testDecrementarQuantitat() {
-        prestatgeria.afegir_producte("Producto A", 10);
-        prestatgeria.decrementar_quantitat("Producto A", 5);
-        assertEquals(Integer.valueOf(5), prestatgeria.get_productes().get("Producto A"));
+    public void testDecrementarQuantitatProducte() throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+        prestatgeria.afegir_producte("Producte A", 10);
+        prestatgeria.decrementar_quantitat("Producte A", 5);
+        assertEquals(5, prestatgeria.get_quantProducte("Producte A"));
     }
 
-    @Test
-    public void testFixarProducte() {
-        prestatgeria.afegir_producte("Producto A", 10);
-        prestatgeria.fixar_producte_prestatgeria("Producto A");
-        Set<String> fixats = prestatgeria.getProductesFixats();
-        assertTrue(fixats.contains("Producto A"));
+    @Test(expected = QuanitatInvalidException.class)
+    public void testDecrementarQuantitatProducteQuantitatNegativa() throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+        prestatgeria.afegir_producte("Producte A", 10);
+        prestatgeria.decrementar_quantitat("Producte A", -5);
     }
 
-    @Test
-    public void testDesfixarProducte() {
-        prestatgeria.afegir_producte("Producto A", 10);
-        prestatgeria.fixar_producte_prestatgeria("Producto A");
-        prestatgeria.desfixar_producte_prestatgeria("Producto A");
-        Set<String> fixats = prestatgeria.getProductesFixats();
-        assertFalse(fixats.contains("Producto A"));
+    @Test(expected = ProductNotFoundPrestatgeriaException.class)
+    public void testDecrementarQuantitatProducteNoExisteix() throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException {
+        prestatgeria.decrementar_quantitat("Producte B", 5);
     }
 
+    // Afegir Prestatge
     @Test
     public void testAfegirPrestatge() {
-
         prestatgeria.afegir_prestatge();
-        assertEquals(2 + 1, prestatgeria.getMidaPrestatgeria());
+        assertEquals(12, prestatgeria.getMidaPrestatgeria());
     }
 
+    // Eliminar Prestatge
     @Test
     public void testEliminarPrestatge() {
-        prestatgeria.afegir_producte("Producto A", 10);
-        prestatgeria.afegir_producte("Producto B", 20);
-        Map<String, Integer> eliminados = prestatgeria.eliminar_prestatge();
-        assertEquals(1, eliminados.size()); // Debería eliminar un producto
-        assertFalse(prestatgeria.esta_a_prestatgeria("Producto B"));
+        prestatgeria.afegir_producte("Producte A", 5);
+        prestatgeria.afegir_prestatge();
+        prestatgeria.eliminar_prestatge();
+        assertEquals(10, prestatgeria.getMidaPrestatgeria());
+    }
+
+    @Test(expected = QuanitatInvalidException.class)
+    public void testAfegirProducteQuantitatNegativa() throws JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException, QuanitatInvalidException {
+        prestatgeria.afegir_producte("Producte A", -5);
+    }
+
+    @Test(expected = QuanitatInvalidException.class)
+    public void AfegirProducteQuantitatZero() throws JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException, QuanitatInvalidException {
+        prestatgeria.afegir_producte("Producte A", 0);
+        assertEquals(0, prestatgeria.get_quantProducte("Producte A"));
+    }
+
+    // Moure Producte de Hueco
+    @Test
+    public void testMoureProducteHuecoJaOcupat() throws ProducteNotInHuecoException, InvalidHuecosException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+        prestatgeria.afegir_producte("Producte A", 5);
+        prestatgeria.afegir_producte("Producte B", 5);
+        prestatgeria.moure_producte(0, 1);
+        assertEquals(1, prestatgeria.get_pos("Producte A"));
+        assertEquals(0, prestatgeria.get_pos("Producte B"));
     }
 
     @Test
-    public void testMoureProducte() {
-        prestatgeria.afegir_producte("Producto A", 10);
-
-        prestatgeria.moure_producte(0, 1); // Mover "Producto A" a la posición 1
-        assertEquals(1, prestatgeria.get_pos("Producto A"));
+    public void testMoureProductePrestatgeriaPlena() throws ProducteNotInHuecoException, InvalidHuecosException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+        for (int i = 0; i < 10; i++) {
+            prestatgeria.afegir_producte("Producte " + i, 1);
+        }
+        prestatgeria.moure_producte(0, 1);
+        assertEquals(1, prestatgeria.get_pos("Producte 0"));
+        assertEquals(0, prestatgeria.get_pos("Producte 1"));
     }
 
+
+    @Test(expected = ProductNotFoundPrestatgeriaException.class)
+    public void testFixarProducteHuecoNoExisteix() throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteFixatException {
+        prestatgeria.fixar_producte_prestatgeria("Producte Inexistent");
+    }
+
+    // Desfixar Producte
+    @Test(expected = ProductNotFoundPrestatgeriaException.class)
+    public void testDesfixarProducteNoExistent() throws ProductNotFoundPrestatgeriaException, ProducteFixatException {
+        prestatgeria.desfixar_producte_prestatgeria("Producte Inexistent");
+    }
+
+    // Eliminar Prestatge
     @Test
-    public void testSetDistribucio() {
-        prestatgeria.afegir_producte("Producto A", 10);
-        prestatgeria.afegir_producte("Producto B", 20);
-        Vector<String> nuevaDistribucion = new Vector<>();
-        nuevaDistribucion.add("Producto B");
-        nuevaDistribucion.add("Producto A");
-        prestatgeria.setDistribucio(nuevaDistribucion);
-        // Verificar que la distribución ha cambiado
-        assertEquals("Producto B", prestatgeria.getNomsProductes().get(0));
-        assertEquals("Producto A", prestatgeria.getNomsProductes().get(1));
+    public void testEliminarPrestatgeAmbProductes() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+        prestatgeria.afegir_producte("Producte A", 5);
+        prestatgeria.moure_producte(0, prestatgeria.getMidaPrestatgeria()-1);
+         Map<String, Integer> aeliminar = new HashMap<>();
+         aeliminar.put("Producte A", 5);
+         assertEquals(aeliminar,prestatgeria.eliminar_prestatge());
     }
 
-    @Test
-    public void testImprimirDistribucio() {
-        prestatgeria.afegir_producte("Producto A", 10);
-        prestatgeria.afegir_producte("Producto B", 20);
-        // Este test verifica que no se lancen excepciones, sin capturar System.out.
-        prestatgeria.getdistribucio();
-    }
+
 }

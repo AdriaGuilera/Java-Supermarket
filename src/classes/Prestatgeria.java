@@ -33,7 +33,10 @@ public class Prestatgeria {
 	}
 	
 	public void afegir_producte(String nomP, Integer quantitat)
-	throws JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+	throws JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException, QuanitatInvalidException {
+		if(quantitat <= 0) {
+			throw new QuanitatInvalidException();
+		}
 		if(!productes.containsKey(nomP)) {
 			int pos = 0;
 			while(posicions.containsKey(pos)) {
@@ -131,7 +134,8 @@ public class Prestatgeria {
 			productes.compute(nomP, (k, currentQuantitat) -> currentQuantitat + quantitat);
 		}
 	}
-	public int decrementar_quantitat(String nomP, Integer quantitat) throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException {
+	public int decrementar_quantitat(String nomP, Integer quantitat)
+	throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException {
 		if(quantitat <= 0) {
 			throw new QuanitatInvalidException();
 		}
@@ -149,10 +153,24 @@ public class Prestatgeria {
 		}
 	}
 
-	public void fixar_producte_prestatgeria(String nomP) {
+	public void fixar_producte_prestatgeria(String nomP)
+	throws ProductNotFoundPrestatgeriaException, ProducteFixatException {
+		if(!productes.containsKey(nomP)) {
+			throw new ProductNotFoundPrestatgeriaException(id, nomP);
+		}
+		if(productes_fixats.contains(nomP)) {
+			throw new ProducteFixatException(nomP);
+		}
 		productes_fixats.add(nomP);
 	}
-	public void desfixar_producte_prestatgeria(String nomP) {
+	public void desfixar_producte_prestatgeria(String nomP)
+	throws ProductNotFoundPrestatgeriaException, ProducteNoFixatException {
+		if(!productes.containsKey(nomP)) {
+			throw new ProductNotFoundPrestatgeriaException(id, nomP);
+		}
+		if(!productes_fixats.contains(nomP)) {
+			throw new ProducteNoFixatException(nomP);
+		}
 		productes_fixats.remove(nomP);
 	}
 
@@ -179,12 +197,23 @@ public class Prestatgeria {
 		if(!posicions.containsKey(hueco_origen)) {
 			throw new ProducteNotInHuecoException(hueco_origen);
 		}
+
+		String nomPorigen = posicions.get(hueco_origen);
+		String nomPdesti = posicions.get(hueco_desti);
+
+		if(productes_fixats.contains(nomPorigen)) {
+			throw new ProducteFixatException(nomPorigen);
+		}
+		if(nomPdesti != null && productes_fixats.contains(nomPdesti)) {
+			throw new ProducteFixatException(nomPdesti);
+		}
+
+
+
 		if(posicions.containsKey(hueco_desti)) {
-			String nomPdesti = posicions.get(hueco_desti);
-			String nomP = posicions.get(hueco_origen);
 			posicions.remove(hueco_origen);
 			posicions.remove(hueco_desti);
-			posicions.put(hueco_desti, nomP);
+			posicions.put(hueco_desti, nomPorigen);
 			posicions.put(hueco_origen, nomPdesti);
 		}else{
 			String nomP = posicions.get(hueco_origen);

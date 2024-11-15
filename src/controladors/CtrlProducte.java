@@ -99,7 +99,6 @@ public class CtrlProducte {
     public void decrementar_stock(String nomProducte, int quantitat) throws ProductNotFoundMagatzemException, ZeroStockMagatzemWarning {
         if(!productes_magatzem.containsKey(nomProducte)) throw new ProductNotFoundMagatzemException(nomProducte);
         Producte p = productes_magatzem.get(nomProducte);
-
             p.decrementar_stock(quantitat);
 
     }

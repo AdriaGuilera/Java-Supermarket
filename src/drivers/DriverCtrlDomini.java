@@ -502,10 +502,10 @@ public class DriverCtrlDomini {
     public static void testPrintProducte(Scanner scanner) {
         System.out.println("Nombre del Producto:");
         String nom = readLine(scanner);
-        ctrlDomini.get_producte(nom);
+        //ctrlDomini.get_producte(nom);
     }
     public static void testPrintMagatzem() {
-        ctrlDomini.getMagatzem();
+        //ctrlDomini.getMagatzem();
     }
 
 
