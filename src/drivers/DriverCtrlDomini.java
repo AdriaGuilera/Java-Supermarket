@@ -480,25 +480,7 @@ public class DriverCtrlDomini {
     }
 
 
-    public static void testModificarSimilitud(Scanner scanner) {
-        System.out.println("Nombre del primer Producto:");
-        String nom1 = readLine(scanner);
-        System.out.println("Nombre del segundo Producto:");
-        String nom2 = readLine(scanner);
-        System.out.println("Valor de similitud:");
-        float value = 0.0F;
-        try{
-            value = Float.parseFloat(readLine(scanner));
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        try{
-            ctrlDomini.modificarSimilitud(nom1, nom2, value);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
 
-    }
 
     public static void testMoureProducteAPrestatgeria(Scanner scanner) {}
 
@@ -616,9 +598,6 @@ public class DriverCtrlDomini {
                 break;
             case ELIMINA_SIMILITUD:
                 testEliminarSimilitud(scanner);
-                break;
-            case MODIFICAR_SIMILITUD:
-                testModificarSimilitud(scanner);
                 break;
             case PRINT_PRODUCTE:
                 testPrintProducte(scanner);

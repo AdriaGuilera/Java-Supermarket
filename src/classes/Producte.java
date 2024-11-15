@@ -30,9 +30,10 @@ public class Producte {
     }
 
 
-
+    //Getters
 
     public String get_nom() {
+
         return nom;
     }
 
@@ -48,16 +49,10 @@ public class Producte {
         return stock_magatzem;
     }
 
-    public void imprimir_similituds() {
-        similitud.forEach((key, value) -> System.out.println("Nom: " + key + ", Similitud: " + value));
-    }
+
 
     public float getSimilitud(String nom) {
         return similitud.getOrDefault(nom, 0f); // Retorna 0 si 'nom' no está en el mapa
-    }
-
-    public void mod_nom(String nou_nom) {
-        nom = nou_nom;
     }
 
 
@@ -65,8 +60,7 @@ public class Producte {
         stock_magatzem = nou_stock;
     }
 
-    public void incrementar_stock(int quantitat)
-    throws QuanitatInvalidException {
+    public void incrementar_stock(int quantitat) throws QuanitatInvalidException {
         if(quantitat < 0){
             throw new QuanitatInvalidException(0);
         }
@@ -89,8 +83,6 @@ public class Producte {
         similitud.remove(nom);
     }
 
-    public void modificarSimilitud(String nom,float value) {
-        similitud.put(nom,value);
-    }
+
 
 }

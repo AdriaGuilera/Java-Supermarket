@@ -75,17 +75,7 @@ public class CtrlProducte {
         }
     }
 
-    public void modificarSimilitud(String nom1, String nom2, float value) throws ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
-        if (nom1 == nom2) throw new calculMateixosProductesSimilitud(nom1);
-        Producte p1 = productes_magatzem.get(nom1);
-        Producte p2 = productes_magatzem.get(nom2);
-        if (!productes_magatzem.containsKey(nom1) ) throw new ProductNotFoundMagatzemException(nom1);
-        else if(!productes_magatzem.containsKey(nom2)) throw new ProductNotFoundMagatzemException(nom2);
-        else {
-            p1.modificarSimilitud(nom2, value);
-            p2.modificarSimilitud(nom1, value);
-        }
-    }
+
 
 
 

@@ -401,27 +401,15 @@ public class CtrlDomini {
         CtrlProducte.eliminarSimilitud(nom1, nom2);
     }
 
-    public void modificarSimilitud(String nom1, String nom2, float value) throws IllegalArgumentException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud{
-        if (nom1 == null || nom1.isEmpty()) {
+
+    public Producte get_producte(String nomProducte) throws IllegalArgumentException{
+        if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
         }
-        if (nom2 == null || nom2.isEmpty()) {
-            throw new IllegalArgumentException("El nom del segon producte no pot estar buit.");
-        }
-        if (value<=0) {
-            throw new IllegalArgumentException("El valor de la similitud ha de ser superior a 0");
-        }
-        CtrlProducte.modificarSimilitud(nom1, nom2, value);
+        return CtrlProducte.getProducte(nomProducte);
     }
 
-//    public Producte get_producte(String nomProducte) throws IllegalArgumentException{
-//        if (nomProducte == null || nomProducte.isEmpty()) {
-//            throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
-//        }
-//        return CtrlProducte.getProducte(nomProducte);
-//    }
-//
-//    public Map<String, Producte> getMagatzem() {
-//        return CtrlProducte.getMagatzem();
-//    }
+    public Map<String, Producte> getMagatzem() {
+        return CtrlProducte.getMagatzem();
+    }
 }
