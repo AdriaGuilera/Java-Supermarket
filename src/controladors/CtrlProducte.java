@@ -11,7 +11,7 @@ import java.util.Map;
 public class CtrlProducte {
 
     //En aquest map hi ha tots els productes, tot i que n'hi hagi 0 al magatzem
-    private static Map<String, Producte> productes_magatzem = new HashMap<>();
+    private Map<String, Producte> productes_magatzem = new HashMap<>();
 
     public void executar_comandes(Map<String, Comanda> comandes) {
         for (Map.Entry<String, Comanda> comanda : comandes.entrySet()) {
@@ -107,15 +107,15 @@ public class CtrlProducte {
 
 
     //Getters
-
-    static public boolean existeix_producte(String nom) {
-        return productes_magatzem.containsKey(nom);
-    }
-
-    public static double obtenir_similitud(String nom1, String nom2) {
+    public double get_similitud(String nom1, String nom2) {
         if(nom1==null ||nom2==null) return 0;
         return productes_magatzem.get(nom1).getSimilitud(nom2);
     }
+    public boolean existeix_producte(String nom) {
+        return productes_magatzem.containsKey(nom);
+    }
+
+
     public int getmaxhueco(String nom) {
         return productes_magatzem.get(nom).get_max_hueco();
     }

@@ -70,8 +70,9 @@ public class Producte {
         else stock_magatzem += quantitat;
     }
 
-    public void decrementar_stock(int quant) {
+    public void decrementar_stock(int quant) throws ZeroStockMagatzemWarning {
         stock_magatzem = max(stock_magatzem - quant, 0);
+        if(stock_magatzem==0) throw new ZeroStockMagatzemWarning(nom);
     }
 
     //Si el Producte nom ja té similitud assignada, es sobreescriurà amb la nova
