@@ -5,7 +5,6 @@ import classes.Comanda;
 import Exepcions.ProducteJaExisteixException;
 import Exepcions.ProductNotFoundComandaException;
 import org.junit.*;
-
 import static org.junit.Assert.*;
 import java.util.*;
 
@@ -30,11 +29,31 @@ public class TestComanda {
     }
 
 
-
     @Test
     public void testAfegirProducte_CantidadInvalida() {
         assertThrows(QuanitatInvalidException.class, () -> comanda.afegirProducte("Pera", 0));
         assertThrows(QuanitatInvalidException.class, () -> comanda.afegirProducte("Pera", -5));
+    }
+
+    @Test
+    public void testAfegirProducte_CantidadNegativa() {
+        assertThrows(QuanitatInvalidException.class, () -> {
+            comanda.afegirProducte("Manzana", -10);
+        });
+    }
+
+    @Test
+    public void testAfegirProducte_ActualizarCantidad() throws QuanitatInvalidException {
+        comanda.afegirProducte("Manzana", 5);
+        comanda.afegirProducte("Manzana", 3);
+        assertEquals(8, comanda.getQuantitat("Manzana"));
+    }
+    @Test
+    public void testComanda_GranCantidadDeProductos() throws QuanitatInvalidException {
+        for (int i = 0; i < 10000; i++) {
+            comanda.afegirProducte("Producto" + i, 1);
+        }
+        assertEquals(10000, comanda.getOrdres().size()); // Comprobar que se añadieron todos los productos
     }
 
     @Test
@@ -50,16 +69,33 @@ public class TestComanda {
     }
 
     @Test
-    public void testGetQuantitat_ProductoExistente() throws ProducteJaExisteixException {
-        comanda.afegirProducte("Manzana", 10);
-        assertEquals(10, comanda.getQuantitat("Manzana"));
+    public void testEliminarProducte_MasCantidadDeLaQueExiste() throws QuanitatInvalidException, ProductNotFoundComandaException {
+        comanda.afegirProducte("Manzana", 5);
+        comanda.eliminarProducte("Manzana", 10);
+        assertFalse(comanda.conteProducte("Manzana")); // El producto debería eliminarse por completo
     }
 
     @Test
-    public void testGetQuantitat_ProductoNoExistente() {
-        assertThrows(ProductNotFoundComandaException.class, () -> comanda.getQuantitat("Pera"));
+    public void testEliminarProducte_AunExisteCantidad() throws QuanitatInvalidException, ProductNotFoundComandaException {
+        comanda.afegirProducte("Manzana", 10);
+        comanda.eliminarProducte("Manzana", 3);
+        assertEquals(7,comanda.getQuantitat("Manzana")); // El producto debería eliminarse por completo
     }
 
+    @Test
+    public void testEliminarProducte_EnPasos() throws QuanitatInvalidException, ProductNotFoundComandaException {
+        comanda.afegirProducte("Manzana", 10);
+        comanda.eliminarProducte("Manzana", 4);
+        assertEquals(6, comanda.getQuantitat("Manzana"));
+        comanda.eliminarProducte("Manzana", 6);
+        assertFalse(comanda.conteProducte("Manzana"));
+    }
+
+    @Test
+    public void testGetNom() {
+        comanda = new Comanda("Mi Primera Comanda");
+        assertEquals("Mi Primera Comanda", comanda.getNom());
+    }
     @Test
     public void testConteProducte_ProductoExistente() throws ProducteJaExisteixException {
         comanda.afegirProducte("Manzana", 10);
@@ -70,6 +106,18 @@ public class TestComanda {
     public void testConteProducte_ProductoNoExistente() {
         assertFalse(comanda.conteProducte("Pera"));
     }
+    @Test
+    public void testGetQuantitat_ProductoExistente() throws ProducteJaExisteixException {
+        comanda.afegirProducte("Manzana", 10);
+        assertEquals(10, comanda.getQuantitat("Manzana"));
+    }
+
+    @Test
+    public void testGetQuantitat_ProductoNoExistente() {
+        assertThrows(ProductNotFoundComandaException.class, () -> comanda.getQuantitat("Pera"));
+    }
+
+
 
     @Test
     public void testGetOrdres() {
@@ -86,11 +134,5 @@ public class TestComanda {
         assertFalse(comanda.conteProducte("Pera")); // La comanda original no debería cambiar
     }
 
-    @Test
-    public void testAfegirProducte_CantidadNegativa() {
-        assertThrows(QuanitatInvalidException.class, () -> {
-            comanda.afegirProducte("Manzana", -10);
-        });
-    }
 
 }
