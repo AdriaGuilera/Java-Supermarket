@@ -4,10 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Exepcions.ComandaNotFoundException;
-import Exepcions.ComandaNotFoundException;
 import Exepcions.QuanitatInvalidException;
 import classes.Comanda;
-import Exepcions.ProducteJaExisteixException;
 import Exepcions.ProductNotFoundComandaException;
 
 public class CtrlComandes {
@@ -29,6 +27,21 @@ public class CtrlComandes {
         comandes_creades.put(nomComanda, new Comanda(nomComanda));
     }
 
+    // Método para crear una comanda automática con productos
+    public void crearComandaAutomatica(String nomComanda, Map<String, Integer> productosFaltantes) {
+        crearComanda(nomComanda);
+        for (Map.Entry<String, Integer> entry : productosFaltantes.entrySet()) {
+            afegirProducteComanda(nomComanda, entry.getKey(), entry.getValue());
+        }
+    }
+
+    // Método para eliminar una comanda
+    public void eliminarComanda(String nomComanda) throws IllegalArgumentException{
+        if (comandes_creades.remove(nomComanda) == null) {
+            throw new ComandaNotFoundException(nomComanda);
+        }
+    }
+
     // Método para añadir un producto a una comanda
     public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) throws QuanitatInvalidException, ComandaNotFoundException {
         Comanda comanda = comandes_creades.get(nomComanda);
@@ -46,12 +59,7 @@ public class CtrlComandes {
             comanda.eliminarProducte(nomProducte, quantitat);
     }
 
-    // Método para eliminar una comanda
-    public void eliminarComanda(String nomComanda) throws IllegalArgumentException{
-        if (comandes_creades.remove(nomComanda) == null) {
-            throw new ComandaNotFoundException(nomComanda);
-        }
-    }
+
 
     // Método para obtener una lista de comandas a partir de nombres
     public Map<String, Comanda> obtenirComandes(String[] nomsComandes) throws ComandaNotFoundException{
@@ -66,10 +74,7 @@ public class CtrlComandes {
         return comandesAExecutar;
     }
 
-    // Método para consultar todas las comandas creadas
-    public Map<String, Comanda> getComandes() {
-        return new HashMap<>(comandes_creades); // Retorna una copia para evitar modificaciones externas
-    }
+
 
     //Devuelve una sola comanda
     public Comanda getComandaUnica(String nomComanda) throws ComandaNotFoundException {
@@ -79,12 +84,9 @@ public class CtrlComandes {
         }
     }
 
-    // Método para crear una comanda automática con productos
-    public void crearComandaAutomatica(String nomComanda, Map<String, Integer> productosFaltantes) {
-        crearComanda(nomComanda);
-        for (Map.Entry<String, Integer> entry : productosFaltantes.entrySet()) {
-                afegirProducteComanda(nomComanda, entry.getKey(), entry.getValue());
-        }
+    // Método para consultar todas las comandas creadas
+    public Map<String, Comanda> getComandes() {
+        return new HashMap<>(comandes_creades); // Retorna una copia para evitar modificaciones externas
     }
 
     public boolean existeixComanda(String nomComanda) {

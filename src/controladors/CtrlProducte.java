@@ -123,7 +123,7 @@ public class CtrlProducte {
 
     //Getters
 
-    public boolean existeix_producte(String nom) {
+    static public boolean existeix_producte(String nom) {
         return productes_magatzem.containsKey(nom);
     }
 

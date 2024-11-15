@@ -17,10 +17,7 @@ public class Comanda {
         this.ordres = new HashMap<>();
     }
 
-    // Getter para obtener el nombre de la comanda
-    public String getNom() {
-        return nom;
-    }
+
 
     /**
      * Método para añadir un producto a la comanda.
@@ -54,6 +51,16 @@ public class Comanda {
         }
     }
 
+//Getters
+
+    // Getter para obtener el nombre de la comanda
+    public String getNom() {
+        return nom;
+    }
+
+    public boolean conteProducte(String nomProducte) {
+        return ordres.containsKey(nomProducte);
+    }
     /**
      * Método para obtener la cantidad de un producto en la comanda.
      * @param nomProducte Nombre del producto.
@@ -66,10 +73,6 @@ public class Comanda {
             throw new ProductNotFoundComandaException(nomProducte);
         }
         return quantitat;
-    }
-
-    public boolean conteProducte(String nomProducte) {
-        return ordres.containsKey(nomProducte);
     }
 
     /**
