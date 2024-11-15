@@ -28,7 +28,7 @@ public class Comanda {
      */
     public void afegirProducte(String nomProducte, int quantitat) throws QuanitatInvalidException {
         if (quantitat <= 0) {
-            throw new QuanitatInvalidException();
+            throw new QuanitatInvalidException(1);
         }
         if (ordres.containsKey(nomProducte)) {
             ordres.compute(nomProducte, (k, v) -> v + quantitat);

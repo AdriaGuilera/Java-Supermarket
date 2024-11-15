@@ -35,7 +35,7 @@ public class Prestatgeria {
 	public void afegir_producte(String nomP, Integer quantitat)
 	throws JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException, QuanitatInvalidException {
 		if(quantitat <= 0) {
-			throw new QuanitatInvalidException();
+			throw new QuanitatInvalidException(1);
 		}
 		if(!productes.containsKey(nomP)) {
 			int pos = 0;
@@ -127,8 +127,8 @@ public class Prestatgeria {
 	
 	public void incrementar_quantitat(String nomP, Integer quantitat)
 	throws QuanitatInvalidException {
-		if(quantitat <= 0) {
-			throw new QuanitatInvalidException();
+		if(quantitat < 0) {
+			throw new QuanitatInvalidException(0);
 		}
 		if(productes.containsKey(nomP)) {
 			productes.compute(nomP, (k, currentQuantitat) -> currentQuantitat + quantitat);
@@ -136,8 +136,8 @@ public class Prestatgeria {
 	}
 	public int decrementar_quantitat(String nomP, Integer quantitat)
 	throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException {
-		if(quantitat <= 0) {
-			throw new QuanitatInvalidException();
+		if(quantitat < 0) {
+			throw new QuanitatInvalidException(0);
 		}
 		if (productes.containsKey(nomP)) {
 			int quantitat_actual = productes.get(nomP);

@@ -1,5 +1,7 @@
 package classes;
 
+import Exepcions.MaxMagatzemWarning;
+import Exepcions.QuanitatInvalidException;
 import Exepcions.ZeroStockMagatzemWarning;
 
 import java.util.Map;
@@ -63,16 +65,19 @@ public class Producte {
         stock_magatzem = nou_stock;
     }
 
-    public void incrementar_stock(int quant) {
-        if(stock_magatzem + quant > max_magatzem) {
+    public void incrementar_stock(int quantitat)
+    throws QuanitatInvalidException {
+        if(quantitat < 0){
+            throw new QuanitatInvalidException(0);
+        }
+        if(stock_magatzem + quantitat > max_magatzem) {
             stock_magatzem = max_magatzem;
         }
-        else stock_magatzem += quant;
+        else stock_magatzem += quantitat;
     }
 
     public void decrementar_stock(int quant) {
         stock_magatzem = max(stock_magatzem - quant, 0);
-        if(stock_magatzem == 0) throw new ZeroStockMagatzemWarning(nom);
     }
 
     //Si el Producte nom ja té similitud assignada, es sobreescriurà amb la nova
