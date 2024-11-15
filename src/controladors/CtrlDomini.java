@@ -33,7 +33,7 @@ public class CtrlDomini {
     }
 
 
-    public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) throws QuanitatInvalidException, ComandaNotFoundException,ProductNotFound, IllegalArgumentException  {
+    public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) throws QuanitatInvalidException, ComandaNotFoundException, ProductNotFoundMagatzemException, IllegalArgumentException  {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
@@ -47,7 +47,7 @@ public class CtrlDomini {
             throw new ComandaNotFoundException(nomComanda);
         }
         if(!CtrlProducte.existeix_producte(nomProducte)) {
-               throw new ProductNotFound(nomProducte);
+               throw new ProductNotFoundMagatzemException(nomProducte);
         }
             CtrlComandes.afegirProducteComanda(nomComanda, nomProducte, quantitat);
     }
@@ -59,9 +59,6 @@ public class CtrlDomini {
         }
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
-        }
-        if (quantitat <=0) {
-            throw new IllegalArgumentException("La quantitat no pot ser negativa o 0.");
         }
             CtrlComandes.eliminarProducteComanda(nomComanda, nomProducte, quantitat);
     }
@@ -81,12 +78,19 @@ public class CtrlDomini {
     // Implementación de los métodos de Prestatgeria
 
     public void afegirProductePrestatgeria(String nomProducte, int quantitat, String idPrestatgeria)
-    throws PrestatgeriaNotFoundException, QuanitatInvalidException, MaxHuecoWarning, ProductNotFound,
-            JaExisteixProucteaPrestatgeriaException, NotEnoughQuantityMagatzem {
+    throws PrestatgeriaNotFoundException, QuanitatInvalidException, MaxHuecoWarning, ProductNotFoundMagatzemException,
+            JaExisteixProucteaPrestatgeriaException, NotEnoughQuantityMagatzem, IllegalArgumentException {
+
+        if (idPrestatgeria == null || idPrestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
+        }
+        if (nomProducte == null || nomProducte.isEmpty()) {
+            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+        }
         int maxhueco = CtrlProducte.getmaxhueco(nomProducte);
         int stock = CtrlProducte.get_stock_magatzem(nomProducte);
         if(quantitat <= 0) {
-            throw new QuanitatInvalidException();
+            throw new QuanitatInvalidException(1);
         }
 
         if(stock >= quantitat) {
@@ -121,15 +125,27 @@ public class CtrlDomini {
 
 
     public void moureProducteDeHueco(String id_prestatgeria, String nomProducte, int huecoOrigen, int huecoDestino)
-    throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException{
-        // Código para mover el producto de un hueco a otro
+    throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException, IllegalArgumentException{
+        if (id_prestatgeria == null || id_prestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
+        }
+        if (nomProducte == null || nomProducte.isEmpty()) {
+            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+        }
         CtrlPrestatgeria.moureProducte(id_prestatgeria, huecoOrigen, huecoDestino);
     }
 
 
     public void decrementarStockAProducte(String id_prestatgeria, String nomProducte, int quantitat)
-    throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException,PrestatgeriaNotFoundException, MaxMagatzemWarning, ProductNotFound, NotEnoughQuantityPrestatgeriaWarning {
-        // Código para decrementar el stock de un producto
+    throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException,PrestatgeriaNotFoundException, MaxMagatzemWarning, ProductNotFoundMagatzemException,
+            NotEnoughQuantityPrestatgeriaWarning, IllegalArgumentException{
+        if (id_prestatgeria == null || id_prestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
+        }
+        if (nomProducte == null || nomProducte.isEmpty()) {
+            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+        }
+
         int quantitatelim = CtrlPrestatgeria.decrementar_quantitat_producte(id_prestatgeria, nomProducte, quantitat);
         CtrlProducte.incrementar_stock(nomProducte, quantitatelim);
         if(quantitatelim == 0){
@@ -140,18 +156,21 @@ public class CtrlDomini {
 
 
     public void generarDistribucioBacktracking(String id_prestatgeria)
-    throws PrestatgeriaNotFoundException {
-        // Código para generar distribución usando el método Backtracking
+    throws PrestatgeriaNotFoundException, IllegalArgumentException {
+        if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
+        }
         Vector<String> productes = CtrlPrestatgeria.getNomsProductes(id_prestatgeria);
         Set<String> fixats = CtrlPrestatgeria.getProductesFixats(id_prestatgeria);
-        System.out.println(productes);
         Vector<String> novadist = Algorismes.encontrarMejorDistribucionBacktracking(productes , fixats);
-        System.out.println(novadist);
         CtrlPrestatgeria.setDistribucio(id_prestatgeria, novadist);
     }
 
     public void generarDistribucioHillClimbing(String id_prestatgeria)
-    throws PrestatgeriaNotFoundException {
+    throws PrestatgeriaNotFoundException, IllegalArgumentException {
+        if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
+        }
         Vector<String> productes = CtrlPrestatgeria.getNomsProductes(id_prestatgeria);
         Set<String> fixats = CtrlPrestatgeria.getProductesFixats(id_prestatgeria);
         Vector<String> novadist = Algorismes.encontrarMejorDistribucionHillClimbing(productes , fixats);
@@ -161,12 +180,18 @@ public class CtrlDomini {
 
     //Midaprestatgeria%midaPrestatge == 0
     public void afegirPrestatgeria(String idPrestatgeria, int midaPrestatge, int midaPrestatgeria)
-    throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, IllegalArgumentException {
+        if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
+        }
         CtrlPrestatgeria.afegirPrestatgeria(idPrestatgeria, midaPrestatgeria, midaPrestatge);
     }
 
     public void eliminarPrestatgeria(String idPrestatgeria)
-    throws PrestatgeriaNotFoundException, ProductNotFound, MaxMagatzemWarning, QuanitatInvalidException {
+    throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, MaxMagatzemWarning, QuanitatInvalidException, IllegalArgumentException {
+        if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
+        }
         Map<String,Integer> producteseliminats = CtrlPrestatgeria.eliminarPrestatgeria(idPrestatgeria);
         for(Map.Entry<String, Integer> entry : producteseliminats.entrySet()){
             String nom = entry.getKey();
@@ -176,12 +201,18 @@ public class CtrlDomini {
     }
 
     public void afegirPrestatge(String idPrestatgeria)
-    throws PrestatgeriaNotFoundException{
+    throws PrestatgeriaNotFoundException,IllegalArgumentException {
+        if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
+        }
         CtrlPrestatgeria.afegir_prestatge(idPrestatgeria);
     }
 
     public void eliminarPrestatge(String idPrestatgeria)
-    throws PrestatgeriaNotFoundException,QuanitatInvalidException, MaxMagatzemWarning{
+    throws PrestatgeriaNotFoundException,QuanitatInvalidException, MaxMagatzemWarning, IllegalArgumentException{
+        if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
+        }
         Map<String,Integer> eliminats = CtrlPrestatgeria.eliminar_prestatge(idPrestatgeria);
             for(Map.Entry<String, Integer> entry : eliminats.entrySet()){
                 String nom = entry.getKey();
@@ -193,9 +224,12 @@ public class CtrlDomini {
     }
 
     //FALTA ZEROSTOCK MAGATZEM
-    public void reposarPrestatgeria(String id)
-    throws PrestatgeriaNotFoundException, ProductNotFound, MaxHuecoWarning, QuanitatInvalidException {
-        Map<String,Integer> productes = CtrlPrestatgeria.getProductesPrestatgeria(id);
+    public void reposarPrestatgeria(String id_prestatgeria)
+    throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, QuanitatInvalidException, IllegalArgumentException{
+        if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
+        }
+        Map<String,Integer> productes = CtrlPrestatgeria.getProductesPrestatgeria(id_prestatgeria);
         for(Map.Entry<String, Integer> entry : productes.entrySet()){
             int stock = CtrlProducte.get_stock_magatzem(entry.getKey());
             int max = CtrlProducte.getmaxhueco(entry.getKey());
@@ -203,32 +237,44 @@ public class CtrlDomini {
             if(actual < max){
                 int aafegir = max - actual;
                 if(aafegir <= stock){
-                    CtrlPrestatgeria.incrementar_quantitat_producte(id, entry.getKey(), aafegir);
+                    CtrlPrestatgeria.incrementar_quantitat_producte(id_prestatgeria, entry.getKey(), aafegir);
                     CtrlProducte.decrementar_stock(entry.getKey(), aafegir);
                 }
                 else{
-                    CtrlPrestatgeria.incrementar_quantitat_producte(id, entry.getKey(), stock);
+                    CtrlPrestatgeria.incrementar_quantitat_producte(id_prestatgeria, entry.getKey(), stock);
                     CtrlProducte.decrementar_stock(entry.getKey(), stock);
                 }
             }
         }
     }
-    public void fixarProducte(String id, String nomProducte)
-    throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteFixatException {
-        CtrlPrestatgeria.fixarProducte(id, nomProducte);
-    }
-
-    public void desfixarProducte(String id, String nomProducte)
-    throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteNoFixatException {
-        CtrlPrestatgeria.desfixarProducte(id, nomProducte);
-    }
-
-    public void retirarProducteAMagatzem(String id,String nomProducte)
-    throws PrestatgeriaNotFoundException, ProductNotFound, ProductNotFoundPrestatgeriaException, MaxMagatzemWarning{
-        if(!CtrlProducte.existeix_producte(nomProducte)){
-            throw new ProductNotFound(nomProducte);
+    public void fixarProducte(String id_prestatgeria, String nomProducte)
+    throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteFixatException, IllegalArgumentException {
+        if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
-        Pair<String,Integer> producteretirat = CtrlPrestatgeria.retirarProductePrestatgeria(id, nomProducte);
+        if(nomProducte == null || nomProducte.isEmpty()) {
+            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+        }
+        CtrlPrestatgeria.fixarProducte(id_prestatgeria, nomProducte);
+    }
+
+    public void desfixarProducte(String id_prestatgeria, String nomProducte)
+    throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteNoFixatException, IllegalArgumentException {
+        if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
+        }
+        if(nomProducte == null || nomProducte.isEmpty()) {
+            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+        }
+        CtrlPrestatgeria.desfixarProducte(id_prestatgeria, nomProducte);
+    }
+
+    public void retirarProducteAMagatzem(String id_prestatgeria,String nomProducte)
+    throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, ProductNotFoundPrestatgeriaException{
+        if(!CtrlProducte.existeix_producte(nomProducte)){
+            throw new ProductNotFoundMagatzemException(nomProducte);
+        }
+        Pair<String,Integer> producteretirat = CtrlPrestatgeria.retirarProductePrestatgeria(id_prestatgeria, nomProducte);
         if(producteretirat.getKey() != null) {
             String nom = producteretirat.getKey();
             int quantitat = producteretirat.getValue();
@@ -241,9 +287,9 @@ public class CtrlDomini {
 
 
     //Caixa
-    public int afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria) throws QuanitatInvalidException, ProductNotFound {
+    public int afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria) throws QuanitatInvalidException, ProductNotFoundMagatzemException {
         if(!CtrlProducte.existeix_producte(nom_producte)){
-            throw new ProductNotFound(nom_producte);
+            throw new ProductNotFoundMagatzemException(nom_producte);
         }
         int quantitat_a_afegir = CtrlPrestatgeria.decrementar_quantitat_producte(id_prestatgeria, nom_producte,quantitat);
         Caixa.afegir_producte(nom_producte, quantitat_a_afegir);
@@ -251,9 +297,13 @@ public class CtrlDomini {
     }
 
     // Retirar producto de la caja
-    public void retirar_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria) throws QuanitatInvalidException {
-        if(quantitat < 0) {
-            throw new QuanitatInvalidException();
+    public void retirar_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria)
+    throws QuanitatInvalidException,IllegalArgumentException, ProductNotFoundCaixaException, NotEnoughQuantityCaixaWarning {
+        if(nom_producte == null || nom_producte.isEmpty()) {
+            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+        }
+        if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
         Caixa.retirar_producte(nom_producte, quantitat);
     }
@@ -340,7 +390,7 @@ public class CtrlDomini {
         CtrlProducte.eliminarSimilitud(nom1, nom2);
     }
 
-    public void modificarSimilitud(String nom1, String nom2, float value) throws IllegalArgumentException,  ProductNotFoundMagatzemException, calculMateixosProductesSimilitud{
+    public void modificarSimilitud(String nom1, String nom2, float value) throws IllegalArgumentException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud{
         if (nom1 == null || nom1.isEmpty()) {
             throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
         }

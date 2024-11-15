@@ -1,7 +1,7 @@
 package Exepcions;
 
 public class QuanitatInvalidException extends RuntimeException {
-    public QuanitatInvalidException() {
-      super("Quantitat ha de ser més gran que 0");
+    public QuanitatInvalidException(int num) {
+      super("Quantitat ha de ser >="+num);
     }
 }

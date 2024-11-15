@@ -235,8 +235,12 @@ public class DriverCtrlDomini {
         int huecoOrigen = Integer.parseInt(readLine(scanner));
         System.out.println("Hueco de destino:");
         int huecoDestino = Integer.parseInt(readLine(scanner));
-        ctrlDomini.moureProducteDeHueco(idPrestatgeria, nomProducte, huecoOrigen, huecoDestino);
-        System.out.println("Producto movido de hueco.");
+        try{
+            ctrlDomini.moureProducteDeHueco(idPrestatgeria, nomProducte, huecoOrigen, huecoDestino);
+            System.out.println("Producto movido de hueco.");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void testFixarProducte(Scanner scanner) {

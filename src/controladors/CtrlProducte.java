@@ -80,7 +80,7 @@ public class CtrlProducte {
         }
     }
 
-    public void modificarSimilitud(String nom1, String nom2, float value) throws  ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
+    public void modificarSimilitud(String nom1, String nom2, float value) throws ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
         if (nom1 == nom2) throw new calculMateixosProductesSimilitud(nom1);
         Producte p1 = productes_magatzem.get(nom1);
         Producte p2 = productes_magatzem.get(nom2);
@@ -96,22 +96,24 @@ public class CtrlProducte {
 
 
 
-    public void decrementar_stock(String nomProducte, int quantitat) throws ProductNotFoundMagatzemException, ZeroStockMagatzemWarning {
+    public void decrementar_stock(String nomProducte, int quantitat)
+        throws ProductNotFoundMagatzemException, QuanitatInvalidException, ZeroStockMagatzemWarning {
         if(!productes_magatzem.containsKey(nomProducte)) throw new ProductNotFoundMagatzemException(nomProducte);
-        Producte p = productes_magatzem.get(nomProducte);
+        if(quantitat < 0) throw new QuanitatInvalidException(0);
+        else {
+            Producte p = productes_magatzem.get(nomProducte);
             p.decrementar_stock(quantitat);
-
+        }
     }
 
 
-    public void incrementar_stock(String nomProducte, int quantitat) throws ProductNotFoundMagatzemException,MaxMagatzemWarning {
+    public void incrementar_stock(String nomProducte, int quantitat) throws ProductNotFoundMagatzemException {
         if(!productes_magatzem.containsKey(nomProducte)) throw new ProductNotFoundMagatzemException(nomProducte);
         Producte p = productes_magatzem.get(nomProducte);
         int stock = p.get_stock();
         int max = p.get_max_magatzem();
         if(stock + quantitat > max) {
             p.mod_stock(max);
-            throw new MaxMagatzemWarning(nomProducte);
         }
         else p.incrementar_stock(quantitat);
 

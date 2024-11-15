@@ -278,7 +278,4 @@ public class TestCtrlPrestatgeria {
     public void testEliminiarPrestgeriaNoExisteix() throws PrestatgeriaNotFoundException {
         ctrlPrestatgeria.eliminarPrestatgeria("ID1");
     }
-
-    // Eliminar Prestatge
-
 }
