@@ -11,7 +11,12 @@ import java.util.Map;
 public class CtrlProducte {
 
     //En aquest map hi ha tots els productes, tot i que n'hi hagi 0 al magatzem
-    private static Map<String, Producte> productes_magatzem = new HashMap<>();
+    private static Map<String, Producte> productes_magatzem;
+
+    public CtrlProducte() {
+        productes_magatzem = new HashMap<>();
+    }
+
 
     public void executar_comandes(Map<String, Comanda> comandes) {
         for (Map.Entry<String, Comanda> comanda : comandes.entrySet()) {
@@ -34,11 +39,12 @@ public class CtrlProducte {
         });
         return productosRestantes;
     }
-    public void altaProducte(String nomProducte, int max_h, int max_m) throws ProducteJaExisteixException{
+    public void altaProducte(String nomProducte, int max_h, int max_m, int stock)
+    throws ProducteJaExisteixException, QuanitatInvalidException, StockTooBigException, IllegalArgumentException{
         if (productes_magatzem.containsKey(nomProducte)) {
             throw new ProducteJaExisteixException(nomProducte);
         }
-        Producte p = new Producte(nomProducte, max_h, max_m);
+        Producte p = new Producte(nomProducte, max_h, max_m, stock);
         productes_magatzem.put(nomProducte, p);
     }
 
@@ -81,7 +87,7 @@ public class CtrlProducte {
 
 
     public void decrementar_stock(String nomProducte, int quantitat)
-        throws ProductNotFoundMagatzemException, QuanitatInvalidException, ZeroStockMagatzemWarning {
+        throws ProductNotFoundMagatzemException, QuanitatInvalidException, QuanitatInvalidException {
         if(!productes_magatzem.containsKey(nomProducte)) throw new ProductNotFoundMagatzemException(nomProducte);
         if(quantitat < 0) throw new QuanitatInvalidException(0);
         else {
@@ -108,7 +114,7 @@ public class CtrlProducte {
 
     //Getters
 
-    static public boolean existeix_producte(String nom) {
+     public static boolean existeix_producte(String nom) {
         return productes_magatzem.containsKey(nom);
     }
 
@@ -116,7 +122,9 @@ public class CtrlProducte {
         if(nom1==null ||nom2==null) return 0;
         return productes_magatzem.get(nom1).getSimilitud(nom2);
     }
-    public int getmaxhueco(String nom) {
+    public int getmaxhueco(String nom)
+    throws ProductNotFoundMagatzemException {
+        if(!productes_magatzem.containsKey(nom)) throw new ProductNotFoundMagatzemException(nom);
         return productes_magatzem.get(nom).get_max_hueco();
     }
 
@@ -130,7 +138,11 @@ public class CtrlProducte {
     }
 
 
-    public Producte getProducte(String nom) {
+    public Producte getProducte(String nom)
+    throws ProductNotFoundMagatzemException {
+        if(!productes_magatzem.containsKey(nom)) {
+            throw new ProductNotFoundMagatzemException(nom);
+        }
         return productes_magatzem.get(nom);
 
 

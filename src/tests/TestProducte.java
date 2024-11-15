@@ -15,7 +15,7 @@ public class TestProducte {
     @Before
     public void setUp() {
         // Este método se ejecuta antes de cada test para inicializar un nuevo objeto Producte
-        producte = new Producte("Producto A", 100, 500);
+        producte = new Producte("Producto A", 100, 500,0);
     }
 
     @Test
@@ -127,6 +127,11 @@ public class TestProducte {
         producte.mod_stock(50);
         producte.decrementar_stock(100); // Más de lo disponible
         assertEquals(0, producte.get_stock()); // No debe ser negativo
+    }
+    @Test
+    public void testDecrementarStockCantidadNegativa() {
+        producte.mod_stock(-50);
+        assertThrows(QuanitatInvalidException.class, () -> producte.decrementar_stock(-10)); // Esto debe lanzar una excepción
     }
 
     @Test

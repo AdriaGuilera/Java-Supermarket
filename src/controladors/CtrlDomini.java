@@ -8,15 +8,25 @@ import java.util.Vector;
 import Exepcions.*;
 import classes.*;
 
+import static java.lang.Integer.min;
+
 public class CtrlDomini {
-    public CtrlProducte CtrlProducte = new CtrlProducte();
-    public CtrlPrestatgeria CtrlPrestatgeria = new CtrlPrestatgeria();
-    public classes.Caixa Caixa = new Caixa();
-    public CtrlComandes CtrlComandes = new CtrlComandes();
-    public Algorismes Algorismes = new Algorismes();
+    public CtrlProducte CtrlProducte;
+    public CtrlPrestatgeria CtrlPrestatgeria;
+    public Caixa Caixa;
+    public CtrlComandes CtrlComandes;
+    public Algorismes Algorismes;
 
     //Funciones del CtrlComandes
 
+    public CtrlDomini() {
+        CtrlComandes = new CtrlComandes();
+        CtrlProducte = new CtrlProducte();
+        CtrlPrestatgeria = new CtrlPrestatgeria();
+        Caixa = new Caixa();
+        CtrlComandes  = new CtrlComandes();
+        Algorismes = new Algorismes();
+    }
     public void crearComanda(String nomComanda) throws IllegalArgumentException{
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
@@ -286,10 +296,6 @@ public class CtrlDomini {
         }
     }
 
-
-
-
-
     //Caixa
     public int afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria)
     throws QuanitatInvalidException, ProductNotFoundMagatzemException, ProductNotFoundPrestatgeriaException, PrestatgeriaNotFoundException, IllegalArgumentException {
@@ -309,14 +315,17 @@ public class CtrlDomini {
 
     // Retirar producto de la caja
     public void retirar_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria)
-    throws QuanitatInvalidException,IllegalArgumentException, ProductNotFoundCaixaException, NotEnoughQuantityCaixaWarning {
+    throws QuanitatInvalidException,IllegalArgumentException, ProductNotFoundCaixaException{
         if(nom_producte == null || nom_producte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
+        int aafegir = min(Caixa.get_quantitat(nom_producte), quantitat);
+        CtrlProducte.incrementar_stock(nom_producte, aafegir);
         Caixa.retirar_producte(nom_producte, quantitat);
+
     }
 
     // Pagar y vaciar la caja, decrementando la cantidad de productos en las estanterías
@@ -327,7 +336,6 @@ public class CtrlDomini {
         }
         Caixa.pagar();
     }
-
 
     //Magatzem (Productes)
     public void executarComandes(String[] noms) throws ComandaNotFoundException {
@@ -351,7 +359,8 @@ public class CtrlDomini {
     }
 
 
-    public void altaProducte(String nomProducte, int max_h, int max_m) throws IllegalArgumentException, ProducteJaExisteixException{
+    public void altaProducte(String nomProducte, int max_h, int max_m, int stock)
+    throws QuanitatInvalidException, StockTooBigException, IllegalArgumentException, ProducteJaExisteixException {
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
@@ -361,10 +370,10 @@ public class CtrlDomini {
         if (max_m <=0) {
             throw new IllegalArgumentException("La quantitat no pot ser negativa o 0.");
         }
-        CtrlProducte.altaProducte(nomProducte, max_h, max_m);
+        CtrlProducte.altaProducte(nomProducte, max_h, max_m,stock);
     }
 
-    public void eliminar_producte(String nomProducte) throws IllegalArgumentException, ProductNotFoundMagatzemException {
+    public void eliminarProducte(String nomProducte) throws IllegalArgumentException, ProductNotFoundMagatzemException {
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
@@ -375,8 +384,6 @@ public class CtrlDomini {
         Caixa.retirar_producte(nomProducte, qcaixa);
 
     }
-
-
 
     public void afegir_similitud(String nom1, String nom2, float value)  throws IllegalArgumentException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
         if (nom1 == null || nom1.isEmpty()) {
@@ -402,7 +409,9 @@ public class CtrlDomini {
     }
 
 
-    public Producte get_producte(String nomProducte) throws IllegalArgumentException{
+    //FUNCIONS PER CONSULTAR DADES
+
+    public Producte get_producte(String nomProducte) throws IllegalArgumentException, ProductNotFoundMagatzemException {
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
         }
@@ -411,5 +420,9 @@ public class CtrlDomini {
 
     public Map<String, Producte> getMagatzem() {
         return CtrlProducte.getMagatzem();
+    }
+
+    public Map<String,Integer> getTicket() {
+        return Caixa.getticket();
     }
 }

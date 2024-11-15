@@ -1,7 +1,6 @@
 package tests;
 
 import classes.Caixa;
-import Exepcions.NotEnoughQuantityCaixaWarning;
 import Exepcions.ProductNotFoundCaixaException;
 import Exepcions.QuanitatInvalidException;
 import org.junit.Before;
@@ -46,21 +45,13 @@ public class TestCaixa {
     }
 
     @Test(expected = ProductNotFoundCaixaException.class)
-    public void testRetirarProducteNoExisteix() throws NotEnoughQuantityCaixaWarning, ProductNotFoundCaixaException {
+    public void testRetirarProducteNoExisteix() throws ProductNotFoundCaixaException {
         // Attempt to remove a product that does not exist
         caixa.retirar_producte("Peras", 5);
     }
 
-    @Test(expected = NotEnoughQuantityCaixaWarning.class)
-    public void testRetirarProducteQuantitatGran() throws QuanitatInvalidException, NotEnoughQuantityCaixaWarning, ProductNotFoundCaixaException {
-        // Add a product
-        caixa.afegir_producte("Manzanas", 10);
-        // Attempt to remove more than the available quantity
-        caixa.retirar_producte("Manzanas", 15);
-    }
-
     @Test(expected = QuanitatInvalidException.class)
-    public void testRetirarProducteQuantitatNegativa() throws NotEnoughQuantityCaixaWarning, ProductNotFoundCaixaException, QuanitatInvalidException {
+    public void testRetirarProducteQuantitatNegativa() throws ProductNotFoundCaixaException, QuanitatInvalidException {
         // Add a product
         caixa.afegir_producte("Manzanas", 10);
         // Attempt to remove a negative quantity
@@ -68,7 +59,7 @@ public class TestCaixa {
     }
 
     @Test
-    public void testRetirarProducte() throws QuanitatInvalidException, NotEnoughQuantityCaixaWarning, ProductNotFoundCaixaException {
+    public void testRetirarProducte() throws QuanitatInvalidException, ProductNotFoundCaixaException {
         // Add products
         caixa.afegir_producte("Manzanas", 10);
         caixa.afegir_producte("Manzanas", 5);

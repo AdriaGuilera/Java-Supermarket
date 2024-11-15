@@ -427,8 +427,16 @@ public class DriverCtrlDomini {
         }catch (Exception e) {
             System.out.println("Error: El stock máxim a magatzem no pot ser null" );
         }
+        int stock = 0;
+        try {
+            stock = Integer.parseInt(readLine(scanner));
+        }
+        catch (Exception e) {
+            System.out.println("Error: Stock no pot ser null" );
+        }
+
         try{
-            ctrlDomini.altaProducte(nom, max_h, max_m);
+            ctrlDomini.altaProducte(nom, max_h, max_m,stock);
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -439,7 +447,7 @@ public class DriverCtrlDomini {
         System.out.println("Nombre del Producto:");
         String nom = readLine(scanner);
         try {
-            ctrlDomini.eliminar_producte(nom);
+            ctrlDomini.eliminarProducte(nom);
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }

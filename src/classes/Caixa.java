@@ -1,6 +1,5 @@
 package classes;
 
-import Exepcions.NotEnoughQuantityCaixaWarning;
 import Exepcions.ProductNotFoundCaixaException;
 import Exepcions.QuanitatInvalidException;
 
@@ -26,15 +25,15 @@ public class Caixa {
         }
     }
 
-    public void retirar_producte(String nom_producte, int quantitat) throws NotEnoughQuantityCaixaWarning, ProductNotFoundCaixaException{
+    public void retirar_producte(String nom_producte, int quantitat) throws ProductNotFoundCaixaException{
         if(productes.containsKey(nom_producte)){
-            if(productes.get(nom_producte) >= quantitat){
-                productes.put(nom_producte, productes.get(nom_producte) - quantitat);
+            int quantitat_actual = productes.get(nom_producte);
+            if(quantitat_actual > quantitat){
+                productes.put(nom_producte, quantitat_actual - quantitat);
             }
-            else{
-                throw new NotEnoughQuantityCaixaWarning(nom_producte);
+            if((quantitat_actual-quantitat) == 0){
+                productes.remove(nom_producte);
             }
-
         }
         else {
             throw new ProductNotFoundCaixaException(nom_producte);

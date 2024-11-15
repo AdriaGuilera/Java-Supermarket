@@ -12,7 +12,7 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 public class TestCtrlProducte {
-/*
+
     private CtrlProducte ctrlProducte;
 
     @Before
@@ -23,19 +23,15 @@ public class TestCtrlProducte {
 
     @Test
     public void testAltaProducte() throws ProducteJaExisteixException {
-        ctrlProducte.altaProducte("Producto A", 100, 500);
+        ctrlProducte.altaProducte("Producto A", 100, 500,20);
         assertTrue(CtrlProducte.existeix_producte("Producto A"));
     }
 
-    @Test(expected = ProducteJaExisteixException.class)
-    public void testAltaProducteDuplicado() throws ProducteJaExisteixException {
-        ctrlProducte.altaProducte("Producto A", 100, 500);
-        ctrlProducte.altaProducte("Producto A", 200, 600); // Debe lanzar una excepción
-    }
+
 
     @Test
     public void testEliminarProducte() throws ProducteJaExisteixException, ProductNotFoundMagatzemException {
-        ctrlProducte.altaProducte("Producto A", 100, 500);
+        ctrlProducte.altaProducte("Producto A", 100, 500,0);
         ctrlProducte.eliminar_producte("Producto A");
         assertFalse(CtrlProducte.existeix_producte("Producto A"));
     }
@@ -47,13 +43,13 @@ public class TestCtrlProducte {
 
     @Test
     public void testExecutarComandes() throws ProducteJaExisteixException {
-        ctrlProducte.altaProducte("Producto A", 100, 500);
-        ctrlProducte.altaProducte("Producto B", 50, 300);
+        ctrlProducte.altaProducte("Producto A", 100, 500,0);
+        ctrlProducte.altaProducte("Producto B", 50, 300,0);
 
         Map<String, Comanda> comandes = new HashMap<>();
-        Comanda comanda1 = new Comanda();
-        comanda1.afegirOrdre("Producto A", 200);
-        comanda1.afegirOrdre("Producto B", 150);
+        Comanda comanda1 = new Comanda("Comanda 1");
+        //comanda1.afegirOrdre("Producto A", 200);
+        //comanda1.afegirOrdre("Producto B", 150);
 
         comandes.put("Comanda 1", comanda1);
         ctrlProducte.executar_comandes(comandes);
@@ -62,13 +58,17 @@ public class TestCtrlProducte {
         assertEquals(150, ctrlProducte.get_stock_magatzem("Producto B"));
     }
 
+    @Test(expected = ProducteJaExisteixException.class)
+    public void testAltaProducteDuplicat() throws ProducteJaExisteixException {
+        ctrlProducte.altaProducte("Producto A", 100, 500,0);
+        ctrlProducte.altaProducte("Producto A", 50, 300,0); // Debe lanzar una excepción
+    }
+
     @Test
     public void testObtenirComandaAutomatica() throws ProducteJaExisteixException {
-        ctrlProducte.altaProducte("Producto A", 100, 500);
-        ctrlProducte.altaProducte("Producto B", 50, 300);
+        ctrlProducte.altaProducte("Producto A", 100, 500,200);
+        ctrlProducte.altaProducte("Producto B", 50, 300,100);
 
-        ctrlProducte.incrementar_stock("Producto A", 200); // Quedan 300 por llenar
-        ctrlProducte.incrementar_stock("Producto B", 100); // Quedan 200 por llenar
 
         Map<String, Integer> comandaAutomatica = ctrlProducte.obtenirComandaAutomatica();
         assertEquals(300, (int) comandaAutomatica.get("Producto A"));
@@ -77,14 +77,14 @@ public class TestCtrlProducte {
 
     @Test
     public void testIncrementarStockDentroDeLimite() throws ProducteJaExisteixException, ProductNotFoundMagatzemException {
-        ctrlProducte.altaProducte("Producto A", 100, 500);
+        ctrlProducte.altaProducte("Producto A", 100, 500,0);
         ctrlProducte.incrementar_stock("Producto A", 300);
         assertEquals(300, ctrlProducte.get_stock_magatzem("Producto A"));
     }
 
     @Test
     public void testIncrementarStockExcedeLimite() throws ProducteJaExisteixException, ProductNotFoundMagatzemException {
-        ctrlProducte.altaProducte("Producto A", 100, 500);
+        ctrlProducte.altaProducte("Producto A", 100, 500,0);
         ctrlProducte.incrementar_stock("Producto A", 600); // Excede el límite
         assertEquals(500, ctrlProducte.get_stock_magatzem("Producto A")); // Se ajusta al límite máximo
     }
@@ -96,8 +96,7 @@ public class TestCtrlProducte {
 
     @Test
     public void testDecrementarStock() throws ProducteJaExisteixException, ProductNotFoundMagatzemException, QuanitatInvalidException {
-        ctrlProducte.altaProducte("Producto A", 100, 500);
-        ctrlProducte.incrementar_stock("Producto A", 300);
+        ctrlProducte.altaProducte("Producto A", 100, 500,300);
         ctrlProducte.decrementar_stock("Producto A", 100);
         assertEquals(200, ctrlProducte.get_stock_magatzem("Producto A"));
     }
@@ -107,40 +106,5 @@ public class TestCtrlProducte {
         ctrlProducte.decrementar_stock("Producto Inexistente", 100); // Debe lanzar una excepción
     }
 
-    @Test(expected = QuanitatInvalidException.class)
-    public void testDecrementarStockCantidadNegativa() throws ProducteJaExisteixException, ProductNotFoundMagatzemException, QuanitatInvalidException {
-        ctrlProducte.altaProducte("Producto A", 100, 500);
-        ctrlProducte.decrementar_stock("Producto A", -50); // Debe lanzar una excepción
-    }
 
-    @Test
-    public void testAfegirSimilitud() throws ProducteJaExisteixException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
-        ctrlProducte.altaProducte("Producto A", 100, 500);
-        ctrlProducte.altaProducte("Producto B", 50, 300);
-
-        ctrlProducte.afegir_similitud("Producto A", "Producto B", 0.75f);
-        assertEquals(0.75f, CtrlProducte.obtenir_similitud("Producto A", "Producto B"), 0.001);
-    }
-
-    @Test(expected = calculMateixosProductesSimilitud.class)
-    public void testAfegirSimilitudMismoProducto() throws ProducteJaExisteixException, calculMateixosProductesSimilitud, ProductNotFoundMagatzemException {
-        ctrlProducte.altaProducte("Producto A", 100, 500);
-        ctrlProducte.afegir_similitud("Producto A", "Producto A", 0.75f); // Debe lanzar una excepción
-    }
-
-    @Test(expected = ProductNotFoundMagatzemException.class)
-    public void testAfegirSimilitudProductoNoExistente() throws calculMateixosProductesSimilitud, ProductNotFoundMagatzemException {
-        ctrlProducte.afegir_similitud("Producto A", "Producto Inexistente", 0.75f); // Debe lanzar una excepción
-    }
-
-    @Test
-    public void testEliminarSimilitud() throws ProducteJaExisteixException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
-        ctrlProducte.altaProducte("Producto A", 100, 500);
-        ctrlProducte.altaProducte("Producto B", 50, 300);
-
-        ctrlProducte.afegir_similitud("Producto A", "Producto B", 0.75f);
-        ctrlProducte.eliminarSimilitud("Producto A", "Producto B");
-        assertEquals(0.0f, CtrlProducte.obtenir_similitud("Producto A", "Producto B"), 0.001);
-    }
-    */
 }

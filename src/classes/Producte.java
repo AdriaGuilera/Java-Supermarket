@@ -2,6 +2,7 @@ package classes;
 
 import Exepcions.MaxMagatzemWarning;
 import Exepcions.QuanitatInvalidException;
+import Exepcions.StockTooBigException;
 import Exepcions.ZeroStockMagatzemWarning;
 
 import java.util.Map;
@@ -20,13 +21,22 @@ public class Producte {
     private Map<String, Float> similitud = new HashMap<>();
     private int stock_magatzem;
 
-    public Producte(String n,  int max_h, int max_m) {
+    public Producte(String n,  int max_h, int max_m, int stock)
+    throws QuanitatInvalidException, StockTooBigException, IllegalArgumentException {
+        if(stock < 0){
+            throw new QuanitatInvalidException(0);
+        }
+        if(stock > max_m){
+            throw new StockTooBigException(max_m);
+        }
+        if(max_h <= 0 || max_m <= 0){
+            throw new IllegalArgumentException("Mida de magatzem i mida del hueco han de ser positius");
+        }
         nom = n;
-
         max_hueco = max_h;
         max_magatzem = max_m;
         similitud = new HashMap<>(); //Si un producte no apareix en el map, s'entén que la seva similitud és 0.
-        stock_magatzem = 0;
+        stock_magatzem = stock;
     }
 
 
@@ -70,8 +80,13 @@ public class Producte {
         else stock_magatzem += quantitat;
     }
 
-    public void decrementar_stock(int quant) {
+    public void decrementar_stock(int quant)
+    throws QuanitatInvalidException{
+        if(quant < 0){
+            throw new QuanitatInvalidException(0);
+        }
         stock_magatzem = max(stock_magatzem - quant, 0);
+
     }
 
     //Si el Producte nom ja té similitud assignada, es sobreescriurà amb la nova

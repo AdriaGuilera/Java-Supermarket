@@ -54,10 +54,11 @@ public class Prestatgeria {
 	}
 	public void eliminar_producte(String nomP)
 	throws ProductNotFoundPrestatgeriaException {
+
 		if(productes.containsKey(nomP)){
+			int pos = get_pos(nomP);
 			productes.remove(nomP);
 			productes_fixats.remove(nomP);
-			int pos = get_pos(nomP);
 			posicions.remove(pos);
 		}
 		else{
