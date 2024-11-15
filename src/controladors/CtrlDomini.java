@@ -173,7 +173,7 @@ public class CtrlDomini {
         }
         Vector<String> productes = CtrlPrestatgeria.getNomsProductes(id_prestatgeria);
         Set<String> fixats = CtrlPrestatgeria.getProductesFixats(id_prestatgeria);
-        Vector<String> novadist = Algorismes.encontrarMejorDistribucionBacktracking(productes , fixats);
+        Vector<String> novadist = Algorismes.encontrarMejorDistribucionBacktracking(productes , fixats, CtrlProducte.getMagatzem());
         CtrlPrestatgeria.setDistribucio(id_prestatgeria, novadist);
     }
 
@@ -184,7 +184,7 @@ public class CtrlDomini {
         }
         Vector<String> productes = CtrlPrestatgeria.getNomsProductes(id_prestatgeria);
         Set<String> fixats = CtrlPrestatgeria.getProductesFixats(id_prestatgeria);
-        Vector<String> novadist = Algorismes.encontrarMejorDistribucionHillClimbing(productes , fixats);
+        Vector<String> novadist = Algorismes.encontrarMejorDistribucionHillClimbing(productes , fixats, CtrlProducte.getMagatzem());
         CtrlPrestatgeria.setDistribucio(id_prestatgeria, novadist);
 
     }

@@ -9,7 +9,7 @@ public class Algorismes {
     double maxSimilitud = 0.0;
     Vector<String> mejorDistribucion;
 
-    public Vector<String> encontrarMejorDistribucionBacktracking(Vector<String> distribucion, Set<String> productosFijos) {
+    public Vector<String> encontrarMejorDistribucionBacktracking(Vector<String> distribucion, Set<String> productosFijos,Map<String, Producte>productes_magatzem) {
         maxSimilitud = 0.0;
         mejorDistribucion = distribucion;
 
@@ -23,15 +23,15 @@ public class Algorismes {
         }
 
         // Ejecutar el algoritmo de backtracking
-        backtrack(distribucion, productosFijos, indicesMovibles, 0);
+        backtrack(distribucion, productosFijos, indicesMovibles, 0, productes_magatzem);
 
         return mejorDistribucion; // Retornar la mejor distribución encontrada
     }
 
-    private void backtrack(Vector<String> distribucion, Set<String> productosFijos, List<Integer> indicesMovibles, int nivel) {
+    private void backtrack(Vector<String> distribucion, Set<String> productosFijos, List<Integer> indicesMovibles, int nivel,Map<String, Producte>productes_magatzem) {
         // Caso base: si hemos llegado al final de los índices movibles
         if (nivel == indicesMovibles.size()) {
-            double similitudActual = calcularSimilitudTotal(distribucion);
+            double similitudActual = calcularSimilitudTotal(distribucion, productes_magatzem);
             if (similitudActual > maxSimilitud) {
                 maxSimilitud = similitudActual;
                 mejorDistribucion = new Vector<>(distribucion); // Guardar la mejor distribución
@@ -45,7 +45,7 @@ public class Algorismes {
             Collections.swap(distribucion, indicesMovibles.get(nivel), indicesMovibles.get(i));
 
             // Llamada recursiva al siguiente nivel
-            backtrack(distribucion, productosFijos, indicesMovibles, nivel + 1);
+            backtrack(distribucion, productosFijos, indicesMovibles, nivel + 1,productes_magatzem);
 
             // Deshacer el intercambio (backtracking)
             Collections.swap(distribucion, indicesMovibles.get(nivel), indicesMovibles.get(i));
@@ -81,10 +81,10 @@ public class Algorismes {
     }
 
 
-    public Vector<String> encontrarMejorDistribucionHillClimbing(Vector<String> distribucion, Set<String> productosFijos) {
+    public Vector<String> encontrarMejorDistribucionHillClimbing(Vector<String> distribucion, Set<String> productosFijos, Map<String, Producte>productes_magatzem) {
         // Generar una solución inicial
         Vector<String> mejorDistribucion = generarSolucionInicial(distribucion, productosFijos);
-        double maxSimilitud = calcularSimilitudTotal(mejorDistribucion);
+        double maxSimilitud = calcularSimilitudTotal(mejorDistribucion, productes_magatzem);
 
         boolean hayMejora = true;
         while (hayMejora) {
@@ -101,7 +101,7 @@ public class Algorismes {
                         // Crear una copia de la distribución actual para probar el swap
                         Vector<String> vecino = new Vector<>(mejorDistribucion);
                         Collections.swap(vecino, i, j);
-                        double similitudVecino = calcularSimilitudTotal(vecino);
+                        double similitudVecino = calcularSimilitudTotal(vecino,productes_magatzem);
 
                         // Si el vecino es mejor, lo guardamos como el mejor encontrado en esta iteración
                         if (similitudVecino > mejorSimilitudVecino) {
@@ -126,14 +126,18 @@ public class Algorismes {
 
 
     ///////////////////////////////FUNCIONES COMPARTIDAS//////////////////////////////////////
+    public double get_similitud(String nom1, String nom2, Map<String, Producte>productes_magatzem) {
+        if(nom1==null ||nom2==null) return 0;
+        return productes_magatzem.get(nom1).getSimilitud(nom2);
+    }
 
-        public double calcularSimilitudTotal(Vector<String> distribucio){
+        public double calcularSimilitudTotal(Vector<String> distribucio, Map<String, Producte>productes_magatzem){
 
             int tamano_distribucio=distribucio.size();
-            double similitud_total= CtrlProducte.obtenir_similitud(distribucio.get(0),distribucio.get(tamano_distribucio-1));
+            double similitud_total= get_similitud(distribucio.get(0),distribucio.get(tamano_distribucio-1), productes_magatzem);
 
             for(int i=0; i<tamano_distribucio-1; ++i){
-                similitud_total+= CtrlProducte.obtenir_similitud(distribucio.get(i),distribucio.get(i+1));
+                similitud_total+= get_similitud(distribucio.get(i),distribucio.get(i+1),productes_magatzem);
             }
             return similitud_total;
         }
