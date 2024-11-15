@@ -1,9 +1,10 @@
 package classes;
 
 import java.util.*;
-import controladors.CtrlProducte;
+
 public class Algorismes {
 
+    public Algorismes() {}
         /////////////////BACKTRACKING//////////////////////////////
 
     double maxSimilitud = 0.0;
@@ -88,7 +89,7 @@ public class Algorismes {
 
         boolean hayMejora = true;
         while (hayMejora) {
-            System.out.println(mejorDistribucion);
+
             hayMejora = false;
             Vector<String> mejorVecino = null;
             double mejorSimilitudVecino = maxSimilitud;
@@ -119,7 +120,7 @@ public class Algorismes {
                 maxSimilitud = mejorSimilitudVecino;
             }
         }
-        System.out.println(maxSimilitud);
+
         return mejorDistribucion;
     }
 

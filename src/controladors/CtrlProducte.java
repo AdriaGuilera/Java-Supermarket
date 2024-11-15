@@ -118,7 +118,7 @@ public class CtrlProducte {
         return productes_magatzem.containsKey(nom);
     }
 
-    public static double obtenir_similitud(String nom1, String nom2) {
+    public static double get_similitud(String nom1, String nom2) {
         if(nom1==null ||nom2==null) return 0;
         return productes_magatzem.get(nom1).getSimilitud(nom2);
     }
