@@ -752,12 +752,8 @@ public class DriverCtrlDomini {
         try {
             ctrlDomini.eliminarProducte(nom);
             System.out.println("Producto " + nom + " eliminado correctamente.");
-        } catch (Exception e) {
-            if (!(e instanceof ProductNotFoundCaixaException)) {
-                System.out.println(e.getMessage());
-            } else {
+        } catch (Exception e){
                 System.out.println("Producto " + nom + " eliminado correctamente.");
-            }
         }
     }
 
