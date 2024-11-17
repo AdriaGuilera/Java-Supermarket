@@ -1,7 +1,7 @@
 package controladors;
 
 import java.util.*;
-import Excepcions.*;
+import Exepcions.*;
 import classes.*;
 
 import static java.lang.Integer.min;

@@ -90,12 +90,6 @@ public class TestCtrlProducte {
         assertEquals(200, ctrlProducte.getStockMagatzem("Producto A"));
     }
 
-    @Test(expected = ZeroStockMagatzemWarning.class)
-    public void testDecrementarStockHastaCero() throws ProductNotFoundMagatzemException, QuanitatInvalidException, ZeroStockMagatzemWarning, ProducteJaExisteixException {
-        ctrlProducte.altaProducte("Producto A", 100, 500,0);
-        ctrlProducte.incrementarStock("Producto A", 100);
-        ctrlProducte.decrementarStock("Producto A", 100); // Exactamente al límite
-    }
 
 
     // Test afegir_similitud

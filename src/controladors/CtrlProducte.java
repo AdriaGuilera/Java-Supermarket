@@ -1,6 +1,6 @@
 package controladors;
 
-import Excepcions.*;
+import Exepcions.*;
 import classes.Comanda;
 import classes.Producte;
 

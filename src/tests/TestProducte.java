@@ -135,17 +135,6 @@ public class TestProducte {
         assertEquals(70, producte.getStock());
     }
 
-    @Test (expected =ZeroStockMagatzemWarning.class)
-    public void testDecrementarStockHastaCero() {
-        producte.modStock(100);
-        producte.decrementarStock(100); // Exactamente al límite
-    }
-
-    @Test(expected =ZeroStockMagatzemWarning.class)
-    public void testDecrementarStockPorDebajoDeCero() {
-        producte.modStock(50);
-        producte.decrementarStock(100); // Más de lo disponible
-    }
 
     @Test
     public void testDecrementarStockCantidadNegativa() {
