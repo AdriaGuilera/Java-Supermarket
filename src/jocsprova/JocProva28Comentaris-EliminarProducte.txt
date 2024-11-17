@@ -1,0 +1,17 @@
+//Donar d'alta Producte1
+27
+Producte1
+10
+10
+0
+
+//Borrar un producte que no existeix -> Salta excepció per producte inexistent
+28
+Producte2
+
+//Borrar un producte amn nom null -> Salta excepció per input null
+28
+
+//Borrar un producte existent 
+28
+Producte1

@@ -3,12 +3,11 @@
 Comanda1
 
 
-
 //Creem una comanda amb nom Comanda1 -> Salta excepció per comanda ja existent amb mateix nom
 1
 Comanda1
 
-//Creem una comanda buita -> Salta excepció per comanda nula
+//Creem una comanda buida -> Salta excepció per input null
 1
 
 //Creem una comanda amb nom Comanda2

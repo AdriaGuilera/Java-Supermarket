@@ -1,0 +1,23 @@
+//Donar d'alta un Producte
+27
+Producte1
+10
+10
+0
+
+//Donar d'alta un Producte existent -> Salta excepcio per producte existent
+27
+Producte1
+10
+10
+0
+
+//Donar d'alta un Producte amb valors no vàlids -> Salta excepció per valor no vàlid
+27
+Producte2
+-10
+10
+0
+
+//Donar d'alta un Producte amb valors nulls -> Salta excepció per input null
+27

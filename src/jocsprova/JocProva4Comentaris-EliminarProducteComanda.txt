@@ -1,0 +1,42 @@
+//Afegir un producte a una comanda correctament
+1
+Comanda1
+27
+Pera
+10
+10
+0
+3
+Comanda1
+Pera
+10
+
+//Eliminar un producte no existent -> Salta excepció per producte no existent
+4
+Comanda1
+Manzana
+10
+
+//Eliminar un producte a comanda no existent -> Salta excepció per comanda no existent
+4
+Comanda2
+Pera
+10
+
+
+//Eliminar un producte amb algun input null -> Salta excepció per input null
+4
+
+
+
+//Eliminar un producte amb cuantitat negativa -> Salta excepció per input no vàlid
+4
+Comanda1
+Pera
+-10
+
+//Eliminar un producte d'una comanda correctament
+4
+Comanda1
+Pera
+10

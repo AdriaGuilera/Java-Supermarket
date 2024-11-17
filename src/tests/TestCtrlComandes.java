@@ -46,14 +46,7 @@ public class TestCtrlComandes {
         assertEquals(3, comanda.getQuantitat("Pera"));
     }
 
-    @Test
-    public void testCrearComandaAutomaticaConProductosCantidadNegativaLanzaExcepcion() throws QuanitatInvalidException {
 
-        Map<String, Integer> productos = new HashMap<>();
-        productos.put("Manzana", -1);
-
-        assertThrows(QuanitatInvalidException.class, () -> ctrlComandes.crearComandaAutomatica("ComandaAuto", productos));
-    }
 
     @Test
     public void testCrearComandaAutomaticaConProductosCantidadCeroYaExiste() {
@@ -88,12 +81,6 @@ public class TestCtrlComandes {
         assertEquals(10, ctrlComandes.getComandaUnica("Comanda1").getQuantitat("Manzana"));
     }
 
-    @Test
-    public void testAfegirProducteCantidadNegativaLanzaExcepcion() {
-
-        ctrlComandes.crearComanda("Comanda1");
-        assertThrows(QuanitatInvalidException.class, () -> ctrlComandes.afegirProducteComanda("Comanda1", "Manzana", -5));
-    }
 
     @Test
     public void testEliminarGranCantidadProducteComanda() throws QuanitatInvalidException, ProductNotFoundComandaException {

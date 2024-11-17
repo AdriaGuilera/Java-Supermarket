@@ -1,0 +1,52 @@
+//Crear Producte1
+27
+Producte1
+3
+10
+10
+
+//Crear prestatgeria
+9
+pres1
+5
+10
+
+//Afegim un producte que no existeix -> Salta excepció per producte inexistent
+13
+Producte2
+5
+pres1
+
+
+//Afegim un producte a una prestatgeria que no existeix -> Salta excepció per prestatgeria inexistent
+13
+Producte1
+5
+pres2
+
+//Afegim un producte exitosament
+13
+Producte1
+1
+pres1
+
+//Afegim un producte i ocupem max_hueco -> Salta Warning avisant que s'ha omplert el hueco
+13
+Producte1
+5
+pres1
+
+//Afegim més cuantitat de la que existeix al Magatzem -> Salta excepció notEnoughquantitatMagatzem
+13
+Producte1
+10
+pres1
+
+//Movem un producte i algun input es null -> Salta excepció per input null
+13
+
+
+
+
+
+

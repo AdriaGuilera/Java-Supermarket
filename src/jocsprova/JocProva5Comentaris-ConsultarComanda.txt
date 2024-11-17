@@ -1,0 +1,14 @@
+//Crear comanda
+1
+Comanda1
+
+//Consultar comanda no existent
+5
+Comanda2
+
+//Consulatr comanda amb nom null
+5
+
+//Consultar comanda Comanda1 correctament
+5
+Comanda1

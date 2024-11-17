@@ -1,0 +1,12 @@
+//Eliminem una comanda existent
+1
+Comanda1
+2
+Comanda1
+
+//Eliminem una comanda nula -> Salta excepció per input null
+2
+
+//Eliminem una comanda que no existeix -> Salta excepció per comanda no existent
+2
+Comanda1

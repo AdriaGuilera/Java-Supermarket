@@ -1,6 +1,5 @@
 package controladors;
 
-
 import Exepcions.*;
 import classes.Comanda;
 import classes.Producte;
@@ -8,148 +7,272 @@ import classes.Producte;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Clase controladora para gestionar los productos en el almacén.
+ * Proporciona métodos para agregar, eliminar, modificar y consultar productos.
+ */
 public class CtrlProducte {
 
-    //En aquest map hi ha tots els productes, tot i que n'hi hagi 0 al magatzem
-    private static Map<String, Producte> productes_magatzem;
+    /**
+     * Mapa que contiene todos los productos del almacén, incluyendo aquellos con stock igual a cero.
+     */
+    private static Map<String, Producte> productesMagatzem;
 
+    /**
+     * Constructor de la clase CtrlProducte.
+     * Inicializa un mapa vacío para los productos.
+     */
     public CtrlProducte() {
-        productes_magatzem = new HashMap<>();
+        productesMagatzem = new HashMap<>();
     }
 
+    ////////////////////// Métodos de Gestión de Comandas //////////////////////
 
-    public void executar_comandes(Map<String, Comanda> comandes) {
+    /**
+     * Ejecuta una lista de comandas, actualizando el stock de los productos en el almacén.
+     *
+     * @param comandes Mapa de comandas a ejecutar.
+     */
+    public void executarComandes(Map<String, Comanda> comandes) {
         for (Map.Entry<String, Comanda> comanda : comandes.entrySet()) {
             for (Map.Entry<String, Integer> ordre : comanda.getValue().getOrdres().entrySet()) {
                 String nom = ordre.getKey();
                 int quant = ordre.getValue();
-                Producte p = productes_magatzem.get(nom);
-                if (p.get_stock() + quant > p.get_max_magatzem()) p.incrementar_stock(p.get_max_magatzem()-p.get_stock());
-                else p.incrementar_stock(quant);
+                Producte p = productesMagatzem.get(nom);
+                if (p.getStock() + quant > p.getMaxMagatzem()) {
+                    p.incrementarStock(p.getMaxMagatzem() - p.getStock());
+                } else {
+                    p.incrementarStock(quant);
+                }
             }
         }
     }
 
-    public Map<String,Integer> obtenirComandaAutomatica() {
-        Map<String,Integer> productosRestantes = new HashMap<>();
-        productes_magatzem.forEach((key, value) -> {
-            int maximo = value.get_max_magatzem();
-            int diferencia = maximo - value.get_stock();
-            productosRestantes.put(key,diferencia);
+    /**
+     * Genera una comanda automática para reponer el stock de productos en el almacén.
+     *
+     * @return Un mapa con los productos que necesitan reposición y sus cantidades.
+     */
+    public Map<String, Integer> generarComandaAutomatica() {
+        Map<String, Integer> productosRestantes = new HashMap<>();
+        productesMagatzem.forEach((key, value) -> {
+            int maximo = value.getMaxMagatzem();
+            int diferencia = maximo - value.getStock();
+            productosRestantes.put(key, diferencia);
         });
         return productosRestantes;
     }
-    public void altaProducte(String nomProducte, int max_h, int max_m, int stock)
-    throws ProducteJaExisteixException, QuanitatInvalidException, StockTooBigException, IllegalArgumentException{
-        if (productes_magatzem.containsKey(nomProducte)) {
+
+    ////////////////////// Métodos de Gestión de Productos //////////////////////
+
+    /**
+     * Da de alta un nuevo producto en el almacén.
+     *
+     * @param nomProducte Nombre del producto.
+     * @param maxHueco    Capacidad máxima por hueco.
+     * @param maxMagatzem Capacidad máxima del almacén.
+     * @param stock       Stock inicial.
+     * @throws ProducteJaExisteixException Si el producto ya existe.
+     * @throws QuanitatInvalidException    Si el stock inicial es negativo.
+     * @throws StockTooBigException        Si el stock inicial excede la capacidad máxima.
+     * @throws IllegalArgumentException    Si las capacidades son no positivas.
+     */
+    public void altaProducte(String nomProducte, int maxHueco, int maxMagatzem, int stock)
+            throws ProducteJaExisteixException, QuanitatInvalidException, StockTooBigException, IllegalArgumentException {
+        if (productesMagatzem.containsKey(nomProducte)) {
             throw new ProducteJaExisteixException(nomProducte);
         }
-        Producte p = new Producte(nomProducte, max_h, max_m, stock);
-        productes_magatzem.put(nomProducte, p);
+        Producte p = new Producte(nomProducte, maxHueco, maxMagatzem, stock);
+        productesMagatzem.put(nomProducte, p);
     }
 
-
-    //Si no existia no fa res
-    public void eliminar_producte(String nomProducte) throws ProductNotFoundMagatzemException {
-        if (productes_magatzem.containsKey(nomProducte)) {
-            productes_magatzem.remove(nomProducte);
+    /**
+     * Elimina un producto del almacén.
+     *
+     * @param nomProducte Nombre del producto.
+     * @throws ProductNotFoundMagatzemException Si el producto no existe.
+     */
+    public void eliminarProducte(String nomProducte) throws ProductNotFoundMagatzemException {
+        if (productesMagatzem.containsKey(nomProducte)) {
+            productesMagatzem.remove(nomProducte);
         } else {
             throw new ProductNotFoundMagatzemException(nomProducte);
         }
     }
 
-    public void afegir_similitud(String nom1, String nom2, float value) throws ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
-        if (nom1 == nom2) throw new calculMateixosProductesSimilitud(nom1);
-        Producte p1 = productes_magatzem.get(nom1);
-        Producte p2 = productes_magatzem.get(nom2);
-        if (!productes_magatzem.containsKey(nom1) ) throw new ProductNotFoundMagatzemException(nom1);
-        else if(!productes_magatzem.containsKey(nom2)) throw new ProductNotFoundMagatzemException(nom2);
-        else {
-            p1.afegir_similitud(nom2, value);
-            p2.afegir_similitud(nom1, value);
+    ////////////////////// Gestión de Similitud //////////////////////
+
+    /**
+     * Asigna una relación de similitud entre dos productos.
+     *
+     * @param nom1  Nombre del primer producto.
+     * @param nom2  Nombre del segundo producto.
+     * @param value Valor de similitud.
+     * @throws ProductNotFoundMagatzemException Si alguno de los productos no existe.
+     * @throws calculMateixosProductesSimilitud Si ambos nombres de productos son iguales.
+     */
+    public void afegirSimilitud(String nom1, String nom2, float value)
+            throws ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
+        if (nom1.equals(nom2)) {
+            throw new calculMateixosProductesSimilitud(nom1);
+        }
+        Producte p1 = productesMagatzem.get(nom1);
+        Producte p2 = productesMagatzem.get(nom2);
+        if (p1 == null) {
+            throw new ProductNotFoundMagatzemException(nom1);
+        }
+        if (p2 == null) {
+            throw new ProductNotFoundMagatzemException(nom2);
+        }
+        p1.afegirSimilitud(nom2, value);
+        p2.afegirSimilitud(nom1, value);
+    }
+
+    /**
+     * Elimina una relación de similitud entre dos productos.
+     *
+     * @param nom1 Nombre del primer producto.
+     * @param nom2 Nombre del segundo producto.
+     * @throws ProductNotFoundMagatzemException Si alguno de los productos no existe.
+     * @throws calculMateixosProductesSimilitud Si ambos nombres de productos son iguales.
+     */
+    public void eliminarSimilitud(String nom1, String nom2)
+            throws ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
+        if (nom1.equals(nom2)) {
+            throw new calculMateixosProductesSimilitud(nom1);
+        }
+        Producte p1 = productesMagatzem.get(nom1);
+        Producte p2 = productesMagatzem.get(nom2);
+        if (p1 == null) {
+            throw new ProductNotFoundMagatzemException(nom1);
+        }
+        if (p2 == null) {
+            throw new ProductNotFoundMagatzemException(nom2);
+        }
+        p1.eliminarSimilitud(nom2);
+        p2.eliminarSimilitud(nom1);
+    }
+
+    ////////////////////// Gestión de Stock //////////////////////
+
+    /**
+     * Decrementa el stock de un producto en una cantidad específica.
+     *
+     * @param nomProducte Nombre del producto.
+     * @param quantitat   Cantidad a decrementar.
+     * @throws ProductNotFoundMagatzemException Si el producto no existe.
+     * @throws QuanitatInvalidException         Si la cantidad es negativa.
+     */
+    public void decrementarStock(String nomProducte, int quantitat)
+            throws ProductNotFoundMagatzemException, QuanitatInvalidException {
+        if (!productesMagatzem.containsKey(nomProducte)) {
+            throw new ProductNotFoundMagatzemException(nomProducte);
+        }
+        if (quantitat < 0) {
+            throw new QuanitatInvalidException(0);
+        }
+        Producte p = productesMagatzem.get(nomProducte);
+        p.decrementarStock(quantitat);
+    }
+
+    /**
+     * Incrementa el stock de un producto en una cantidad específica.
+     *
+     * @param nomProducte Nombre del producto.
+     * @param quantitat   Cantidad a incrementar.
+     * @throws ProductNotFoundMagatzemException Si el producto no existe.
+     */
+    public void incrementarStock(String nomProducte, int quantitat) throws ProductNotFoundMagatzemException {
+        if (!productesMagatzem.containsKey(nomProducte)) {
+            throw new ProductNotFoundMagatzemException(nomProducte);
+        }
+        Producte p = productesMagatzem.get(nomProducte);
+        int stock = p.getStock();
+        int max = p.getMaxMagatzem();
+        if (stock + quantitat > max) {
+            p.modStock(max);
+        } else {
+            p.incrementarStock(quantitat);
         }
     }
-    public void eliminarSimilitud(String nom1, String nom2) throws ProductNotFoundMagatzemException, calculMateixosProductesSimilitud{
-        if (nom1 == nom2) throw new calculMateixosProductesSimilitud(nom1);
-        Producte p1 = productes_magatzem.get(nom1);
-        Producte p2 = productes_magatzem.get(nom2);
-        if (!productes_magatzem.containsKey(nom1) ) throw new ProductNotFoundMagatzemException(nom1);
-        else if(!productes_magatzem.containsKey(nom2)) throw new ProductNotFoundMagatzemException(nom2);
-        else {
-            p1.eliminarSimilitud(nom2);
-            p2.eliminarSimilitud(nom1);
+
+    ////////////////////// Getters //////////////////////
+
+    /**
+     * Verifica si existe un producto en el almacén.
+     *
+     * @param nom Nombre del producto.
+     * @return {@code true} si el producto existe, {@code false} en caso contrario.
+     */
+    public boolean existeixProducte(String nom) {
+        return productesMagatzem.containsKey(nom);
+    }
+
+    /**
+     * Obtiene la similitud entre dos productos.
+     *
+     * @param nom1 Nombre del primer producto.
+     * @param nom2 Nombre del segundo producto.
+     * @return El valor de similitud entre los dos productos.
+     */
+    public double getSimilitud(String nom1, String nom2) {
+        if (nom1 == null || nom2 == null) {
+            return 0;
         }
+        return productesMagatzem.get(nom1).getSimilitud(nom2);
     }
 
-
-
-
-
-
-    public void decrementar_stock(String nomProducte, int quantitat)
-        throws ProductNotFoundMagatzemException, QuanitatInvalidException, QuanitatInvalidException {
-        if(!productes_magatzem.containsKey(nomProducte)) throw new ProductNotFoundMagatzemException(nomProducte);
-        if(quantitat < 0) throw new QuanitatInvalidException(0);
-        else {
-            Producte p = productes_magatzem.get(nomProducte);
-            p.decrementar_stock(quantitat);
+    /**
+     * Obtiene la capacidad máxima por hueco de un producto.
+     *
+     * @param nom Nombre del producto.
+     * @return La capacidad máxima por hueco.
+     * @throws ProductNotFoundMagatzemException Si el producto no existe.
+     */
+    public int getMaxHueco(String nom) throws ProductNotFoundMagatzemException {
+        if (!productesMagatzem.containsKey(nom)) {
+            throw new ProductNotFoundMagatzemException(nom);
         }
+        return productesMagatzem.get(nom).getMaxHueco();
     }
 
-
-    public void incrementar_stock(String nomProducte, int quantitat) throws ProductNotFoundMagatzemException {
-        if(!productes_magatzem.containsKey(nomProducte)) throw new ProductNotFoundMagatzemException(nomProducte);
-        Producte p = productes_magatzem.get(nomProducte);
-        int stock = p.get_stock();
-        int max = p.get_max_magatzem();
-        if(stock + quantitat > max) {
-            p.mod_stock(max);
-        }
-        else p.incrementar_stock(quantitat);
-
-    }
-
-
-
-
-    //Getters
-
-     public static boolean existeix_producte(String nom) {
-        return productes_magatzem.containsKey(nom);
-    }
-
-    public static double get_similitud(String nom1, String nom2) {
-        if(nom1==null ||nom2==null) return 0;
-        return productes_magatzem.get(nom1).getSimilitud(nom2);
-    }
-    public int getmaxhueco(String nom)
-    throws ProductNotFoundMagatzemException {
-        if(!productes_magatzem.containsKey(nom)) throw new ProductNotFoundMagatzemException(nom);
-        return productes_magatzem.get(nom).get_max_hueco();
-    }
-
-
-    public int get_stock_magatzem(String key) throws ProductNotFoundMagatzemException {
-        Producte producte = productes_magatzem.get(key);
+    /**
+     * Obtiene el stock actual de un producto en el almacén.
+     *
+     * @param key Nombre del producto.
+     * @return El stock actual.
+     * @throws ProductNotFoundMagatzemException Si el producto no existe.
+     */
+    public int getStockMagatzem(String key) throws ProductNotFoundMagatzemException {
+        Producte producte = productesMagatzem.get(key);
         if (producte == null) {
             throw new ProductNotFoundMagatzemException(key);
         }
-        return producte.get_stock();
+        return producte.getStock();
     }
 
-
-    public Producte getProducte(String nom)
-    throws ProductNotFoundMagatzemException {
-        if(!productes_magatzem.containsKey(nom)) {
+    /**
+     * Obtiene un producto específico del almacén.
+     *
+     * @param nom Nombre del producto.
+     * @return El producto encontrado.
+     * @throws ProductNotFoundMagatzemException Si el producto no existe.
+     */
+    public Producte getProducte(String nom) throws ProductNotFoundMagatzemException {
+        if (!productesMagatzem.containsKey(nom)) {
             throw new ProductNotFoundMagatzemException(nom);
         }
-        return productes_magatzem.get(nom);
-
-
+        System.out.println("Consulta del producte " + nom + " feta correctament!");
+        return productesMagatzem.get(nom);
     }
 
+    /**
+     * Obtiene todos los productos del almacén.
+     *
+     * @return Un mapa con todos los productos.
+     */
     public Map<String, Producte> getMagatzem() {
-        return productes_magatzem;
+        System.out.println("Consulta del magatzem feta correctament!");
+        return productesMagatzem;
     }
-
 }

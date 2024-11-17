@@ -1,0 +1,6 @@
+//Afegim una comanda
+1
+Comanda1
+
+//Consultem totes les comandes existents
+6

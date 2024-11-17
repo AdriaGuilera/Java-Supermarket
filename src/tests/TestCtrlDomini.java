@@ -34,10 +34,10 @@ public class TestCtrlDomini {
         ctrlDomini.reposarPrestatgeria("Prestatgeria1");
 
         // Verifiquem que els productes s'han reposat correctament
-        assertEquals(10, ctrlDomini.CtrlPrestatgeria.get_quantitat_producte("Prestatgeria1", "Producte A"));
-        assertEquals(10, ctrlDomini.CtrlPrestatgeria.get_quantitat_producte("Prestatgeria1", "Producte B"));
-        assertEquals(45, ctrlDomini.CtrlProducte.get_stock_magatzem("Producte A"));
-        assertEquals(40, ctrlDomini.CtrlProducte.get_stock_magatzem("Producte B"));
+        assertEquals(10, ctrlDomini.ctrlPrestatgeria.getQuantitatProducte("Prestatgeria1", "Producte A"));
+        assertEquals(10, ctrlDomini.ctrlPrestatgeria.getQuantitatProducte("Prestatgeria1", "Producte B"));
+        assertEquals(45, ctrlDomini.ctrlProducte.getStockMagatzem("Producte A"));
+        assertEquals(40, ctrlDomini.ctrlProducte.getStockMagatzem("Producte B"));
     }
     @Test
     public void testAfegirProductePrestatgeria() throws Exception {
@@ -49,8 +49,8 @@ public class TestCtrlDomini {
         ctrlDomini.afegirProductePrestatgeria("Producte A", 5, "Prestatgeria1");
 
         // Verify the results
-        assertEquals(5, ctrlDomini.CtrlPrestatgeria.get_quantitat_producte("Prestatgeria1", "Producte A"));
-        assertEquals(45, ctrlDomini.CtrlProducte.get_stock_magatzem("Producte A"));
+        assertEquals(5, ctrlDomini.ctrlPrestatgeria.getQuantitatProducte("Prestatgeria1", "Producte A"));
+        assertEquals(45, ctrlDomini.ctrlProducte.getStockMagatzem("Producte A"));
     }
 
     @Test(expected = QuanitatInvalidException.class)
@@ -87,8 +87,8 @@ public class TestCtrlDomini {
         ctrlDomini.decrementarStockAProducte("Prestatgeria1", "Producte A", 3);
 
         // Verify the results
-        assertEquals(2, ctrlDomini.CtrlPrestatgeria.get_quantitat_producte("Prestatgeria1", "Producte A"));
-        assertEquals(48, ctrlDomini.CtrlProducte.get_stock_magatzem("Producte A"));
+        assertEquals(2, ctrlDomini.ctrlPrestatgeria.getQuantitatProducte("Prestatgeria1", "Producte A"));
+        assertEquals(48, ctrlDomini.ctrlProducte.getStockMagatzem("Producte A"));
     }
     @Test
     public void testRetirarProducteAMagatzem(){
@@ -100,8 +100,8 @@ public class TestCtrlDomini {
         ctrlDomini.retirarProducteAMagatzem("Prestatgeria1", "Producte A");
 
         // Verify the results
-        assertFalse(ctrlDomini.CtrlPrestatgeria.contains_producte("Prestatgeria1", "Producte A"));
-        assertEquals(50, ctrlDomini.CtrlProducte.get_stock_magatzem("Producte A"));
+        assertFalse(ctrlDomini.ctrlPrestatgeria.containsProducte("Prestatgeria1", "Producte A"));
+        assertEquals(50, ctrlDomini.ctrlProducte.getStockMagatzem("Producte A"));
     }
 
     @Test
@@ -111,7 +111,7 @@ public class TestCtrlDomini {
         ctrlDomini.altaProducte("Producto B", 50, 300,100);
 
         // Create automatic order
-        ctrlDomini.obtenirComandaAutomatica("ComandaAuto");
+        ctrlDomini.generarComandaAutomatica("ComandaAuto");
 
         // Verify the automatic order
         Comanda comandaAuto = ctrlDomini.getComandaUnica("ComandaAuto");
@@ -128,8 +128,8 @@ public class TestCtrlDomini {
         int quantitatAfegida = ctrlDomini.afegir_producte_caixa("Producte A", 3, "Prestatgeria1");
 
         assertEquals(3, quantitatAfegida);
-        assertEquals(2, ctrlDomini.CtrlPrestatgeria.get_quantitat_producte("Prestatgeria1", "Producte A"));
-        assertEquals(3, ctrlDomini.Caixa.get_quantitat("Producte A"));
+        assertEquals(2, ctrlDomini.ctrlPrestatgeria.getQuantitatProducte("Prestatgeria1", "Producte A"));
+        assertEquals(3, ctrlDomini.caixa.getQuantitat("Producte A"));
     }
 
     @Test(expected = ProductNotFoundMagatzemException.class)
@@ -153,9 +153,9 @@ public class TestCtrlDomini {
 
         ctrlDomini.retirar_producte_caixa("Producte A", 2, "Prestatgeria1");
 
-        assertEquals(1, ctrlDomini.Caixa.get_quantitat("Producte A"));
-        assertEquals(2, ctrlDomini.CtrlPrestatgeria.get_quantitat_producte("Prestatgeria1", "Producte A"));
-        assertEquals(12, ctrlDomini.CtrlProducte.get_stock_magatzem("Producte A"));
+        assertEquals(1, ctrlDomini.caixa.getQuantitat("Producte A"));
+        assertEquals(2, ctrlDomini.ctrlPrestatgeria.getQuantitatProducte("Prestatgeria1", "Producte A"));
+        assertEquals(12, ctrlDomini.ctrlProducte.getStockMagatzem("Producte A"));
     }
 
 
@@ -253,7 +253,7 @@ public class TestCtrlDomini {
 
     @Test(expected = IllegalArgumentException.class)
     public void testObtenirComandaAutomaticaNomBuit() {
-        ctrlDomini.obtenirComandaAutomatica("");
+        ctrlDomini.generarComandaAutomatica("");
     }
 
     @Test(expected = IllegalArgumentException.class)

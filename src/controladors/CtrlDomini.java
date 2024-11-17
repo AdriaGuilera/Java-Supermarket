@@ -1,93 +1,187 @@
 package controladors;
 
-import java.util.IllegalFormatException;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
-
+import java.util.*;
 import Exepcions.*;
 import classes.*;
 
 import static java.lang.Integer.min;
 
+
+
+/**
+ * Controlador principal del dominio para gestionar productos, prestatgeries, comandas y caja.
+ */
 public class CtrlDomini {
-    public CtrlProducte CtrlProducte;
-    public CtrlPrestatgeria CtrlPrestatgeria;
-    public Caixa Caixa;
-    public CtrlComandes CtrlComandes;
-    public Algorismes Algorismes;
 
-    //Funciones del CtrlComandes
+    public CtrlProducte ctrlProducte; // Controlador de productos
+    public CtrlPrestatgeria ctrlPrestatgeria; // Controlador de prestatgeries
+    public Caixa caixa; // Controlador de la caja
+    public CtrlComandes ctrlComandes; // Controlador de comandas
+    public Algorismes algorismes; // Algoritmos de optimización
 
+    /**
+     * Constructor que inicializa todos los controladores auxiliares.
+     */
     public CtrlDomini() {
-        CtrlComandes = new CtrlComandes();
-        CtrlProducte = new CtrlProducte();
-        CtrlPrestatgeria = new CtrlPrestatgeria();
-        Caixa = new Caixa();
-        CtrlComandes  = new CtrlComandes();
-        Algorismes = new Algorismes();
+        ctrlComandes = new CtrlComandes();
+        ctrlProducte = new CtrlProducte();
+        ctrlPrestatgeria = new CtrlPrestatgeria();
+        caixa = new Caixa();
+        algorismes = new Algorismes();
     }
-    public void crearComanda(String nomComanda) throws IllegalArgumentException{
+
+    /**
+     * Crea una nueva comanda.
+     *
+     * @param nomComanda Nombre de la comanda.
+     * @throws IllegalArgumentException Si el nombre de la comanda es nulo o vacío.
+     */
+    public void crearComanda(String nomComanda) throws IllegalArgumentException {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
-            CtrlComandes.crearComanda(nomComanda);
-
+        ctrlComandes.crearComanda(nomComanda);
     }
 
-    public void eliminarComanda(String nomComanda) throws ProductNotFoundComandaException,ComandaNotFoundException,IllegalArgumentException {
+    /**
+     * Elimina una comanda existente.
+     *
+     * @param nomComanda Nombre de la comanda.
+     * @throws IllegalArgumentException Si el nombre de la comanda es nulo o vacío.
+     * @throws ComandaNotFoundException Si la comanda no existe.
+     */
+    public void eliminarComanda(String nomComanda) throws IllegalArgumentException, ComandaNotFoundException {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
-        CtrlComandes.eliminarComanda(nomComanda);
-
+        ctrlComandes.eliminarComanda(nomComanda);
     }
 
-
-    public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat) throws QuanitatInvalidException, ComandaNotFoundException, ProductNotFoundMagatzemException, IllegalArgumentException  {
+    /**
+     * Añade un producto a una comanda.
+     *
+     * @param nomComanda Nombre de la comanda.
+     * @param nomProducte Nombre del producto.
+     * @param quantitat Cantidad a añadir.
+     * @throws IllegalArgumentException Si algún argumento es inválido.
+     * @throws QuanitatInvalidException Si la cantidad es inválida.
+     * @throws ComandaNotFoundException Si la comanda no existe.
+     * @throws ProductNotFoundMagatzemException Si el producto no existe en el almacén.
+     */
+    public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat)
+            throws IllegalArgumentException, QuanitatInvalidException, ComandaNotFoundException, ProductNotFoundMagatzemException {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
         if (nomProducte == null || nomProducte.isEmpty()) {
-            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+            throw new IllegalArgumentException("El nom del producte no pot estar buit.");
         }
-        if (quantitat <=0) {
-            throw new IllegalArgumentException("La quantitat no pot estar buida.");
+        if (quantitat <= 0) {
+            throw new IllegalArgumentException("La quantitat ha de ser > 0.");
         }
-        if(!CtrlComandes.existeixComanda(nomComanda)) {
+        if (!ctrlComandes.existeixComanda(nomComanda)) {
             throw new ComandaNotFoundException(nomComanda);
         }
-        if(!CtrlProducte.existeix_producte(nomProducte)) {
-               throw new ProductNotFoundMagatzemException(nomProducte);
+        if (!ctrlProducte.existeixProducte(nomProducte)) {
+            throw new ProductNotFoundMagatzemException(nomProducte);
         }
-            CtrlComandes.afegirProducteComanda(nomComanda, nomProducte, quantitat);
+        ctrlComandes.afegirProducteComanda(nomComanda, nomProducte, quantitat);
     }
 
-    public void eliminarProducteComanda(String nomComanda, String nomProducte, int quantitat) throws ProductNotFoundComandaException, IllegalArgumentException{
-
+    /**
+     * Elimina un producto de una comanda.
+     *
+     * @param nomComanda Nombre de la comanda.
+     * @param nomProducte Nombre del producto.
+     * @param quantitat Cantidad a eliminar.
+     * @throws IllegalArgumentException Si algún argumento es inválido.
+     * @throws ProductNotFoundComandaException Si el producto no existe en la comanda.
+     */
+    public void eliminarProducteComanda(String nomComanda, String nomProducte, int quantitat)
+            throws IllegalArgumentException, ProductNotFoundComandaException {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
         if (nomProducte == null || nomProducte.isEmpty()) {
-            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+            throw new IllegalArgumentException("El nom del producte no pot estar buit.");
         }
-            CtrlComandes.eliminarProducteComanda(nomComanda, nomProducte, quantitat);
+        if (quantitat <= 0) {
+            throw new IllegalArgumentException("La quantitat ha de ser > 0.");
+        }
+        ctrlComandes.eliminarProducteComanda(nomComanda, nomProducte, quantitat);
     }
 
-    public Map<String, Comanda> getComandes() {
-        return CtrlComandes.getComandes();
-    }
-    public Comanda getComandaUnica(String nomComanda)throws ComandaNotFoundException,IllegalArgumentException {
+    /**
+     * Obtiene una comanda específica.
+     *
+     * @param nomComanda Nombre de la comanda.
+     * @return La comanda encontrada.
+     * @throws IllegalArgumentException Si el nombre es nulo o vacío.
+     * @throws ComandaNotFoundException Si la comanda no existe.
+     */
+    public Comanda getComandaUnica(String nomComanda) throws IllegalArgumentException, ComandaNotFoundException {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
-           return CtrlComandes.getComandaUnica(nomComanda);
+        return ctrlComandes.getComandaUnica(nomComanda);
     }
 
-    //Prestatgeria
+    /**
+     * Obtiene todas las comandas registradas.
+     *
+     * @return Un mapa con todas las comandas.
+     */
+    public Map<String, Comanda> getComandes() {
+        return ctrlComandes.getComandes();
+    }
 
-    // Implementación de los métodos de Prestatgeria
+    /**
+     * Genera una comanda automática basada en los productos faltantes en el almacén.
+     *
+     * @param nomComanda Nombre de la comanda a generar.
+     * @throws IllegalArgumentException Si el nombre es nulo o vacío.
+     */
+    public void generarComandaAutomatica(String nomComanda) throws IllegalArgumentException {
+        if (nomComanda == null || nomComanda.isEmpty()) {
+            throw new IllegalArgumentException("El nom de la comanda automatica no pot estar buit.");
+        }
+        Map<String, Integer> productosFaltantes = ctrlProducte.generarComandaAutomatica();
+        ctrlComandes.crearComandaAutomatica(nomComanda, productosFaltantes);
+    }
 
+    /**
+     * Ejecuta una lista de comandas, actualizando el estado del almacén y las prestatgeries.
+     *
+     * @param noms Array con los nombres de las comandas a ejecutar.
+     * @throws IllegalArgumentException Si el array es nulo.
+     * @throws ComandaNotFoundException Si alguna de las comandas no existe.
+     */
+    public void executarComandes(String[] noms) throws IllegalArgumentException, ComandaNotFoundException {
+        if (noms == null) {
+            throw new IllegalArgumentException("Els noms no poden estar buits.");
+        }
+        Map<String, Comanda> comandesAExecutar = ctrlComandes.obtenirComandes(noms);
+        ctrlProducte.executarComandes(comandesAExecutar);
+    }
+
+
+
+//Prestatgeria
+
+    /**
+     * Añade un producto a una prestatgeria específica.
+     *
+     * @param nomProducte    Nombre del producto.
+     * @param quantitat      Cantidad a añadir.
+     * @param idPrestatgeria Identificador de la prestatgeria.
+     * @throws PrestatgeriaNotFoundException       Si la prestatgeria no existe.
+     * @throws QuanitatInvalidException           Si la cantidad es inválida.
+     * @throws MaxHuecoWarning                    Si la cantidad supera el máximo permitido por hueco.
+     * @throws ProductNotFoundMagatzemException   Si el producto no está en el almacén.
+     * @throws JaExisteixProucteaPrestatgeriaException Si el producto ya existe en la prestatgeria.
+     * @throws NotEnoughQuantityMagatzem          Si no hay suficiente cantidad en el almacén.
+     * @throws IllegalArgumentException           Si los argumentos son nulos o inválidos.
+     */
     public void afegirProductePrestatgeria(String nomProducte, int quantitat, String idPrestatgeria)
     throws PrestatgeriaNotFoundException, QuanitatInvalidException, MaxHuecoWarning, ProductNotFoundMagatzemException,
             JaExisteixProucteaPrestatgeriaException, NotEnoughQuantityMagatzem, IllegalArgumentException {
@@ -98,32 +192,32 @@ public class CtrlDomini {
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
-        int maxhueco = CtrlProducte.getmaxhueco(nomProducte);
-        int stock = CtrlProducte.get_stock_magatzem(nomProducte);
+        int maxhueco = ctrlProducte.getMaxHueco(nomProducte);
+        int stock = ctrlProducte.getStockMagatzem(nomProducte);
         if(quantitat <= 0) {
             throw new QuanitatInvalidException(1);
         }
 
         if(stock >= quantitat) {
-            if (CtrlPrestatgeria.contains_producte(idPrestatgeria, nomProducte)) {
-                int actual = CtrlPrestatgeria.get_quantitat_producte(idPrestatgeria, nomProducte);
+            if (ctrlPrestatgeria.containsProducte(idPrestatgeria, nomProducte)) {
+                int actual = ctrlPrestatgeria.getQuantitatProducte(idPrestatgeria, nomProducte);
 
                 if (quantitat + actual > maxhueco) {
-                    CtrlPrestatgeria.incrementar_quantitat_producte(idPrestatgeria, nomProducte, maxhueco - actual);
-                    CtrlProducte.decrementar_stock(nomProducte, maxhueco - actual);
+                    ctrlPrestatgeria.incrementarQuantitatProducte(idPrestatgeria, nomProducte, maxhueco - actual);
+                    ctrlProducte.decrementarStock(nomProducte, maxhueco - actual);
                     throw new MaxHuecoWarning(nomProducte);
                 } else {
-                    CtrlPrestatgeria.incrementar_quantitat_producte(idPrestatgeria, nomProducte, quantitat);
-                    CtrlProducte.decrementar_stock(nomProducte, quantitat);
+                    ctrlPrestatgeria.incrementarQuantitatProducte(idPrestatgeria, nomProducte, quantitat);
+                    ctrlProducte.decrementarStock(nomProducte, quantitat);
                 }
             } else {
                 if (quantitat > maxhueco) {
-                    CtrlPrestatgeria.afegirProducte(idPrestatgeria, nomProducte, maxhueco);
-                    CtrlProducte.decrementar_stock(nomProducte, maxhueco);
+                    ctrlPrestatgeria.afegirProducte(idPrestatgeria, nomProducte, maxhueco);
+                    ctrlProducte.decrementarStock(nomProducte, maxhueco);
                     throw new MaxHuecoWarning(nomProducte);
                 } else {
-                    CtrlPrestatgeria.afegirProducte(idPrestatgeria, nomProducte, quantitat);
-                    CtrlProducte.decrementar_stock(nomProducte, quantitat);
+                    ctrlPrestatgeria.afegirProducte(idPrestatgeria, nomProducte, quantitat);
+                    ctrlProducte.decrementarStock(nomProducte, quantitat);
                 }
             }
         }
@@ -134,7 +228,18 @@ public class CtrlDomini {
 
     }
 
-
+    /**
+     * Mueve un producto de un hueco a otro dentro de una prestatgeria.
+     *
+     * @param id_prestatgeria Identificador de la prestatgeria.
+     * @param nomProducte     Nombre del producto.
+     * @param huecoOrigen     Índice del hueco de origen.
+     * @param huecoDestino    Índice del hueco de destino.
+     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
+     * @throws ProducteNotInHuecoException   Si el producto no está en el hueco de origen.
+     * @throws InvalidHuecosException        Si los huecos son inválidos.
+     * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
+     */
     public void moureProducteDeHueco(String id_prestatgeria, String nomProducte, int huecoOrigen, int huecoDestino)
     throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException, IllegalArgumentException{
         if (id_prestatgeria == null || id_prestatgeria.isEmpty()) {
@@ -143,10 +248,22 @@ public class CtrlDomini {
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
-        CtrlPrestatgeria.moureProducte(id_prestatgeria, huecoOrigen, huecoDestino);
+        ctrlPrestatgeria.moureProducte(id_prestatgeria, huecoOrigen, huecoDestino);
     }
 
-
+    /**
+     * Decrementa el stock de un producto en una prestatgeria y lo incrementa en el almacén.
+     *
+     * @param id_prestatgeria Identificador de la prestatgeria.
+     * @param nomProducte     Nombre del producto.
+     * @param quantitat       Cantidad a decrementar.
+     * @throws QuanitatInvalidException            Si la cantidad es inválida.
+     * @throws ProductNotFoundPrestatgeriaException Si el producto no está en la prestatgeria.
+     * @throws PrestatgeriaNotFoundException       Si la prestatgeria no existe.
+     * @throws MaxMagatzemWarning                  Si el almacén no tiene capacidad suficiente.
+     * @throws NotEnoughQuantityPrestatgeriaWarning Si no hay suficiente cantidad en la prestatgeria.
+     * @throws IllegalArgumentException            Si los argumentos son nulos o inválidos.
+     */
     public void decrementarStockAProducte(String id_prestatgeria, String nomProducte, int quantitat)
     throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException,PrestatgeriaNotFoundException, MaxMagatzemWarning, ProductNotFoundMagatzemException,
             NotEnoughQuantityPrestatgeriaWarning, IllegalArgumentException{
@@ -157,107 +274,167 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
 
-        int quantitatelim = CtrlPrestatgeria.decrementar_quantitat_producte(id_prestatgeria, nomProducte, quantitat);
-        CtrlProducte.incrementar_stock(nomProducte, quantitatelim);
+        int quantitatelim = ctrlPrestatgeria.decrementarQuantitatProducte(id_prestatgeria, nomProducte, quantitat);
+        ctrlProducte.incrementarStock(nomProducte, quantitatelim);
         if(quantitatelim == 0){
             throw new NotEnoughQuantityPrestatgeriaWarning(id_prestatgeria, nomProducte);
         }
 
     }
 
-
+    /**
+     * Genera una distribución de productos en una prestatgeria utilizando el algoritmo de Backtracking.
+     *
+     * @param id_prestatgeria Identificador de la prestatgeria.
+     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
+     * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
+     */
     public void generarDistribucioBacktracking(String id_prestatgeria)
     throws PrestatgeriaNotFoundException, IllegalArgumentException {
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
-        Vector<String> productes = CtrlPrestatgeria.getNomsProductes(id_prestatgeria);
-        Set<String> fixats = CtrlPrestatgeria.getProductesFixats(id_prestatgeria);
-        Vector<String> novadist = Algorismes.encontrarMejorDistribucionBacktracking(productes , fixats, CtrlProducte.getMagatzem());
-        CtrlPrestatgeria.setDistribucio(id_prestatgeria, novadist);
+        Vector<String> productes = ctrlPrestatgeria.getNomsProductes(id_prestatgeria);
+        Set<String> fixats = ctrlPrestatgeria.getProductesFixats(id_prestatgeria);
+        Vector<String> novadist = algorismes.encontrarMejorDistribucionBacktracking(productes , fixats, ctrlProducte.getMagatzem());
+        ctrlPrestatgeria.setDistribucio(id_prestatgeria, novadist);
     }
 
+    /**
+     * Genera una distribución de productos en una prestatgeria utilizando el algoritmo de Hill Climbing.
+     *
+     * @param id_prestatgeria Identificador de la prestatgeria.
+     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
+     * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
+     */
     public void generarDistribucioHillClimbing(String id_prestatgeria)
     throws PrestatgeriaNotFoundException, IllegalArgumentException {
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
-        Vector<String> productes = CtrlPrestatgeria.getNomsProductes(id_prestatgeria);
-        Set<String> fixats = CtrlPrestatgeria.getProductesFixats(id_prestatgeria);
-        Vector<String> novadist = Algorismes.encontrarMejorDistribucionHillClimbing(productes , fixats, CtrlProducte.getMagatzem());
-        CtrlPrestatgeria.setDistribucio(id_prestatgeria, novadist);
+        Vector<String> productes = ctrlPrestatgeria.getNomsProductes(id_prestatgeria);
+        Set<String> fixats = ctrlPrestatgeria.getProductesFixats(id_prestatgeria);
+        Vector<String> novadist = algorismes.encontrarMejorDistribucionHillClimbing(productes , fixats, ctrlProducte.getMagatzem());
+        ctrlPrestatgeria.setDistribucio(id_prestatgeria, novadist);
 
     }
 
-    //Midaprestatgeria%midaPrestatge == 0
+    /**
+     * Añade una prestatgeria al sistema.
+     *
+     * @param idPrestatgeria Identificador de la prestatgeria.
+     * @param midaPrestatge  Tamaño del prestatge.
+     * @param midaPrestatgeria Tamaño total de la prestatgeria.
+     * @throws MidaPrestatgeriaInvalidException Si los tamaños son inválidos.
+     * @throws PrestatgeriaJaExisteixException  Si la prestatgeria ya existe.
+     * @throws IllegalArgumentException         Si los argumentos son nulos o inválidos.
+     */
     public void afegirPrestatgeria(String idPrestatgeria, int midaPrestatge, int midaPrestatgeria)
     throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, IllegalArgumentException {
         if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
-        CtrlPrestatgeria.afegirPrestatgeria(idPrestatgeria, midaPrestatgeria, midaPrestatge);
+        ctrlPrestatgeria.afegirPrestatgeria(idPrestatgeria, midaPrestatgeria, midaPrestatge);
     }
 
+    /**
+     * Elimina una prestatgeria y devuelve sus productos al almacén.
+     *
+     * @param idPrestatgeria Identificador de la prestatgeria.
+     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
+     * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
+     */
     public void eliminarPrestatgeria(String idPrestatgeria)
     throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, MaxMagatzemWarning, QuanitatInvalidException, IllegalArgumentException {
         if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
-        Map<String,Integer> producteseliminats = CtrlPrestatgeria.eliminarPrestatgeria(idPrestatgeria);
+        Map<String,Integer> producteseliminats = ctrlPrestatgeria.eliminarPrestatgeria(idPrestatgeria);
         for(Map.Entry<String, Integer> entry : producteseliminats.entrySet()){
             String nom = entry.getKey();
             int quantitat = entry.getValue();
-            CtrlProducte.incrementar_stock(nom, quantitat);
+            ctrlProducte.incrementarStock(nom, quantitat);
         }
     }
 
+    /**
+     * Añade un prestatge a una prestatgeria existente.
+     *
+     * @param idPrestatgeria Identificador de la prestatgeria.
+     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
+     * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
+     */
     public void afegirPrestatge(String idPrestatgeria)
     throws PrestatgeriaNotFoundException,IllegalArgumentException {
         if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
-        CtrlPrestatgeria.afegir_prestatge(idPrestatgeria);
+        ctrlPrestatgeria.afegirPrestatge(idPrestatgeria);
     }
 
+    /**
+     * Elimina un prestatge de una prestatgeria y devuelve sus productos al almacén.
+     *
+     * @param idPrestatgeria Identificador de la prestatgeria.
+     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
+     * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
+     */
     public void eliminarPrestatge(String idPrestatgeria)
     throws PrestatgeriaNotFoundException,QuanitatInvalidException, MaxMagatzemWarning, IllegalArgumentException{
         if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
-        Map<String,Integer> eliminats = CtrlPrestatgeria.eliminar_prestatge(idPrestatgeria);
+        Map<String,Integer> eliminats = ctrlPrestatgeria.eliminarPrestatge(idPrestatgeria);
             for(Map.Entry<String, Integer> entry : eliminats.entrySet()){
                 String nom = entry.getKey();
                 int quantitat = entry.getValue();
-                CtrlProducte.incrementar_stock(nom, quantitat);
+                ctrlProducte.incrementarStock(nom, quantitat);
             }
 
 
     }
 
-    //FALTA ZEROSTOCK MAGATZEM
+    /**
+     * Reabastece una prestatgeria con productos del almacén.
+     *
+     * @param id_prestatgeria Identificador de la prestatgeria.
+     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
+     * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
+     */
     public void reposarPrestatgeria(String id_prestatgeria)
     throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, QuanitatInvalidException, IllegalArgumentException{
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
-        Map<String,Integer> productes = CtrlPrestatgeria.getProductesPrestatgeria(id_prestatgeria);
+        Map<String,Integer> productes = ctrlPrestatgeria.getProductesPrestatgeria(id_prestatgeria);
         for(Map.Entry<String, Integer> entry : productes.entrySet()){
-            int stock = CtrlProducte.get_stock_magatzem(entry.getKey());
-            int max = CtrlProducte.getmaxhueco(entry.getKey());
+            int stock = ctrlProducte.getStockMagatzem(entry.getKey());
+            int max = ctrlProducte.getMaxHueco(entry.getKey());
             int actual = entry.getValue();
             if(actual < max){
                 int aafegir = max - actual;
                 if(aafegir <= stock){
-                    CtrlPrestatgeria.incrementar_quantitat_producte(id_prestatgeria, entry.getKey(), aafegir);
-                    CtrlProducte.decrementar_stock(entry.getKey(), aafegir);
+                    ctrlPrestatgeria.incrementarQuantitatProducte(id_prestatgeria, entry.getKey(), aafegir);
+                    ctrlProducte.decrementarStock(entry.getKey(), aafegir);
                 }
                 else{
-                    CtrlPrestatgeria.incrementar_quantitat_producte(id_prestatgeria, entry.getKey(), stock);
-                    CtrlProducte.decrementar_stock(entry.getKey(), stock);
+                    ctrlPrestatgeria.incrementarQuantitatProducte(id_prestatgeria, entry.getKey(), stock);
+                    ctrlProducte.decrementarStock(entry.getKey(), stock);
                 }
             }
         }
     }
+
+    /**
+     * Fija un producto en una prestatgeria.
+     *
+     * @param id_prestatgeria Identificador de la prestatgeria.
+     * @param nomProducte     Nombre del producto.
+     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
+     * @throws ProductNotFoundPrestatgeriaException Si el producto no está en la prestatgeria.
+     * @throws ProducteFixatException       Si el producto ya está fijado.
+     * @throws IllegalArgumentException     Si los argumentos son nulos o inválidos.
+     */
     public void fixarProducte(String id_prestatgeria, String nomProducte)
     throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteFixatException, IllegalArgumentException {
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
@@ -266,9 +443,18 @@ public class CtrlDomini {
         if(nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
-        CtrlPrestatgeria.fixarProducte(id_prestatgeria, nomProducte);
+        ctrlPrestatgeria.fixarProducte(id_prestatgeria, nomProducte);
     }
 
+    /**
+     * Desfija un producto en una prestatgeria.
+     *
+     * @param id_prestatgeria Identificador de la prestatgeria.
+     * @param nomProducte     Nombre del producto.
+     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
+     * @throws ProductNotFoundPrestatgeriaException Si el producto no está en la prestatgeria.
+     * @throws IllegalArgumentException     Si los argumentos son nulos o inválidos.
+     */
     public void desfixarProducte(String id_prestatgeria, String nomProducte)
     throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteNoFixatException, IllegalArgumentException {
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
@@ -277,9 +463,20 @@ public class CtrlDomini {
         if(nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
-        CtrlPrestatgeria.desfixarProducte(id_prestatgeria, nomProducte);
+        ctrlPrestatgeria.desfixarProducte(id_prestatgeria, nomProducte);
     }
 
+    /**
+     * Retira un producto de una prestatgeria y lo devuelve al almacén.
+     *
+     * @param id_prestatgeria Identificador de la prestatgeria.
+     * @param nomProducte     Nombre del producto.
+     * @throws PrestatgeriaNotFoundException     Si la prestatgeria no existe.
+     * @throws ProductNotFoundMagatzemException  Si el producto no está en el almacén.
+     * @throws ProductNotFoundPrestatgeriaException Si el producto no está en la prestatgeria.
+     * @throws QuanitatInvalidException          Si la cantidad es inválida.
+     * @throws IllegalArgumentException          Si los argumentos son nulos o inválidos.
+     */
     public void retirarProducteAMagatzem(String id_prestatgeria,String nomProducte)
     throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, ProductNotFoundPrestatgeriaException, QuanitatInvalidException, IllegalArgumentException {
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
@@ -288,15 +485,40 @@ public class CtrlDomini {
         if(nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
-        Pair<String,Integer> producteretirat = CtrlPrestatgeria.retirarProductePrestatgeria(id_prestatgeria, nomProducte);
+        Pair<String,Integer> producteretirat = ctrlPrestatgeria.retirarProductePrestatgeria(id_prestatgeria, nomProducte);
         if(producteretirat.getKey() != null) {
             String nom = producteretirat.getKey();
             int quantitat = producteretirat.getValue();
-            CtrlProducte.incrementar_stock(nom, quantitat);
+            ctrlProducte.incrementarStock(nom, quantitat);
         }
     }
 
+    /**
+     * Obtiene una prestatgeria por su identificador.
+     *
+     * @param id Identificador de la prestatgeria.
+     * @return La prestatgeria correspondiente.
+     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
+     */
+    public Prestatgeria getPrestatgeria(String id){
+        return ctrlPrestatgeria.getPrestatgeria(id);
+    }
+
     //Caixa
+
+    /**
+     * Añade un producto a la caja desde una prestatgeria.
+     *
+     * @param nom_producte    Nombre del producto a añadir.
+     * @param quantitat       Cantidad de producto a añadir.
+     * @param id_prestatgeria Identificador de la prestatgeria de donde se retirará el producto.
+     * @return La cantidad que realmente se pudo añadir a la caja.
+     * @throws QuanitatInvalidException            Si la cantidad es inválida.
+     * @throws ProductNotFoundMagatzemException    Si el producto no existe en el almacén.
+     * @throws ProductNotFoundPrestatgeriaException Si el producto no existe en la prestatgeria.
+     * @throws PrestatgeriaNotFoundException       Si la prestatgeria no existe.
+     * @throws IllegalArgumentException            Si alguno de los argumentos es nulo o vacío.
+     */
     public int afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria)
     throws QuanitatInvalidException, ProductNotFoundMagatzemException, ProductNotFoundPrestatgeriaException, PrestatgeriaNotFoundException, IllegalArgumentException {
         if(nom_producte == null || nom_producte.isEmpty()) {
@@ -305,15 +527,24 @@ public class CtrlDomini {
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
-        if(!CtrlProducte.existeix_producte(nom_producte)){
+        if(!ctrlProducte.existeixProducte(nom_producte)){
             throw new ProductNotFoundMagatzemException(nom_producte);
         }
-        int quantitat_a_afegir = CtrlPrestatgeria.decrementar_quantitat_producte(id_prestatgeria, nom_producte,quantitat);
-        Caixa.afegir_producte(nom_producte, quantitat_a_afegir);
+        int quantitat_a_afegir = ctrlPrestatgeria.decrementarQuantitatProducte(id_prestatgeria, nom_producte,quantitat);
+        caixa.afegirProducte(nom_producte, quantitat_a_afegir);
         return quantitat_a_afegir;
     }
 
-    // Retirar producto de la caja
+    /**
+     * Retira un producto de la caja y lo devuelve al stock del almacén.
+     *
+     * @param nom_producte    Nombre del producto a retirar.
+     * @param quantitat       Cantidad del producto a retirar.
+     * @param id_prestatgeria Identificador de la prestatgeria a la que pertenece el producto.
+     * @throws QuanitatInvalidException    Si la cantidad es inválida.
+     * @throws IllegalArgumentException    Si alguno de los argumentos es nulo o vacío.
+     * @throws ProductNotFoundCaixaException Si el producto no existe en la caja.
+     */
     public void retirar_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria)
     throws QuanitatInvalidException,IllegalArgumentException, ProductNotFoundCaixaException{
         if(nom_producte == null || nom_producte.isEmpty()) {
@@ -322,69 +553,89 @@ public class CtrlDomini {
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
-        int aafegir = min(Caixa.get_quantitat(nom_producte), quantitat);
-        CtrlProducte.incrementar_stock(nom_producte, aafegir);
-        Caixa.retirar_producte(nom_producte, quantitat);
+        int aafegir = min(caixa.getQuantitat(nom_producte), quantitat);
+        ctrlProducte.incrementarStock(nom_producte, aafegir);
+        caixa.retirarProducte(nom_producte, quantitat);
 
     }
 
-    // Pagar y vaciar la caja, decrementando la cantidad de productos en las estanterías
+    /**
+     * Realiza el pago de la caja, eliminando los productos del sistema
+     */
     public void pagar_caixa() {
-        Map<String, Integer> productes = Caixa.getticket();
+        Map<String, Integer> productes = caixa.getTicket();
         for(Map.Entry<String, Integer> entry : productes.entrySet()){
-            CtrlProducte.incrementar_stock(entry.getKey(), entry.getValue());
+            ctrlProducte.incrementarStock(entry.getKey(), entry.getValue());
         }
-        Caixa.pagar();
+        caixa.pagar();
+    }
+
+    /**
+     * Obtiene el ticket de la caja, que contiene los productos y cantidades actuales.
+     *
+     * @return Un mapa con los productos en la caja y sus cantidades.
+     */
+    public Map<String,Integer> getTicket() {
+        return caixa.getTicket();
     }
 
     //Magatzem (Productes)
-    public void executarComandes(String[] noms) throws ComandaNotFoundException {
-        if (noms == null) {
-            throw new IllegalArgumentException("Els noms no poden estar buits.");
-        }
 
-        Map<String, Comanda> comandesAExecutar = CtrlComandes.obtenirComandes(noms);
-
-        CtrlProducte.executar_comandes(comandesAExecutar);
-    }
-
-    public void obtenirComandaAutomatica(String nomComanda) {
-        if (nomComanda == null || nomComanda.isEmpty()) {
-            throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
-        }
-        //Primero obtenemos un map de <string,int> con los productos y cantidades que faltan por rellenar;
-        Map<String, Integer> productosFaltantes = CtrlProducte.obtenirComandaAutomatica();
-        //Creamos una comanda con los productos
-        CtrlComandes.crearComandaAutomatica(nomComanda, productosFaltantes);
-    }
-
-
+    /**
+     * Da de alta un nuevo producto en el sistema.
+     *
+     * @param nomProducte Nombre del producto.
+     * @param max_h       Máxima cantidad permitida en la prestatgeria.
+     * @param max_m       Máxima cantidad permitida en el almacén.
+     * @param stock       Cantidad inicial en el almacén.
+     * @throws QuanitatInvalidException      Si las cantidades son inválidas.
+     * @throws StockTooBigException          Si el stock inicial excede los límites.
+     * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
+     * @throws ProducteJaExisteixException   Si el producto ya existe en el sistema.
+     */
     public void altaProducte(String nomProducte, int max_h, int max_m, int stock)
     throws QuanitatInvalidException, StockTooBigException, IllegalArgumentException, ProducteJaExisteixException {
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
         if (max_h<=0) {
-            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+            throw new IllegalArgumentException("El maxim d'estock en prestatgeria ha de ser > 0");
         }
         if (max_m <=0) {
-            throw new IllegalArgumentException("La quantitat no pot ser negativa o 0.");
+            throw new IllegalArgumentException("El maxim d'estock en magatzem ha de ser > 0");
         }
-        CtrlProducte.altaProducte(nomProducte, max_h, max_m,stock);
+        ctrlProducte.altaProducte(nomProducte, max_h, max_m,stock);
     }
 
+    /**
+     * Elimina un producto del sistema.
+     *
+     * @param nomProducte Nombre del producto a eliminar.
+     * @throws IllegalArgumentException         Si el argumento es nulo o vacío.
+     * @throws ProductNotFoundMagatzemException Si el producto no se encuentra en el almacén.
+     */
     public void eliminarProducte(String nomProducte) throws IllegalArgumentException, ProductNotFoundMagatzemException {
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
         //Lo eliminamos del almacen   //Lo eliminamos de las prestatgerias i caixa
-        CtrlPrestatgeria.eliminar_producte(nomProducte);
-        CtrlProducte.eliminar_producte(nomProducte);
-        int qcaixa = Caixa.get_quantitat(nomProducte);
-        Caixa.retirar_producte(nomProducte, qcaixa);
+        ctrlPrestatgeria.eliminarProducte(nomProducte);
+        ctrlProducte.eliminarProducte(nomProducte);
+        int qcaixa = caixa.getQuantitat(nomProducte);
+        caixa.retirarProducte(nomProducte, qcaixa);
 
     }
 
+    /**
+     * Añade una relación de similitud entre dos productos.
+     *
+     * @param nom1  Nombre del primer producto.
+     * @param nom2  Nombre del segundo producto.
+     * @param value Valor de la similitud (debe ser mayor a 0).
+     * @throws IllegalArgumentException         Si los argumentos son nulos, vacíos o el valor es inválido.
+     * @throws ProductNotFoundMagatzemException Si alguno de los productos no existe en el almacén.
+     * @throws calculMateixosProductesSimilitud Si se intenta añadir una similitud con el mismo producto.
+     */
     public void afegir_similitud(String nom1, String nom2, float value)  throws IllegalArgumentException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
         if (nom1 == null || nom1.isEmpty()) {
             throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
@@ -393,11 +644,20 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom del segon producte no pot estar buit.");
         }
         if (value<=0) {
-            throw new IllegalArgumentException("El valor de la similitud ha de ser superior a 0");
+            throw new IllegalArgumentException("El valor de la similitud ha de ser > 0");
         }
-        CtrlProducte.afegir_similitud(nom1, nom2, value);
+        ctrlProducte.afegirSimilitud(nom1, nom2, value);
     }
 
+    /**
+     * Elimina una relación de similitud entre dos productos.
+     *
+     * @param nom1 Nombre del primer producto.
+     * @param nom2 Nombre del segundo producto.
+     * @throws IllegalArgumentException         Si los argumentos son nulos o vacíos.
+     * @throws ProductNotFoundMagatzemException Si alguno de los productos no existe en el almacén.
+     * @throws calculMateixosProductesSimilitud Si se intenta eliminar una similitud con el mismo producto.
+     */
     public void eliminarSimilitud(String nom1, String nom2) throws IllegalArgumentException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud{
         if (nom1 == null || nom1.isEmpty()) {
             throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
@@ -405,24 +665,35 @@ public class CtrlDomini {
         if (nom2 == null || nom2.isEmpty()) {
             throw new IllegalArgumentException("El nom del segon producte no pot estar buit.");
         }
-        CtrlProducte.eliminarSimilitud(nom1, nom2);
+        ctrlProducte.eliminarSimilitud(nom1, nom2);
     }
 
-
-    //FUNCIONS PER CONSULTAR DADES
-
+    /**
+     * Obtiene un producto por su nombre.
+     *
+     * @param nomProducte Nombre del producto.
+     * @return El producto correspondiente.
+     * @throws IllegalArgumentException         Si el argumento es nulo o vacío.
+     * @throws ProductNotFoundMagatzemException Si el producto no existe en el almacén.
+     */
     public Producte get_producte(String nomProducte) throws IllegalArgumentException, ProductNotFoundMagatzemException {
         if (nomProducte == null || nomProducte.isEmpty()) {
-            throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
+            throw new IllegalArgumentException("El nom del producte no pot estar buit.");
         }
-        return CtrlProducte.getProducte(nomProducte);
+        return ctrlProducte.getProducte(nomProducte);
     }
 
+    /**
+     * Obtiene todos los productos disponibles en el almacén.
+     *
+     * @return Un mapa con los productos del almacén, donde las claves son los nombres de los productos
+     * y los valores son los objetos {@code Producte}.
+     */
     public Map<String, Producte> getMagatzem() {
-        return CtrlProducte.getMagatzem();
+        return ctrlProducte.getMagatzem();
     }
 
-    public Map<String,Integer> getTicket() {
-        return Caixa.getticket();
-    }
+
+
+
 }

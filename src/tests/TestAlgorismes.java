@@ -33,30 +33,30 @@ public class TestAlgorismes {
         Producte d = new Producte("D", 10, 100,0);
         Producte e = new Producte("E", 10, 100,0);
 
-        a.afegir_similitud("B", 0.9f);
-        a.afegir_similitud("C", 0.8f);
-        a.afegir_similitud("D", 0.7f);
-        a.afegir_similitud("E", 0.6f);
+        a.afegirSimilitud("B", 0.9f);
+        a.afegirSimilitud("C", 0.8f);
+        a.afegirSimilitud("D", 0.7f);
+        a.afegirSimilitud("E", 0.6f);
 
-        b.afegir_similitud("A", 0.9f);
-        b.afegir_similitud("C", 0.85f);
-        b.afegir_similitud("D", 0.8f);
-        b.afegir_similitud("E", 0.75f);
+        b.afegirSimilitud("A", 0.9f);
+        b.afegirSimilitud("C", 0.85f);
+        b.afegirSimilitud("D", 0.8f);
+        b.afegirSimilitud("E", 0.75f);
 
-        c.afegir_similitud("A", 0.8f);
-        c.afegir_similitud("B", 0.85f);
-        c.afegir_similitud("D", 0.9f);
-        c.afegir_similitud("E", 0.88f);
+        c.afegirSimilitud("A", 0.8f);
+        c.afegirSimilitud("B", 0.85f);
+        c.afegirSimilitud("D", 0.9f);
+        c.afegirSimilitud("E", 0.88f);
 
-        d.afegir_similitud("A", 0.7f);
-        d.afegir_similitud("B", 0.8f);
-        d.afegir_similitud("C", 0.9f);
-        d.afegir_similitud("E", 0.95f);
+        d.afegirSimilitud("A", 0.7f);
+        d.afegirSimilitud("B", 0.8f);
+        d.afegirSimilitud("C", 0.9f);
+        d.afegirSimilitud("E", 0.95f);
 
-        e.afegir_similitud("A", 0.6f);
-        e.afegir_similitud("B", 0.75f);
-        e.afegir_similitud("C", 0.88f);
-        e.afegir_similitud("D", 0.95f);
+        e.afegirSimilitud("A", 0.6f);
+        e.afegirSimilitud("B", 0.75f);
+        e.afegirSimilitud("C", 0.88f);
+        e.afegirSimilitud("D", 0.95f);
 
         productesMagatzem.put("A", a);
         productesMagatzem.put("B", b);
@@ -89,11 +89,11 @@ public class TestAlgorismes {
         Producte d = new Producte("D", 10, 100,0);
         Producte e = new Producte("E", 10, 100,0);
 
-        a.afegir_similitud("D", 1.0f);
-        d.afegir_similitud("A",0.3f);
+        a.afegirSimilitud("D", 1.0f);
+        d.afegirSimilitud("A",0.3f);
 
-        a.afegir_similitud("E", 0.8f);
-        e.afegir_similitud("A",0.8f);
+        a.afegirSimilitud("E", 0.8f);
+        e.afegirSimilitud("A",0.8f);
 
 
         productesMagatzem.put("A", a);
@@ -122,11 +122,11 @@ public class TestAlgorismes {
         Producte d = new Producte("D", 10, 100,0);
         Producte e = new Producte("E", 10, 100,0);
 
-        a.afegir_similitud("D", 1.0f);
-        b.afegir_similitud("A",0.3f);
+        a.afegirSimilitud("D", 1.0f);
+        b.afegirSimilitud("A",0.3f);
 
-        a.afegir_similitud("E", 0.8f);
-        d.afegir_similitud("A",0.8f);
+        a.afegirSimilitud("E", 0.8f);
+        d.afegirSimilitud("A",0.8f);
 
 
         productesMagatzem.put("A", a);
@@ -159,30 +159,30 @@ public class TestAlgorismes {
         Producte e = new Producte("E", 10, 100,0);
 
         // Definir relaciones explícitas
-        a.afegir_similitud("B", 1.4f);
-        a.afegir_similitud("C", 1.6f);
-        a.afegir_similitud("D", 0.9f);
-        a.afegir_similitud("E", 1.0f);
+        a.afegirSimilitud("B", 1.4f);
+        a.afegirSimilitud("C", 1.6f);
+        a.afegirSimilitud("D", 0.9f);
+        a.afegirSimilitud("E", 1.0f);
 
-        b.afegir_similitud("A", 1.4f);
-        b.afegir_similitud("C", 0.3f);
-        b.afegir_similitud("D", 1.4f);
-        b.afegir_similitud("E", 1.9f);
+        b.afegirSimilitud("A", 1.4f);
+        b.afegirSimilitud("C", 0.3f);
+        b.afegirSimilitud("D", 1.4f);
+        b.afegirSimilitud("E", 1.9f);
 
-        c.afegir_similitud("A", 1.6f);
-        c.afegir_similitud("B", 0.3f);
-        c.afegir_similitud("D", 0.6f);
-        c.afegir_similitud("E", 1.7f);
+        c.afegirSimilitud("A", 1.6f);
+        c.afegirSimilitud("B", 0.3f);
+        c.afegirSimilitud("D", 0.6f);
+        c.afegirSimilitud("E", 1.7f);
 
-        d.afegir_similitud("A", 0.9f);
-        d.afegir_similitud("B", 1.4f);
-        d.afegir_similitud("C", 0.6f);
-        d.afegir_similitud("E", 1.4f);
+        d.afegirSimilitud("A", 0.9f);
+        d.afegirSimilitud("B", 1.4f);
+        d.afegirSimilitud("C", 0.6f);
+        d.afegirSimilitud("E", 1.4f);
 
-        e.afegir_similitud("A", 1.0f);
-        e.afegir_similitud("B", 1.9f);
-        e.afegir_similitud("C", 1.7f);
-        e.afegir_similitud("D", 1.4f);
+        e.afegirSimilitud("A", 1.0f);
+        e.afegirSimilitud("B", 1.9f);
+        e.afegirSimilitud("C", 1.7f);
+        e.afegirSimilitud("D", 1.4f);
 
         productesMagatzem.put("A", a);
         productesMagatzem.put("B", b);
@@ -213,30 +213,30 @@ public class TestAlgorismes {
         Producte e = new Producte("E", 10, 100,0);
 
         // Definir relaciones explícitas
-        a.afegir_similitud("B", 1.4f);
-        a.afegir_similitud("C", 1.6f);
-        a.afegir_similitud("D", 0.9f);
-        a.afegir_similitud("E", 1.0f);
+        a.afegirSimilitud("B", 1.4f);
+        a.afegirSimilitud("C", 1.6f);
+        a.afegirSimilitud("D", 0.9f);
+        a.afegirSimilitud("E", 1.0f);
 
-        b.afegir_similitud("A", 1.4f);
-        b.afegir_similitud("C", 0.3f);
-        b.afegir_similitud("D", 1.4f);
-        b.afegir_similitud("E", 1.9f);
+        b.afegirSimilitud("A", 1.4f);
+        b.afegirSimilitud("C", 0.3f);
+        b.afegirSimilitud("D", 1.4f);
+        b.afegirSimilitud("E", 1.9f);
 
-        c.afegir_similitud("A", 1.6f);
-        c.afegir_similitud("B", 0.3f);
-        c.afegir_similitud("D", 0.6f);
-        c.afegir_similitud("E", 1.7f);
+        c.afegirSimilitud("A", 1.6f);
+        c.afegirSimilitud("B", 0.3f);
+        c.afegirSimilitud("D", 0.6f);
+        c.afegirSimilitud("E", 1.7f);
 
-        d.afegir_similitud("A", 0.9f);
-        d.afegir_similitud("B", 1.4f);
-        d.afegir_similitud("C", 0.6f);
-        d.afegir_similitud("E", 1.4f);
+        d.afegirSimilitud("A", 0.9f);
+        d.afegirSimilitud("B", 1.4f);
+        d.afegirSimilitud("C", 0.6f);
+        d.afegirSimilitud("E", 1.4f);
 
-        e.afegir_similitud("A", 1.0f);
-        e.afegir_similitud("B", 1.9f);
-        e.afegir_similitud("C", 1.7f);
-        e.afegir_similitud("D", 1.4f);
+        e.afegirSimilitud("A", 1.0f);
+        e.afegirSimilitud("B", 1.9f);
+        e.afegirSimilitud("C", 1.7f);
+        e.afegirSimilitud("D", 1.4f);
 
         productesMagatzem.put("A", a);
         productesMagatzem.put("B", b);
@@ -268,22 +268,22 @@ public class TestAlgorismes {
 
         // Definir relaciones explícitas
 
-        a.afegir_similitud("B", 1.4f);
-        a.afegir_similitud("D", 0.9f);
+        a.afegirSimilitud("B", 1.4f);
+        a.afegirSimilitud("D", 0.9f);
 
 
-        b.afegir_similitud("A", 1.4f);
-        b.afegir_similitud("C", 0.3f);
+        b.afegirSimilitud("A", 1.4f);
+        b.afegirSimilitud("C", 0.3f);
 
 
-        c.afegir_similitud("B", 0.3f);
-        c.afegir_similitud("E", 1.7f);
+        c.afegirSimilitud("B", 0.3f);
+        c.afegirSimilitud("E", 1.7f);
 
-        d.afegir_similitud("A", 0.9f);
-        d.afegir_similitud("E", 1.4f);
+        d.afegirSimilitud("A", 0.9f);
+        d.afegirSimilitud("E", 1.4f);
 
-        e.afegir_similitud("C", 1.7f);
-        e.afegir_similitud("D", 1.4f);
+        e.afegirSimilitud("C", 1.7f);
+        e.afegirSimilitud("D", 1.4f);
 
 
         productesMagatzem.put("A", a);

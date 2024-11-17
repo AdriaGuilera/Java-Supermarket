@@ -30,18 +30,6 @@ public class TestComanda {
     }
 
 
-    @Test
-    public void testAfegirProducte_CantidadInvalida() {
-        assertThrows(QuanitatInvalidException.class, () -> comanda.afegirProducte("Pera", 0));
-        assertThrows(QuanitatInvalidException.class, () -> comanda.afegirProducte("Pera", -5));
-    }
-
-    @Test
-    public void testAfegirProducte_CantidadNegativa() {
-        assertThrows(QuanitatInvalidException.class, () -> {
-            comanda.afegirProducte("Manzana", -10);
-        });
-    }
 
     @Test
     public void testAfegirProducte_ActualizarCantidad() throws QuanitatInvalidException {

@@ -1,0 +1,11 @@
+27
+Producte1
+10
+10
+0
+31
+
+31
+Producte2
+31
+Producte1

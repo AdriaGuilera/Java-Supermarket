@@ -1,0 +1,12 @@
+//Consultem el magatzem
+32
+
+//Afegim Producte1
+27
+Producte1
+10
+10
+0
+
+//Tornem a consultar el magatzem
+32

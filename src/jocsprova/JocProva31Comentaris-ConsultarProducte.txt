@@ -1,0 +1,17 @@
+//Alta Producte1
+27
+Producte1
+10
+10
+0
+
+//Consulta de producte amb nom null -> Salta excepció per input null
+31
+
+//Consulta de producte inexistent -> Salta excepció per producte inexistent
+31
+Producte2
+
+//Consulta de producta exitosa
+31
+Producte1

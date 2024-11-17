@@ -1,0 +1,8 @@
+1
+Comanda1
+5
+Comanda2
+5
+
+5
+Comanda1

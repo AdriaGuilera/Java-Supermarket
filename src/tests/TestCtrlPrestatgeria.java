@@ -66,7 +66,7 @@ public class TestCtrlPrestatgeria {
     public void testAfegirProducte() throws PrestatgeriaNotFoundException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 5);
-        assertTrue(ctrlPrestatgeria.contains_producte("ID1", "Producte A"));
+        assertTrue(ctrlPrestatgeria.containsProducte("ID1", "Producte A"));
     }
 
     @Test(expected = PrestatgeriaNotFoundException.class)
@@ -95,7 +95,7 @@ public class TestCtrlPrestatgeria {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 5);
         ctrlPrestatgeria.moureProducte("ID1", 0, 1);
-        assertEquals(1, ctrlPrestatgeria.getPrestatgeria("ID1").get_pos("Producte A"));
+        assertEquals(1, ctrlPrestatgeria.getPrestatgeria("ID1").getPos("Producte A"));
     }
 
     @Test(expected = PrestatgeriaNotFoundException.class)
@@ -170,53 +170,53 @@ public class TestCtrlPrestatgeria {
     public void testDecrementarQuantitatProducte() throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundPrestatgeriaException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 10);
-        ctrlPrestatgeria.decrementar_quantitat_producte("ID1", "Producte A", 5);
-        assertEquals(5, ctrlPrestatgeria.get_quantitat_producte("ID1", "Producte A"));
+        ctrlPrestatgeria.decrementarQuantitatProducte("ID1", "Producte A", 5);
+        assertEquals(5, ctrlPrestatgeria.getQuantitatProducte("ID1", "Producte A"));
     }
 
     @Test(expected = PrestatgeriaNotFoundException.class)
     public void testDecrementarQuantitatProductePrestatgeriaNoExisteix() throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundPrestatgeriaException {
-        ctrlPrestatgeria.decrementar_quantitat_producte("ID2", "Producte A", 5);
+        ctrlPrestatgeria.decrementarQuantitatProducte("ID2", "Producte A", 5);
     }
 
     @Test(expected = ProductNotFoundPrestatgeriaException.class)
     public void testDecrementarQuantitatProducteNoExisteix() throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundPrestatgeriaException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
-        ctrlPrestatgeria.decrementar_quantitat_producte("ID1", "Producte B", 5);
+        ctrlPrestatgeria.decrementarQuantitatProducte("ID1", "Producte B", 5);
     }
 
     @Test(expected = QuanitatInvalidException.class)
     public void testDecrementarQuantitatProducteQuantitatNegativa() throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundPrestatgeriaException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 10);
-        ctrlPrestatgeria.decrementar_quantitat_producte("ID1", "Producte A", -5);
+        ctrlPrestatgeria.decrementarQuantitatProducte("ID1", "Producte A", -5);
     }
 
     // Afegir Prestatge
     @Test
     public void testAfegirPrestatge() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
-        ctrlPrestatgeria.afegir_prestatge("ID1");
+        ctrlPrestatgeria.afegirPrestatge("ID1");
         assertEquals(12, ctrlPrestatgeria.getPrestatgeria("ID1").getMidaPrestatgeria());
     }
 
     @Test(expected = PrestatgeriaNotFoundException.class)
     public void testAfegirPrestatgePrestatgeriaNoExisteix() throws PrestatgeriaNotFoundException {
-        ctrlPrestatgeria.afegir_prestatge("ID2");
+        ctrlPrestatgeria.afegirPrestatge("ID2");
     }
 
     // Eliminar Prestatge
     @Test
     public void testEliminarPrestatge() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
-        ctrlPrestatgeria.afegir_prestatge("ID1");
-        ctrlPrestatgeria.eliminar_prestatge("ID1");
+        ctrlPrestatgeria.afegirPrestatge("ID1");
+        ctrlPrestatgeria.eliminarPrestatge("ID1");
         assertEquals(10, ctrlPrestatgeria.getPrestatgeria("ID1").getMidaPrestatgeria());
     }
 
     @Test(expected = PrestatgeriaNotFoundException.class)
     public void testEliminarPrestatgePrestatgeriaNoExisteix() throws PrestatgeriaNotFoundException {
-        ctrlPrestatgeria.eliminar_prestatge("ID2");
+        ctrlPrestatgeria.eliminarPrestatge("ID2");
     }
 
     @Test(expected = QuanitatInvalidException.class)
@@ -236,15 +236,15 @@ public class TestCtrlPrestatgeria {
     public void testDecrementarQuantitatProducteQuantitatMesGranQueStock() throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundPrestatgeriaException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 10);
-        assertEquals(10, ctrlPrestatgeria.decrementar_quantitat_producte("ID1", "Producte A", 15));
+        assertEquals(10, ctrlPrestatgeria.decrementarQuantitatProducte("ID1", "Producte A", 15));
     }
 
     @Test
     public void testDecrementarQuantitatProducteStockZero() throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundPrestatgeriaException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 10);
-        System.out.println(ctrlPrestatgeria.decrementar_quantitat_producte("ID1", "Producte A", 10));
-        assertEquals(0, ctrlPrestatgeria.decrementar_quantitat_producte("ID1", "Producte A", 5));
+        System.out.println(ctrlPrestatgeria.decrementarQuantitatProducte("ID1", "Producte A", 10));
+        assertEquals(0, ctrlPrestatgeria.decrementarQuantitatProducte("ID1", "Producte A", 5));
     }
 
     // Afegir Prestatgeria

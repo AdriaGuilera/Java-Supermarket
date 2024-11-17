@@ -1,0 +1,36 @@
+//Alta Producte1
+27
+Producte1
+10
+10
+0
+
+//Alta Producte2
+27
+Producte2
+10
+10
+0
+
+//Afegir similitud i un poducte no existeix -> Salta excepció per producte inexistent
+29
+Producte1
+Producte3
+1
+
+//Afegir similitud i un input es null  -> Salta excepció per input null
+29
+Producte1
+Producte2
+
+//Afgir similitud negativa -> Salta excepció per input no vàlid
+29
+Producte1
+Producte2
+-1
+
+//Afegir similitud correctament
+29
+Producte1
+Producte2
+1

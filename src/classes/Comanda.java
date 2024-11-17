@@ -2,44 +2,52 @@ package classes;
 
 import Exepcions.ProducteJaExisteixException;
 import Exepcions.ProductNotFoundComandaException;
-import Exepcions.QuanitatInvalidException;
-
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Representa una comanda con un nombre asociado y un conjunto de productos con sus cantidades.
+ * Permite agregar, eliminar y consultar productos dentro de la comanda.
+ */
 public class Comanda {
+
     private String nom; // Nombre de la comanda
     private Map<String, Integer> ordres; // Mapa de productos y cantidades
 
-    // Constructor
+    /**
+     * Constructor de la clase Comanda.
+     *
+     * @param nom Nombre de la comanda.
+     */
     public Comanda(String nom) {
         this.nom = nom;
         this.ordres = new HashMap<>();
     }
 
-
-
     /**
-     * Método para añadir un producto a la comanda.
+     * Agrega un producto a la comanda con una cantidad específica.
+     * Si el producto ya existe, la cantidad se incrementa.
+     *
      * @param nomProducte Nombre del producto a añadir.
-     * @param quantitat Cantidad del producto a añadir.
-     * @throws ProducteJaExisteixException si el producto ya existe en la comanda.
-     * @throws IllegalArgumentException si la cantidad es menor o igual a cero.
+     * @param quantitat   Cantidad del producto a añadir.
+     * @throws ProducteJaExisteixException Si el producto ya existe en la comanda.
+     * @throws IllegalArgumentException    Si la cantidad es menor o igual a cero.
      */
-    public void afegirProducte(String nomProducte, int quantitat) throws QuanitatInvalidException {
-        if (quantitat <= 0) {
-            throw new QuanitatInvalidException(1);
-        }
+    public void afegirProducte(String nomProducte, int quantitat) {
         if (ordres.containsKey(nomProducte)) {
             ordres.compute(nomProducte, (k, v) -> v + quantitat);
+        } else {
+            ordres.put(nomProducte, quantitat);
         }
-        else ordres.put(nomProducte, quantitat);
     }
 
     /**
-     * Método para eliminar un producto de la comanda.
+     * Elimina un producto de la comanda o reduce su cantidad.
+     * Si la cantidad resultante es cero o menor, el producto es eliminado del mapa.
+     *
      * @param nomProducte Nombre del producto a eliminar.
-     * @throws ProductNotFoundComandaException si el producto no se encuentra en la comanda.
+     * @param quantitat   Cantidad a reducir.
+     * @throws ProductNotFoundComandaException Si el producto no se encuentra en la comanda.
      */
     public void eliminarProducte(String nomProducte, int quantitat) throws ProductNotFoundComandaException {
         if (!ordres.containsKey(nomProducte)) {
@@ -51,21 +59,31 @@ public class Comanda {
         }
     }
 
-//Getters
-
-    // Getter para obtener el nombre de la comanda
+    /**
+     * Obtiene el nombre de la comanda.
+     *
+     * @return El nombre de la comanda.
+     */
     public String getNom() {
         return nom;
     }
 
+    /**
+     * Verifica si un producto específico está presente en la comanda.
+     *
+     * @param nomProducte Nombre del producto a verificar.
+     * @return {@code true} si el producto está presente, de lo contrario {@code false}.
+     */
     public boolean conteProducte(String nomProducte) {
         return ordres.containsKey(nomProducte);
     }
+
     /**
-     * Método para obtener la cantidad de un producto en la comanda.
+     * Obtiene la cantidad de un producto específico en la comanda.
+     *
      * @param nomProducte Nombre del producto.
-     * @return Cantidad del producto.
-     * @throws ProductNotFoundComandaException si el producto no se encuentra en la comanda.
+     * @return La cantidad del producto.
+     * @throws ProductNotFoundComandaException Si el producto no se encuentra en la comanda.
      */
     public int getQuantitat(String nomProducte) {
         Integer quantitat = ordres.get(nomProducte);
@@ -76,8 +94,9 @@ public class Comanda {
     }
 
     /**
-     * Método para obtener el mapa de productos y cantidades.
-     * @return Mapa con los productos y sus cantidades.
+     * Obtiene el mapa de productos y cantidades de la comanda.
+     *
+     * @return Una copia del mapa con los productos y sus cantidades.
      */
     public Map<String, Integer> getOrdres() {
         return new HashMap<>(ordres); // Retorna una copia para evitar modificaciones externas

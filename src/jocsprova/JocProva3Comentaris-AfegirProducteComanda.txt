@@ -1,0 +1,34 @@
+//Afegir un producte a una comanda correctament
+1
+Comanda1
+27
+Pera
+10
+10
+0
+3
+Comanda1
+Pera
+10
+
+//Afegir un producte no existent -> Salta excepció per producte no existent
+3
+Comanda1
+Manzana
+10
+
+//Afegir un producte a comanda no existent -> Salta excepció per comanda no existent
+3
+Comanda2
+Pera
+10
+
+//Afegir un producte amb algun input null -> Salta excepció per input null
+3
+
+//Afegir un producte amb cuantitat negativa -> Salta excepció per input no vàlid
+3
+Comanda1
+Pera
+-10
+

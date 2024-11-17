@@ -1,0 +1,12 @@
+//Afegir un producte al magatzem i crear una comanda automatica
+27
+pera
+10
+10
+0
+7
+Comanda1
+
+//Crear comanda automatica amb nom null -> Salta excepció per input null
+7
+

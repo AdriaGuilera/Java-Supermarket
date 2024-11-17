@@ -1,0 +1,29 @@
+//Afegir un producte al magatzem i crear una comanda automatica
+27
+pera
+10
+10
+0
+7
+Comanda1
+
+//Afegir un segon producte al magatzem i crear una segona comanda automatica
+27
+manzana
+10
+10
+0
+7
+Comanda2
+
+//Executar la comanda Comanda1
+8
+Comanda1
+
+//Executar les dos comandes
+8
+Comanda1,Comanda2
+
+//Executar una comanda no existent
+8
+Comanda3
