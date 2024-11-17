@@ -45,7 +45,7 @@ public class Algorismes {
         }
 
         // Ejecutar el algoritmo de Backtracking
-        backtrack(distribucion, productosFijos, indicesMovibles, 0, productesMagatzem);
+        backtrack(distribucion, indicesMovibles, 0, productesMagatzem);
 
         return mejorDistribucion;
     }
@@ -54,13 +54,12 @@ public class Algorismes {
      * Función auxiliar para ejecutar el algoritmo de Backtracking.
      *
      * @param distribucion      Vector con la distribución actual.
-     * @param productosFijos    Conjunto de productos fijos.
      * @param indicesMovibles   Lista de índices movibles.
      * @param nivel             Nivel actual en el árbol de backtracking.
      * @param productesMagatzem Mapa de productos con sus datos asociados.
      */
-    private void backtrack(Vector<String> distribucion, Set<String> productosFijos, List<Integer> indicesMovibles, int nivel, Map<String, Producte> productesMagatzem) {
-        if (nivel == indicesMovibles.size()) {
+    private void backtrack(Vector<String> distribucion, List<Integer> indicesMovibles, int nivel, Map<String, Producte> productesMagatzem) {
+        if (nivel == indicesMovibles.size()-1) {
             double similitudActual = calcularSimilitudTotal(distribucion, productesMagatzem);
             if (similitudActual > maxSimilitud) {
                 maxSimilitud = similitudActual;
@@ -71,7 +70,7 @@ public class Algorismes {
 
         for (int i = nivel; i < indicesMovibles.size(); i++) {
             Collections.swap(distribucion, indicesMovibles.get(nivel), indicesMovibles.get(i));
-            backtrack(distribucion, productosFijos, indicesMovibles, nivel + 1, productesMagatzem);
+            backtrack(distribucion, indicesMovibles, nivel + 1, productesMagatzem);
             Collections.swap(distribucion, indicesMovibles.get(nivel), indicesMovibles.get(i));
         }
     }

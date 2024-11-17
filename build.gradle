@@ -1,11 +1,28 @@
+
+
 plugins {
     id 'java'  // Aplica el plugin de Java
+    id 'application'
 }
 
+application {
+    mainClass = 'drivers.DriverCtrlDomini'  // Adjust this to your main class
+}
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': application.mainClass.get()
+        )
+    }
+}
 
 repositories {
     mavenCentral()           // Gradle descargará dependencias desde Maven Central
+}
+
+test {
+    useJUnitPlatform()
 }
 
 dependencies {
