@@ -1,0 +1,47 @@
+// Crear prestatgeria
+9
+pres1
+1
+2
+
+//Crear producte
+27
+ProducteA
+3
+10
+10
+
+// Afegir producte a prestatgeria
+13
+ProducteA
+5
+pres1
+
+//Fixar producte no existeix -> Salta excepció per producte no trobat
+17
+pres1
+ProducteB
+
+//Fixar producte prestatgeria no existeix -> Salta excepció per prestatgeria no trobada
+17
+pres2
+ProducteA
+
+//Crear producte 2
+27
+ProducteB
+3
+10
+10
+
+//Fixar producte no es troba a la prestatgeria -> Salta excepció per producte no trobat a prestatgeria
+17
+pres1
+ProducteB
+
+//Fixar producte exitosament
+17
+pres1
+ProducteA
+
+

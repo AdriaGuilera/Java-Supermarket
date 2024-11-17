@@ -221,9 +221,9 @@ public class Prestatgeria {
 	 *
 	 * @return Un mapa con los productos eliminados y sus cantidades.
 	 */
-	public Map<String, Integer> eliminarPrestatge() {
+	public Map<String, Integer> eliminarPrestatge() throws MidaPrestatgeriaMinException {
 		Map<String, Integer> productesEliminats = new HashMap<>();
-		if (midaPrestatge <= midaPrestatgeria) {
+		if (midaPrestatge < midaPrestatgeria) {
 			for (int i = midaPrestatgeria - midaPrestatge; i < midaPrestatgeria; i++) {
 				if (posicions.containsKey(i)) {
 					String nomP = posicions.get(i);
@@ -234,8 +234,12 @@ public class Prestatgeria {
 				}
 			}
 			midaPrestatgeria -= midaPrestatge;
+			return productesEliminats;
 		}
-		return productesEliminats;
+		else{
+			throw new MidaPrestatgeriaMinException(id);
+		}
+
 	}
 
 	/**

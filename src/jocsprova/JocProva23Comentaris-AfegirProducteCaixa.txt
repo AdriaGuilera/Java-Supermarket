@@ -1,0 +1,48 @@
+//Donar d'alta un Producte
+27
+Producte1
+3
+10
+7
+
+//Crear prestageria
+9
+pres1
+1
+2
+
+//Afegir producte a prestageria
+13
+Producte1
+3
+pres1
+
+//Afegir producte a caixa que no existeix -> Excepcio
+23
+Producte2
+3
+pres1
+
+//Afegir producte a caixa de prestatgeria que no existeix -> Excepcio
+23
+Producte1
+3
+pres2
+
+//Afegir producte a caixa que no esta a prestatgeria -> Excepcio
+23
+Producte2
+3
+pres1
+
+//Afegir producte a caixa
+23
+Producte1
+2
+pres1
+
+//Afegir producte a caixa mes gran que el que hi ha a prestatgeria i que ja esta a caixa
+23
+Producte1
+4
+pres1

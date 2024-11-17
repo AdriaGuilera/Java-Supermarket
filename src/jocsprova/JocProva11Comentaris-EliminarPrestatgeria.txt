@@ -1,0 +1,53 @@
+//Crear Prestatgeria
+9
+Prestatgeria1
+3
+9
+
+//Eliminar Prestatgeria
+11
+Prestatgria1
+
+//Eliminar Prestatgeria no existex-> Exepcio
+11
+Prestatgeria2
+
+//Crear Prestatgeria nova
+9
+Prestatgeria2
+1
+2
+
+//Crear Producte nou
+27
+Producte1
+10
+20
+15
+
+//Crear Producte nou
+27
+Producte2
+10
+20
+15
+
+//AfegirProudcte a Prestgeria
+13
+Producte1
+2
+Prestatgeria2
+
+
+//AfegirProudcte a Prestgeria -> Ultim prestatge
+13
+Producte2
+2
+Prestatgeria2
+
+//Eliminar Prestatgria Plena
+11
+Prestatgeria2
+
+
+

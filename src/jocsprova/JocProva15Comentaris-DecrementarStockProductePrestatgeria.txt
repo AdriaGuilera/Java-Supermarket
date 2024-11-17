@@ -1,0 +1,90 @@
+//Crear Producte1
+27
+Producte1
+3
+10
+10
+
+//Crear prestatgeria
+9
+pres1
+1
+2
+
+//Decrementem Stock d'un producte que no existeix -> Salta excepció per producte inexistent
+15
+pres1
+Producte2
+1
+
+//Decrementem Stock d'un producte d'una prestatgeria que no existeix -> Salta excepció per prestatgeria inexistent
+15
+pres2
+Producte2
+1
+
+//Decrementem Stock d'un producte que no existeix a la prestatgeria -> Salta excepció per producte inexistent a prestatgeria
+15
+pres1
+Producte1
+1
+
+//Afegim un producte
+13
+Producte1
+2
+pres1
+
+//Decrementem Stock d'un producte exitosament
+15
+pres1
+Producte1
+1
+
+//Decrementem Stock d'un producte mes del que hi ha x retirarlo
+15
+pres1
+Producte1
+3
+
+
+
+
+//Crear producte3
+27
+Producte3
+3
+10
+2
+
+//Crear prestatgeria2
+9
+pres2
+1
+2
+
+//Afegim tot producte3 a prestatgeria2
+13
+Producte2
+2
+pres2
+
+//Decrementem 1 stock de producte3 a prestatgeria2
+15
+pres2
+Producte2
+1
+
+//Afegim 1 stock de producte3 a prestatgeria1
+13
+Producte3
+1
+pres1
+
+
+
+
+
+
+
+

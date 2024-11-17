@@ -1,0 +1,26 @@
+//Consultar prestageria no existex -> Error
+22
+pres1
+
+//Crear producte
+27
+Producte1
+10
+10
+3
+
+//Crear prestatgeria
+9
+pres1
+1
+2
+
+//Afegir producte a prestatgeria
+13
+Producte1
+3
+pres1
+
+//Consultar prestatgeria
+22
+pres1

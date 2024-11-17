@@ -33,7 +33,7 @@ public class CtrlPrestatgeria {
     public void afegirPrestatgeria(String id, int mida, int midaPrestatge)
             throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
         if (!prestatgeries.containsKey(id)){
-            if( midaPrestatge <= 0 || mida < 0 || mida < midaPrestatge || mida % midaPrestatge != 0 ){
+            if( midaPrestatge <= 0 || mida <= 0 || mida < midaPrestatge || mida % midaPrestatge != 0 ){
                 throw new MidaPrestatgeriaInvalidException();
             } else {
                 Prestatgeria pr = new Prestatgeria(id, mida, midaPrestatge);
@@ -203,7 +203,7 @@ public class CtrlPrestatgeria {
      * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
      */
     public Map<String, Integer> eliminarPrestatge(String id)
-            throws PrestatgeriaNotFoundException {
+    throws PrestatgeriaNotFoundException, MidaPrestatgeriaMinException {
         if(!prestatgeries.containsKey(id)){
             throw new PrestatgeriaNotFoundException(id);
         } else {

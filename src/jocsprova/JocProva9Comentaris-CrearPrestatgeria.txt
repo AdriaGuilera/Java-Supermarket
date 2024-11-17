@@ -1,0 +1,58 @@
+// Alta de una prestatgeria normal
+9
+Prestatgeria1
+2
+10
+
+//Alta prestatgeria ja existent
+9
+Prestatgeria1
+3
+9
+
+// Alta de una prestatgeria mida 0
+9
+Prestatgeria2
+2
+0
+
+// Alta de una prestatgeria mida prestatge 0 -> Exepcio
+9
+Prestatgeria3
+0
+10
+
+// Alta de una prestatgeria mida 0 i prestatge 0 -> Exepcio
+9
+Prestatgeria4
+0
+0
+
+// Alta de una prestatgeria amb mida negativa -> Exepcio
+9
+Prestatgeria5
+2
+-10
+
+// Alta de una prestatgeria amb prestatge negatiu -> Exepcio
+9
+Prestatgeria6
+-2
+10
+
+// Alta de una prestatgeria amb nom buit -> Exepcio
+9
+
+//Alta prestatgeria amb mida null -> Exepcio
+9
+Prestatgeria8
+
+
+
+//Alta prestatgeria amb prestatge null -> Exepcio
+9
+Prestatgeria9
+2
+
+
+

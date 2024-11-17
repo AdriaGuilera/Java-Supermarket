@@ -380,7 +380,7 @@ public class CtrlDomini {
      * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
      */
     public void eliminarPrestatge(String idPrestatgeria)
-    throws PrestatgeriaNotFoundException,QuanitatInvalidException, MaxMagatzemWarning, IllegalArgumentException{
+    throws PrestatgeriaNotFoundException,QuanitatInvalidException, ProductNotFoundMagatzemException, IllegalArgumentException, MidaPrestatgeriaMinException{
         if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
@@ -540,23 +540,20 @@ public class CtrlDomini {
      *
      * @param nom_producte    Nombre del producto a retirar.
      * @param quantitat       Cantidad del producto a retirar.
-     * @param id_prestatgeria Identificador de la prestatgeria a la que pertenece el producto.
      * @throws QuanitatInvalidException    Si la cantidad es inválida.
      * @throws IllegalArgumentException    Si alguno de los argumentos es nulo o vacío.
      * @throws ProductNotFoundCaixaException Si el producto no existe en la caja.
+     * @return La cantidad que realmente se pudo retirar de la caja.
      */
-    public void retirar_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria)
+    public int retirar_producte_caixa(String nom_producte, int quantitat)
     throws QuanitatInvalidException,IllegalArgumentException, ProductNotFoundCaixaException{
         if(nom_producte == null || nom_producte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
-        if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
-            throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
-        }
         int aafegir = min(caixa.getQuantitat(nom_producte), quantitat);
+        caixa.retirarProducte(nom_producte, aafegir);
         ctrlProducte.incrementarStock(nom_producte, aafegir);
-        caixa.retirarProducte(nom_producte, quantitat);
-
+        return aafegir;
     }
 
     /**

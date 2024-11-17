@@ -151,7 +151,7 @@ public class TestCtrlDomini {
         ctrlDomini.afegirProductePrestatgeria("Producte A", 5, "Prestatgeria1");
         ctrlDomini.afegir_producte_caixa("Producte A", 3, "Prestatgeria1");
 
-        ctrlDomini.retirar_producte_caixa("Producte A", 2, "Prestatgeria1");
+        ctrlDomini.retirar_producte_caixa("Producte A", 2);
 
         assertEquals(1, ctrlDomini.caixa.getQuantitat("Producte A"));
         assertEquals(2, ctrlDomini.ctrlPrestatgeria.getQuantitatProducte("Prestatgeria1", "Producte A"));
@@ -243,12 +243,7 @@ public class TestCtrlDomini {
 
     @Test(expected = IllegalArgumentException.class)
     public void testRetirarProducteCaixaNomProducteBuit() throws Exception {
-        ctrlDomini.retirar_producte_caixa("", 3, "Prestatgeria1");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testRetirarProducteCaixaNomPrestatgeriaBuit() throws Exception {
-        ctrlDomini.retirar_producte_caixa("Producte A", 3, "");
+        ctrlDomini.retirar_producte_caixa("", 3);
     }
 
     @Test(expected = IllegalArgumentException.class)

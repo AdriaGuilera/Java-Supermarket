@@ -251,6 +251,7 @@ public class DriverCtrlDomini {
             quantitat = Integer.parseInt(readLine(scanner));
         } catch (Exception e) {
             System.out.println("Error: Quantitat no pot ser buit");
+            return;
         }
         try {
             ctrlDomini.afegirProducteComanda(nomComanda, nomProducte, quantitat);
@@ -276,6 +277,7 @@ public class DriverCtrlDomini {
             quantitat = Integer.parseInt(readLine(scanner));
         } catch (Exception e) {
             System.out.println("Error: Quantitat no pot ser buit");
+            return;
         }
         try {
             ctrlDomini.eliminarProducteComanda(nomComanda, nomProducte, quantitat);
@@ -353,12 +355,24 @@ public class DriverCtrlDomini {
     public static void testAfegirPrestatgeria(Scanner scanner) {
         System.out.println("ID de la nueva Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
-        System.out.println("Mida prestage:");
-        int midaPrestatge = Integer.parseInt(readLine(scanner));
-        System.out.println("Mida prestatgeria:");
-        int midaPrestatgeria = Integer.parseInt(readLine(scanner));
-        ctrlDomini.afegirPrestatgeria(idPrestatgeria, midaPrestatge, midaPrestatgeria);
-        System.out.println("Prestatgeria añadida.");
+        int midaPrestatge = 0;
+        int midaPrestatgeria = 0;
+        try {
+            System.out.println("Mida prestage:");
+            midaPrestatge = Integer.parseInt(readLine(scanner));
+            System.out.println("Mida prestatgeria:");
+            midaPrestatgeria = Integer.parseInt(readLine(scanner));
+        } catch (Exception e) {
+            System.out.println("Error: Les mides no poden ser buides.");
+            return;
+        }
+        try {
+            ctrlDomini.afegirPrestatgeria(idPrestatgeria, midaPrestatge, midaPrestatgeria);
+            System.out.println("Prestatgeria añadida.");
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     /**
@@ -369,8 +383,12 @@ public class DriverCtrlDomini {
     public static void testAfegirPrestatge(Scanner scanner) {
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
-        ctrlDomini.afegirPrestatge(idPrestatgeria);
-        System.out.println("Prestatge añadido.");
+        try{
+            ctrlDomini.afegirPrestatge(idPrestatgeria);
+            System.out.println("Prestatge añadido.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     /**
@@ -381,8 +399,12 @@ public class DriverCtrlDomini {
     public static void testEliminarPrestatgeria(Scanner scanner) {
         System.out.println("ID de la Prestatgeria a eliminar:");
         String idPrestatgeria = readLine(scanner);
-        ctrlDomini.eliminarPrestatgeria(idPrestatgeria);
-        System.out.println("Prestatgeria eliminada.");
+        try{
+            ctrlDomini.eliminarPrestatgeria(idPrestatgeria);
+            System.out.println("Prestatgeria eliminada.");
+        } catch (Exception e) {
+            System.out.println("Error" + e.getMessage());
+        }
     }
 
     /**
@@ -393,8 +415,12 @@ public class DriverCtrlDomini {
     public static void testEliminarPrestatge(Scanner scanner) {
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
-        ctrlDomini.eliminarPrestatge(idPrestatgeria);
-        System.out.println("Prestatge eliminado de la prestatgeria.");
+        try{
+            ctrlDomini.eliminarPrestatge(idPrestatgeria);
+            System.out.println("Prestatge eliminado de la prestatgeria.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     /**
@@ -411,6 +437,7 @@ public class DriverCtrlDomini {
             quantitat = Integer.parseInt(readLine(scanner));
         } catch (Exception e) {
             System.out.println("Error: Quantitat no pot ser buit.");
+            return;
         }
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
@@ -418,7 +445,7 @@ public class DriverCtrlDomini {
             ctrlDomini.afegirProductePrestatgeria(nomProducte, quantitat, idPrestatgeria);
             System.out.println("Producto añadido a la prestatgeria correctamente.");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -436,7 +463,7 @@ public class DriverCtrlDomini {
             ctrlDomini.retirarProducteAMagatzem(idPrestatgeria, nomProducte);
             System.out.println("Producto " + nomProducte + " de prestatgeria " + idPrestatgeria + " retirado al magatzem.");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -445,18 +472,24 @@ public class DriverCtrlDomini {
      *
      * @param scanner Scanner para leer los datos de entrada.
      */
-    public static void testDecrementarStockAProducte(Scanner scanner) {
+    public static void testDecrementarStockAProductePrestatgeria(Scanner scanner) {
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
-        System.out.println("Cantidad a decrementar:");
-        int cantidad = Integer.parseInt(readLine(scanner));
+        int cantidad = 0;
+        try {
+            System.out.println("Cantidad a decrementar:");
+            cantidad = Integer.parseInt(readLine(scanner));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
+        }
         try {
             ctrlDomini.decrementarStockAProducte(idPrestatgeria, nomProducte, cantidad);
             System.out.println("Stock decrementado.");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -470,10 +503,17 @@ public class DriverCtrlDomini {
         String idPrestatgeria = readLine(scanner);
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
-        System.out.println("Hueco de origen:");
-        int huecoOrigen = Integer.parseInt(readLine(scanner));
-        System.out.println("Hueco de destino:");
-        int huecoDestino = Integer.parseInt(readLine(scanner));
+        int huecoOrigen = 0;
+        int huecoDestino = 0;
+        try {
+            System.out.println("Hueco de origen:");
+            huecoOrigen = Integer.parseInt(readLine(scanner));
+            System.out.println("Hueco de destino:");
+            huecoDestino = Integer.parseInt(readLine(scanner));
+        } catch (Exception e) {
+            System.out.println("Error: Los huecos no pueden estar vacíos.");
+            return;
+        }
         try {
             ctrlDomini.moureProducteDeHueco(idPrestatgeria, nomProducte, huecoOrigen, huecoDestino);
             System.out.println("Producto movido de hueco.");
@@ -492,8 +532,12 @@ public class DriverCtrlDomini {
         String idPrestatgeria = readLine(scanner);
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
-        ctrlDomini.fixarProducte(idPrestatgeria, nomProducte);
-        System.out.println("Producto fijado en la prestatgeria.");
+        try {
+            ctrlDomini.fixarProducte(idPrestatgeria, nomProducte);
+            System.out.println("Producto fijado en la prestatgeria.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     /**
@@ -506,8 +550,12 @@ public class DriverCtrlDomini {
         String idPrestatgeria = readLine(scanner);
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
-        ctrlDomini.desfixarProducte(idPrestatgeria, nomProducte);
-        System.out.println("Producto desfijado de la prestatgeria.");
+        try {
+            ctrlDomini.desfixarProducte(idPrestatgeria, nomProducte);
+            System.out.println("Producto desfijado de la prestatgeria.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     /**
@@ -518,8 +566,11 @@ public class DriverCtrlDomini {
     public static void testGenerarDistribucioBacktracking(Scanner scanner) {
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
-        ctrlDomini.generarDistribucioBacktracking(idPrestatgeria);
-        System.out.println("Distribución generada (Backtracking) en prestatgeria.");
+        try {
+            ctrlDomini.generarDistribucioBacktracking(idPrestatgeria);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     /**
@@ -530,8 +581,11 @@ public class DriverCtrlDomini {
     public static void testGenerarDistribucioHillClimbing(Scanner scanner) {
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
-        ctrlDomini.generarDistribucioHillClimbing(idPrestatgeria);
-        System.out.println("Distribución generada (Hill Climbing) en prestatgeria.");
+        try{
+            ctrlDomini.generarDistribucioHillClimbing(idPrestatgeria);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     /**
@@ -542,8 +596,13 @@ public class DriverCtrlDomini {
     public static void testReposarPrestatgeria(Scanner scanner) {
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
-        ctrlDomini.reposarPrestatgeria(idPrestatgeria);
-        System.out.println("Prestatgeria repuesta.");
+        try {
+            ctrlDomini.reposarPrestatgeria(idPrestatgeria);
+            System.out.println("Prestatgeria repuesta.");
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     /**
@@ -555,7 +614,12 @@ public class DriverCtrlDomini {
     public static Prestatgeria testGetPrestatgeria(Scanner scanner) {
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
-        return ctrlDomini.getPrestatgeria(idPrestatgeria);
+        try{
+            return ctrlDomini.getPrestatgeria(idPrestatgeria);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
     }
 
 
@@ -569,15 +633,22 @@ public class DriverCtrlDomini {
     public static void testAfegirProducteCaixa(Scanner scanner) {
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
-        System.out.println("Cantidad:");
-        int quantitat = Integer.parseInt(readLine(scanner));
+        int quantitat = 0;
+        try {
+            System.out.println("Cantidad:");
+            quantitat = Integer.parseInt(readLine(scanner));
+        }
+        catch(Exception e) {
+            System.out.println("Error: La quantitat no pot estar buida.");
+            return;
+        }
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
         try {
             int quantitat_afegida = ctrlDomini.afegir_producte_caixa(nomProducte, quantitat, idPrestatgeria);
             System.out.println(quantitat_afegida + " unidades del producto " + nomProducte + " de la prestatgeria " + idPrestatgeria + " añadidos a la Caja!");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -589,15 +660,19 @@ public class DriverCtrlDomini {
     public static void testRetirarProducteCaixa(Scanner scanner) {
         System.out.println("Nombre del Producto:");
         String nomProducte = readLine(scanner);
-        System.out.println("Cantidad:");
-        int quantitat = Integer.parseInt(readLine(scanner));
-        System.out.println("ID de la Prestatgeria:");
-        String idPrestatgeria = readLine(scanner);
+        int quantitat = 0;
         try {
-            ctrlDomini.retirar_producte_caixa(nomProducte, quantitat, idPrestatgeria);
-            System.out.println(quantitat + " unidades del producto " + nomProducte + " de la prestatgeria " + idPrestatgeria + " retirados de la Caja!");
+            System.out.println("Cantidad:");
+            quantitat = Integer.parseInt(readLine(scanner));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error: La cantidad no puede estar vacía.");
+            return;
+        }
+        try {
+            int retirat = ctrlDomini.retirar_producte_caixa(nomProducte, quantitat);
+            System.out.println(retirat + " unidades del producto " + nomProducte + " retirados de la Caja!");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -637,6 +712,7 @@ public class DriverCtrlDomini {
             max_h = Integer.parseInt(readLine(scanner));
         } catch (Exception e) {
             System.out.println("Error: El stock máximo en prestatgeria no puede estar vacío.");
+            return;
         }
 
         System.out.println("Stock Máximo posible en Magatzem:");
@@ -645,6 +721,7 @@ public class DriverCtrlDomini {
             max_m = Integer.parseInt(readLine(scanner));
         } catch (Exception e) {
             System.out.println("Error: El stock máximo en magatzem no puede estar vacío.");
+            return;
         }
 
         int stock = 0;
@@ -653,13 +730,14 @@ public class DriverCtrlDomini {
             stock = Integer.parseInt(readLine(scanner));
         } catch (Exception e) {
             System.out.println("Error: El stock inicial no puede estar vacío.");
+            return;
         }
 
         try {
             ctrlDomini.altaProducte(nom, max_h, max_m, stock);
             System.out.println("Producto " + nom + " dado de alta correctamente.");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -701,14 +779,13 @@ public class DriverCtrlDomini {
         } catch (Exception e) {
             System.out.println("Error: La similitud no puede estar vacía.");
             vacio = true;
+            return;
         }
         try {
             ctrlDomini.afegir_similitud(nom1, nom2, value);
             System.out.println("Similitud agregada correctamente.");
         } catch (Exception e) {
-            if (!vacio) {
-                System.out.println(e.getMessage());
-            }
+                System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -726,34 +803,7 @@ public class DriverCtrlDomini {
             ctrlDomini.eliminarSimilitud(nom1, nom2);
             System.out.println("Similitud entre " + nom1 + " y " + nom2 + " ahora es 0.");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Prueba la funcionalidad de mover un producto a una Prestatgeria.
-     *
-     * @param scanner Scanner para leer los datos de entrada.
-     */
-    public static void testMoureProducteAPrestatgeria(Scanner scanner) {
-        System.out.println("Nombre del Producto:");
-        String nomProducte = readLine(scanner);
-        int quantitat = 0;
-        try {
-            System.out.println("Cantidad:");
-            quantitat = Integer.parseInt(readLine(scanner));
-        } catch (Exception e) {
-            System.out.println("Error: La cantidad no puede estar vacía.");
-        }
-
-        System.out.println("ID de la Prestatgeria:");
-        String idPrestatgeria = readLine(scanner);
-
-        try {
-            ctrlDomini.afegirProductePrestatgeria(nomProducte, quantitat, idPrestatgeria);
-            System.out.println("Producto movido a la prestatgeria correctamente.");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error: " +e.getMessage());
         }
     }
 
@@ -837,7 +887,7 @@ public class DriverCtrlDomini {
                 testRetirarProducteAMagatzem(scanner);
                 break;
             case DECREMENTAR_STOCK_A_PRODUCTE:
-                testDecrementarStockAProducte(scanner);
+                testDecrementarStockAProductePrestatgeria(scanner);
                 break;
             case GENERAR_DISTRIBUCIO_BACKTRACKING:
                 testGenerarDistribucioBacktracking(scanner);

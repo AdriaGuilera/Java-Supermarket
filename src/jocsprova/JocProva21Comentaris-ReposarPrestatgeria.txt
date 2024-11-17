@@ -1,0 +1,71 @@
+//Crear prestatgeria
+9
+Prestatgeria1
+2
+4
+
+//Crear productes
+27
+Producte A
+10
+55
+55
+
+27
+Producte B
+10
+50
+50
+
+//Afegir productes a prestatgeria
+13
+Producte A
+5
+Prestatgeria1
+
+13
+Producte B
+3
+Prestatgeria1
+
+//Reposar prestatgeria
+21
+Prestatgeria1
+
+//Reposar prestatgeria no existeix -> Salta excepció per prestatgeria no tro
+21
+Prestatgeria2
+
+//Crear prestatgeria 2
+9
+Prestatgeria2
+2
+4
+
+//Crear productes
+27
+Producte C
+10
+55
+6
+
+27
+Producte D
+10
+50
+6
+
+//Afegir productes a prestatgeria pq quedi un al magatzem
+13
+Producte C
+5
+Prestatgeria1
+
+13
+Producte D
+3
+Prestatgeria1
+
+//Reposar prestatgeria amb 1 unitat + warnings
+21
+Prestatgeria1

@@ -1,0 +1,112 @@
+//Crear Producte1
+27
+Producte1
+3
+10
+10
+
+//Crear prestatgeria
+9
+pres1
+1
+2
+
+//Retirem un producte que no existeix -> Salta excepció per producte inexistent
+14
+pres1
+Producte2
+
+//Retirem un producte d'una prestatgeria que no existeix -> Salta excepció per prestatgeria inexistent
+14
+pres2
+Producte2
+
+//Retirem un producte que no existeix a la prestatgeria -> Salta excepció per producte inexistent a prestatgeria
+14
+pres1
+Producte1
+
+//Afegim un producte exitosament
+13
+Producte1
+1
+pres1
+
+//Retirem el producte
+14
+pres1
+Producte1
+
+//Crear Producte2
+27
+Producte2
+3
+10
+10
+
+//Crear producte3
+27
+Producte3
+3
+10
+10
+
+//Afegim producte1 exitosament
+13
+Producte1
+1
+pres1
+
+//Afegim un producte2 exitosament -> prestatgeria plena
+13
+Producte2
+1
+pres1
+
+//Retirem producte1
+14
+pres1
+Producte1
+
+//Afegim producte3 exitosament
+13
+Producte3
+1
+pres1
+
+//Crear prestatgeria3
+9
+pres3
+1
+2
+
+//Crear Producte4 stock 1
+27
+Producte4
+3
+10
+1
+
+//Afegim producte4 exitosament
+13
+Producte4
+1
+pres3
+
+//Retirem producte4 -> per veure si stock torna a estar disponible
+14
+pres3
+Producte4
+
+//Afegim producte4 exitosament
+13
+Producte4
+1
+pres3
+
+
+
+
+
+
+

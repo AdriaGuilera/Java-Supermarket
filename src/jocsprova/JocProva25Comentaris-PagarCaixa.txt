@@ -1,0 +1,30 @@
+//Donar d'alta un Producte
+27
+Producte1
+3
+10
+7
+
+//Crear prestageria
+9
+pres1
+1
+2
+
+//Afegir producte a prestageria
+13
+Producte1
+3
+pres1
+
+//Afegir producte a caixa
+23
+Producte1
+2
+pres1
+
+//Pagar caixa
+25
+
+//Pagar caixa buida
+25

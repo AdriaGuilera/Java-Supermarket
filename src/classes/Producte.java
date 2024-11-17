@@ -138,9 +138,6 @@ public class Producte {
             throw new QuanitatInvalidException(0);
         }
         stockMagatzem = max(stockMagatzem - quant, 0);
-        if (stockMagatzem == 0) {
-            throw  new ZeroStockMagatzemWarning(nom);
-        }
     }
 
     ////////////////////// Gestión de Similitud //////////////////////

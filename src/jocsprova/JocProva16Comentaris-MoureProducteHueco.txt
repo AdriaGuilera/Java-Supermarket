@@ -1,0 +1,75 @@
+// Crear prestatgeria
+9
+pres1
+1
+2
+
+//Crear producte
+27
+ProducteA
+3
+10
+10
+
+//Crear producte 2
+27
+ProducteB
+3
+10
+10
+
+// Afegir producte a prestatgeria
+13
+ProducteA
+5
+pres1
+
+// Moure producte dins de la prestatgeria
+16
+pres1
+ProducteA
+0
+1
+
+// Intentar moure producte a un hueco que no existeix -> Salta excepció per hueco destí no vàlid
+16
+pres1
+ProducteA
+1
+10
+
+// Intentar moure producte que no està en el hueco d'origen -> Salta excepció per producte no trobat en el hueco d'origen
+16
+pres1
+ProducteA
+0
+1
+
+//Afegir producte a prestatgeria
+13
+ProducteB
+5
+pres1
+
+//Swap de productes
+16
+pres1
+ProducteB
+0
+1
+
+//Fixar producte
+17
+pres1
+ProducteB
+
+//Moure producte Fixat
+16
+pres1
+ProducteB
+1
+0
+
+
+
+

@@ -1,0 +1,13 @@
+//Crear Prestatgeria
+9
+Prestatgeria1
+3
+9
+
+//Afegir Prestatge
+10
+Prestatgria1
+
+//Afegir Prestatge prestatgeria no existeix -> Exepcio
+10
+Prestatgeria2

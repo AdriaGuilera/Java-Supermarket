@@ -1,0 +1,62 @@
+//Crear Prestatgeria
+9
+Prestatgeria1
+3
+9
+
+//Eliminar Prestatge -> Post mida = 6
+12
+Prestatgria1
+
+//Afegir Prestatge prestatgeria no existeix -> Exepcio
+12
+Prestatgeria2
+
+//Eliminar Prestatge -> Post mida = 3
+12
+Prestatgria1
+
+//Eliminar Prestatge -> Post mida = 0 -> Exepcio
+12
+Prestatgria1
+
+
+//Crear Prestatgeria nova
+9
+Prestatgeria2
+1
+2
+
+//Crear Producte nou
+27
+Producte1
+10
+20
+15
+
+//Crear Producte nou
+27
+Producte2
+10
+20
+15
+
+//AfegirProudcte a Prestgeria
+13
+Producte1
+2
+Prestatgeria2
+
+
+//AfegirProudcte a Prestgeria -> Ultim prestatge
+13
+Producte2
+2
+Prestatgeria2
+
+//Eliminar Prestatge amb un producte
+12
+Prestatgeria2
+
+
+
