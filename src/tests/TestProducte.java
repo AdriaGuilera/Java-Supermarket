@@ -1,6 +1,7 @@
 package tests;
 
 import Exepcions.QuanitatInvalidException;
+import Exepcions.StockTooBigException;
 import Exepcions.ZeroStockMagatzemWarning;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,6 @@ public class TestProducte {
 
     @Before
     public void setUp() {
-        // Este método se ejecuta antes de cada test para inicializar un nuevo objeto Producte
         producte = new Producte("Producto A", 100, 500, 0);
     }
 
@@ -24,6 +24,27 @@ public class TestProducte {
         assertEquals(500, producte.getMaxMagatzem());
         assertEquals(0, producte.getStock());
     }
+
+    @Test (expected = QuanitatInvalidException.class)
+    public void testConstructor2() {
+        producte = new Producte("Producto A", 100, 500, -10);
+    }
+
+    @Test (expected = StockTooBigException.class)
+    public void testConstructor3() {
+        producte = new Producte("Producto A", 100, 500, 600);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testConstructor4() {
+        producte = new Producte("Producto A", -100, 500, 10);
+    }
+    @Test (expected = IllegalArgumentException.class)
+    public void testConstructor5() {
+        producte = new Producte("Producto A", 100, -500, 10);
+    }
+
+
 
     //Getters
     @Test
@@ -118,14 +139,12 @@ public class TestProducte {
     public void testDecrementarStockHastaCero() {
         producte.modStock(100);
         producte.decrementarStock(100); // Exactamente al límite
-        assertEquals(0, producte.getStock());
     }
 
     @Test(expected =ZeroStockMagatzemWarning.class)
     public void testDecrementarStockPorDebajoDeCero() {
         producte.modStock(50);
         producte.decrementarStock(100); // Más de lo disponible
-        assertEquals(0, producte.getStock()); // No debe ser negativo
     }
 
     @Test

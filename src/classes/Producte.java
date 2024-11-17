@@ -34,15 +34,16 @@ public class Producte {
      */
     public Producte(String nom, int maxHueco, int maxMagatzem, int stock)
             throws QuanitatInvalidException, StockTooBigException, IllegalArgumentException {
+        if (maxHueco <= 0 || maxMagatzem <= 0) {
+            throw new IllegalArgumentException("Mida de magatzem i mida del hueco han de ser positius");
+        }
         if (stock < 0) {
             throw new QuanitatInvalidException(0);
         }
         if (stock > maxMagatzem) {
             throw new StockTooBigException(maxMagatzem);
         }
-        if (maxHueco <= 0 || maxMagatzem <= 0) {
-            throw new IllegalArgumentException("Mida de magatzem i mida del hueco han de ser positius");
-        }
+
         this.nom = nom;
         this.maxHueco = maxHueco;
         this.maxMagatzem = maxMagatzem;

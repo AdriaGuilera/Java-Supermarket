@@ -116,6 +116,19 @@ public class TestCtrlComandes {
         assertThrows(ComandaNotFoundException.class, () -> ctrlComandes.obtenirComandes(nomsComandes));
     }
 
+    @Test
+    public void testObtenirComandes() throws ComandaNotFoundException {
+        ctrlComandes.crearComanda("Comanda1");
+        String[] nomsComandes = {"Comanda1"};
+
+        Map<String, Comanda> result = ctrlComandes.obtenirComandes(nomsComandes);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertTrue(result.containsKey("Comanda1"));
+        assertEquals("Comanda1", result.get("Comanda1").getNom());
+    }
+
 
     @Test
     public void testGetComandaUnica() throws ComandaNotFoundException {
@@ -140,6 +153,29 @@ public class TestCtrlComandes {
         assertEquals(2, ctrlComandes.getComandes().size());
     }
 
+    @Test
+    public void testAfegirProducteComanda_ComandaNoExiste() {
+        // Arrange
+        String nomComanda = "ComandaInexistent";
+        String nomProducte = "Producte1";
+        int quantitat = 5;
+
+       assertThrows(ComandaNotFoundException.class, () -> {
+            ctrlComandes.afegirProducteComanda(nomComanda, nomProducte, quantitat);
+        });
+
+    }
+    @Test
+    public void testEliminarProducteComanda_ComandaNoExiste() {
+        // Arrange
+        String nomComanda = "ComandaInexistent";
+        String nomProducte = "Producte1";
+        int quantitat = 5;
+
+        assertThrows(ComandaNotFoundException.class, () -> {
+            ctrlComandes.eliminarProducteComanda(nomComanda, nomProducte, quantitat);
+        });
+    }
 
 
 }

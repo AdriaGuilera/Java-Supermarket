@@ -1,18 +1,27 @@
 package tests;
 
 import Exepcions.*;
+import classes.Comanda;
+import classes.Producte;
 import controladors.CtrlProducte;
 import org.junit.Before;
 import org.junit.Test;
 
 
+import java.util.HashMap;
 import java.util.Map;
-
 import static org.junit.Assert.*;
+
+
+
+
+
 
 public class TestCtrlProducte {
 
+
     private CtrlProducte ctrlProducte;
+
 
     @Before
     public void setUp() {
@@ -58,6 +67,13 @@ public class TestCtrlProducte {
         ctrlProducte.altaProducte("Producto A", 100, 500,0);
         ctrlProducte.incrementarStock("Producto A", 600); // Excede el máximo
         assertEquals(500, ctrlProducte.getStockMagatzem("Producto A"));
+    }
+    @Test
+    public void testGetStockMagatzemNotFound() {
+        // Assert
+        assertThrows(ProductNotFoundMagatzemException.class, () -> {
+            ctrlProducte.getStockMagatzem("NonExistentProduct");
+        });
     }
 
     @Test(expected = ProductNotFoundMagatzemException.class)
@@ -159,4 +175,127 @@ public class TestCtrlProducte {
         Map<String, Integer> comandaAutomatica = ctrlProducte.generarComandaAutomatica();
         assertEquals(300, (int) comandaAutomatica.get("Producto A"));
     }
+    @Test
+    public void testGetMaxHueco() throws Exception {
+        ctrlProducte.altaProducte("Producte1", 10, 100, 50);
+        int maxHueco = ctrlProducte.getMaxHueco("Producte1");
+        assertEquals(10, maxHueco);
+    }
+
+    @Test
+    public void testGetMaxHuecoNotFound() {
+        assertThrows(ProductNotFoundMagatzemException.class, () -> {
+            ctrlProducte.getMaxHueco("NonExistentProduct");
+        });
+    }
+
+    @Test
+    public void testGetMagatzem() throws Exception {
+        // Setup
+        ctrlProducte.altaProducte("Producte1", 10, 100, 50);
+        ctrlProducte.altaProducte("Producte2", 5, 50, 20);
+
+        // Action
+        Map<String, Producte> magatzem = ctrlProducte.getMagatzem();
+
+        // Assert
+        assertEquals(2, magatzem.size());
+        assertTrue(magatzem.containsKey("Producte1"));
+        assertTrue(magatzem.containsKey("Producte2"));
+    }
+
+    @Test
+    public void testGetProducte() throws Exception {
+        // Setup
+        ctrlProducte.altaProducte("Producte1", 10, 100, 50);
+
+        // Action
+        Producte producte = ctrlProducte.getProducte("Producte1");
+
+        // Assert
+        assertNotNull(producte);
+        assertEquals("Producte1", producte.getNom());
+    }
+
+    @Test
+    public void testGetProducteNotFound() {
+        // Assert
+        assertThrows(ProductNotFoundMagatzemException.class, () -> {
+            ctrlProducte.getProducte("NonExistentProduct");
+        });
+    }
+
+    @Test
+    public void testGetSimilitudFirstProductNull() {
+        // Caso donde el primer nombre es null
+        double similitud = ctrlProducte.getSimilitud(null, "Producte1");
+        assertEquals(0, similitud, 0.001);
+    }
+
+    @Test
+    public void testGetSimilitudSecondProductNull() {
+        // Caso donde el segundo nombre es null
+        double similitud = ctrlProducte.getSimilitud("Producte1", null);
+        assertEquals(0, similitud, 0.001);
+    }
+
+    @Test
+    public void testDecrementarStockNonExistentProduct() {
+        assertThrows(ProductNotFoundMagatzemException.class, () -> {
+            ctrlProducte.decrementarStock("NonExistentProduct", 10);
+        });
+    }
+
+    @Test
+    public void testDecrementarStockNegativeQuantity() throws Exception {
+        ctrlProducte.altaProducte("Producte1", 10, 100, 50);
+        assertThrows(QuanitatInvalidException.class, () -> {
+            ctrlProducte.decrementarStock("Producte1", -10);
+        });
+    }
+
+    @Test
+    public void testExecutarComandesValid() throws Exception {
+        // Configuración inicial
+        ctrlProducte.altaProducte("Producte1", 10, 100, 50);
+        ctrlProducte.altaProducte("Producte2", 5, 50, 20);
+
+        // Crear comandas
+        Map<String, Comanda> comandes = new HashMap<>();
+        Comanda comanda1 = new Comanda("comanda1");
+        comanda1.afegirProducte("Producte1", 30);
+        comanda1.afegirProducte("Producte2", 20);
+
+        comandes.put("Comanda1", comanda1);
+
+        // Ejecutar comandas
+        ctrlProducte.executarComandes(comandes);
+
+        // Verificar el resultado
+        assertEquals(80, ctrlProducte.getStockMagatzem("Producte1")); // 50 + 30
+        assertEquals(40, ctrlProducte.getStockMagatzem("Producte2")); // 20 + 20
+    }
+    @Test
+    public void testExecutarComandesValid2() throws Exception {
+        // Configuración inicial
+        ctrlProducte.altaProducte("Producte1", 10, 10, 5);
+        ctrlProducte.altaProducte("Producte2", 5, 10, 5);
+
+        // Crear comandas
+        Map<String, Comanda> comandes = new HashMap<>();
+        Comanda comanda1 = new Comanda("comanda1");
+        comanda1.afegirProducte("Producte1", 30);
+        comanda1.afegirProducte("Producte2", 20);
+
+        comandes.put("Comanda1", comanda1);
+
+        // Ejecutar comandas
+        ctrlProducte.executarComandes(comandes);
+
+        // Verificar el resultado
+        assertEquals(10, ctrlProducte.getStockMagatzem("Producte1")); // 50 + 30
+        assertEquals(10, ctrlProducte.getStockMagatzem("Producte2")); // 20 + 20
+    }
 }
+
+

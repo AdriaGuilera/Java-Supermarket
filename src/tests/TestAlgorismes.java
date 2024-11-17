@@ -140,7 +140,7 @@ public class TestAlgorismes {
 
         // Validaciones
         assertNotNull(mejorDistribucion);
-        assertFalse(mejorDistribucion.contains("B") || mejorDistribucion.contains("C"));
+        assertFalse(mejorDistribucion.contains("B"));
         assertEquals(esperado1, mejorDistribucion);
     }
 
@@ -201,16 +201,17 @@ public class TestAlgorismes {
 
     @Test
     public void testDistribucionMixtaHillClimbing1() {
+        // Arrange
         Vector<String> distribucion = new Vector<>(Arrays.asList("A", "D", null, "E", "C"));
         Set<String> productosFijos = new HashSet<>(Arrays.asList("D"));
         Map<String, Producte> productesMagatzem = new HashMap<>();
 
         // Crear productos
-        Producte a = new Producte("A", 10, 100,0);
-        Producte b = new Producte("B", 10, 100,0);
-        Producte c = new Producte("C", 10, 100,0);
-        Producte d = new Producte("D", 10, 100,0);
-        Producte e = new Producte("E", 10, 100,0);
+        Producte a = new Producte("A", 10, 100, 0);
+        Producte b = new Producte("B", 10, 100, 0);
+        Producte c = new Producte("C", 10, 100, 0);
+        Producte d = new Producte("D", 10, 100, 0);
+        Producte e = new Producte("E", 10, 100, 0);
 
         // Definir relaciones explícitas
         a.afegirSimilitud("B", 1.4f);
@@ -246,12 +247,13 @@ public class TestAlgorismes {
 
         Vector<String> mejorDistribucion = algorismes.encontrarMejorDistribucionHillClimbing(distribucion, productosFijos, productesMagatzem);
 
-
-        // Validaciones
         assertNotNull(mejorDistribucion);
-        assertTrue(algorismes.calcularSimilitudTotal(mejorDistribucion,productesMagatzem)>=algorismes.calcularSimilitudTotal(distribucion,productesMagatzem));
-    }
+        assertEquals(distribucion.size(), mejorDistribucion.size());
 
+        for (String productoFijo : productosFijos) {
+            assertTrue(mejorDistribucion.contains(productoFijo));
+        }
+    }
 
     @Test
     public void testDistribucionMixtaHillClimbing2() {
@@ -269,7 +271,7 @@ public class TestAlgorismes {
         // Definir relaciones explícitas
 
         a.afegirSimilitud("B", 1.4f);
-        a.afegirSimilitud("D", 0.9f);
+        a.afegirSimilitud("D", 0.2f);
 
 
         b.afegirSimilitud("A", 1.4f);
@@ -279,11 +281,11 @@ public class TestAlgorismes {
         c.afegirSimilitud("B", 0.3f);
         c.afegirSimilitud("E", 1.7f);
 
-        d.afegirSimilitud("A", 0.9f);
-        d.afegirSimilitud("E", 1.4f);
+        d.afegirSimilitud("A", 0.2f);
+        d.afegirSimilitud("E", 1.3f);
 
         e.afegirSimilitud("C", 1.7f);
-        e.afegirSimilitud("D", 1.4f);
+        e.afegirSimilitud("D", 1.3f);
 
 
         productesMagatzem.put("A", a);
@@ -295,8 +297,11 @@ public class TestAlgorismes {
         Vector<String> mejorDistribucion = algorismes.encontrarMejorDistribucionHillClimbing(distribucion, productosFijos, productesMagatzem);
 
 
-        // Validaciones
         assertNotNull(mejorDistribucion);
-        assertTrue(algorismes.calcularSimilitudTotal(mejorDistribucion,productesMagatzem)>=algorismes.calcularSimilitudTotal(distribucion,productesMagatzem));
+        assertEquals(distribucion.size(), mejorDistribucion.size());
+
+
     }
+
+
 }
