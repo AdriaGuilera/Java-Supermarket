@@ -1,7 +1,7 @@
 package controladors;
 
 import java.util.*;
-import Exepcions.*;
+import Excepcions.*;
 import classes.Pair;
 import classes.Prestatgeria;
 
@@ -33,7 +33,7 @@ public class CtrlPrestatgeria {
     public void afegirPrestatgeria(String id, int mida, int midaPrestatge)
             throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
         if (!prestatgeries.containsKey(id)){
-            if( midaPrestatge <= 0 || mida <= 0 || mida < midaPrestatge || mida % midaPrestatge != 0 ){
+            if( midaPrestatge <= 0 || mida < 0 || mida < midaPrestatge || mida % midaPrestatge != 0 ){
                 throw new MidaPrestatgeriaInvalidException();
             } else {
                 Prestatgeria pr = new Prestatgeria(id, mida, midaPrestatge);
@@ -79,6 +79,40 @@ public class CtrlPrestatgeria {
             throw new PrestatgeriaNotFoundException(id);
         }
     }
+
+    /**
+     * Añade un prestatge a una prestatgeria existente.
+     *
+     * @param id Identificador de la prestatgeria.
+     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
+     */
+    public void afegirPrestatge(String id)
+            throws PrestatgeriaNotFoundException {
+        if(!prestatgeries.containsKey(id)){
+            throw new PrestatgeriaNotFoundException(id);
+        } else {
+            Prestatgeria pr = prestatgeries.get(id);
+            pr.afegirPrestatge();
+        }
+    }
+
+    /**
+     * Elimina un prestatge de una prestatgeria existente.
+     *
+     * @param id Identificador de la prestatgeria.
+     * @return Un mapa con los productos que estaban en el prestatge eliminado y sus cantidades.
+     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
+     */
+    public Map<String, Integer> eliminarPrestatge(String id)
+            throws PrestatgeriaNotFoundException {
+        if(!prestatgeries.containsKey(id)){
+            throw new PrestatgeriaNotFoundException(id);
+        } else {
+            Prestatgeria pr = prestatgeries.get(id);
+            return pr.eliminarPrestatge();
+        }
+    }
+
 
     /**
      * Fija un producto en una prestatgeria, evitando que sea movido.
@@ -179,38 +213,7 @@ public class CtrlPrestatgeria {
         }
     }
 
-    /**
-     * Añade un prestatge a una prestatgeria existente.
-     *
-     * @param id Identificador de la prestatgeria.
-     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
-     */
-    public void afegirPrestatge(String id)
-            throws PrestatgeriaNotFoundException {
-        if(!prestatgeries.containsKey(id)){
-            throw new PrestatgeriaNotFoundException(id);
-        } else {
-            Prestatgeria pr = prestatgeries.get(id);
-            pr.afegirPrestatge();
-        }
-    }
 
-    /**
-     * Elimina un prestatge de una prestatgeria existente.
-     *
-     * @param id Identificador de la prestatgeria.
-     * @return Un mapa con los productos que estaban en el prestatge eliminado y sus cantidades.
-     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
-     */
-    public Map<String, Integer> eliminarPrestatge(String id)
-    throws PrestatgeriaNotFoundException, MidaPrestatgeriaMinException {
-        if(!prestatgeries.containsKey(id)){
-            throw new PrestatgeriaNotFoundException(id);
-        } else {
-            Prestatgeria pr = prestatgeries.get(id);
-            return pr.eliminarPrestatge();
-        }
-    }
 
     /**
      * Añade un producto a una prestatgeria.
@@ -232,6 +235,38 @@ public class CtrlPrestatgeria {
             pr.afegirProducte(nom, quantitat);
         }
     }
+
+    /**
+     * Elimina un producto de todas las prestatgeries.
+     *
+     * @param nom Nombre del producto.
+     */
+    public void eliminarProducte(String nom) {
+        for(Prestatgeria pr : prestatgeries.values()){
+            pr.eliminarProducteSinRevisarSiExiste(nom);
+        }
+    }
+
+    /**
+     * Mueve un producto de un hueco a otro dentro de una prestatgeria.
+     *
+     * @param idPrestatgeria Identificador de la prestatgeria.
+     * @param huecoOrigen    Índice del hueco origen.
+     * @param huecoDesti     Índice del hueco destino.
+     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
+     * @throws ProducteNotInHuecoException Si el producto no está en el hueco origen.
+     * @throws InvalidHuecosException Si los índices de los huecos son inválidos.
+     */
+    public void moureProducte(String idPrestatgeria, int huecoOrigen, int huecoDesti)
+            throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException {
+        if(!prestatgeries.containsKey(idPrestatgeria)){
+            throw new PrestatgeriaNotFoundException(idPrestatgeria);
+        } else {
+            Prestatgeria pr = prestatgeries.get(idPrestatgeria);
+            pr.moureProducte(huecoOrigen, huecoDesti);
+        }
+    }
+
 
     /**
      * Comprueba si un producto existe en una prestatgeria.
@@ -283,25 +318,7 @@ public class CtrlPrestatgeria {
         return prestatgeries.get(id);
     }
 
-    /**
-     * Mueve un producto de un hueco a otro dentro de una prestatgeria.
-     *
-     * @param idPrestatgeria Identificador de la prestatgeria.
-     * @param huecoOrigen    Índice del hueco origen.
-     * @param huecoDesti     Índice del hueco destino.
-     * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
-     * @throws ProducteNotInHuecoException Si el producto no está en el hueco origen.
-     * @throws InvalidHuecosException Si los índices de los huecos son inválidos.
-     */
-    public void moureProducte(String idPrestatgeria, int huecoOrigen, int huecoDesti)
-            throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException {
-        if(!prestatgeries.containsKey(idPrestatgeria)){
-            throw new PrestatgeriaNotFoundException(idPrestatgeria);
-        } else {
-            Prestatgeria pr = prestatgeries.get(idPrestatgeria);
-            pr.moureProducte(huecoOrigen, huecoDesti);
-        }
-    }
+
 
     /**
      * Obtiene la cantidad de un producto en una prestatgeria.
@@ -356,16 +373,7 @@ public class CtrlPrestatgeria {
         }
     }
 
-    /**
-     * Elimina un producto de todas las prestatgeries.
-     *
-     * @param nom Nombre del producto.
-     * @throws ProductNotFoundPrestatgeriaException Si el producto no se encuentra en ninguna prestatgeria.
-     */
-    public void eliminarProducte(String nom)
-            throws ProductNotFoundPrestatgeriaException {
-        for(Prestatgeria pr : prestatgeries.values()){
-            pr.eliminarProducte(nom);
-        }
-    }
+
+
+
 }

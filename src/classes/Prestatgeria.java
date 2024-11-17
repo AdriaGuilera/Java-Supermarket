@@ -1,6 +1,7 @@
 package classes;
 
 import Exepcions.*;
+import Exepcions.ProductNotFoundPrestatgeriaException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -90,6 +91,20 @@ public class Prestatgeria {
 			posicions.remove(pos);
 		} else {
 			throw new ProductNotFoundPrestatgeriaException(id, nomP);
+		}
+	}
+
+	/**
+	 * Elimina un producto de la prestatgeria.
+	 *
+	 * @param nomP Nombre del producto a eliminar.
+	 */
+	public void eliminarProducteSinRevisarSiExiste(String nomP)   {
+		if (productes.containsKey(nomP)) {
+			int pos = getPos(nomP);
+			productes.remove(nomP);
+			productesFixats.remove(nomP);
+			posicions.remove(pos);
 		}
 	}
 

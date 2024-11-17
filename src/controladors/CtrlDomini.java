@@ -1,7 +1,7 @@
 package controladors;
 
 import java.util.*;
-import Exepcions.*;
+import Excepcions.*;
 import classes.*;
 
 import static java.lang.Integer.min;
@@ -582,26 +582,26 @@ public class CtrlDomini {
      * Da de alta un nuevo producto en el sistema.
      *
      * @param nomProducte Nombre del producto.
-     * @param max_h       Máxima cantidad permitida en la prestatgeria.
-     * @param max_m       Máxima cantidad permitida en el almacén.
+     * @param maxHueco       Máxima cantidad permitida en la prestatgeria.
+     * @param maxMagatzem       Máxima cantidad permitida en el almacén.
      * @param stock       Cantidad inicial en el almacén.
      * @throws QuanitatInvalidException      Si las cantidades son inválidas.
      * @throws StockTooBigException          Si el stock inicial excede los límites.
      * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
      * @throws ProducteJaExisteixException   Si el producto ya existe en el sistema.
      */
-    public void altaProducte(String nomProducte, int max_h, int max_m, int stock)
+    public void altaProducte(String nomProducte, int maxHueco, int maxMagatzem, int stock)
     throws QuanitatInvalidException, StockTooBigException, IllegalArgumentException, ProducteJaExisteixException {
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
-        if (max_h<=0) {
+        if (maxHueco<=0) {
             throw new IllegalArgumentException("El maxim d'estock en prestatgeria ha de ser > 0");
         }
-        if (max_m <=0) {
+        if (maxMagatzem <=0) {
             throw new IllegalArgumentException("El maxim d'estock en magatzem ha de ser > 0");
         }
-        ctrlProducte.altaProducte(nomProducte, max_h, max_m,stock);
+        ctrlProducte.altaProducte(nomProducte, maxHueco, maxMagatzem,stock);
     }
 
     /**
@@ -610,8 +610,10 @@ public class CtrlDomini {
      * @param nomProducte Nombre del producto a eliminar.
      * @throws IllegalArgumentException         Si el argumento es nulo o vacío.
      * @throws ProductNotFoundMagatzemException Si el producto no se encuentra en el almacén.
+     * @throws ProductNotFoundCaixaException Si el producto no se encuentra en la caixa.
+     * @throws ProductNotFoundPrestatgeriaException Si el producto no se encuentra en la caixa.
      */
-    public void eliminarProducte(String nomProducte) throws IllegalArgumentException, ProductNotFoundMagatzemException {
+    public void eliminarProducte(String nomProducte) throws IllegalArgumentException, ProductNotFoundMagatzemException,ProductNotFoundCaixaException,ProductNotFoundPrestatgeriaException {
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
