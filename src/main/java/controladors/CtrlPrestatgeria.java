@@ -12,7 +12,7 @@ import classes.Prestatgeria;
 public class CtrlPrestatgeria {
 
     /** Mapa que almacena las prestatgeries con sus identificadores. */
-    public Map<String, classes.Prestatgeria> prestatgeries;
+    public Map<String, Prestatgeria> prestatgeries;
 
     /**
      * Constructor por defecto. Inicializa el mapa de prestatgeries.

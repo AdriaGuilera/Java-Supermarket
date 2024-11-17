@@ -1,4 +1,4 @@
-package main.java.drivers;
+package drivers;
 
 import Exepcions.ProductNotFoundCaixaException;
 import classes.Comanda;

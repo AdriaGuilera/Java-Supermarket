@@ -5,17 +5,20 @@ plugins {
     id 'application'
 }
 
+ext {
+    javaMainClass = 'drivers.DriverCtrlDomini'
+}
+
 application {
-    mainClass = 'drivers.DriverCtrlDomini'  // Adjust this to your main class
+    mainClassName = javaMainClass
 }
 
 jar {
     manifest {
-        attributes(
-                'Main-Class': application.mainClass.get()
-        )
+        attributes 'Main-Class': javaMainClass
     }
 }
+
 
 repositories {
     mavenCentral()           // Gradle descargará dependencias desde Maven Central
