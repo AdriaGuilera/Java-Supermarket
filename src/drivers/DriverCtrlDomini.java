@@ -753,7 +753,7 @@ public class DriverCtrlDomini {
             ctrlDomini.eliminarProducte(nom);
             System.out.println("Producto " + nom + " eliminado correctamente.");
         } catch (Exception e){
-                System.out.println("Producto " + nom + " eliminado correctamente.");
+                System.out.println("Error: " + e.getMessage());
         }
     }
 
