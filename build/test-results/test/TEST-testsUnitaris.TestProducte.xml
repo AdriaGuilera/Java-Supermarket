@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="testsUnitaris.TestProducte" tests="24" skipped="0" failures="0" errors="0" timestamp="2024-11-18T00:53:33" hostname="DESKTOP-OTOV9DL" time="0.017">
+<testsuite name="testsUnitaris.TestProducte" tests="24" skipped="0" failures="0" errors="0" timestamp="2024-11-18T12:33:11" hostname="DESKTOP-OTOV9DL" time="0.011">
   <properties/>
-  <testcase name="testIncrementarStockCantidadNegativa" classname="testsUnitaris.TestProducte" time="0.002"/>
-  <testcase name="testGetSimilitudProductoEliminado" classname="testsUnitaris.TestProducte" time="0.0"/>
-  <testcase name="testConstructor2" classname="testsUnitaris.TestProducte" time="0.001"/>
+  <testcase name="testIncrementarStockCantidadNegativa" classname="testsUnitaris.TestProducte" time="0.001"/>
+  <testcase name="testGetSimilitudProductoEliminado" classname="testsUnitaris.TestProducte" time="0.001"/>
+  <testcase name="testConstructor2" classname="testsUnitaris.TestProducte" time="0.0"/>
   <testcase name="testConstructor3" classname="testsUnitaris.TestProducte" time="0.001"/>
   <testcase name="testConstructor4" classname="testsUnitaris.TestProducte" time="0.0"/>
-  <testcase name="testConstructor5" classname="testsUnitaris.TestProducte" time="0.0"/>
+  <testcase name="testConstructor5" classname="testsUnitaris.TestProducte" time="0.001"/>
   <testcase name="testGetStockInicial" classname="testsUnitaris.TestProducte" time="0.0"/>
   <testcase name="testEliminarSimilitudExistente" classname="testsUnitaris.TestProducte" time="0.0"/>
-  <testcase name="testGetStockDespuesDeModificacion" classname="testsUnitaris.TestProducte" time="0.001"/>
-  <testcase name="testIncrementarStockExcedeLimite" classname="testsUnitaris.TestProducte" time="0.0"/>
-  <testcase name="testAfegirSimilitud" classname="testsUnitaris.TestProducte" time="0.001"/>
+  <testcase name="testGetStockDespuesDeModificacion" classname="testsUnitaris.TestProducte" time="0.0"/>
+  <testcase name="testIncrementarStockExcedeLimite" classname="testsUnitaris.TestProducte" time="0.001"/>
+  <testcase name="testAfegirSimilitud" classname="testsUnitaris.TestProducte" time="0.0"/>
   <testcase name="testEliminarSimilitudNoExistente" classname="testsUnitaris.TestProducte" time="0.001"/>
   <testcase name="testGetMaxMagatzem" classname="testsUnitaris.TestProducte" time="0.0"/>
-  <testcase name="testModStock" classname="testsUnitaris.TestProducte" time="0.0"/>
-  <testcase name="testAfegirSimilitudSobreescribeValor" classname="testsUnitaris.TestProducte" time="0.001"/>
+  <testcase name="testModStock" classname="testsUnitaris.TestProducte" time="0.001"/>
+  <testcase name="testAfegirSimilitudSobreescribeValor" classname="testsUnitaris.TestProducte" time="0.0"/>
   <testcase name="testDecrementarStockCantidadNegativa" classname="testsUnitaris.TestProducte" time="0.001"/>
-  <testcase name="testIncrementarStockDentroDeLimite" classname="testsUnitaris.TestProducte" time="0.0"/>
-  <testcase name="testGetNom" classname="testsUnitaris.TestProducte" time="0.001"/>
-  <testcase name="testDecrementarStockNormal" classname="testsUnitaris.TestProducte" time="0.0"/>
-  <testcase name="testGetMaxHueco" classname="testsUnitaris.TestProducte" time="0.001"/>
+  <testcase name="testIncrementarStockDentroDeLimite" classname="testsUnitaris.TestProducte" time="0.001"/>
+  <testcase name="testGetNom" classname="testsUnitaris.TestProducte" time="0.0"/>
+  <testcase name="testDecrementarStockNormal" classname="testsUnitaris.TestProducte" time="0.001"/>
+  <testcase name="testGetMaxHueco" classname="testsUnitaris.TestProducte" time="0.0"/>
   <testcase name="testGetSimilitudProductoNoExistente" classname="testsUnitaris.TestProducte" time="0.0"/>
-  <testcase name="testGetSimilitudProductoExistente" classname="testsUnitaris.TestProducte" time="0.0"/>
-  <testcase name="testIncrementarStockHastaLimite" classname="testsUnitaris.TestProducte" time="0.001"/>
+  <testcase name="testGetSimilitudProductoExistente" classname="testsUnitaris.TestProducte" time="0.001"/>
+  <testcase name="testIncrementarStockHastaLimite" classname="testsUnitaris.TestProducte" time="0.0"/>
   <testcase name="testConstructor" classname="testsUnitaris.TestProducte" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

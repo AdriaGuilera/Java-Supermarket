@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="testsUnitaris.TestCtrlDomini" tests="38" skipped="0" failures="0" errors="0" timestamp="2024-11-18T00:53:33" hostname="DESKTOP-OTOV9DL" time="0.074">
+<testsuite name="testsUnitaris.TestCtrlDomini" tests="38" skipped="0" failures="0" errors="0" timestamp="2024-11-18T12:33:11" hostname="DESKTOP-OTOV9DL" time="0.048">
   <properties/>
-  <testcase name="testRetirarProducteAMagatzem" classname="testsUnitaris.TestCtrlDomini" time="0.019"/>
+  <testcase name="testRetirarProducteAMagatzem" classname="testsUnitaris.TestCtrlDomini" time="0.013"/>
   <testcase name="testAfegirProductePrestatgeria" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAfegirProducteCaixaProductNotInPrestatgeria" classname="testsUnitaris.TestCtrlDomini" time="0.011"/>
+  <testcase name="testAfegirProducteCaixaProductNotInPrestatgeria" classname="testsUnitaris.TestCtrlDomini" time="0.008"/>
   <testcase name="testReposarPrestatgeria" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAfegirProductePrestatgeriaNomPrestatgeriaBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAfegirProducteComandaQuantitatZero" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testDecrementarProductePrestatgeria" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testAfegirProductePrestatgeriaNomPrestatgeriaBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testAfegirProducteComandaQuantitatZero" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testDecrementarProductePrestatgeria" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testAfegirProductePrestatgeriaNomProducteBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testAfegirProductePrestatgeriaProductNotFound" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testAfegirProductePrestatgeriaQuantitatZero" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
   <testcase name="testRetirarProducteCaixa" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
   <testcase name="testExecutarComandaAutomaitca" classname="testsUnitaris.TestCtrlDomini" time="0.003"/>
-  <testcase name="testAfegirProducteCaixaNomProducteBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAfegirProducteCaixaProductNotFound" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
+  <testcase name="testAfegirProducteCaixaNomProducteBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testAfegirProducteCaixaProductNotFound" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
   <testcase name="testAfegirSimilitudValorZero" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAfegirProducteComandaSuccess" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testEliminarSimilitudNom1Buit" classname="testsUnitaris.TestCtrlDomini" time="0.002"/>
+  <testcase name="testAfegirProducteComandaSuccess" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testEliminarSimilitudNom1Buit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testEliminarSimilitudNom2Buit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testAfegirProducteCaixaNomPrestatgeriaBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testAfegirProducteCaixaPrestatgeriaNotFound" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
+  <testcase name="testAfegirProducteCaixaPrestatgeriaNotFound" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
   <testcase name="testAfegirProducteComandaNomComandaBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAfegirPrestatgeriaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
+  <testcase name="testAfegirPrestatgeriaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
   <testcase name="testAfegirProductePrestatgeriaQuantitatNegativa" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testAfegirProducteCaixaQuantitatInvalid" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testEliminarComandaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testObtenirComandaAutomaticaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAltaProducteNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
+  <testcase name="testObtenirComandaAutomaticaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testAltaProducteNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
   <testcase name="testAfegirProductePrestatgeriaPrestatgeriaNotFound" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testEliminarProducteNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testEliminarProducteNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testAltaProducteMaxMagatzemZero" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testCrearComandaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testCrearComandaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testEliminarPrestatgeriaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testAfegirProducteCaixaSuccess" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAltaProducteMaxHuecoZero" classname="testsUnitaris.TestCtrlDomini" time="0.002"/>
+  <testcase name="testAfegirProducteCaixaSuccess" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testAltaProducteMaxHuecoZero" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testAfegirProducteComandaNomProducteBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAfegirSimilitudNom1Buit" classname="testsUnitaris.TestCtrlDomini" time="0.002"/>
-  <testcase name="testAfegirSimilitudNom2Buit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testRetirarProducteCaixaNomProducteBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
+  <testcase name="testAfegirSimilitudNom1Buit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testAfegirSimilitudNom2Buit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testRetirarProducteCaixaNomProducteBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
   <system-out><![CDATA[Comanda automàtica ComandaAuto creada correctament.
 getComanda realitzat correctament!
 getComanda realitzat correctament!

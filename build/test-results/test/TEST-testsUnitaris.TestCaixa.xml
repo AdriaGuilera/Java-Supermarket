@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="testsUnitaris.TestCaixa" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-11-18T00:53:32" hostname="DESKTOP-OTOV9DL" time="0.027">
+<testsuite name="testsUnitaris.TestCaixa" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-11-18T12:33:11" hostname="DESKTOP-OTOV9DL" time="0.023">
   <properties/>
   <testcase name="testPagar" classname="testsUnitaris.TestCaixa" time="0.005"/>
-  <testcase name="testAfegirProducteQuantitatNegativa" classname="testsUnitaris.TestCaixa" time="0.008"/>
-  <testcase name="testGetQuantitat" classname="testsUnitaris.TestCaixa" time="0.007"/>
+  <testcase name="testAfegirProducteQuantitatNegativa" classname="testsUnitaris.TestCaixa" time="0.007"/>
+  <testcase name="testGetQuantitat" classname="testsUnitaris.TestCaixa" time="0.006"/>
   <testcase name="testRetirarProducte" classname="testsUnitaris.TestCaixa" time="0.002"/>
-  <testcase name="testRetirarProducteNoExisteix" classname="testsUnitaris.TestCaixa" time="0.001"/>
+  <testcase name="testRetirarProducteNoExisteix" classname="testsUnitaris.TestCaixa" time="0.0"/>
   <testcase name="testPagarCaixaBuida" classname="testsUnitaris.TestCaixa" time="0.001"/>
-  <testcase name="testAfegirProducte" classname="testsUnitaris.TestCaixa" time="0.0"/>
-  <testcase name="testAfegirProducteQuantitatZero" classname="testsUnitaris.TestCaixa" time="0.001"/>
+  <testcase name="testAfegirProducte" classname="testsUnitaris.TestCaixa" time="0.001"/>
+  <testcase name="testAfegirProducteQuantitatZero" classname="testsUnitaris.TestCaixa" time="0.0"/>
   <system-out><![CDATA[return Caixa fet!
 return Caixa fet!
 ]]></system-out>

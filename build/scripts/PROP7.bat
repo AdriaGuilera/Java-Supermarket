@@ -68,7 +68,7 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\PROP7.jar
+set CLASSPATH=%APP_HOME%\lib\DriverCtrlDomini.jar
 
 
 @rem Execute PROP7

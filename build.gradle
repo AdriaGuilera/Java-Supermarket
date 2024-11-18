@@ -1,3 +1,5 @@
+
+
 plugins {
     id 'java'  // Aplica el plugin de Java
     id 'application'
@@ -8,15 +10,23 @@ ext {
 }
 
 application {
-    mainClassName = javaMainClass
+    mainClass = javaMainClass
 }
+
+
 
 jar {
     manifest {
         attributes 'Main-Class': javaMainClass
     }
+    archiveBaseName.set("DriverCtrlDomini")
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(22)
+    }
+}
 
 repositories {
     mavenCentral()           // Gradle descargará dependencias desde Maven Central
@@ -28,15 +38,5 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.hamcrest:hamcrest-core:1.3'
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
-    // Mockito Core
-    testImplementation 'org.mockito:mockito-core:4.9.0'
 
-    // Byte Buddy (para generación dinámica de clases en Mockito)
-    testImplementation 'net.bytebuddy:byte-buddy:1.12.16'
-    testImplementation 'net.bytebuddy:byte-buddy-agent:1.12.16'
-
-    // Objenesis (para instanciación de objetos en Mockito)
-    testImplementation 'org.objenesis:objenesis:3.3'
-    
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.0'
 }
