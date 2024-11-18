@@ -243,7 +243,7 @@ public class TestCtrlPrestatgeria {
     public void testDecrementarQuantitatProducteStockZero() throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundPrestatgeriaException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 10);
-        System.out.println(ctrlPrestatgeria.decrementarQuantitatProducte("ID1", "Producte A", 10));
+        ctrlPrestatgeria.decrementarQuantitatProducte("ID1", "Producte A", 10);
         assertEquals(0, ctrlPrestatgeria.decrementarQuantitatProducte("ID1", "Producte A", 5));
     }
 

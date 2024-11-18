@@ -262,7 +262,6 @@ public class CtrlProducte {
         if (!productesMagatzem.containsKey(nom)) {
             throw new ProductNotFoundMagatzemException(nom);
         }
-        System.out.println("Consulta del producte " + nom + " feta correctament!");
         return productesMagatzem.get(nom);
     }
 
@@ -272,7 +271,6 @@ public class CtrlProducte {
      * @return Un mapa con todos los productos.
      */
     public Map<String, Producte> getMagatzem() {
-        System.out.println("Consulta del magatzem feta correctament!");
         return productesMagatzem;
     }
 }

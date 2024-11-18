@@ -1,30 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="testsUnitaris.TestCtrlComandes" tests="17" skipped="0" failures="0" errors="0" timestamp="2024-11-18T12:33:11" hostname="DESKTOP-OTOV9DL" time="0.023">
+<testsuite name="testsUnitaris.TestCtrlComandes" tests="17" skipped="0" failures="0" errors="0" timestamp="2024-11-18T14:15:43" hostname="DESKTOP-OTOV9DL" time="0.025">
   <properties/>
   <testcase name="testCrearComandaDuplicadaLanzaExcepcion" classname="testsUnitaris.TestCtrlComandes" time="0.002"/>
-  <testcase name="testObtenirComandes" classname="testsUnitaris.TestCtrlComandes" time="0.0"/>
+  <testcase name="testObtenirComandes" classname="testsUnitaris.TestCtrlComandes" time="0.001"/>
   <testcase name="testEliminarComandaNoExistenteLanzaExcepcion" classname="testsUnitaris.TestCtrlComandes" time="0.002"/>
   <testcase name="testCrearComandaAutomatica" classname="testsUnitaris.TestCtrlComandes" time="0.001"/>
   <testcase name="testEliminarProductoConCantidadExactaEliminaProducto" classname="testsUnitaris.TestCtrlComandes" time="0.001"/>
-  <testcase name="testEliminarComanda" classname="testsUnitaris.TestCtrlComandes" time="0.0"/>
-  <testcase name="testEliminarGranCantidadProducteComanda" classname="testsUnitaris.TestCtrlComandes" time="0.001"/>
+  <testcase name="testEliminarComanda" classname="testsUnitaris.TestCtrlComandes" time="0.001"/>
+  <testcase name="testEliminarGranCantidadProducteComanda" classname="testsUnitaris.TestCtrlComandes" time="0.0"/>
   <testcase name="testEliminarProducteComanda_ComandaNoExiste" classname="testsUnitaris.TestCtrlComandes" time="0.004"/>
   <testcase name="testCrearComanda" classname="testsUnitaris.TestCtrlComandes" time="0.001"/>
-  <testcase name="testObtenirComandesInexistentesLanzaExcepcion" classname="testsUnitaris.TestCtrlComandes" time="0.001"/>
-  <testcase name="testGetComandaUnica" classname="testsUnitaris.TestCtrlComandes" time="0.001"/>
-  <testcase name="testCrearComandaAutomaticaConProductosCantidadCeroYaExiste" classname="testsUnitaris.TestCtrlComandes" time="0.001"/>
+  <testcase name="testObtenirComandesInexistentesLanzaExcepcion" classname="testsUnitaris.TestCtrlComandes" time="0.002"/>
+  <testcase name="testGetComandaUnica" classname="testsUnitaris.TestCtrlComandes" time="0.0"/>
+  <testcase name="testCrearComandaAutomaticaConProductosCantidadCeroYaExiste" classname="testsUnitaris.TestCtrlComandes" time="0.002"/>
   <testcase name="testAfegirProducteComanda_ComandaNoExiste" classname="testsUnitaris.TestCtrlComandes" time="0.002"/>
   <testcase name="testGetComandes" classname="testsUnitaris.TestCtrlComandes" time="0.001"/>
-  <testcase name="testAfegirProducteComanda" classname="testsUnitaris.TestCtrlComandes" time="0.0"/>
+  <testcase name="testAfegirProducteComanda" classname="testsUnitaris.TestCtrlComandes" time="0.001"/>
   <testcase name="testGetComandaUnicaInexistenteLanzaExcepcion" classname="testsUnitaris.TestCtrlComandes" time="0.001"/>
-  <testcase name="testEliminarProductoInexistenteLanzaExcepcionNoExistsProduct" classname="testsUnitaris.TestCtrlComandes" time="0.001"/>
-  <system-out><![CDATA[Comanda automàtica ComandaAuto creada correctament.
-getComanda realitzat correctament!
-getComanda realitzat correctament!
-getComanda realitzat correctament!
-getComanda realitzat correctament!
-getComandes realitzat correctament!
-getComanda realitzat correctament!
-]]></system-out>
+  <testcase name="testEliminarProductoInexistenteLanzaExcepcionNoExistsProduct" classname="testsUnitaris.TestCtrlComandes" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

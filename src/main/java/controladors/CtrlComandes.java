@@ -45,7 +45,6 @@ public class CtrlComandes {
      */
     public void crearComandaAutomatica(String nomComanda, Map<String, Integer> productosFaltantes) {
         crearComanda(nomComanda);
-        System.out.println("Comanda automàtica " + nomComanda + " creada correctament.");
         for (Map.Entry<String, Integer> entry : productosFaltantes.entrySet()) {
             afegirProducteComanda(nomComanda, entry.getKey(), entry.getValue());
         }
@@ -128,7 +127,6 @@ public class CtrlComandes {
      */
     public Comanda getComandaUnica(String nomComanda) throws ComandaNotFoundException {
         if (comandesCreades.containsKey(nomComanda)) {
-            System.out.println("getComanda realitzat correctament!");
             return comandesCreades.get(nomComanda);
         } else {
             throw new ComandaNotFoundException(nomComanda);
@@ -141,7 +139,6 @@ public class CtrlComandes {
      * @return Un mapa con todas las comandas creadas.
      */
     public Map<String, Comanda> getComandes() {
-        System.out.println("getComandes realitzat correctament!");
         return new HashMap<>(comandesCreades); // Retorna una copia para evitar modificaciones externas
     }
 

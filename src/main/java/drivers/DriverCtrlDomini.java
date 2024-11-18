@@ -163,21 +163,21 @@ public class DriverCtrlDomini {
             "   " + AFEGIR_PRESTATGE + " - Agregar un prestatge a Prestatgeria\n" +
             "   " + ELIMINAR_PRESTATGE + " - Eliminar un prestatge de Prestatgeria\n" +
             "   " + REPOSAR_PRESTATGERIA + " - Reposar Prestatgeria\n" +
-            "   " + CONSULTAR_PRESTATGERIA + " - Imprimir detalles de Prestatgeria\n" +
+            "   " + CONSULTAR_PRESTATGERIA + " - Consultar Prestatgeria\n" +
             "\n" +
             "GESTIÓ DE CAIXA:\n" +
             "   " + AFEGIR_PRODUCTE_CAIXA + " - Agregar producto a Caixa\n" +
             "   " + RETIRAR_PRODUCTE_CAIXA + " - Retirar producto de la Caixa\n" +
             "   " + PAGAR + " - Pagar y vaciar la Caixa\n" +
-            "   " + CONSULTAR_CAIXA + " - Imprimir detalles de Caixa\n" +
+            "   " + CONSULTAR_CAIXA + " - Consultar Caixa\n" +
             "\n" +
             "GESTIÓ DE MAGATZEM (PRODUCTES):\n" +
             "   " + ALTA_PRODUCTE + " - Dar de alta un nuevo producto\n" +
             "   " + ELIMINAR_PRODUCTE + " - Eliminar un producto\n" +
             "   " + AFEGIR_SIMILITUD + " - Agregar similitud entre productos\n" +
             "   " + ELIMINA_SIMILITUD + " - Eliminar similitud entre productos\n" +
-            "   " + CONSULTAR_PRODUCTE + " - Imprimir detalles de producto\n" +
-            "   " + CONSULTAR_MAGATZEM + " - Imprimir detalles de Magatzem\n" +
+            "   " + CONSULTAR_PRODUCTE + " - Consultar Producto\n" +
+            "   " + CONSULTAR_MAGATZEM + " - Consultar Magatzem\n" +
             "\n" +
             "EXTRAS:\n" +
             "   " + HELP + " - Mostrar comandos disponibles\n" +
@@ -322,6 +322,7 @@ public class DriverCtrlDomini {
         String nom = readLine(scanner);
         try {
             ctrlDomini.generarComandaAutomatica(nom);
+            System.out.println("Comanda automàtica " + nom + " creada correctament.");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }

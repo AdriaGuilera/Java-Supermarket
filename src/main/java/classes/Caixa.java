@@ -83,7 +83,6 @@ public class Caixa {
      * @return Mapa de productos y cantidades.
      */
     public Map<String, Integer> getTicket() {
-        System.out.println("return Caixa fet!");
         return productes;
     }
 

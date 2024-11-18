@@ -314,7 +314,6 @@ public class CtrlPrestatgeria {
         if(!prestatgeries.containsKey(id)){
             throw new PrestatgeriaNotFoundException(id);
         }
-        System.out.println("Consulta Prestategeria fet satisfactoriament!");
         return prestatgeries.get(id);
     }
 
