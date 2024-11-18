@@ -22,9 +22,6 @@ repositories {
     mavenCentral()           // Gradle descargará dependencias desde Maven Central
 }
 
-test {
-    useJUnitPlatform()
-}
 
 dependencies {
     // Dependencia para JUnit 4

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="testsUnitaris.TestAlgorismes" tests="6" skipped="0" failures="0" errors="0" timestamp="2024-11-18T00:53:32" hostname="DESKTOP-OTOV9DL" time="0.032">
+  <properties/>
+  <testcase name="testEncontrarMejorDistribucionBacktrackingConProductosFijos" classname="testsUnitaris.TestAlgorismes" time="0.018"/>
+  <testcase name="testEncontrarMejorDistribucionBacktracking1" classname="testsUnitaris.TestAlgorismes" time="0.001"/>
+  <testcase name="testDistribucionMixtaHillClimbing1" classname="testsUnitaris.TestAlgorismes" time="0.002"/>
+  <testcase name="testDistribucionMixtaHillClimbing2" classname="testsUnitaris.TestAlgorismes" time="0.002"/>
+  <testcase name="testDistribucionMixtaBacktracking1" classname="testsUnitaris.TestAlgorismes" time="0.002"/>
+  <testcase name="testDistribucionMixtaBacktracking2" classname="testsUnitaris.TestAlgorismes" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
