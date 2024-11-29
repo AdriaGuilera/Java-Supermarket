@@ -1,6 +1,5 @@
 package drivers;
 
-import Exepcions.ProductNotFoundCaixaException;
 import classes.Comanda;
 import classes.Prestatgeria;
 import classes.Producte;
@@ -769,12 +768,10 @@ public class DriverCtrlDomini {
         String nom2 = readLine(scanner);
         System.out.println("Valor de similitud:");
         float value = 0.0F;
-        boolean vacio = false;
         try {
             value = Float.parseFloat(readLine(scanner));
         } catch (Exception e) {
             System.out.println("Error: La similitud no puede estar vacía.");
-            vacio = true;
             return;
         }
         try {

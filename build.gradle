@@ -1,5 +1,3 @@
-
-
 plugins {
     id 'java'  // Aplica el plugin de Java
     id 'application'
@@ -42,5 +40,6 @@ dependencies {
 
     // Objenesis (para instanciación de objetos en Mockito)
     testImplementation 'org.objenesis:objenesis:3.3'
-
+    
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.0'
 }
