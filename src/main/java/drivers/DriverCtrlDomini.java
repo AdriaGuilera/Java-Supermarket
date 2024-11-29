@@ -965,7 +965,7 @@ public class DriverCtrlDomini {
      */
     public static void main(String[] args) {
         boolean run = true;
-
+        boolean mostrarHelp = true;
         // Check for file input
         if (args.length != 0) {
             try {
@@ -974,13 +974,14 @@ public class DriverCtrlDomini {
                 while (myReader.hasNextLine() && run)
                     run = commands(myReader.nextLine(), myReader);
                 myReader.close();
+                mostrarHelp=false;
             } catch (Exception e) {
                 System.out.println("ERROR: Arxiu no admès");
             }
         }
 
         // Interactive mode
-        if (run) System.out.println(HELPTEXT);
+        if (run && mostrarHelp) System.out.println(HELPTEXT);
         Scanner in = new Scanner(System.in);
         while (run)
             run = commands(in.nextLine(), in);
