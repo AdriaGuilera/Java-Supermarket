@@ -68,7 +68,7 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\DriverCtrlDomini.jar
+set CLASSPATH=%APP_HOME%\lib\DriverCtrlDomini.jar;%APP_HOME%\lib\jackson-annotations-2.15.0.jar;%APP_HOME%\lib\jackson-core-2.15.0.jar;%APP_HOME%\lib\jackson-databind-2.15.0.jar;%APP_HOME%\lib\fastdoubleparser-0.8.0.jar
 
 
 @rem Execute prop5

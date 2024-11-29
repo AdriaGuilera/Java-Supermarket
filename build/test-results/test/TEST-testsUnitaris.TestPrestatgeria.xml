@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="testsUnitaris.TestPrestatgeria" tests="21" skipped="0" failures="0" errors="0" timestamp="2024-11-29T19:19:47" hostname="DESKTOP-OTOV9DL" time="0.015">
+<testsuite name="testsUnitaris.TestPrestatgeria" tests="21" skipped="0" failures="0" errors="0" timestamp="2024-11-29T19:46:03" hostname="DESKTOP-OTOV9DL" time="0.006">
   <properties/>
-  <testcase name="testMoureProducteHuecoJaOcupat" classname="testsUnitaris.TestPrestatgeria" time="0.001"/>
-  <testcase name="testAfegirProducteQuantitatNegativa" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
-  <testcase name="testDesfixarProducteNoExistent" classname="testsUnitaris.TestPrestatgeria" time="0.001"/>
-  <testcase name="testFixarProducte" classname="testsUnitaris.TestPrestatgeria" time="0.001"/>
+  <testcase name="testMoureProducteHuecoJaOcupat" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
+  <testcase name="testAfegirProducteQuantitatNegativa" classname="testsUnitaris.TestPrestatgeria" time="0.001"/>
+  <testcase name="testDesfixarProducteNoExistent" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
+  <testcase name="testFixarProducte" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
   <testcase name="testAfegirProductePrestatgeriaPlena" classname="testsUnitaris.TestPrestatgeria" time="0.001"/>
   <testcase name="testDecrementarQuantitatProducteQuantitatNegativa" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
   <testcase name="AfegirProducteQuantitatZero" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
-  <testcase name="testDecrementarQuantitatProducte" classname="testsUnitaris.TestPrestatgeria" time="0.001"/>
+  <testcase name="testDecrementarQuantitatProducte" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
   <testcase name="testAfegirProducteJaExisteix" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
-  <testcase name="testDecrementarQuantitatProducteNoExisteix" classname="testsUnitaris.TestPrestatgeria" time="0.001"/>
+  <testcase name="testDecrementarQuantitatProducteNoExisteix" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
   <testcase name="testEliminarPrestatge" classname="testsUnitaris.TestPrestatgeria" time="0.001"/>
   <testcase name="testDesfixarProducte" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
-  <testcase name="testDesfixarProducteNoFixat" classname="testsUnitaris.TestPrestatgeria" time="0.001"/>
+  <testcase name="testDesfixarProducteNoFixat" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
   <testcase name="testFixarProducteJaFixat" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
-  <testcase name="testMoureProductePrestatgeriaPlena" classname="testsUnitaris.TestPrestatgeria" time="0.001"/>
-  <testcase name="testAfegirProducte" classname="testsUnitaris.TestPrestatgeria" time="0.001"/>
+  <testcase name="testMoureProductePrestatgeriaPlena" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
+  <testcase name="testAfegirProducte" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
   <testcase name="testAfegirPrestatge" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
-  <testcase name="testEliminarPrestatgeAmbProductes" classname="testsUnitaris.TestPrestatgeria" time="0.001"/>
-  <testcase name="testMoureProducteHuecoDestiNoExisteix" classname="testsUnitaris.TestPrestatgeria" time="0.001"/>
+  <testcase name="testEliminarPrestatgeAmbProductes" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
+  <testcase name="testMoureProducteHuecoDestiNoExisteix" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
   <testcase name="testMoureProducte" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
-  <testcase name="testFixarProducteHuecoNoExisteix" classname="testsUnitaris.TestPrestatgeria" time="0.001"/>
+  <testcase name="testFixarProducteHuecoNoExisteix" classname="testsUnitaris.TestPrestatgeria" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
