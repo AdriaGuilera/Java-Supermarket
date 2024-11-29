@@ -21,7 +21,7 @@ public class Database {
 
     //Guarda los nombres de los archivos cargados para poder borrar los que no se se hayan eliminado
     private final Set<String> loadedComandes;
-    private final Set<String> loadedProductes; 
+    private final Set<String> loadedProductes;
     private final Set<String> loadedPrestatgeries;
 
     //Constructor de la clase Database
@@ -71,7 +71,7 @@ public class Database {
         return objectMapper.readValue(file, Caixa.class);
     }
 
-    //Guarda las comandas en un archivo json, si se eliminan comandas, se eliminan los archivos correspondientes y 
+    //Guarda las comandas en un archivo json, si se eliminan comandas, se eliminan los archivos correspondientes y
     //si se modifican, se sobreescriben los archivos correspondientes
     public void saveComandes(Collection<Comanda> comandes) throws IOException {
 
@@ -98,7 +98,7 @@ public class Database {
 
         loadedComandes.clear();
     }
-    //Guarda los productos en un archivo json, si se eliminan productos, se eliminan los archivos correspondientes y 
+    //Guarda los productos en un archivo json, si se eliminan productos, se eliminan los archivos correspondientes y
     //si se modifican, se sobreescriben los archivos correspondientes
     public void saveProductes(Collection<Producte> productes) throws IOException {
         // Get current producte IDs
@@ -125,7 +125,7 @@ public class Database {
         loadedProductes.clear();
     }
 
-    //Guarda las prestatgeries en un archivo json, si se eliminan prestatgeries, se eliminan los archivos correspondientes y 
+    //Guarda las prestatgeries en un archivo json, si se eliminan prestatgeries, se eliminan los archivos correspondientes y
     //si se modifican, se sobreescriben los archivos correspondientes
     public void savePrestatgeries(Collection<Prestatgeria> prestatgeries) throws IOException {
         // Get current prestatgeria IDs
@@ -151,7 +151,7 @@ public class Database {
 
         loadedPrestatgeries.clear();
     }
-    
+
     public void saveCaixa(Caixa caixa) throws IOException {
         objectMapper.writeValue(new File(CAIXA_PATH), caixa);
     }

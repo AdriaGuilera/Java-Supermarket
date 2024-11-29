@@ -17,7 +17,7 @@
 @if "%DEBUG%"=="" @echo off
 @rem ##########################################################################
 @rem
-@rem  PROP7 startup script for Windows
+@rem  prop5 startup script for Windows
 @rem
 @rem ##########################################################################
 
@@ -33,7 +33,7 @@ set APP_HOME=%DIRNAME%..
 @rem Resolve any "." and ".." in APP_HOME to make it shorter.
 for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi
 
-@rem Add default JVM options here. You can also use JAVA_OPTS and PRO_P7_OPTS to pass JVM options to this script.
+@rem Add default JVM options here. You can also use JAVA_OPTS and PROP5_OPTS to pass JVM options to this script.
 set DEFAULT_JVM_OPTS=
 
 @rem Find java.exe
@@ -71,19 +71,19 @@ goto fail
 set CLASSPATH=%APP_HOME%\lib\DriverCtrlDomini.jar
 
 
-@rem Execute PROP7
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %PRO_P7_OPTS%  -classpath "%CLASSPATH%" drivers.DriverCtrlDomini %*
+@rem Execute prop5
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %PROP5_OPTS%  -classpath "%CLASSPATH%" drivers.DriverCtrlDomini %*
 
 :end
 @rem End local scope for the variables with windows NT shell
 if %ERRORLEVEL% equ 0 goto mainEnd
 
 :fail
-rem Set variable PRO_P7_EXIT_CONSOLE if you need the _script_ return code instead of
+rem Set variable PROP5_EXIT_CONSOLE if you need the _script_ return code instead of
 rem the _cmd.exe /c_ return code!
 set EXIT_CODE=%ERRORLEVEL%
 if %EXIT_CODE% equ 0 set EXIT_CODE=1
-if not ""=="%PRO_P7_EXIT_CONSOLE%" exit %EXIT_CODE%
+if not ""=="%PROP5_EXIT_CONSOLE%" exit %EXIT_CODE%
 exit /b %EXIT_CODE%
 
 :mainEnd

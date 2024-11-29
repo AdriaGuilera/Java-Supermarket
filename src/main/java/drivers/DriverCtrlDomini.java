@@ -1,5 +1,6 @@
 package drivers;
 
+
 import classes.Comanda;
 import classes.Prestatgeria;
 import classes.Producte;
@@ -769,10 +770,12 @@ public class DriverCtrlDomini {
         String nom2 = readLine(scanner);
         System.out.println("Valor de similitud:");
         float value = 0.0F;
+
         try {
             value = Float.parseFloat(readLine(scanner));
         } catch (Exception e) {
             System.out.println("Error: La similitud no puede estar vacía.");
+
             return;
         }
         try {
