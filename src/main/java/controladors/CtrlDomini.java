@@ -36,12 +36,13 @@ public class CtrlDomini {
      * @param nomComanda Nombre de la comanda.
      * @throws IllegalArgumentException Si el nombre de la comanda es nulo o vacío.
      */
-    public Comanda crearComanda(String nomComanda) throws IllegalArgumentException {
+    public void crearComanda(String nomComanda) throws IllegalArgumentException {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
-        return ctrlComandes.crearComanda(nomComanda);
+        ctrlComandes.crearComanda(nomComanda);
     }
+
 
     /**
      * Elimina una comanda existente.

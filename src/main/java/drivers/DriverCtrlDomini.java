@@ -219,26 +219,12 @@ public class DriverCtrlDomini {
         System.out.println("Nombre de la Comanda:");
         String nomComanda = readLine(scanner);
         try {
-            // Crear la comanda
-            Comanda comanda = ctrlDomini.crearComanda(nomComanda);
-            System.out.println("Comanda " + nomComanda + " creada correctamente.");
-
-            // Obtener la ruta del directorio resources
-            String resourcePath = Paths.get("src", "main", "resources", "comandes", nomComanda + ".json").toString();
-
-            File jsonFile = new File(resourcePath);
-            // Serializar la comanda a un archivo JSON en el directorio resources
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.enable(SerializationFeature.INDENT_OUTPUT); // Para un JSON legible
-            objectMapper.writeValue(jsonFile, comanda);
-
-            System.out.println("Comanda guardada en el archivo " + resourcePath);
-
-        } catch (IOException e) {
-            System.out.println("Error al guardar la comanda en archivo JSON:  " + e.getMessage());
+            ctrlDomini.crearComanda(nomComanda);
+            System.out.println("Comanda " + nomComanda + " creada correctament.");
         } catch (Exception e) {
-            System.out.println("Error1:  " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
+
     }
 
     /**
@@ -852,6 +838,9 @@ public class DriverCtrlDomini {
         return ctrlDomini.getMagatzem();
     }
 
+    public static void testGuardar(Scanner scanner) {
+
+    }
 
     /**
      * Ejecuta un comando específico basado en la entrada del usuario.

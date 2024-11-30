@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="testsUnitaris.TestComanda" tests="16" skipped="0" failures="0" errors="0" timestamp="2024-11-29T23:46:22" hostname="DESKTOP-OTOV9DL" time="0.03">
+<testsuite name="testsUnitaris.TestComanda" tests="16" skipped="0" failures="0" errors="0" timestamp="2024-11-30T21:59:55" hostname="DESKTOP-OTOV9DL" time="0.051">
   <properties/>
-  <testcase name="testConteProducte_ProductoExistente" classname="testsUnitaris.TestComanda" time="0.0"/>
-  <testcase name="testAfegirProducte_ActualizarCantidad" classname="testsUnitaris.TestComanda" time="0.002"/>
+  <testcase name="testConteProducte_ProductoExistente" classname="testsUnitaris.TestComanda" time="0.001"/>
+  <testcase name="testAfegirProducte_ActualizarCantidad" classname="testsUnitaris.TestComanda" time="0.003"/>
   <testcase name="testGetQuantitat_ProductoExistente" classname="testsUnitaris.TestComanda" time="0.0"/>
-  <testcase name="testAfegirProducte_ProductoNuevo" classname="testsUnitaris.TestComanda" time="0.001"/>
-  <testcase name="testEliminarProducte_AunExisteCantidad" classname="testsUnitaris.TestComanda" time="0.0"/>
-  <testcase name="testComanda_GranCantidadDeProductos" classname="testsUnitaris.TestComanda" time="0.018"/>
-  <testcase name="testEliminarProducte_ProductoExistente" classname="testsUnitaris.TestComanda" time="0.001"/>
-  <testcase name="testGetOrdres" classname="testsUnitaris.TestComanda" time="0.0"/>
+  <testcase name="testAfegirProducte_ProductoNuevo" classname="testsUnitaris.TestComanda" time="0.0"/>
+  <testcase name="testEliminarProducte_AunExisteCantidad" classname="testsUnitaris.TestComanda" time="0.001"/>
+  <testcase name="testComanda_GranCantidadDeProductos" classname="testsUnitaris.TestComanda" time="0.028"/>
+  <testcase name="testEliminarProducte_ProductoExistente" classname="testsUnitaris.TestComanda" time="0.0"/>
+  <testcase name="testGetOrdres" classname="testsUnitaris.TestComanda" time="0.001"/>
   <testcase name="testGetNom" classname="testsUnitaris.TestComanda" time="0.001"/>
   <testcase name="testEliminarProducte_MasCantidadDeLaQueExiste" classname="testsUnitaris.TestComanda" time="0.001"/>
-  <testcase name="testConteProducte_ProductoNoExistente" classname="testsUnitaris.TestComanda" time="0.0"/>
-  <testcase name="testGetQuantitat_ProductoNoExistente" classname="testsUnitaris.TestComanda" time="0.003"/>
-  <testcase name="testEliminarProducte_ProductoNoExistente" classname="testsUnitaris.TestComanda" time="0.001"/>
-  <testcase name="testEliminarProducte_EnPasos" classname="testsUnitaris.TestComanda" time="0.0"/>
-  <testcase name="testGetOrdres_Inmutabilidad" classname="testsUnitaris.TestComanda" time="0.001"/>
+  <testcase name="testConteProducte_ProductoNoExistente" classname="testsUnitaris.TestComanda" time="0.001"/>
+  <testcase name="testGetQuantitat_ProductoNoExistente" classname="testsUnitaris.TestComanda" time="0.005"/>
+  <testcase name="testEliminarProducte_ProductoNoExistente" classname="testsUnitaris.TestComanda" time="0.003"/>
+  <testcase name="testEliminarProducte_EnPasos" classname="testsUnitaris.TestComanda" time="0.001"/>
+  <testcase name="testGetOrdres_Inmutabilidad" classname="testsUnitaris.TestComanda" time="0.0"/>
   <testcase name="testConstructor" classname="testsUnitaris.TestComanda" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

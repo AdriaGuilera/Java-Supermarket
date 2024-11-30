@@ -32,17 +32,13 @@ public class CtrlComandes {
      * @param nomComanda Nombre de la comanda a crear.
      * @throws IllegalArgumentException Si ya existe una comanda con ese nombre.
      */
-    public Comanda crearComanda(String nomComanda) {
-        // Construir la ruta del archivo JSON en resources/comandes
-        String resourcePath = Paths.get("src", "main", "resources", "comandes", nomComanda + ".json").toString();
-        File jsonFile = new File(resourcePath);
-
-        // Comprobar si el archivo ya existe
-        if (jsonFile.exists()) {
-            throw new IllegalArgumentException("Ja existeix una comanda amb aquest nom al directori.");
+    public void crearComanda(String nomComanda) {
+        if (comandesCreades.containsKey(nomComanda)) {
+            throw new IllegalArgumentException("Ja existeix una comanda amb aquest nom.");
         }
-        return new Comanda(nomComanda);
+        comandesCreades.put(nomComanda, new Comanda(nomComanda));
     }
+
 
     /**
      * Crea una comanda automática con productos especificados.
