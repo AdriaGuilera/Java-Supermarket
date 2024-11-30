@@ -14,7 +14,7 @@ public class Database {
     private static final String COMANDES_PATH = RESOURCES_PATH + "comandes/";
     private static final String PRODUCTES_PATH = RESOURCES_PATH + "productes/";
     private static final String PRESTATGERIES_PATH = RESOURCES_PATH + "prestatgeries/";
-    private static final String CAIXA_PATH = RESOURCES_PATH + "caixa.json";
+    private static final String CAIXA_PATH = RESOURCES_PATH + "caixa/caixa.json";
 
 
     private final ObjectMapper objectMapper;

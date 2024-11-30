@@ -7,10 +7,16 @@ import classes.Producte;
 import controladors.CtrlDomini;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 /**
  * Esta es una clase driver para probar la funcionalidad de la clase CtrlDomini.
  * Proporciona una interfaz de línea de comandos para probar operaciones relacionadas con
@@ -208,14 +214,30 @@ public class DriverCtrlDomini {
      *
      * @param scanner Scanner para leer los datos de entrada.
      */
+
     public static void testCrearComanda(Scanner scanner) {
         System.out.println("Nombre de la Comanda:");
         String nomComanda = readLine(scanner);
         try {
-            ctrlDomini.crearComanda(nomComanda);
-            System.out.println("Comanda " + nomComanda + " creada correctament.");
+            // Crear la comanda
+            Comanda comanda = ctrlDomini.crearComanda(nomComanda);
+            System.out.println("Comanda " + nomComanda + " creada correctamente.");
+
+            // Obtener la ruta del directorio resources
+            String resourcePath = Paths.get("src", "main", "resources", "comandes", nomComanda + ".json").toString();
+
+            File jsonFile = new File(resourcePath);
+            // Serializar la comanda a un archivo JSON en el directorio resources
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.enable(SerializationFeature.INDENT_OUTPUT); // Para un JSON legible
+            objectMapper.writeValue(jsonFile, comanda);
+
+            System.out.println("Comanda guardada en el archivo " + resourcePath);
+
+        } catch (IOException e) {
+            System.out.println("Error al guardar la comanda en archivo JSON:  " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error1:  " + e.getMessage());
         }
     }
 

@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="testsUnitaris.TestCtrlProducte" tests="29" skipped="0" failures="0" errors="0" timestamp="2024-11-29T19:46:03" hostname="DESKTOP-OTOV9DL" time="0.018">
+<testsuite name="testsUnitaris.TestCtrlProducte" tests="29" skipped="0" failures="0" errors="0" timestamp="2024-11-29T23:46:22" hostname="DESKTOP-OTOV9DL" time="0.023">
   <properties/>
   <testcase name="testAltaProducte" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
   <testcase name="testEliminarSimilitudProducto1NoExiste" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
-  <testcase name="testGetMaxHuecoNotFound" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
+  <testcase name="testGetMaxHuecoNotFound" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
   <testcase name="testAfegirSimilitudProducto1NoExiste" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
   <testcase name="testDecrementarStockNegativeQuantity" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
-  <testcase name="testGetProducteNotFound" classname="testsUnitaris.TestCtrlProducte" time="0.002"/>
+  <testcase name="testGetProducteNotFound" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
   <testcase name="testEliminarSimilitud" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
-  <testcase name="testGetSimilitudFirstProductNull" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
+  <testcase name="testGetSimilitudFirstProductNull" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
   <testcase name="testIncrementarStock" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
   <testcase name="testAfegirSimilitud" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
-  <testcase name="testGetStockMagatzemNotFound" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
+  <testcase name="testGetStockMagatzemNotFound" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
   <testcase name="testEliminarSimilitudMismoProducto" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
-  <testcase name="testGetProducte" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
+  <testcase name="testGetProducte" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
   <testcase name="testExecutarComandesValid" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
   <testcase name="testEliminarProducteNoExistente" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
-  <testcase name="testObtenirComandaAutomatica" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
+  <testcase name="testObtenirComandaAutomatica" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
   <testcase name="testExecutarComandesValid2" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
-  <testcase name="testIncrementarStockProductoNoExistente" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
-  <testcase name="testAltaProducteYaExistente" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
-  <testcase name="testEliminarSimilitudProducto2NoExiste" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
+  <testcase name="testIncrementarStockProductoNoExistente" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
+  <testcase name="testAltaProducteYaExistente" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
+  <testcase name="testEliminarSimilitudProducto2NoExiste" classname="testsUnitaris.TestCtrlProducte" time="0.002"/>
   <testcase name="testAfegirSimilitudProducto2NoExiste" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
-  <testcase name="testDecrementarStock" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
-  <testcase name="testDecrementarStockNonExistentProduct" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
+  <testcase name="testDecrementarStock" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
+  <testcase name="testDecrementarStockNonExistentProduct" classname="testsUnitaris.TestCtrlProducte" time="0.002"/>
   <testcase name="testGetMagatzem" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
   <testcase name="testEliminarProducte" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
   <testcase name="testGetMaxHueco" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
-  <testcase name="testAfegirSimilitudMismoProducto" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
-  <testcase name="testGetSimilitudSecondProductNull" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
+  <testcase name="testAfegirSimilitudMismoProducto" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
+  <testcase name="testGetSimilitudSecondProductNull" classname="testsUnitaris.TestCtrlProducte" time="0.001"/>
   <testcase name="testIncrementarStockHastaMaximo" classname="testsUnitaris.TestCtrlProducte" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

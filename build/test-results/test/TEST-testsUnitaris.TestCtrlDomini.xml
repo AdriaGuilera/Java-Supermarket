@@ -1,41 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="testsUnitaris.TestCtrlDomini" tests="38" skipped="0" failures="0" errors="0" timestamp="2024-11-29T19:46:03" hostname="DESKTOP-OTOV9DL" time="0.042">
+<testsuite name="testsUnitaris.TestCtrlDomini" tests="38" skipped="0" failures="2" errors="0" timestamp="2024-11-29T23:46:22" hostname="DESKTOP-OTOV9DL" time="0.079">
   <properties/>
-  <testcase name="testRetirarProducteAMagatzem" classname="testsUnitaris.TestCtrlDomini" time="0.012"/>
+  <testcase name="testRetirarProducteAMagatzem" classname="testsUnitaris.TestCtrlDomini" time="0.027"/>
   <testcase name="testAfegirProductePrestatgeria" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testAfegirProducteCaixaProductNotInPrestatgeria" classname="testsUnitaris.TestCtrlDomini" time="0.009"/>
+  <testcase name="testAfegirProducteCaixaProductNotInPrestatgeria" classname="testsUnitaris.TestCtrlDomini" time="0.01"/>
   <testcase name="testReposarPrestatgeria" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testAfegirProductePrestatgeriaNomPrestatgeriaBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAfegirProducteComandaQuantitatZero" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
+  <testcase name="testAfegirProducteComandaQuantitatZero" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
   <testcase name="testDecrementarProductePrestatgeria" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
   <testcase name="testAfegirProductePrestatgeriaNomProducteBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAfegirProductePrestatgeriaProductNotFound" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAfegirProductePrestatgeriaQuantitatZero" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testRetirarProducteCaixa" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testExecutarComandaAutomaitca" classname="testsUnitaris.TestCtrlDomini" time="0.002"/>
-  <testcase name="testAfegirProducteCaixaNomProducteBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAfegirProducteCaixaProductNotFound" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAfegirSimilitudValorZero" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testAfegirProducteComandaSuccess" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testEliminarSimilitudNom1Buit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testEliminarSimilitudNom2Buit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAfegirProducteCaixaNomPrestatgeriaBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testAfegirProductePrestatgeriaProductNotFound" classname="testsUnitaris.TestCtrlDomini" time="0.005"/>
+  <testcase name="testAfegirProductePrestatgeriaQuantitatZero" classname="testsUnitaris.TestCtrlDomini" time="0.005"/>
+  <testcase name="testRetirarProducteCaixa" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
+  <testcase name="testExecutarComandaAutomaitca" classname="testsUnitaris.TestCtrlDomini" time="0.01">
+    <failure message="Exepcions.ComandaNotFoundException: No existeix la comanda ComandaAuto" type="Exepcions.ComandaNotFoundException">Exepcions.ComandaNotFoundException: No existeix la comanda ComandaAuto
+	at app//controladors.CtrlComandes.afegirProducteComanda(CtrlComandes.java:78)
+	at app//controladors.CtrlComandes.crearComandaAutomatica(CtrlComandes.java:49)
+	at app//controladors.CtrlDomini.generarComandaAutomatica(CtrlDomini.java:149)
+	at app//testsUnitaris.TestCtrlDomini.testExecutarComandaAutomaitca(TestCtrlDomini.java:114)
+	at java.base@22.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@22.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at app//org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at app//org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at app//org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at app//org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at app//org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at app//org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at app//org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at app//org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at app//org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at app//org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at app//org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+	at app//org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at app//org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at app//org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at app//org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at app//org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:112)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:40)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:60)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:52)
+	at java.base@22.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@22.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)
+	at jdk.proxy1/jdk.proxy1.$Proxy2.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$2.run(TestWorker.java:176)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:129)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:100)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:60)
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:119)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:66)
+	at app//worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
+	at app//worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
+</failure>
+  </testcase>
+  <testcase name="testAfegirProducteCaixaNomProducteBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testAfegirProducteCaixaProductNotFound" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testAfegirSimilitudValorZero" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
+  <testcase name="testAfegirProducteComandaSuccess" classname="testsUnitaris.TestCtrlDomini" time="0.001">
+    <failure message="Exepcions.ComandaNotFoundException: No existeix la comanda Comanda1" type="Exepcions.ComandaNotFoundException">Exepcions.ComandaNotFoundException: No existeix la comanda Comanda1
+	at app//controladors.CtrlDomini.afegirProducteComanda(CtrlDomini.java:83)
+	at app//testsUnitaris.TestCtrlDomini.testAfegirProducteComandaSuccess(TestCtrlDomini.java:183)
+	at java.base@22.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@22.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at app//org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at app//org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at app//org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at app//org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at app//org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at app//org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at app//org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at app//org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at app//org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at app//org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at app//org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at app//org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+	at app//org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at app//org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at app//org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at app//org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at app//org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:112)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:40)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:60)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:52)
+	at java.base@22.0.2/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base@22.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)
+	at jdk.proxy1/jdk.proxy1.$Proxy2.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$2.run(TestWorker.java:176)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:129)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:100)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:60)
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:119)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:66)
+	at app//worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
+	at app//worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
+</failure>
+  </testcase>
+  <testcase name="testEliminarSimilitudNom1Buit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
+  <testcase name="testEliminarSimilitudNom2Buit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testAfegirProducteCaixaNomPrestatgeriaBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testAfegirProducteCaixaPrestatgeriaNotFound" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testAfegirProducteComandaNomComandaBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
   <testcase name="testAfegirPrestatgeriaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testAfegirProductePrestatgeriaQuantitatNegativa" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testAfegirProducteCaixaQuantitatInvalid" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testAfegirProducteCaixaQuantitatInvalid" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testEliminarComandaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testObtenirComandaAutomaticaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testAltaProducteNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
+  <testcase name="testObtenirComandaAutomaticaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
+  <testcase name="testAltaProducteNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
   <testcase name="testAfegirProductePrestatgeriaPrestatgeriaNotFound" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testEliminarProducteNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testAltaProducteMaxMagatzemZero" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
+  <testcase name="testEliminarProducteNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
+  <testcase name="testAltaProducteMaxMagatzemZero" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
   <testcase name="testCrearComandaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testEliminarPrestatgeriaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
-  <testcase name="testAfegirProducteCaixaSuccess" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testEliminarPrestatgeriaNomBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testAfegirProducteCaixaSuccess" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testAltaProducteMaxHuecoZero" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
-  <testcase name="testAfegirProducteComandaNomProducteBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
+  <testcase name="testAfegirProducteComandaNomProducteBuit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testAfegirSimilitudNom1Buit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>
   <testcase name="testAfegirSimilitudNom2Buit" classname="testsUnitaris.TestCtrlDomini" time="0.001"/>
   <testcase name="testRetirarProducteCaixaNomProducteBuit" classname="testsUnitaris.TestCtrlDomini" time="0.0"/>

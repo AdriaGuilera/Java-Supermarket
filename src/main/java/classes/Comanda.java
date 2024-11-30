@@ -14,6 +14,12 @@ public class Comanda {
     private String nom; // Nombre de la comanda
     private Map<String, Integer> ordres; // Mapa de productos y cantidades
 
+    // Constructor sin argumentos
+    public Comanda() {
+        this.nom = "";
+        this.ordres = new HashMap<>();
+    }
+
     /**
      * Constructor de la clase Comanda.
      *
@@ -59,14 +65,7 @@ public class Comanda {
         }
     }
 
-    /**
-     * Obtiene el nombre de la comanda.
-     *
-     * @return El nombre de la comanda.
-     */
-    public String getNom() {
-        return nom;
-    }
+
 
     /**
      * Verifica si un producto específico está presente en la comanda.
@@ -93,6 +92,18 @@ public class Comanda {
         return quantitat;
     }
 
+
+    /**
+     * Obtiene el nombre de la comanda.
+     *
+     * @return El nombre de la comanda.
+     */
+    public String getNom() {
+        return nom;
+    }
+
+
+
     /**
      * Obtiene el mapa de productos y cantidades de la comanda.
      *
@@ -100,5 +111,15 @@ public class Comanda {
      */
     public Map<String, Integer> getOrdres() {
         return new HashMap<>(ordres); // Retorna una copia para evitar modificaciones externas
+    }
+
+
+    // Setters
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setOrdres(Map<String, Integer> ordres) {
+        this.ordres = ordres;
     }
 }
