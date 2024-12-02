@@ -162,4 +162,21 @@ public class Database {
         savePrestatgeries(prestatgeries);
         saveCaixa(caixa);
     }
+
+    //Existeixen
+
+    public boolean existeixComanda(String id) {
+        File file = new File(COMANDES_PATH + id + ".json");
+        return file.exists();
+    }
+    public boolean existeixProducte(String id){
+        File file = new File(PRODUCTES_PATH + id + ".json");
+        return file.exists();
+    }
+    public boolean existeixPrestatgeria(String id) {
+        File file = new File(PRESTATGERIES_PATH + id + ".json");
+        return file.exists();
+    }
+
+
 }

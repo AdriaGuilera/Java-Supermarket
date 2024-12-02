@@ -6,6 +6,7 @@ import classes.Prestatgeria;
 import classes.Producte;
 import controladors.CtrlDomini;
 
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Arrays;
@@ -30,6 +31,9 @@ public class DriverCtrlDomini {
 
 
     // Comanda
+    /** Comando para crear una Comanda. */
+    private static final String GUARDAR = "0";
+
     /** Comando para crear una Comanda. */
     private static final String CREAR_COMANDA = "1";
 
@@ -147,6 +151,7 @@ public class DriverCtrlDomini {
     /** Texto de ayuda mostrado al usuario. */
     private static final String HELPTEXT = "Seleccione un comando (con el número):\n" +
             "GESTIÓ DE COMANDES:\n" +
+            "   " + GUARDAR + " - Guardar cambios\n" +
             "   " + CREAR_COMANDA + " - Crear una Comanda\n" +
             "   " + ELIMINAR_COMANDA + " - Eliminar una Comanda\n" +
             "   " + AFEGIR_PRODUCTE_COMANDA + " - Agregar producto a Comanda\n" +
@@ -222,7 +227,7 @@ public class DriverCtrlDomini {
             ctrlDomini.crearComanda(nomComanda);
             System.out.println("Comanda " + nomComanda + " creada correctament.");
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error1: " + e.getMessage());
         }
 
     }
@@ -239,7 +244,7 @@ public class DriverCtrlDomini {
             ctrlDomini.eliminarComanda(nomComanda);
             System.out.println("Comanda eliminada correctament.");
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error1: " + e.getMessage());
         }
     }
 
@@ -258,7 +263,7 @@ public class DriverCtrlDomini {
         try {
             quantitat = Integer.parseInt(readLine(scanner));
         } catch (Exception e) {
-            System.out.println("Error: Quantitat no pot ser buit");
+            System.out.println("Error1: Quantitat no pot ser buit");
             return;
         }
         try {
@@ -284,14 +289,14 @@ public class DriverCtrlDomini {
         try {
             quantitat = Integer.parseInt(readLine(scanner));
         } catch (Exception e) {
-            System.out.println("Error: Quantitat no pot ser buit");
+            System.out.println("Error1: Quantitat no pot ser buit");
             return;
         }
         try {
             ctrlDomini.eliminarProducteComanda(nomComanda, nomProducte, quantitat);
             System.out.println("Producte eliminat correctament de la comanda.");
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error2: " + e.getMessage());
         }
     }
 
@@ -307,7 +312,7 @@ public class DriverCtrlDomini {
         try {
             return ctrlDomini.getComandaUnica(nomComanda);
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error1: " + e.getMessage());
         }
         return new Comanda(null);
     }
@@ -333,7 +338,7 @@ public class DriverCtrlDomini {
             ctrlDomini.generarComandaAutomatica(nom);
             System.out.println("Comanda automàtica " + nom + " creada correctament.");
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error1: " + e.getMessage());
         }
     }
 
@@ -349,7 +354,7 @@ public class DriverCtrlDomini {
             ctrlDomini.executarComandes(noms);
             System.out.println("Comandes " + Arrays.toString(noms) + " executades correctament!");
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error1: " + e.getMessage());
         }
     }
 
@@ -838,9 +843,16 @@ public class DriverCtrlDomini {
         return ctrlDomini.getMagatzem();
     }
 
-    public static void testGuardar(Scanner scanner) {
+    public static void testGuardar(Scanner scanner) throws IOException {
+        // Guardar Comandas nuevas o modificadas
+        try{
+            ctrlDomini.guardar();
+        } catch (IOException e) {
+            System.out.println("Error: " +e.getMessage());
+        }
 
     }
+
 
     /**
      * Ejecuta un comando específico basado en la entrada del usuario.
@@ -849,10 +861,13 @@ public class DriverCtrlDomini {
      * @param scanner el Scanner para leer la entrada
      * @return {@code true} si el programa debe continuar ejecutándose; {@code false} en caso contrario
      */
-    public static boolean commands(String command, Scanner scanner) {
+    public static boolean commands(String command, Scanner scanner) throws IOException {
         switch (command) {
 
             // Comanda
+            case GUARDAR:
+                testGuardar(scanner);
+                break;
             case CREAR_COMANDA:
                 testCrearComanda(scanner);
                 break;
@@ -977,7 +992,7 @@ public class DriverCtrlDomini {
      *
      * @param args archivo opcional para leer comandos
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         boolean run = true;
         boolean mostrarHelp = true;
         // Check for file input

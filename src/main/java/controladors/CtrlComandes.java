@@ -154,4 +154,13 @@ public class CtrlComandes {
     public boolean existeixComanda(String nomComanda) {
         return comandesCreades.containsKey(nomComanda);
     }
+
+
+    public void cargarComanda(Comanda comanda) {
+        comandesCreades.put(comanda.getNom(), comanda);
+    }
+
+
 }
+
+

@@ -317,7 +317,9 @@ public class CtrlPrestatgeria {
         return prestatgeries.get(id);
     }
 
-
+    public  Map<String, Prestatgeria> getPrestatgeries(){
+        return prestatgeries;
+    }
 
     /**
      * Obtiene la cantidad de un producto en una prestatgeria.

@@ -1,5 +1,6 @@
 package controladors;
 
+import java.io.IOException;
 import java.util.*;
 import Exepcions.*;
 import classes.*;
@@ -18,7 +19,7 @@ public class CtrlDomini {
     public Caixa caixa; // Controlador de la caja
     public CtrlComandes ctrlComandes; // Controlador de comandas
     public Algorismes algorismes; // Algoritmos de optimización
-
+    public Database database;
     /**
      * Constructor que inicializa todos los controladores auxiliares.
      */
@@ -28,7 +29,14 @@ public class CtrlDomini {
         ctrlPrestatgeria = new CtrlPrestatgeria();
         caixa = new Caixa();
         algorismes = new Algorismes();
+        database = new Database();
     }
+
+    public void guardar() throws IOException {
+
+        database.saveAll(ctrlComandes.getComandes().values(), ctrlProducte.getMagatzem().values(), ctrlPrestatgeria.getPrestatgeries().values(), caixa);
+    }
+
 
     /**
      * Crea una nueva comanda.
@@ -40,6 +48,7 @@ public class CtrlDomini {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
+        if(database.existeixComanda(nomComanda)) throw new IllegalArgumentException("La comanda ya existeix");
         ctrlComandes.crearComanda(nomComanda);
     }
 
@@ -51,10 +60,13 @@ public class CtrlDomini {
      * @throws IllegalArgumentException Si el nombre de la comanda es nulo o vacío.
      * @throws ComandaNotFoundException Si la comanda no existe.
      */
-    public void eliminarComanda(String nomComanda) throws IllegalArgumentException, ComandaNotFoundException {
+    public void eliminarComanda(String nomComanda) throws IllegalArgumentException, ComandaNotFoundException, IOException {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
+        if(!database.existeixComanda(nomComanda)) throw new IllegalArgumentException("La comanda no existeix");
+        Comanda comanda = database.getComanda(nomComanda);
+        ctrlComandes.cargarComanda(comanda);
         ctrlComandes.eliminarComanda(nomComanda);
     }
 

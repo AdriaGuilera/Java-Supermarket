@@ -6,6 +6,8 @@ import Exepcions.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 public class TestCtrlDomini {
@@ -192,7 +194,7 @@ public class TestCtrlDomini {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testEliminarComandaNomBuit() {
+    public void testEliminarComandaNomBuit() throws IOException {
         ctrlDomini.eliminarComanda("");
     }
 
