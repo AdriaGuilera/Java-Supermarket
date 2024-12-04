@@ -277,4 +277,8 @@ public class CtrlProducte {
     public void cargarProducte(Producte producte) {
         productesMagatzem.put(producte.getNom(), producte);
     }
+
+    public void carregarProducte(Producte producte) {
+        productesMagatzem.put(producte.getNom(), producte);
+    }
 }

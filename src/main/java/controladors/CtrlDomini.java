@@ -196,14 +196,20 @@ public class CtrlDomini {
      * @throws IllegalArgumentException           Si los argumentos son nulos o inválidos.
      */
     public void afegirProductePrestatgeria(String nomProducte, int quantitat, String idPrestatgeria)
-    throws PrestatgeriaNotFoundException, QuanitatInvalidException, MaxHuecoWarning, ProductNotFoundMagatzemException,
-            JaExisteixProucteaPrestatgeriaException, NotEnoughQuantityMagatzem, IllegalArgumentException {
+            throws PrestatgeriaNotFoundException, QuanitatInvalidException, MaxHuecoWarning, ProductNotFoundMagatzemException,
+            JaExisteixProucteaPrestatgeriaException, NotEnoughQuantityMagatzem, IllegalArgumentException, IOException {
 
         if (idPrestatgeria == null || idPrestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+        }
+        if(!ctrlPrestatgeria.existeixPrestatgeria(idPrestatgeria)){
+            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(idPrestatgeria));
+        }
+        if(!ctrlProducte.existeixProducte(nomProducte)){
+            ctrlProducte.carregarProducte(database.getProducte(nomProducte));
         }
         int maxhueco = ctrlProducte.getMaxHueco(nomProducte);
         int stock = ctrlProducte.getStockMagatzem(nomProducte);
@@ -254,12 +260,15 @@ public class CtrlDomini {
      * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
      */
     public void moureProducteDeHueco(String id_prestatgeria, String nomProducte, int huecoOrigen, int huecoDestino)
-    throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException, IllegalArgumentException{
+            throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException, IllegalArgumentException, IOException {
         if (id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+        }
+        if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
+            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
         }
         ctrlPrestatgeria.moureProducte(id_prestatgeria, huecoOrigen, huecoDestino);
     }
@@ -278,15 +287,20 @@ public class CtrlDomini {
      * @throws IllegalArgumentException            Si los argumentos son nulos o inválidos.
      */
     public void decrementarStockAProducte(String id_prestatgeria, String nomProducte, int quantitat)
-    throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException,PrestatgeriaNotFoundException, MaxMagatzemWarning, ProductNotFoundMagatzemException,
-            NotEnoughQuantityPrestatgeriaWarning, IllegalArgumentException{
+            throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException, PrestatgeriaNotFoundException, MaxMagatzemWarning, ProductNotFoundMagatzemException,
+            NotEnoughQuantityPrestatgeriaWarning, IllegalArgumentException, IOException {
         if (id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
-
+        if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
+            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
+        }
+        if(!ctrlProducte.existeixProducte(nomProducte)){
+            ctrlProducte.carregarProducte(database.getProducte(nomProducte));
+        }
         int quantitatelim = ctrlPrestatgeria.decrementarQuantitatProducte(id_prestatgeria, nomProducte, quantitat);
         ctrlProducte.incrementarStock(nomProducte, quantitatelim);
         if(quantitatelim == 0){
@@ -303,9 +317,12 @@ public class CtrlDomini {
      * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
      */
     public void generarDistribucioBacktracking(String id_prestatgeria)
-    throws PrestatgeriaNotFoundException, IllegalArgumentException {
+            throws PrestatgeriaNotFoundException, IllegalArgumentException, IOException {
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
+        }
+        if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
+            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
         }
         Vector<String> productes = ctrlPrestatgeria.getNomsProductes(id_prestatgeria);
         Set<String> fixats = ctrlPrestatgeria.getProductesFixats(id_prestatgeria);
@@ -321,9 +338,12 @@ public class CtrlDomini {
      * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
      */
     public void generarDistribucioHillClimbing(String id_prestatgeria)
-    throws PrestatgeriaNotFoundException, IllegalArgumentException {
+            throws PrestatgeriaNotFoundException, IllegalArgumentException, IOException {
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
+        }
+        if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
+            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
         }
         Vector<String> productes = ctrlPrestatgeria.getNomsProductes(id_prestatgeria);
         Set<String> fixats = ctrlPrestatgeria.getProductesFixats(id_prestatgeria);
@@ -343,11 +363,13 @@ public class CtrlDomini {
      * @throws IllegalArgumentException         Si los argumentos son nulos o inválidos.
      */
     public void afegirPrestatgeria(String idPrestatgeria, int midaPrestatge, int midaPrestatgeria)
-    throws MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException, IllegalArgumentException {
+            throws MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException, IllegalArgumentException, IOException {
         if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
+
         ctrlPrestatgeria.afegirPrestatgeria(idPrestatgeria, midaPrestatgeria, midaPrestatge);
+        database.addPrestatgeria(ctrlPrestatgeria.getPrestatgeria(idPrestatgeria));
     }
 
     /**
@@ -358,16 +380,23 @@ public class CtrlDomini {
      * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
      */
     public void eliminarPrestatgeria(String idPrestatgeria)
-    throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, MaxMagatzemWarning, QuanitatInvalidException, IllegalArgumentException {
+            throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, MaxMagatzemWarning, QuanitatInvalidException, IllegalArgumentException, IOException {
         if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
+        if(!ctrlPrestatgeria.existeixPrestatgeria(idPrestatgeria)){
+            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(idPrestatgeria));
+        }
         Map<String,Integer> producteseliminats = ctrlPrestatgeria.eliminarPrestatgeria(idPrestatgeria);
         for(Map.Entry<String, Integer> entry : producteseliminats.entrySet()){
+            if(!ctrlProducte.existeixProducte(entry.getKey())){
+                ctrlProducte.carregarProducte(database.getProducte(entry.getKey()));
+            }
             String nom = entry.getKey();
             int quantitat = entry.getValue();
             ctrlProducte.incrementarStock(nom, quantitat);
         }
+        database.deletePrestatgeria(idPrestatgeria);
     }
 
     /**
@@ -378,9 +407,12 @@ public class CtrlDomini {
      * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
      */
     public void afegirPrestatge(String idPrestatgeria)
-    throws PrestatgeriaNotFoundException,IllegalArgumentException {
+            throws PrestatgeriaNotFoundException, IllegalArgumentException, IOException {
         if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
+        }
+        if(!ctrlPrestatgeria.existeixPrestatgeria(idPrestatgeria)){
+            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(idPrestatgeria));
         }
         ctrlPrestatgeria.afegirPrestatge(idPrestatgeria);
     }
@@ -393,18 +425,22 @@ public class CtrlDomini {
      * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
      */
     public void eliminarPrestatge(String idPrestatgeria)
-    throws PrestatgeriaNotFoundException,QuanitatInvalidException, ProductNotFoundMagatzemException, IllegalArgumentException, MidaPrestatgeriaMinException{
+            throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundMagatzemException, IllegalArgumentException, MidaPrestatgeriaMinException, IOException {
         if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
+        if(!ctrlPrestatgeria.existeixPrestatgeria(idPrestatgeria)){
+            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(idPrestatgeria));
+        }
         Map<String,Integer> eliminats = ctrlPrestatgeria.eliminarPrestatge(idPrestatgeria);
-            for(Map.Entry<String, Integer> entry : eliminats.entrySet()){
-                String nom = entry.getKey();
-                int quantitat = entry.getValue();
-                ctrlProducte.incrementarStock(nom, quantitat);
+        for(Map.Entry<String, Integer> entry : eliminats.entrySet()){
+            String nom = entry.getKey();
+            int quantitat = entry.getValue();
+            if(!ctrlProducte.existeixProducte(nom)){
+                ctrlProducte.carregarProducte(database.getProducte(nom));
             }
-
-
+            ctrlProducte.incrementarStock(nom, quantitat);
+        }
     }
 
     /**
@@ -415,12 +451,18 @@ public class CtrlDomini {
      * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
      */
     public void reposarPrestatgeria(String id_prestatgeria)
-    throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, QuanitatInvalidException, IllegalArgumentException{
+            throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, QuanitatInvalidException, IllegalArgumentException, IOException {
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
+        if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
+            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
+        }
         Map<String,Integer> productes = ctrlPrestatgeria.getProductesPrestatgeria(id_prestatgeria);
         for(Map.Entry<String, Integer> entry : productes.entrySet()){
+            if(!ctrlProducte.existeixProducte(entry.getKey())){
+                ctrlProducte.carregarProducte(database.getProducte(entry.getKey()));
+            }
             int stock = ctrlProducte.getStockMagatzem(entry.getKey());
             int max = ctrlProducte.getMaxHueco(entry.getKey());
             int actual = entry.getValue();
@@ -449,12 +491,15 @@ public class CtrlDomini {
      * @throws IllegalArgumentException     Si los argumentos son nulos o inválidos.
      */
     public void fixarProducte(String id_prestatgeria, String nomProducte)
-    throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteFixatException, IllegalArgumentException {
+            throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteFixatException, IllegalArgumentException, IOException {
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
         if(nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+        }
+        if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
+            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
         }
         ctrlPrestatgeria.fixarProducte(id_prestatgeria, nomProducte);
     }
@@ -469,12 +514,15 @@ public class CtrlDomini {
      * @throws IllegalArgumentException     Si los argumentos son nulos o inválidos.
      */
     public void desfixarProducte(String id_prestatgeria, String nomProducte)
-    throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteNoFixatException, IllegalArgumentException {
+            throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteNoFixatException, IllegalArgumentException, IOException {
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
         if(nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
+        }
+        if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
+            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
         }
         ctrlPrestatgeria.desfixarProducte(id_prestatgeria, nomProducte);
     }
@@ -559,12 +607,15 @@ public class CtrlDomini {
      * @return La cantidad que realmente se pudo retirar de la caja.
      */
     public int retirar_producte_caixa(String nom_producte, int quantitat)
-    throws QuanitatInvalidException,IllegalArgumentException, ProductNotFoundCaixaException{
+            throws QuanitatInvalidException, IllegalArgumentException, ProductNotFoundCaixaException, IOException {
         if(nom_producte == null || nom_producte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
         int aafegir = min(caixa.getQuantitat(nom_producte), quantitat);
         caixa.retirarProducte(nom_producte, aafegir);
+        if(!ctrlProducte.existeixProducte(nom_producte)){
+            ctrlProducte.carregarProducte(database.getProducte(nom_producte));
+        }
         ctrlProducte.incrementarStock(nom_producte, aafegir);
         return aafegir;
     }

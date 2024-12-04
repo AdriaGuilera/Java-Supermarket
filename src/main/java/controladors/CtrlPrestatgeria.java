@@ -374,7 +374,22 @@ public class CtrlPrestatgeria {
         }
     }
 
+    /**
+     * Comprueba si una prestatgeria existe.
+     *
+     * @param idPrestatgeria Identificador de la prestatgeria.
+     * @return {@code true} si la prestatgeria existe, de lo contrario {@code false}.
+     */
 
+    public boolean existeixPrestatgeria(String idPrestatgeria) {
+        return prestatgeries.containsKey(idPrestatgeria);
+    }
 
-
+    /**
+     * Carga una prestatgeria en el sistema.
+     *
+     * @param prestatgeria Prestatgeria a cargar.
+     */
+    public void carregarPrestatgeria(Prestatgeria prestatgeria) {
+    }
 }

@@ -20,9 +20,7 @@ public class TestCtrlDomini {
     }
     @Test
     public void testReposarPrestatgeria()
-    throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException,
-            QuanitatInvalidException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException,
-            JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+    throws Exception {
 
         ctrlDomini.altaProducte("Producte A", 10, 55,55);
         ctrlDomini.altaProducte("Producte B", 10, 50,50);
@@ -79,7 +77,7 @@ public class TestCtrlDomini {
         ctrlDomini.afegirProductePrestatgeria("Producte Inexistent", 5, "Prestatgeria1");
     }
     @Test
-    public void testDecrementarProductePrestatgeria(){
+    public void testDecrementarProductePrestatgeria() throws IOException {
         // Set up initial state
         ctrlDomini.altaProducte("Producte A", 10, 100, 50);
         ctrlDomini.afegirPrestatgeria("Prestatgeria1", 2, 10);
@@ -93,7 +91,7 @@ public class TestCtrlDomini {
         assertEquals(48, ctrlDomini.ctrlProducte.getStockMagatzem("Producte A"));
     }
     @Test
-    public void testRetirarProducteAMagatzem(){
+    public void testRetirarProducteAMagatzem() throws IOException {
         ctrlDomini.altaProducte("Producte A", 10, 100, 50);
         ctrlDomini.afegirPrestatgeria("Prestatgeria1", 2, 10);
         ctrlDomini.afegirProductePrestatgeria("Producte A", 5, "Prestatgeria1");
@@ -122,7 +120,7 @@ public class TestCtrlDomini {
         assertEquals(200, comandaAuto.getQuantitat("Producto B"));
     }
     @Test
-    public void testAfegirProducteCaixaSuccess(){
+    public void testAfegirProducteCaixaSuccess() throws Exception {
         ctrlDomini.altaProducte("Producte A", 10, 100,15);
         ctrlDomini.afegirPrestatgeria("Prestatgeria1", 2, 10);
         ctrlDomini.afegirProductePrestatgeria("Producte A", 5, "Prestatgeria1");
@@ -147,7 +145,7 @@ public class TestCtrlDomini {
     }
 
     @Test
-    public void testRetirarProducteCaixa(){
+    public void testRetirarProducteCaixa() throws Exception {
         ctrlDomini.altaProducte("Producte A", 10, 100,15);
         ctrlDomini.afegirPrestatgeria("Prestatgeria1", 2, 10);
         ctrlDomini.afegirProductePrestatgeria("Producte A", 5, "Prestatgeria1");
