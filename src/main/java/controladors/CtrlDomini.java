@@ -614,6 +614,7 @@ public class CtrlDomini {
         if (maxMagatzem <=0) {
             throw new IllegalArgumentException("El maxim d'estock en magatzem ha de ser > 0");
         }
+
         ctrlProducte.altaProducte(nomProducte, maxHueco, maxMagatzem,stock);
     }
 
@@ -626,13 +627,21 @@ public class CtrlDomini {
      * @throws ProductNotFoundCaixaException Si el producto no se encuentra en la caixa.
      * @throws ProductNotFoundPrestatgeriaException Si el producto no se encuentra en la caixa.
      */
-    public void eliminarProducte(String nomProducte) throws IllegalArgumentException, ProductNotFoundMagatzemException,ProductNotFoundCaixaException,ProductNotFoundPrestatgeriaException {
+    public void eliminarProducte(String nomProducte) throws IllegalArgumentException, ProductNotFoundMagatzemException, ProductNotFoundCaixaException, ProductNotFoundPrestatgeriaException, IOException {
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
-        //Lo eliminamos del almacen   //Lo eliminamos de las prestatgerias i caixa
-        ctrlPrestatgeria.eliminarProducte(nomProducte);
+
+        if(!database.existeixProducte(nomProducte)) throw new IllegalArgumentException("El Producte no existeix");
+        Producte producte = database.getProducte(nomProducte);
+
+        //Cargamos el producto y lo eliminamos
+        ctrlProducte.cargarProducte(producte);
         ctrlProducte.eliminarProducte(nomProducte);
+        //Lo eliminamos de las prestatgerias
+        ctrlPrestatgeria.eliminarProducte(nomProducte);
+
+        //Lo eliminamos de la caixa
         int qcaixa = caixa.getQuantitat(nomProducte);
         caixa.retirarProducte(nomProducte, qcaixa);
 

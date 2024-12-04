@@ -273,4 +273,8 @@ public class CtrlProducte {
     public Map<String, Producte> getMagatzem() {
         return productesMagatzem;
     }
+
+    public void cargarProducte(Producte producte) {
+        productesMagatzem.put(producte.getNom(), producte);
+    }
 }

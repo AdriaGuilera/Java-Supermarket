@@ -211,6 +211,15 @@ public class DriverCtrlDomini {
 
     // Métodos de prueba para cada funcionalidad
 
+    public static void testGuardar(Scanner scanner) throws IOException {
+        // Guardar Comandas nuevas o modificadas
+        try{
+            ctrlDomini.guardar();
+        } catch (IOException e) {
+            System.out.println("Error: " +e.getMessage());
+        }
+
+    }
 
     //Comandes
 
@@ -843,15 +852,7 @@ public class DriverCtrlDomini {
         return ctrlDomini.getMagatzem();
     }
 
-    public static void testGuardar(Scanner scanner) throws IOException {
-        // Guardar Comandas nuevas o modificadas
-        try{
-            ctrlDomini.guardar();
-        } catch (IOException e) {
-            System.out.println("Error: " +e.getMessage());
-        }
 
-    }
 
 
     /**
