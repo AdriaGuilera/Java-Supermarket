@@ -22,30 +22,30 @@ public class TestCtrlPrestatgeria {
 
     // Afegir Prestatgeria
     @Test
-    public void testAfegirPrestatgeria() throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testAfegirPrestatgeria() throws MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         assertNotNull(ctrlPrestatgeria.getPrestatgeria("ID1"));
     }
 
     @Test(expected = MidaPrestatgeriaInvalidException.class)
-    public void testAfegirPrestatgeriaMidaNegativa() throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testAfegirPrestatgeriaMidaNegativa() throws MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID2", -5, 2);
     }
 
     @Test(expected = MidaPrestatgeriaInvalidException.class)
-    public void testAfegirPrestatgeriaMidaZero() throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testAfegirPrestatgeriaMidaZero() throws MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID3", 0, 2);
     }
 
-    @Test(expected = PrestatgeriaJaExisteixException.class)
-    public void testAfegirPrestatgeriaJaExisteix() throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    @Test(expected = PrestatgeriaAlreadyExistsException.class)
+    public void testAfegirPrestatgeriaJaExisteix() throws MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
     }
 
     // Eliminar Prestatgeria
     @Test
-    public void testEliminarPrestatgeria() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testEliminarPrestatgeria() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.eliminarPrestatgeria("ID1");
         try {
@@ -63,7 +63,7 @@ public class TestCtrlPrestatgeria {
 
     // Afegir Producte a Prestatgeria
     @Test
-    public void testAfegirProducte() throws PrestatgeriaNotFoundException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testAfegirProducte() throws PrestatgeriaNotFoundException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 5);
         assertTrue(ctrlPrestatgeria.containsProducte("ID1", "Producte A"));
@@ -75,14 +75,14 @@ public class TestCtrlPrestatgeria {
     }
 
     @Test(expected = JaExisteixProucteaPrestatgeriaException.class)
-    public void testAfegirProducteJaExisteix() throws PrestatgeriaNotFoundException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testAfegirProducteJaExisteix() throws PrestatgeriaNotFoundException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 5);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 5);
     }
 
     @Test(expected = PrestatgeriaFullException.class)
-    public void testAfegirProductePrestatgeriaPlena() throws PrestatgeriaNotFoundException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testAfegirProductePrestatgeriaPlena() throws PrestatgeriaNotFoundException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 2, 1);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 1);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte B", 1);
@@ -91,7 +91,7 @@ public class TestCtrlPrestatgeria {
 
     // Moure Producte de Hueco
     @Test
-    public void testMoureProducte() throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+    public void testMoureProducte() throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 5);
         ctrlPrestatgeria.moureProducte("ID1", 0, 1);
@@ -104,13 +104,13 @@ public class TestCtrlPrestatgeria {
     }
 
     @Test(expected = ProducteNotInHuecoException.class)
-    public void testMoureProducteHuecoOrigenNoExisteix() throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testMoureProducteHuecoOrigenNoExisteix() throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.moureProducte("ID1", 0, 1);
     }
 
     @Test(expected = InvalidHuecosException.class)
-    public void testMoureProducteHuecoDestiNoExisteix() throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+    public void testMoureProducteHuecoDestiNoExisteix() throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 5);
         ctrlPrestatgeria.moureProducte("ID1", 0, 10);
@@ -118,7 +118,7 @@ public class TestCtrlPrestatgeria {
 
     // Fixar Producte
     @Test
-    public void testFixarProducte() throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteFixatException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+    public void testFixarProducte() throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteFixatException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 5);
         ctrlPrestatgeria.fixarProducte("ID1", "Producte A");
@@ -131,13 +131,13 @@ public class TestCtrlPrestatgeria {
     }
 
     @Test(expected = ProductNotFoundPrestatgeriaException.class)
-    public void testFixarProducteNoExisteix() throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteFixatException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testFixarProducteNoExisteix() throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteFixatException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.fixarProducte("ID1", "Producte B");
     }
 
     @Test(expected = ProducteFixatException.class)
-    public void testFixarProducteJaFixat() throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteFixatException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+    public void testFixarProducteJaFixat() throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, ProducteFixatException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 5);
         ctrlPrestatgeria.fixarProducte("ID1", "Producte A");
@@ -146,7 +146,7 @@ public class TestCtrlPrestatgeria {
 
     // Desfixar Producte
     @Test
-    public void testDesfixarProducte() throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException, ProducteFixatException {
+    public void testDesfixarProducte() throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException, ProducteFixatException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 5);
         ctrlPrestatgeria.fixarProducte("ID1", "Producte A");
@@ -160,14 +160,14 @@ public class TestCtrlPrestatgeria {
     }
 
     @Test(expected = ProductNotFoundPrestatgeriaException.class)
-    public void testDesfixarProducteNoExisteix() throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testDesfixarProducteNoExisteix() throws PrestatgeriaNotFoundException, ProductNotFoundPrestatgeriaException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.desfixarProducte("ID1", "Producte B");
     }
 
     // Decrementar Stock a Producte
     @Test
-    public void testDecrementarQuantitatProducte() throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundPrestatgeriaException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+    public void testDecrementarQuantitatProducte() throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundPrestatgeriaException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 10);
         ctrlPrestatgeria.decrementarQuantitatProducte("ID1", "Producte A", 5);
@@ -180,13 +180,13 @@ public class TestCtrlPrestatgeria {
     }
 
     @Test(expected = ProductNotFoundPrestatgeriaException.class)
-    public void testDecrementarQuantitatProducteNoExisteix() throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundPrestatgeriaException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testDecrementarQuantitatProducteNoExisteix() throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundPrestatgeriaException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.decrementarQuantitatProducte("ID1", "Producte B", 5);
     }
 
     @Test(expected = QuanitatInvalidException.class)
-    public void testDecrementarQuantitatProducteQuantitatNegativa() throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundPrestatgeriaException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+    public void testDecrementarQuantitatProducteQuantitatNegativa() throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundPrestatgeriaException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 10);
         ctrlPrestatgeria.decrementarQuantitatProducte("ID1", "Producte A", -5);
@@ -194,7 +194,7 @@ public class TestCtrlPrestatgeria {
 
     // Afegir Prestatge
     @Test
-    public void testAfegirPrestatge() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testAfegirPrestatge() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirPrestatge("ID1");
         assertEquals(12, ctrlPrestatgeria.getPrestatgeria("ID1").getMidaPrestatgeria());
@@ -207,7 +207,7 @@ public class TestCtrlPrestatgeria {
 
     // Eliminar Prestatge
     @Test
-    public void testEliminarPrestatge() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testEliminarPrestatge() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirPrestatge("ID1");
         ctrlPrestatgeria.eliminarPrestatge("ID1");
@@ -249,13 +249,13 @@ public class TestCtrlPrestatgeria {
 
     // Afegir Prestatgeria
     @Test(expected = MidaPrestatgeriaInvalidException.class)
-    public void testAfegirPrestatgeriaMidaPrestatgesZero() throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testAfegirPrestatgeriaMidaPrestatgesZero() throws MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID4", 10, 0);
     }
 
     // Eliminar Prestatgeria
     @Test
-    public void testEliminarPrestatgeriaAmbProductesIStock() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+    public void testEliminarPrestatgeriaAmbProductesIStock() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte A", 5);
         ctrlPrestatgeria.afegirProducte("ID1", "Producte B", 5);
@@ -268,7 +268,7 @@ public class TestCtrlPrestatgeria {
     }
 
     @Test
-    public void testEliminarPrestatgeriaSenseProductes() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+    public void testEliminarPrestatgeriaSenseProductes() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         ctrlPrestatgeria.afegirPrestatgeria("ID1", 10, 2);
         Map<String,Integer> aeliminar = new HashMap<>();
         assertEquals(aeliminar, ctrlPrestatgeria.eliminarPrestatgeria("ID1"));

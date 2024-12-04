@@ -30,20 +30,20 @@ public class TestCtrlProducte {
 
     // Test altaProducte
     @Test
-    public void testAltaProducte() throws ProducteJaExisteixException {
+    public void testAltaProducte() throws ProducteAlreadyExistsException {
         ctrlProducte.altaProducte("Producto A", 100, 500,5);
         assertTrue(ctrlProducte.existeixProducte("Producto A"));
     }
 
-    @Test(expected = ProducteJaExisteixException.class)
-    public void testAltaProducteYaExistente() throws ProducteJaExisteixException {
+    @Test(expected = ProducteAlreadyExistsException.class)
+    public void testAltaProducteYaExistente() throws ProducteAlreadyExistsException {
         ctrlProducte.altaProducte("Producto A", 100, 500, 0);
         ctrlProducte.altaProducte("Producto A", 100, 500,0);
     }
 
     // Test eliminar_producte
     @Test
-    public void testEliminarProducte() throws ProductNotFoundMagatzemException, ProducteJaExisteixException {
+    public void testEliminarProducte() throws ProductNotFoundMagatzemException, ProducteAlreadyExistsException {
         ctrlProducte.altaProducte("Producto A", 100, 500,0);
         ctrlProducte.eliminarProducte("Producto A");
         assertFalse(ctrlProducte.existeixProducte("Producto A"));
@@ -56,14 +56,14 @@ public class TestCtrlProducte {
 
     // Test incrementar_stock
     @Test
-    public void testIncrementarStock() throws ProductNotFoundMagatzemException, ProducteJaExisteixException {
+    public void testIncrementarStock() throws ProductNotFoundMagatzemException, ProducteAlreadyExistsException {
         ctrlProducte.altaProducte("Producto A", 100, 500,0);
         ctrlProducte.incrementarStock("Producto A", 200);
         assertEquals(200, ctrlProducte.getStockMagatzem("Producto A"));
     }
 
     @Test
-    public void testIncrementarStockHastaMaximo() throws ProductNotFoundMagatzemException, ProducteJaExisteixException {
+    public void testIncrementarStockHastaMaximo() throws ProductNotFoundMagatzemException, ProducteAlreadyExistsException {
         ctrlProducte.altaProducte("Producto A", 100, 500,0);
         ctrlProducte.incrementarStock("Producto A", 600); // Excede el máximo
         assertEquals(500, ctrlProducte.getStockMagatzem("Producto A"));
@@ -83,7 +83,7 @@ public class TestCtrlProducte {
 
     // Test decrementar_stock
     @Test
-    public void testDecrementarStock() throws ProductNotFoundMagatzemException, QuanitatInvalidException, ZeroStockMagatzemWarning, ProducteJaExisteixException {
+    public void testDecrementarStock() throws ProductNotFoundMagatzemException, QuanitatInvalidException, ZeroStockMagatzemWarning, ProducteAlreadyExistsException {
         ctrlProducte.altaProducte("Producto A", 100, 500,0);
         ctrlProducte.incrementarStock("Producto A", 300);
         ctrlProducte.decrementarStock("Producto A", 100);
@@ -94,7 +94,7 @@ public class TestCtrlProducte {
 
     // Test afegir_similitud
     @Test
-    public void testAfegirSimilitud() throws ProducteJaExisteixException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
+    public void testAfegirSimilitud() throws ProducteAlreadyExistsException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
         ctrlProducte.altaProducte("Producto A", 100, 500,0);
         ctrlProducte.altaProducte("Producto B", 100, 500,0);
         ctrlProducte.afegirSimilitud("Producto A", "Producto B", 0.8f);
@@ -129,7 +129,7 @@ public class TestCtrlProducte {
 
     // Test eliminarSimilitud
     @Test
-    public void testEliminarSimilitud() throws ProducteJaExisteixException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
+    public void testEliminarSimilitud() throws ProducteAlreadyExistsException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
         ctrlProducte.altaProducte("Producto A", 100, 500,0);
         ctrlProducte.altaProducte("Producto B", 100, 500,0);
         ctrlProducte.afegirSimilitud("Producto A", "Producto B", 0.8f);
@@ -163,7 +163,7 @@ public class TestCtrlProducte {
 
     // Test obtenirComandaAutomatica
     @Test
-    public void testObtenirComandaAutomatica() throws ProducteJaExisteixException {
+    public void testObtenirComandaAutomatica() throws ProducteAlreadyExistsException {
         ctrlProducte.altaProducte("Producto A", 100, 500,0);
         ctrlProducte.incrementarStock("Producto A", 200);
         Map<String, Integer> comandaAutomatica = ctrlProducte.generarComandaAutomatica();

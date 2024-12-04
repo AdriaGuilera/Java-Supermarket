@@ -28,10 +28,10 @@ public class CtrlPrestatgeria {
      * @param mida          Tamaño total de la prestatgeria.
      * @param midaPrestatge Tamaño de cada prestatge dentro de la prestatgeria.
      * @throws MidaPrestatgeriaInvalidException Si los tamaños son inválidos.
-     * @throws PrestatgeriaJaExisteixException Si ya existe una prestatgeria con el mismo identificador.
+     * @throws PrestatgeriaAlreadyExistsException Si ya existe una prestatgeria con el mismo identificador.
      */
     public void afegirPrestatgeria(String id, int mida, int midaPrestatge)
-            throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException {
+            throws MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException {
         if (!prestatgeries.containsKey(id)){
             if( midaPrestatge <= 0 || mida < 0 || mida < midaPrestatge || mida % midaPrestatge != 0 ){
                 throw new MidaPrestatgeriaInvalidException();
@@ -41,7 +41,7 @@ public class CtrlPrestatgeria {
             }
 
         } else {
-            throw new PrestatgeriaJaExisteixException(id);
+            throw new PrestatgeriaAlreadyExistsException(id);
         }
     }
 

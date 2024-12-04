@@ -19,19 +19,15 @@ public class Database {
 
     private final ObjectMapper objectMapper;
 
-    //Guarda los nombres de los archivos cargados para poder borrar los que no se se hayan eliminado
-    private final Set<String> loadedComandes;
-    private final Set<String> loadedProductes;
-    private final Set<String> loadedPrestatgeries;
 
     //Constructor de la clase Database
     public Database() {
         this.objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        this.loadedComandes = new HashSet<>();
-        this.loadedProductes = new HashSet<>();
-        this.loadedPrestatgeries = new HashSet<>();
     }
+
+
+    //OPERACIONES PARA CARGAR ELEMENTOS DE LA BASE DE DATOS (GET)
 
     //Método que carga una comanda a partir de su id
     public Comanda getComanda(String id) throws ComandaNotFoundException, IOException {
@@ -39,7 +35,7 @@ public class Database {
         if (!file.exists()) {
             throw new ComandaNotFoundException(id);
         }
-        loadedComandes.add(id);
+
         return objectMapper.readValue(file, Comanda.class);
     }
 
@@ -50,7 +46,6 @@ public class Database {
         if (!file.exists()) {
             throw new ProductNotFoundMagatzemException(id);
         }
-        loadedProductes.add(id);
         return objectMapper.readValue(file, Producte.class);
     }
 
@@ -60,7 +55,6 @@ public class Database {
         if (!file.exists()) {
             throw new PrestatgeriaNotFoundException(id);
         }
-        loadedPrestatgeries.add(id);
         return objectMapper.readValue(file, Prestatgeria.class);
     }
 
@@ -71,91 +65,40 @@ public class Database {
         return objectMapper.readValue(file, Caixa.class);
     }
 
-    //Guarda las comandas en un archivo json, si se eliminan comandas, se eliminan los archivos correspondientes y
-    //si se modifican, se sobreescriben los archivos correspondientes
+
+    //OPERACIONES PARA ACTUALIZAR ELEMENTOS DE LA BASE DE DATOS (SAVE)
+
+    //Actualiza las comandas de la base de datos
     public void saveComandes(Collection<Comanda> comandes) throws IOException {
-
-        // Get current comanda IDs
-        Set<String> currentIds = new HashSet<>();
-        for (Comanda comanda : comandes) {
-            currentIds.add(comanda.getNom());
-        }
-
-        // Find deleted comandes
-        Set<String> deletedIds = new HashSet<>(loadedComandes);
-        deletedIds.removeAll(currentIds);
-
-        // Delete files for removed comandes
-        for (String deletedId : deletedIds) {
-            Files.deleteIfExists(Paths.get(COMANDES_PATH + deletedId + ".json"));
-        }
-
-        // Save current comandes
         for (Comanda comanda : comandes) {
             File file = new File(COMANDES_PATH + comanda.getNom() + ".json");
             objectMapper.writeValue(file, comanda);
         }
 
-        loadedComandes.clear();
     }
-    //Guarda los productos en un archivo json, si se eliminan productos, se eliminan los archivos correspondientes y
-    //si se modifican, se sobreescriben los archivos correspondientes
+
+    //Actualiza los productos de la base de datos
     public void saveProductes(Collection<Producte> productes) throws IOException {
-        // Get current producte IDs
-        Set<String> currentIds = new HashSet<>();
-        for (Producte producte : productes) {
-            currentIds.add(producte.getNom());
-        }
-
-        // Find deleted productes
-        Set<String> deletedIds = new HashSet<>(loadedProductes);
-        deletedIds.removeAll(currentIds);
-
-        // Delete files for removed productes
-        for (String deletedId : deletedIds) {
-            Files.deleteIfExists(Paths.get(PRODUCTES_PATH + deletedId + ".json"));
-        }
-
-        // Save current productes
         for (Producte producte : productes) {
             File file = new File(PRODUCTES_PATH + producte.getNom() + ".json");
             objectMapper.writeValue(file, producte);
         }
-
-        loadedProductes.clear();
     }
 
-    //Guarda las prestatgeries en un archivo json, si se eliminan prestatgeries, se eliminan los archivos correspondientes y
-    //si se modifican, se sobreescriben los archivos correspondientes
+    //Actualiza las prestatgerias de la base de datos
     public void savePrestatgeries(Collection<Prestatgeria> prestatgeries) throws IOException {
-        // Get current prestatgeria IDs
-        Set<String> currentIds = new HashSet<>();
-        for (Prestatgeria prestatgeria : prestatgeries) {
-            currentIds.add(prestatgeria.getId());
-        }
-
-        // Find deleted prestatgeries
-        Set<String> deletedIds = new HashSet<>(loadedPrestatgeries);
-        deletedIds.removeAll(currentIds);
-
-        // Delete files for removed prestatgeries
-        for (String deletedId : deletedIds) {
-            Files.deleteIfExists(Paths.get(PRESTATGERIES_PATH + deletedId + ".json"));
-        }
-
-        // Save current prestatgeries
         for (Prestatgeria prestatgeria : prestatgeries) {
             File file = new File(PRESTATGERIES_PATH + prestatgeria.getId() + ".json");
             objectMapper.writeValue(file, prestatgeria);
         }
-
-        loadedPrestatgeries.clear();
     }
 
+    //Actualiza la caja de la base de datos
     public void saveCaixa(Caixa caixa) throws IOException {
         objectMapper.writeValue(new File(CAIXA_PATH), caixa);
     }
 
+    //Actualiza todos los elementos de la base de datos
     public void saveAll(Collection<Comanda> comandes, Collection<Producte> productes, Collection<Prestatgeria> prestatgeries, Caixa caixa) throws IOException {
         saveComandes(comandes);
         saveProductes(productes);
@@ -163,16 +106,90 @@ public class Database {
         saveCaixa(caixa);
     }
 
-    //Existeixen
 
+
+    //OPERACIONES PARA ELIMINAR ELEMENTOS DE LA BASE DE DATOS
+
+    //Elimina una comanda de la base de datos
+    public void deleteComanda(String id) throws ComandaNotFoundException {
+        if(existeixComanda(id)) {
+            File file = new File(COMANDES_PATH + id + ".json");
+            file.delete();
+        }
+        else {
+            throw new ComandaNotFoundException(id);
+        }
+    }
+
+    //Elimina un producto de la base de datos
+    public void deleteProducte(String id) throws ProductNotFoundMagatzemException {
+        if(existeixProducte(id)) {
+            File file = new File(PRODUCTES_PATH + id + ".json");
+            file.delete();
+        }
+        else {
+            throw new ProductNotFoundMagatzemException(id);
+        }
+    }
+
+    //Elimina una prestatgeria de la base de datos
+    public void deletePrestatgeria(String id) throws PrestatgeriaNotFoundException {
+        if(existeixPrestatgeria(id)) {
+            File file = new File(PRESTATGERIES_PATH + id + ".json");
+            file.delete();
+        }
+        else {
+            throw new PrestatgeriaNotFoundException(id);
+        }
+    }
+
+
+
+    //OPERACIONES PARA AÑADIR ELEMENTOS A LA BASE DE DATOS
+
+    //Añade una comanda a la base de datos
+    public void addComanda(Comanda comanda) throws IOException, ComandaAlreadyExistsException {
+        if(existeixComanda(comanda.getNom())) {
+            throw new ComandaAlreadyExistsException(comanda.getNom());
+        }
+        File file = new File(COMANDES_PATH + comanda.getNom() + ".json");
+        objectMapper.writeValue(file, comanda);
+    }
+
+    //Añade un producto a la base de datos
+    public void addProducte(Producte producte) throws IOException, ProducteAlreadyExistsException {
+        if(existeixProducte(producte.getNom())) {
+            throw new ProducteAlreadyExistsException(producte.getNom());
+        }
+        File file = new File(PRODUCTES_PATH + producte.getNom() + ".json");
+        objectMapper.writeValue(file, producte);
+    }
+
+    //Añade una prestatgeria a la base de datos
+    public void addPrestatgeria(Prestatgeria prestatgeria) throws IOException, PrestatgeriaAlreadyExistsException {
+        if(existeixPrestatgeria(prestatgeria.getId())) {
+            throw new PrestatgeriaAlreadyExistsException(prestatgeria.getId());
+        }
+        File file = new File(PRESTATGERIES_PATH + prestatgeria.getId() + ".json");
+        objectMapper.writeValue(file, prestatgeria);
+    }
+
+
+    //OPERACIONES PARA COMPROBAR LA EXISTENCIA DE ELEMENTOS EN LA BASE DE DATOS
+
+    //Comprueba si una comanda existe
     public boolean existeixComanda(String id) {
         File file = new File(COMANDES_PATH + id + ".json");
         return file.exists();
     }
+
+    //Comprueba si un producto existe
     public boolean existeixProducte(String id){
         File file = new File(PRODUCTES_PATH + id + ".json");
         return file.exists();
     }
+
+    //Comprueba si una prestatgeria existe
     public boolean existeixPrestatgeria(String id) {
         File file = new File(PRESTATGERIES_PATH + id + ".json");
         return file.exists();

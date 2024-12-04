@@ -1,6 +1,6 @@
 package classes;
 
-import Exepcions.ProducteJaExisteixException;
+import Exepcions.ProducteAlreadyExistsException;
 import Exepcions.ProductNotFoundComandaException;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class Comanda {
      *
      * @param nomProducte Nombre del producto a añadir.
      * @param quantitat   Cantidad del producto a añadir.
-     * @throws ProducteJaExisteixException Si el producto ya existe en la comanda.
+     * @throws ProducteAlreadyExistsException Si el producto ya existe en la comanda.
      * @throws IllegalArgumentException    Si la cantidad es menor o igual a cero.
      */
     public void afegirProducte(String nomProducte, int quantitat) {

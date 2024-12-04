@@ -164,7 +164,7 @@ public class TestPrestatgeria {
 
     // Eliminar Prestatge
     @Test
-    public void testEliminarPrestatgeAmbProductes() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
+    public void testEliminarPrestatgeAmbProductes() throws PrestatgeriaNotFoundException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException, JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
         prestatgeria.afegirProducte("Producte A", 5);
         prestatgeria.moureProducte(0, prestatgeria.getMidaPrestatgeria()-1);
          Map<String, Integer> aeliminar = new HashMap<>();

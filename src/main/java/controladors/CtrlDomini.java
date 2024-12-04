@@ -339,11 +339,11 @@ public class CtrlDomini {
      * @param midaPrestatge  Tamaño del prestatge.
      * @param midaPrestatgeria Tamaño total de la prestatgeria.
      * @throws MidaPrestatgeriaInvalidException Si los tamaños son inválidos.
-     * @throws PrestatgeriaJaExisteixException  Si la prestatgeria ya existe.
+     * @throws PrestatgeriaAlreadyExistsException  Si la prestatgeria ya existe.
      * @throws IllegalArgumentException         Si los argumentos son nulos o inválidos.
      */
     public void afegirPrestatgeria(String idPrestatgeria, int midaPrestatge, int midaPrestatgeria)
-    throws MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException, IllegalArgumentException {
+    throws MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException, IllegalArgumentException {
         if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
@@ -601,10 +601,10 @@ public class CtrlDomini {
      * @throws QuanitatInvalidException      Si las cantidades son inválidas.
      * @throws StockTooBigException          Si el stock inicial excede los límites.
      * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
-     * @throws ProducteJaExisteixException   Si el producto ya existe en el sistema.
+     * @throws ProducteAlreadyExistsException   Si el producto ya existe en el sistema.
      */
     public void altaProducte(String nomProducte, int maxHueco, int maxMagatzem, int stock)
-    throws QuanitatInvalidException, StockTooBigException, IllegalArgumentException, ProducteJaExisteixException {
+    throws QuanitatInvalidException, StockTooBigException, IllegalArgumentException, ProducteAlreadyExistsException {
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }

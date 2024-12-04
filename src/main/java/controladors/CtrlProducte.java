@@ -72,15 +72,15 @@ public class CtrlProducte {
      * @param maxHueco    Capacidad máxima por hueco.
      * @param maxMagatzem Capacidad máxima del almacén.
      * @param stock       Stock inicial.
-     * @throws ProducteJaExisteixException Si el producto ya existe.
+     * @throws ProducteAlreadyExistsException Si el producto ya existe.
      * @throws QuanitatInvalidException    Si el stock inicial es negativo.
      * @throws StockTooBigException        Si el stock inicial excede la capacidad máxima.
      * @throws IllegalArgumentException    Si las capacidades son no positivas.
      */
     public void altaProducte(String nomProducte, int maxHueco, int maxMagatzem, int stock)
-            throws ProducteJaExisteixException, QuanitatInvalidException, StockTooBigException, IllegalArgumentException {
+            throws ProducteAlreadyExistsException, QuanitatInvalidException, StockTooBigException, IllegalArgumentException {
         if (productesMagatzem.containsKey(nomProducte)) {
-            throw new ProducteJaExisteixException(nomProducte);
+            throw new ProducteAlreadyExistsException(nomProducte);
         }
         Producte p = new Producte(nomProducte, maxHueco, maxMagatzem, stock);
         productesMagatzem.put(nomProducte, p);

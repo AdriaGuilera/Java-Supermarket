@@ -21,7 +21,7 @@ public class TestCtrlDomini {
     @Test
     public void testReposarPrestatgeria()
     throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException,
-            QuanitatInvalidException, MidaPrestatgeriaInvalidException, PrestatgeriaJaExisteixException,
+            QuanitatInvalidException, MidaPrestatgeriaInvalidException, PrestatgeriaAlreadyExistsException,
             JaExisteixProucteaPrestatgeriaException, PrestatgeriaFullException {
 
         ctrlDomini.altaProducte("Producte A", 10, 55,55);

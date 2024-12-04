@@ -2,7 +2,7 @@ package testsUnitaris;
 
 import Exepcions.QuanitatInvalidException;
 import classes.Comanda;
-import Exepcions.ProducteJaExisteixException;
+import Exepcions.ProducteAlreadyExistsException;
 import Exepcions.ProductNotFoundComandaException;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -24,7 +24,7 @@ public class TestComanda {
     }
 
     @Test
-    public void testAfegirProducte_ProductoNuevo() throws ProducteJaExisteixException {
+    public void testAfegirProducte_ProductoNuevo() throws ProducteAlreadyExistsException {
         comanda.afegirProducte("Manzana", 10);
         assertEquals(10, comanda.getQuantitat("Manzana"));
     }
@@ -46,7 +46,7 @@ public class TestComanda {
     }
 
     @Test
-    public void testEliminarProducte_ProductoExistente() throws ProducteJaExisteixException, ProductNotFoundComandaException {
+    public void testEliminarProducte_ProductoExistente() throws ProducteAlreadyExistsException, ProductNotFoundComandaException {
         comanda.afegirProducte("Manzana", 10);
         comanda.eliminarProducte("Manzana",10);
         assertFalse(comanda.conteProducte("Manzana"));
@@ -86,7 +86,7 @@ public class TestComanda {
         assertEquals("Mi Primera Comanda", comanda.getNom());
     }
     @Test
-    public void testConteProducte_ProductoExistente() throws ProducteJaExisteixException {
+    public void testConteProducte_ProductoExistente() throws ProducteAlreadyExistsException {
         comanda.afegirProducte("Manzana", 10);
         assertTrue(comanda.conteProducte("Manzana"));
     }
@@ -96,7 +96,7 @@ public class TestComanda {
         assertFalse(comanda.conteProducte("Pera"));
     }
     @Test
-    public void testGetQuantitat_ProductoExistente() throws ProducteJaExisteixException {
+    public void testGetQuantitat_ProductoExistente() throws ProducteAlreadyExistsException {
         comanda.afegirProducte("Manzana", 10);
         assertEquals(10, comanda.getQuantitat("Manzana"));
     }
@@ -116,7 +116,7 @@ public class TestComanda {
     }
 
     @Test
-    public void testGetOrdres_Inmutabilidad() throws ProducteJaExisteixException {
+    public void testGetOrdres_Inmutabilidad() throws ProducteAlreadyExistsException {
         comanda.afegirProducte("Manzana", 10);
         Map<String, Integer> ordres = comanda.getOrdres();
         ordres.put("Pera", 5); // Intento de modificar la copia
