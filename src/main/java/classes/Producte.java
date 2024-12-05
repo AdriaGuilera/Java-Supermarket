@@ -4,6 +4,9 @@ import Exepcions.MaxMagatzemWarning;
 import Exepcions.QuanitatInvalidException;
 import Exepcions.StockTooBigException;
 import Exepcions.ZeroStockMagatzemWarning;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -13,25 +16,32 @@ import static java.lang.Integer.max;
 /**
  * Clase que representa un producto con su información asociada, como nombre, stock, y valores de similitud con otros productos.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Producte {
-
+    @JsonProperty("nom")
     private String nom; // Nombre del producto
+    @JsonProperty("maxHueco")
     private int maxHueco; // Capacidad máxima por hueco
+    @JsonProperty("maxMagatzem")
     private int maxMagatzem; // Capacidad máxima en el almacén
+    @JsonProperty("stock")
+    private int stock; // Cantidad actual en el almacén
+    @JsonProperty("similitud")
     private Map<String, Float> similitud = new HashMap<>(); // Mapa de similitudes con otros productos
-    private int stockMagatzem; // Cantidad actual en el almacén
 
-    /**
-     * Constructor de la clase Producte.
-     *
-     * @param nom       Nombre del producto.
-     * @param maxHueco  Capacidad máxima por hueco.
-     * @param maxMagatzem Capacidad máxima en el almacén.
-     * @param stock     Stock inicial del producto.
-     * @throws QuanitatInvalidException Si el stock inicial es negativo.
-     * @throws StockTooBigException     Si el stock inicial excede la capacidad máxima del almacén.
-     * @throws IllegalArgumentException Si los valores de capacidad son no positivos.
-     */
+
+
+
+    // Constructor por defecto
+    public Producte() {
+        this.nom = "";
+        this.maxHueco = 1;
+        this.maxMagatzem = 1;
+        this.similitud = new HashMap<>();
+        this.stock = 0;
+    }
+
+    // Constructor principal
     public Producte(String nom, int maxHueco, int maxMagatzem, int stock)
             throws QuanitatInvalidException, StockTooBigException, IllegalArgumentException {
         if (maxHueco <= 0 || maxMagatzem <= 0) {
@@ -47,10 +57,9 @@ public class Producte {
         this.nom = nom;
         this.maxHueco = maxHueco;
         this.maxMagatzem = maxMagatzem;
-        this.similitud = new HashMap<>(); // Si un producto no aparece en el mapa, su similitud es 0.
-        this.stockMagatzem = stock;
+        this.similitud = new HashMap<>();
+        this.stock = stock;
     }
-
     ////////////////////// Getters //////////////////////
 
     /**
@@ -86,7 +95,7 @@ public class Producte {
      * @return El stock actual.
      */
     public int getStock() {
-        return stockMagatzem;
+        return stock;
     }
 
     /**
@@ -107,7 +116,7 @@ public class Producte {
      * @param nouStock Nuevo valor de stock.
      */
     public void modStock(int nouStock) {
-        stockMagatzem = nouStock;
+        stock = nouStock;
     }
 
     /**
@@ -120,10 +129,10 @@ public class Producte {
         if (quantitat < 0) {
             throw new QuanitatInvalidException(0);
         }
-        if (stockMagatzem + quantitat > maxMagatzem) {
-            stockMagatzem = maxMagatzem;
+        if (stock + quantitat > maxMagatzem) {
+            stock = maxMagatzem;
         } else {
-            stockMagatzem += quantitat;
+            stock += quantitat;
         }
     }
 
@@ -137,7 +146,7 @@ public class Producte {
         if (quant < 0) {
             throw new QuanitatInvalidException(0);
         }
-        stockMagatzem = max(stockMagatzem - quant, 0);
+        stock = max(stock - quant, 0);
     }
 
     ////////////////////// Gestión de Similitud //////////////////////

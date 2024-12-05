@@ -391,5 +391,6 @@ public class CtrlPrestatgeria {
      * @param prestatgeria Prestatgeria a cargar.
      */
     public void carregarPrestatgeria(Prestatgeria prestatgeria) {
+        prestatgeries.put(prestatgeria.getId(), prestatgeria);
     }
 }

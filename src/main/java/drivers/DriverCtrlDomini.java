@@ -279,7 +279,7 @@ public class DriverCtrlDomini {
             ctrlDomini.afegirProducteComanda(nomComanda, nomProducte, quantitat);
             System.out.println("Producte afegit correctament a la comanda.");
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error2: " + e.getMessage());
         }
     }
 
@@ -734,7 +734,7 @@ public class DriverCtrlDomini {
         try {
             max_h = Integer.parseInt(readLine(scanner));
         } catch (Exception e) {
-            System.out.println("Error: El stock máximo en prestatgeria no puede estar vacío.");
+            System.out.println("Error1: El stock máximo en prestatgeria no puede estar vacío.");
             return;
         }
 
@@ -743,24 +743,24 @@ public class DriverCtrlDomini {
         try {
             max_m = Integer.parseInt(readLine(scanner));
         } catch (Exception e) {
-            System.out.println("Error: El stock máximo en magatzem no puede estar vacío.");
+            System.out.println("Error1: El stock máximo en magatzem no puede estar vacío.");
             return;
         }
 
-        int stock = 0;
+        int stockMagatzem = 0;
         System.out.println("Cantidad inicial de stock:");
         try {
-            stock = Integer.parseInt(readLine(scanner));
+            stockMagatzem = Integer.parseInt(readLine(scanner));
         } catch (Exception e) {
-            System.out.println("Error: El stock inicial no puede estar vacío.");
+            System.out.println("Error1: El stock inicial no puede estar vacío.");
             return;
         }
 
         try {
-            ctrlDomini.altaProducte(nom, max_h, max_m, stock);
+            ctrlDomini.altaProducte(nom, max_h, max_m, stockMagatzem);
             System.out.println("Producto " + nom + " dado de alta correctamente.");
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error1: " + e.getMessage());
         }
     }
 
@@ -776,7 +776,7 @@ public class DriverCtrlDomini {
             ctrlDomini.eliminarProducte(nom);
             System.out.println("Producto " + nom + " eliminado correctamente.");
         } catch (Exception e){
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Warning: " + e.getMessage());
         }
     }
 
@@ -796,7 +796,7 @@ public class DriverCtrlDomini {
         try {
             value = Float.parseFloat(readLine(scanner));
         } catch (Exception e) {
-            System.out.println("Error: La similitud no puede estar vacía.");
+            System.out.println("Error1: La similitud no puede estar vacía.");
 
             return;
         }
@@ -804,7 +804,7 @@ public class DriverCtrlDomini {
             ctrlDomini.afegir_similitud(nom1, nom2, value);
             System.out.println("Similitud agregada correctamente.");
         } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Error1: " + e.getMessage());
         }
     }
 
@@ -822,7 +822,7 @@ public class DriverCtrlDomini {
             ctrlDomini.eliminarSimilitud(nom1, nom2);
             System.out.println("Similitud entre " + nom1 + " y " + nom2 + " ahora es 0.");
         } catch (Exception e) {
-            System.out.println("Error: " +e.getMessage());
+            System.out.println("Error1: " +e.getMessage());
         }
     }
 

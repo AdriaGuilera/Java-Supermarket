@@ -1,6 +1,10 @@
 {
   "nom" : "pera",
-  "maxHueco" : 5,
-  "maxMagatzem" : 5,
-  "stock" : 5
+  "maxHueco" : 3,
+  "maxMagatzem" : 3,
+  "stock" : 2,
+  "similitud" : {
+    "pina" : 6.0,
+    "pis" : 2.0
+  }
 }

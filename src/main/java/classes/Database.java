@@ -1,5 +1,6 @@
 package classes;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -49,6 +50,26 @@ public class Database {
         return objectMapper.readValue(file, Producte.class);
     }
 
+    public Map<String, Producte> getProductes() throws IOException {
+        Map<String, Producte> productes = new HashMap<>();
+        File directory = new File(PRODUCTES_PATH);
+
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles((dir, name) -> name.endsWith(".json"));
+
+            if (files != null) {
+                for (File file : files) {
+                    Producte producte = objectMapper.readValue(file, Producte.class);
+                    productes.put(producte.getNom(), producte);
+                }
+            }
+        } else {
+            throw new IOException("El directorio de productos no existe o no es válido: " + PRODUCTES_PATH);
+        }
+
+        return productes;
+    }
+
     //Método que carga una prestatgeria a partir de su id
     public Prestatgeria getPrestatgeria(String id) throws PrestatgeriaNotFoundException, IOException {
         File file = new File(PRESTATGERIES_PATH + id + ".json");
@@ -58,6 +79,23 @@ public class Database {
         return objectMapper.readValue(file, Prestatgeria.class);
     }
 
+    public Map<String, Prestatgeria> getPrestatgeries() throws IOException {
+        Map<String, Prestatgeria> prestatgeries = new HashMap<>();
+        File directory = new File(PRESTATGERIES_PATH);
+
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles((dir, name) -> name.endsWith(".json"));
+
+            if (files != null) {
+                for (File file : files) {
+                    Prestatgeria prestatgeria = objectMapper.readValue(file, Prestatgeria.class);
+                    prestatgeries.put(prestatgeria.getId(), prestatgeria);
+                }
+            }
+        }
+
+        return prestatgeries;
+    }
 
     //Método que carga la caja
     public Caixa getCaixa() throws IOException {

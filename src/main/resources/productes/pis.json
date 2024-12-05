@@ -1,0 +1,9 @@
+{
+  "nom" : "pis",
+  "maxHueco" : 4,
+  "maxMagatzem" : 4,
+  "stock" : 4,
+  "similitud" : {
+    "pera" : 2.0
+  }
+}

@@ -5,6 +5,7 @@ import java.util.*;
 import Exepcions.*;
 import classes.*;
 
+import static java.lang.Integer.max;
 import static java.lang.Integer.min;
 
 
@@ -44,12 +45,13 @@ public class CtrlDomini {
      * @param nomComanda Nombre de la comanda.
      * @throws IllegalArgumentException Si el nombre de la comanda es nulo o vacío.
      */
-    public void crearComanda(String nomComanda) throws IllegalArgumentException {
+    public void crearComanda(String nomComanda) throws IllegalArgumentException, IOException {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
-        if(database.existeixComanda(nomComanda)) throw new IllegalArgumentException("La comanda ya existeix");
         ctrlComandes.crearComanda(nomComanda);
+        database.addComanda(ctrlComandes.getComandaUnica(nomComanda));
+        ctrlComandes.eliminarComanda(nomComanda);
     }
 
 
@@ -64,10 +66,8 @@ public class CtrlDomini {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
-        if(!database.existeixComanda(nomComanda)) throw new IllegalArgumentException("La comanda no existeix");
-        Comanda comanda = database.getComanda(nomComanda);
-        ctrlComandes.cargarComanda(comanda);
-        ctrlComandes.eliminarComanda(nomComanda);
+
+        database.deleteComanda(nomComanda);
     }
 
     /**
@@ -82,7 +82,7 @@ public class CtrlDomini {
      * @throws ProductNotFoundMagatzemException Si el producto no existe en el almacén.
      */
     public void afegirProducteComanda(String nomComanda, String nomProducte, int quantitat)
-            throws IllegalArgumentException, QuanitatInvalidException, ComandaNotFoundException, ProductNotFoundMagatzemException {
+            throws IllegalArgumentException, QuanitatInvalidException, ComandaNotFoundException, ProductNotFoundMagatzemException, IOException {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
@@ -92,12 +92,19 @@ public class CtrlDomini {
         if (quantitat <= 0) {
             throw new IllegalArgumentException("La quantitat ha de ser > 0.");
         }
-        if (!ctrlComandes.existeixComanda(nomComanda)) {
+        if (!database.existeixComanda(nomComanda)) {
             throw new ComandaNotFoundException(nomComanda);
         }
-        if (!ctrlProducte.existeixProducte(nomProducte)) {
+        if (!database.existeixProducte(nomProducte)) {
             throw new ProductNotFoundMagatzemException(nomProducte);
         }
+        //Cargamos la comanda y el producte
+        Comanda comanda = database.getComanda(nomComanda);
+        Producte producte = database.getProducte(nomProducte);
+        ctrlComandes.cargarComanda(comanda);
+        ctrlProducte.cargarProducte(producte);
+
+        //Afegim el producte a al comanda
         ctrlComandes.afegirProducteComanda(nomComanda, nomProducte, quantitat);
     }
 
@@ -111,7 +118,7 @@ public class CtrlDomini {
      * @throws ProductNotFoundComandaException Si el producto no existe en la comanda.
      */
     public void eliminarProducteComanda(String nomComanda, String nomProducte, int quantitat)
-            throws IllegalArgumentException, ProductNotFoundComandaException {
+            throws IllegalArgumentException, ProductNotFoundComandaException, IOException {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
@@ -121,6 +128,14 @@ public class CtrlDomini {
         if (quantitat <= 0) {
             throw new IllegalArgumentException("La quantitat ha de ser > 0.");
         }
+
+        //Cargamos la comanda y el produco
+        Comanda comanda = database.getComanda(nomComanda);
+        Producte producte = database.getProducte(nomProducte);
+        ctrlComandes.cargarComanda(comanda);
+        ctrlProducte.cargarProducte(producte);
+
+        //Eliminamos el producto de la comanda
         ctrlComandes.eliminarProducteComanda(nomComanda, nomProducte, quantitat);
     }
 
@@ -154,12 +169,19 @@ public class CtrlDomini {
      * @param nomComanda Nombre de la comanda a generar.
      * @throws IllegalArgumentException Si el nombre es nulo o vacío.
      */
-    public void generarComandaAutomatica(String nomComanda) throws IllegalArgumentException {
+    public void generarComandaAutomatica(String nomComanda) throws IllegalArgumentException, IOException {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda automatica no pot estar buit.");
         }
+        //Cargamos el almazen
+        Map<String, Producte> productesMagatzem = database.getProductes();
+        for (Producte producte : productesMagatzem.values()) {
+            ctrlProducte.cargarProducte(producte);
+        }
+        //Generamos comanda automatica y la guardamos
         Map<String, Integer> productosFaltantes = ctrlProducte.generarComandaAutomatica();
         ctrlComandes.crearComandaAutomatica(nomComanda, productosFaltantes);
+        database.addComanda(ctrlComandes.getComandaUnica(nomComanda));
     }
 
     /**
@@ -173,6 +195,8 @@ public class CtrlDomini {
         if (noms == null) {
             throw new IllegalArgumentException("Els noms no poden estar buits.");
         }
+        //Cargamos las comandas y el magatzem
+
         Map<String, Comanda> comandesAExecutar = ctrlComandes.obtenirComandes(noms);
         ctrlProducte.executarComandes(comandesAExecutar);
     }
@@ -648,14 +672,14 @@ public class CtrlDomini {
      * @param nomProducte Nombre del producto.
      * @param maxHueco       Máxima cantidad permitida en la prestatgeria.
      * @param maxMagatzem       Máxima cantidad permitida en el almacén.
-     * @param stock       Cantidad inicial en el almacén.
+     * @param stockMagatzem       Cantidad inicial en el almacén.
      * @throws QuanitatInvalidException      Si las cantidades son inválidas.
      * @throws StockTooBigException          Si el stock inicial excede los límites.
      * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
      * @throws ProducteAlreadyExistsException   Si el producto ya existe en el sistema.
      */
-    public void altaProducte(String nomProducte, int maxHueco, int maxMagatzem, int stock)
-    throws QuanitatInvalidException, StockTooBigException, IllegalArgumentException, ProducteAlreadyExistsException {
+    public void altaProducte(String nomProducte, int maxHueco, int maxMagatzem, int stockMagatzem)
+            throws QuanitatInvalidException, StockTooBigException, IllegalArgumentException, ProducteAlreadyExistsException, IOException {
         if (nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
@@ -665,8 +689,10 @@ public class CtrlDomini {
         if (maxMagatzem <=0) {
             throw new IllegalArgumentException("El maxim d'estock en magatzem ha de ser > 0");
         }
+        Producte producte = new Producte(nomProducte,maxHueco,maxMagatzem,stockMagatzem);
 
-        ctrlProducte.altaProducte(nomProducte, maxHueco, maxMagatzem,stock);
+        database.addProducte(producte);
+
     }
 
     /**
@@ -686,16 +712,22 @@ public class CtrlDomini {
         if(!database.existeixProducte(nomProducte)) throw new IllegalArgumentException("El Producte no existeix");
         Producte producte = database.getProducte(nomProducte);
 
-        //Cargamos el producto y lo eliminamos
-        ctrlProducte.cargarProducte(producte);
-        ctrlProducte.eliminarProducte(nomProducte);
-        //Lo eliminamos de las prestatgerias
-        ctrlPrestatgeria.eliminarProducte(nomProducte);
+        //Eliminamos el producto
+        database.deleteProducte(nomProducte);
 
-        //Lo eliminamos de la caixa
+        //Cargamos las prestatgeries y Lo eliminamos de las prestatgerias y guardamos las prestatgeries
+        Map<String, Prestatgeria> prestatgeries = database.getPrestatgeries();
+        for (Prestatgeria prestatgeria : prestatgeries.values()) {
+            ctrlPrestatgeria.carregarPrestatgeria(prestatgeria);
+        }
+        ctrlPrestatgeria.eliminarProducte(nomProducte);
+        database.savePrestatgeries(ctrlPrestatgeria.getPrestatgeries().values());
+
+        //Lo eliminamos de la caixa y guaradamos la caixa
+        caixa = database.getCaixa();
         int qcaixa = caixa.getQuantitat(nomProducte);
         caixa.retirarProducte(nomProducte, qcaixa);
-
+        database.saveCaixa(caixa);
     }
 
     /**
@@ -708,7 +740,7 @@ public class CtrlDomini {
      * @throws ProductNotFoundMagatzemException Si alguno de los productos no existe en el almacén.
      * @throws calculMateixosProductesSimilitud Si se intenta añadir una similitud con el mismo producto.
      */
-    public void afegir_similitud(String nom1, String nom2, float value)  throws IllegalArgumentException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud {
+    public void afegir_similitud(String nom1, String nom2, float value) throws IllegalArgumentException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud, IOException {
         if (nom1 == null || nom1.isEmpty()) {
             throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
         }
@@ -718,6 +750,14 @@ public class CtrlDomini {
         if (value<=0) {
             throw new IllegalArgumentException("El valor de la similitud ha de ser > 0");
         }
+        //Cargamos los dos productos
+
+        Producte producte1 = database.getProducte(nom1);
+        Producte producte2 = database.getProducte(nom2);
+        ctrlProducte.cargarProducte(producte1);
+        ctrlProducte.cargarProducte(producte2);
+
+        //Añadimos la similitud
         ctrlProducte.afegirSimilitud(nom1, nom2, value);
     }
 
@@ -730,13 +770,22 @@ public class CtrlDomini {
      * @throws ProductNotFoundMagatzemException Si alguno de los productos no existe en el almacén.
      * @throws calculMateixosProductesSimilitud Si se intenta eliminar una similitud con el mismo producto.
      */
-    public void eliminarSimilitud(String nom1, String nom2) throws IllegalArgumentException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud{
+    public void eliminarSimilitud(String nom1, String nom2) throws IllegalArgumentException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud, IOException {
         if (nom1 == null || nom1.isEmpty()) {
             throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
         }
         if (nom2 == null || nom2.isEmpty()) {
             throw new IllegalArgumentException("El nom del segon producte no pot estar buit.");
         }
+
+        //Cargamos los dos productos
+
+        Producte producte1 = database.getProducte(nom1);
+        Producte producte2 = database.getProducte(nom2);
+        ctrlProducte.cargarProducte(producte1);
+        ctrlProducte.cargarProducte(producte2);
+
+        //Eliminamos la similitud
         ctrlProducte.eliminarSimilitud(nom1, nom2);
     }
 

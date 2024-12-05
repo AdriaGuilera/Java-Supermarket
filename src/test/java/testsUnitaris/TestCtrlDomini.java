@@ -105,7 +105,7 @@ public class TestCtrlDomini {
     }
 
     @Test
-    public void testExecutarComandaAutomaitca(){
+    public void testExecutarComandaAutomaitca() throws IOException {
         // Set up products
         ctrlDomini.altaProducte("Producto A", 100, 500,200);
         ctrlDomini.altaProducte("Producto B", 50, 300,100);
@@ -187,7 +187,7 @@ public class TestCtrlDomini {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCrearComandaNomBuit() {
+    public void testCrearComandaNomBuit() throws IOException {
         ctrlDomini.crearComanda("");
     }
 
@@ -247,7 +247,7 @@ public class TestCtrlDomini {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testObtenirComandaAutomaticaNomBuit() {
+    public void testObtenirComandaAutomaticaNomBuit() throws IOException {
         ctrlDomini.generarComandaAutomatica("");
     }
 
