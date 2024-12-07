@@ -36,6 +36,11 @@ public class CtrlDomini {
     public void guardar() throws IOException {
 
         database.saveAll(ctrlComandes.getComandes().values(), ctrlProducte.getMagatzem().values(), ctrlPrestatgeria.getPrestatgeries().values(), caixa);
+
+        ctrlComandes = new CtrlComandes();
+        ctrlProducte = new CtrlProducte();
+        ctrlPrestatgeria = new CtrlPrestatgeria();
+        caixa = new Caixa();
     }
 
 
@@ -102,7 +107,7 @@ public class CtrlDomini {
         Comanda comanda = database.getComanda(nomComanda);
         Producte producte = database.getProducte(nomProducte);
         ctrlComandes.cargarComanda(comanda);
-        ctrlProducte.cargarProducte(producte);
+        ctrlProducte.carregarProducte(producte);
 
         //Afegim el producte a al comanda
         ctrlComandes.afegirProducteComanda(nomComanda, nomProducte, quantitat);
@@ -133,7 +138,7 @@ public class CtrlDomini {
         Comanda comanda = database.getComanda(nomComanda);
         Producte producte = database.getProducte(nomProducte);
         ctrlComandes.cargarComanda(comanda);
-        ctrlProducte.cargarProducte(producte);
+        ctrlProducte.carregarProducte(producte);
 
         //Eliminamos el producto de la comanda
         ctrlComandes.eliminarProducteComanda(nomComanda, nomProducte, quantitat);
@@ -176,7 +181,7 @@ public class CtrlDomini {
         //Cargamos el almazen
         Map<String, Producte> productesMagatzem = database.getProductes();
         for (Producte producte : productesMagatzem.values()) {
-            ctrlProducte.cargarProducte(producte);
+            ctrlProducte.carregarProducte(producte);
         }
         //Generamos comanda automatica y la guardamos
         Map<String, Integer> productosFaltantes = ctrlProducte.generarComandaAutomatica();
@@ -191,11 +196,20 @@ public class CtrlDomini {
      * @throws IllegalArgumentException Si el array es nulo.
      * @throws ComandaNotFoundException Si alguna de las comandas no existe.
      */
-    public void executarComandes(String[] noms) throws IllegalArgumentException, ComandaNotFoundException {
+    public void executarComandes(String[] noms) throws IllegalArgumentException, ComandaNotFoundException, IOException {
         if (noms == null) {
             throw new IllegalArgumentException("Els noms no poden estar buits.");
         }
         //Cargamos las comandas y el magatzem
+        Map<String, Producte> productesMagatzem = database.getProductes();
+        for (Producte producte : productesMagatzem.values()) {
+            ctrlProducte.carregarProducte(producte);
+        }
+
+        for(String nom:noms){
+            ctrlComandes.cargarComanda(database.getComanda(nom));
+        }
+
 
         Map<String, Comanda> comandesAExecutar = ctrlComandes.obtenirComandes(noms);
         ctrlProducte.executarComandes(comandesAExecutar);
@@ -754,8 +768,8 @@ public class CtrlDomini {
 
         Producte producte1 = database.getProducte(nom1);
         Producte producte2 = database.getProducte(nom2);
-        ctrlProducte.cargarProducte(producte1);
-        ctrlProducte.cargarProducte(producte2);
+        ctrlProducte.carregarProducte(producte1);
+        ctrlProducte.carregarProducte(producte2);
 
         //Añadimos la similitud
         ctrlProducte.afegirSimilitud(nom1, nom2, value);
@@ -782,8 +796,8 @@ public class CtrlDomini {
 
         Producte producte1 = database.getProducte(nom1);
         Producte producte2 = database.getProducte(nom2);
-        ctrlProducte.cargarProducte(producte1);
-        ctrlProducte.cargarProducte(producte2);
+        ctrlProducte.carregarProducte(producte1);
+        ctrlProducte.carregarProducte(producte2);
 
         //Eliminamos la similitud
         ctrlProducte.eliminarSimilitud(nom1, nom2);

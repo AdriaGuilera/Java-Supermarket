@@ -1,9 +1,9 @@
 {
-  "nom" : "pina",
+  "nom" : "pis",
   "maxHueco" : 4,
   "maxMagatzem" : 4,
-  "stock" : 0,
+  "stock" : 4,
   "similitud" : {
-    "pera" : 6.0
+    "pera" : 2.0
   }
 }

@@ -4,6 +4,7 @@
   "maxMagatzem" : 3,
   "stock" : 2,
   "similitud" : {
-    "pina" : 6.0
+    "pina" : 6.0,
+    "pis" : 2.0
   }
 }
