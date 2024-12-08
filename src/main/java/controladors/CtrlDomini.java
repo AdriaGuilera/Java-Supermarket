@@ -359,6 +359,11 @@ public class CtrlDomini {
             ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
         }
         Vector<String> productes = ctrlPrestatgeria.getNomsProductes(id_prestatgeria);
+        for(String producte:productes){
+            if(!ctrlProducte.existeixProducte(producte)){
+                ctrlProducte.carregarProducte(database.getProducte(producte));
+            }
+        }
         Set<String> fixats = ctrlPrestatgeria.getProductesFixats(id_prestatgeria);
         Vector<String> novadist = algorismes.encontrarMejorDistribucionBacktracking(productes , fixats, ctrlProducte.getMagatzem());
         ctrlPrestatgeria.setDistribucio(id_prestatgeria, novadist);
@@ -380,6 +385,11 @@ public class CtrlDomini {
             ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
         }
         Vector<String> productes = ctrlPrestatgeria.getNomsProductes(id_prestatgeria);
+        for(String producte:productes){
+            if(!ctrlProducte.existeixProducte(producte)){
+                ctrlProducte.carregarProducte(database.getProducte(producte));
+            }
+        }
         Set<String> fixats = ctrlPrestatgeria.getProductesFixats(id_prestatgeria);
         Vector<String> novadist = algorismes.encontrarMejorDistribucionHillClimbing(productes , fixats, ctrlProducte.getMagatzem());
         ctrlPrestatgeria.setDistribucio(id_prestatgeria, novadist);

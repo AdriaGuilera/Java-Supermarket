@@ -396,6 +396,9 @@ public class Prestatgeria {
 			i++;
 		}
 	}
+    public String getProductPos(int i) {
+		return posicions.get(i);
+    }
 }
 
 

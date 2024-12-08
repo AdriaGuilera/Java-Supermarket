@@ -1,10 +1,8 @@
 package Views;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -12,69 +10,98 @@ import java.util.Map;
 import controladors.CtrlDomini;
 import classes.Prestatgeria;
 import Exepcions.*;
-import java.util.Vector;
+import Components.*;
 
 public class PrestatgeriesView extends JFrame {
-    private CtrlDomini ctrlDomini;
+    public CtrlDomini ctrlDomini;
     private JPanel mainPanel;
     private JPanel prestatgeriesPanel;
-    
+    private CardLayout cardLayout;
+    private JList<String> prestatgeriaList;
+    private DefaultListModel<String> listModel;
+
     public PrestatgeriesView(CtrlDomini ctrlDomini) {
         this.ctrlDomini = ctrlDomini;
         setupUI();
     }
 
-    // In PrestatgeriesView.java, modify setupUI():
-
     private void setupUI() {
         setTitle("Gestió de Prestatgeries");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 600);
-    
-        // Initialize all panels first
+
+        // Initialize main panel
         mainPanel = new JPanel(new BorderLayout());
-        prestatgeriesPanel = new JPanel();
-        prestatgeriesPanel.setLayout(new BoxLayout(prestatgeriesPanel, BoxLayout.Y_AXIS));
-        
+
+        // Initialize card layout for prestatgeries
+        cardLayout = new CardLayout();
+        prestatgeriesPanel = new JPanel(cardLayout);
+
+        // Initialize list model and JList for selection
+        listModel = new DefaultListModel<>();
+        prestatgeriaList = new JList<>(listModel);
+        prestatgeriaList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        prestatgeriaList.setLayoutOrientation(JList.VERTICAL);
+        prestatgeriaList.setCellRenderer(new CustomListCellRenderer());
+        prestatgeriaList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                String selectedId = prestatgeriaList.getSelectedValue();
+                if (selectedId != null) {
+                    cardLayout.show(prestatgeriesPanel, selectedId);
+                }
+            }
+        });
+
         // Create main buttons container
-        JPanel buttonsContainer = new JPanel(new GridLayout(2, 1, 5, 5));
-        
+        JPanel buttonsContainer = new JPanel(new GridLayout(2, 1, 5, 10));
+
         // First row of buttons
-        JPanel topButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
-        JButton addButton = new JButton("Afegir Prestatgeria");
-        JButton deleteButton = new JButton("Eliminar Prestatgeria");
-        JButton addProductButton = new JButton("Afegir Producte");
-        JButton removeProductButton = new JButton("Retirar Producte");
-        JButton fixProductButton = new JButton("Fixar Producte");
-    
+        JPanel topButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        JButton addButton = new StyledButton("Afegir Prestatgeria");
+        JButton deleteButton = new StyledButton("Eliminar Prestatgeria");
+        JButton addProductButton = new StyledButton("Afegir Producte");
+        JButton removeProductButton = new StyledButton("Retirar Producte");
+        JButton fixProductButton = new StyledButton("Fixar Producte");
+
         topButtonsPanel.add(addButton);
         topButtonsPanel.add(deleteButton);
         topButtonsPanel.add(addProductButton);
         topButtonsPanel.add(removeProductButton);
         topButtonsPanel.add(fixProductButton);
-    
+
         // Second row of buttons
         JPanel bottomButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
-        JButton unfixProductButton = new JButton("Desfixar Producte");
-        JButton generateDistButton = new JButton("Generar Distribució");
-        JButton decrementStockButton = new JButton("Decrementar Stock");
-        JButton addShelfButton = new JButton("Afegir Prestatge");
-        JButton removeShelfButton = new JButton("Eliminar Prestatge");
-    
+        JButton unfixProductButton = new StyledButton("Desfixar Producte");
+        JButton generateDistButton = new StyledButton("Generar Distribució");
+        JButton decrementStockButton = new StyledButton("Decrementar Stock");
+        JButton addShelfButton = new StyledButton("Afegir Prestatge");
+        JButton removeShelfButton = new StyledButton("Eliminar Prestatge");
+
         bottomButtonsPanel.add(unfixProductButton);
         bottomButtonsPanel.add(generateDistButton);
         bottomButtonsPanel.add(decrementStockButton);
         bottomButtonsPanel.add(addShelfButton);
         bottomButtonsPanel.add(removeShelfButton);
-    
+
         // Add button rows to container
         buttonsContainer.add(topButtonsPanel);
         buttonsContainer.add(bottomButtonsPanel);
-    
+
         // Add to main panel
         mainPanel.add(buttonsContainer, BorderLayout.NORTH);
+        mainPanel.add(new JScrollPane(prestatgeriaList), BorderLayout.WEST);
         mainPanel.add(new JScrollPane(prestatgeriesPanel), BorderLayout.CENTER);
-    
+
+        // Define the save button
+        SaveButton saveButton = new SaveButton("Guardar");
+
+        // Add the save button to a new panel at the bottom
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        bottomPanel.add(saveButton);
+
+        // Add the bottom panel to the main panel
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+
         // Add button listeners
         addButton.addActionListener(e -> showAddPrestatgeriaDialog());
         deleteButton.addActionListener(e -> showDeletePrestatgeriaDialog());
@@ -86,185 +113,159 @@ public class PrestatgeriesView extends JFrame {
         decrementStockButton.addActionListener(e -> showDecrementStockDialog());
         addShelfButton.addActionListener(e -> showAddShelfDialog());
         removeShelfButton.addActionListener(e -> showRemoveShelfDialog());
-    
+
+        // Implement the action listener for the save button
+        saveButton.addActionListener(e -> {
+            try {
+                ctrlDomini.guardar();
+                JOptionPane.showMessageDialog(this, "Data saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error saving data: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // Add the back button to the top left corner
+        BackButton backButton = new BackButton("Back", e -> {showLeaveDialog();});
+        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+        backButtonPanel.add(backButton);
+
+        // Create a panel to combine the back button and the top buttons
+        JPanel combinedTopPanel = new JPanel(new BorderLayout());
+        combinedTopPanel.add(backButtonPanel, BorderLayout.NORTH);
+        combinedTopPanel.add(buttonsContainer, BorderLayout.CENTER);
+
+        // Add the combined panel to the main panel
+        mainPanel.add(combinedTopPanel, BorderLayout.NORTH);
+
         // Add main panel to frame
         add(mainPanel);
-        try{
+        try {
             refreshPrestatgeriesView();
+            if (!listModel.isEmpty()) {
+                prestatgeriaList.setSelectedIndex(0); // Select the first element
+            }
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-}
+    }
 
-    private void refreshPrestatgeriesView() throws IOException {
+    public void refreshPrestatgeriesView() throws IOException {
+        String selectedId = prestatgeriaList.getSelectedValue(); // Store the selected prestatgeria ID
+
         prestatgeriesPanel.removeAll();
+        listModel.clear();
         Map<String, Prestatgeria> prestatgeries = ctrlDomini.getPrestatgeries();
-        
-        // Create layout for multiple prestatgeries
-        prestatgeriesPanel.setLayout(new GridLayout(0, 2, 10, 10)); // 2 prestatgeries per row
-        
+
+        int maxElementWidth = 0;
+        FontMetrics fontMetrics = prestatgeriaList.getFontMetrics(prestatgeriaList.getFont());
+
         for (Map.Entry<String, Prestatgeria> entry : prestatgeries.entrySet()) {
             Prestatgeria prest = entry.getValue();
-            
-            // Create panel for single prestatgeria
+            listModel.addElement(prest.getId());
+
+            int elementWidth = fontMetrics.stringWidth(prest.getId());
+            if (elementWidth > maxElementWidth) {
+                maxElementWidth = elementWidth;
+            }
+
             JPanel prestPanel = new JPanel(new BorderLayout());
-            prestPanel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(Color.BLACK, 2),
-                "Prestatgeria " + prest.getId()
-            ));
-            
-            // Calculate shelf dimensions
+            TitledBorder border = BorderFactory.createTitledBorder(
+                    BorderFactory.createLineBorder(Color.BLACK, 2),
+                    "Prestatgeria " + prest.getId(),
+                    TitledBorder.CENTER,
+                    TitledBorder.TOP
+            );
+            border.setTitleFont(new Font("Segoe UI", Font.BOLD, 14));
+            border.setTitlePosition(TitledBorder.ABOVE_TOP);
+            border.setTitleJustification(TitledBorder.CENTER);
+            prestPanel.setBorder(border);
+
             int numShelves = prest.getMidaPrestatgeria() / prest.getMidaPrestatge();
             int shelfSize = prest.getMidaPrestatge();
-            
-            // Create shelves panel
             JPanel shelvesPanel = new JPanel(new GridLayout(numShelves, 1, 5, 5));
-            
-            // Create individual shelves
+
             for (int shelf = 0; shelf < numShelves; shelf++) {
                 JPanel shelfPanel = new JPanel(new GridLayout(1, shelfSize, 2, 2));
                 shelfPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-                
-                // Fill shelf cells
+
                 for (int pos = shelf * shelfSize; pos < (shelf + 1) * shelfSize; pos++) {
                     String productName = prest.getPosicions().get(pos);
                     JPanel cellPanel = createProductCell(prest, pos, productName);
                     shelfPanel.add(cellPanel);
                 }
-                
+
                 shelvesPanel.add(shelfPanel);
             }
-            
+
             prestPanel.add(shelvesPanel, BorderLayout.CENTER);
-            
-            // Add metadata panel
-            JPanel metaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            metaPanel.add(new JLabel("Mida Total: " + prest.getMidaPrestatgeria()));
-            metaPanel.add(new JLabel("  Mida Prestatge: " + prest.getMidaPrestatge()));
-            prestPanel.add(metaPanel, BorderLayout.SOUTH);
-            
-            prestatgeriesPanel.add(prestPanel);
+            prestatgeriesPanel.add(prestPanel, prest.getId());
         }
-        
+
+        prestatgeriaList.setPreferredSize(new Dimension(maxElementWidth + 20, prestatgeriaList.getPreferredSize().height));
         prestatgeriesPanel.revalidate();
         prestatgeriesPanel.repaint();
+
+        if (selectedId != null) {
+            prestatgeriaList.setSelectedValue(selectedId, true); // Reselect the previously selected prestatgeria
+        }
     }
 
     private JPanel createProductCell(Prestatgeria prest, int position, String productName) {
         JPanel cell = new JPanel(new BorderLayout());
         cell.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-        cell.setName("pos_" + position); // Tag position for identification
-        
-        // Make all cells drop targets
-        TransferHandler handler = new ProductTransferHandler(prest.getId(), position);
+        cell.setName("pos_" + position);
+
+        TransferHandler handler = new ProductTransferHandler(this, prest.getId(), position);
         cell.setTransferHandler(handler);
-        
+
         if (productName != null) {
             Integer quantity = prest.getProductes().get(productName);
-            
+
             JLabel nameLabel = new JLabel(productName);
             nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            
+
             JLabel quantityLabel = new JLabel("Qty: " + quantity);
             quantityLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            
+
             if (prest.getProductesFixats().contains(productName)) {
                 cell.setBackground(new Color(255, 220, 220));
                 nameLabel.setForeground(Color.RED);
             } else {
                 cell.setBackground(Color.WHITE);
             }
-            
+
             cell.add(nameLabel, BorderLayout.CENTER);
             cell.add(quantityLabel, BorderLayout.SOUTH);
-            
-            // Add drag capability only to cells with products
+
             cell.addMouseListener(new MouseAdapter() {
                 public void mousePressed(MouseEvent e) {
-                    JComponent c = (JComponent)e.getSource();
+                    JComponent c = (JComponent) e.getSource();
                     c.getTransferHandler().exportAsDrag(c, e, TransferHandler.MOVE);
                 }
             });
         } else {
-            // Visual feedback for empty cells
             cell.setBackground(new Color(240, 240, 240));
         }
-        
-        cell.setPreferredSize(new Dimension(100, 80));
+
+        cell.setPreferredSize(new Dimension(20, 20));
         return cell;
-    }
-    
-    // Update ProductTransferHandler:
-    private class ProductTransferHandler extends TransferHandler {
-        private final int position;
-        private final String prestatgeriaId;
-    
-        public ProductTransferHandler(String prestatgeriaId, int position) {
-            this.prestatgeriaId = prestatgeriaId;
-            this.position = position;
-        }
-    
-        @Override
-        protected Transferable createTransferable(JComponent c) {
-            return new StringSelection(position + "");
-        }
-    
-        @Override
-        public int getSourceActions(JComponent c) {
-            return MOVE;
-        }
-    
-        @Override
-        public boolean canImport(TransferSupport support) {
-            return support.isDataFlavorSupported(DataFlavor.stringFlavor);
-        }
-    
-        @Override
-        public boolean importData(TransferSupport support) {
-            if (!canImport(support)) return false;
-    
-            try {
-                String data = (String)support.getTransferable().getTransferData(DataFlavor.stringFlavor);
-                int sourcePos = Integer.parseInt(data);
-                
-                // Get target position from component name
-                JPanel targetCell = (JPanel)support.getComponent();
-                int targetPos = Integer.parseInt(targetCell.getName().split("_")[1]);
-    
-                // Don't move to same position
-                if (sourcePos == targetPos) {
-                    return false;
-                }
-    
-                // Move product
-                ctrlDomini.moureProducteDeHueco(prestatgeriaId, sourcePos, targetPos);
-                refreshPrestatgeriesView();
-                return true;
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(PrestatgeriesView.this, 
-                    "Error moving product: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-        }
     }
 
     private void showAddPrestatgeriaDialog() {
         JDialog dialog = new JDialog(this, "Afegir Prestatgeria", true);
         JPanel panel = new JPanel(new GridLayout(4, 2));
-        
+
         JTextField idField = new JTextField();
         JTextField midaField = new JTextField();
         JTextField midaPrestField = new JTextField();
-        
+
         panel.add(new JLabel("ID:"));
         panel.add(idField);
         panel.add(new JLabel("Mida Total:"));
         panel.add(midaField);
         panel.add(new JLabel("Mida Prestatge:"));
         panel.add(midaPrestField);
-        
+
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
@@ -278,7 +279,7 @@ public class PrestatgeriesView extends JFrame {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-        
+
         panel.add(acceptButton);
         dialog.add(panel);
         dialog.pack();
@@ -287,7 +288,7 @@ public class PrestatgeriesView extends JFrame {
     }
 
     private void showDeletePrestatgeriaDialog() {
-        String id = JOptionPane.showInputDialog(this, "ID de la prestatgeria a eliminar:");
+        String id = JOptionPane.showInputDialog(this, "ID de la prestatgeria a eliminar:",prestatgeriaList.getSelectedValue());
         if (id != null && !id.isEmpty()) {
             try {
                 ctrlDomini.ctrlPrestatgeria.eliminarPrestatgeria(id);
@@ -301,18 +302,19 @@ public class PrestatgeriesView extends JFrame {
     private void showAddProductDialog() {
         JDialog dialog = new JDialog(this, "Afegir Producte", true);
         JPanel panel = new JPanel(new GridLayout(4, 2));
-        
-        JTextField prestIdField = new JTextField();
+
+        JTextField prestIdField = new JTextField(prestatgeriaList.getSelectedValue());
+        prestIdField.setEditable(false);
         JTextField productNameField = new JTextField();
         JTextField quantityField = new JTextField();
-        
+
         panel.add(new JLabel("ID Prestatgeria:"));
         panel.add(prestIdField);
         panel.add(new JLabel("Nom Producte:"));
         panel.add(productNameField);
         panel.add(new JLabel("Quantitat:"));
         panel.add(quantityField);
-        
+
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
@@ -326,7 +328,7 @@ public class PrestatgeriesView extends JFrame {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-        
+
         panel.add(acceptButton);
         dialog.add(panel);
         dialog.pack();
@@ -337,15 +339,16 @@ public class PrestatgeriesView extends JFrame {
     private void showRemoveProductDialog() {
         JDialog dialog = new JDialog(this, "Retirar Producte", true);
         JPanel panel = new JPanel(new GridLayout(3, 2));
-        
-        JTextField prestIdField = new JTextField();
+
+        JTextField prestIdField = new JTextField(prestatgeriaList.getSelectedValue());
+        prestIdField.setEditable(false);
         JTextField productNameField = new JTextField();
-        
+
         panel.add(new JLabel("ID Prestatgeria:"));
         panel.add(prestIdField);
         panel.add(new JLabel("Nom Producte:"));
         panel.add(productNameField);
-        
+
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
@@ -358,7 +361,7 @@ public class PrestatgeriesView extends JFrame {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-        
+
         panel.add(acceptButton);
         dialog.add(panel);
         dialog.pack();
@@ -369,15 +372,16 @@ public class PrestatgeriesView extends JFrame {
     private void showFixProductDialog() {
         JDialog dialog = new JDialog(this, "Fixar Producte", true);
         JPanel panel = new JPanel(new GridLayout(3, 2));
-        
-        JTextField prestIdField = new JTextField();
+
+        JTextField prestIdField = new JTextField(prestatgeriaList.getSelectedValue());
+        prestIdField.setEditable(false);
         JTextField productNameField = new JTextField();
-        
+
         panel.add(new JLabel("ID Prestatgeria:"));
         panel.add(prestIdField);
         panel.add(new JLabel("Nom Producte:"));
         panel.add(productNameField);
-        
+
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
@@ -390,7 +394,7 @@ public class PrestatgeriesView extends JFrame {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-        
+
         panel.add(acceptButton);
         dialog.add(panel);
         dialog.pack();
@@ -401,15 +405,16 @@ public class PrestatgeriesView extends JFrame {
     private void showUnfixProductDialog() {
         JDialog dialog = new JDialog(this, "Desfixar Producte", true);
         JPanel panel = new JPanel(new GridLayout(3, 2));
-        
-        JTextField prestIdField = new JTextField();
+
+        JTextField prestIdField = new JTextField(prestatgeriaList.getSelectedValue());
+        prestIdField.setEditable(false);
         JTextField productNameField = new JTextField();
-        
+
         panel.add(new JLabel("ID Prestatgeria:"));
         panel.add(prestIdField);
         panel.add(new JLabel("Nom Producte:"));
         panel.add(productNameField);
-        
+
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
@@ -422,7 +427,7 @@ public class PrestatgeriesView extends JFrame {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-        
+
         panel.add(acceptButton);
         dialog.add(panel);
         dialog.pack();
@@ -433,16 +438,17 @@ public class PrestatgeriesView extends JFrame {
     private void showGenerateDistributionDialog() {
         JDialog dialog = new JDialog(this, "Generar Distribució", true);
         JPanel panel = new JPanel(new GridLayout(3, 1, 5, 5));
-        
-        JTextField prestIdField = new JTextField();
+
+        JTextField prestIdField = new JTextField(prestatgeriaList.getSelectedValue());
+        prestIdField.setEditable(false);
         JPanel idPanel = new JPanel(new BorderLayout());
         idPanel.add(new JLabel("ID Prestatgeria:"), BorderLayout.WEST);
         idPanel.add(prestIdField, BorderLayout.CENTER);
-        
+
         JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 5, 5));
         JButton hillClimbingButton = new JButton("Hill Climbing");
         JButton backtrackingButton = new JButton("Backtracking");
-        
+
         hillClimbingButton.addActionListener(e -> {
             try {
                 String id = prestIdField.getText();
@@ -453,7 +459,7 @@ public class PrestatgeriesView extends JFrame {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-        
+
         backtrackingButton.addActionListener(e -> {
             try {
                 String id = prestIdField.getText();
@@ -464,13 +470,13 @@ public class PrestatgeriesView extends JFrame {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-        
+
         buttonPanel.add(hillClimbingButton);
         buttonPanel.add(backtrackingButton);
-        
+
         panel.add(idPanel);
         panel.add(buttonPanel);
-        
+
         dialog.add(panel);
         dialog.pack();
         dialog.setLocationRelativeTo(this);
@@ -480,18 +486,19 @@ public class PrestatgeriesView extends JFrame {
     private void showDecrementStockDialog() {
         JDialog dialog = new JDialog(this, "Decrementar Stock", true);
         JPanel panel = new JPanel(new GridLayout(4, 2));
-        
-        JTextField prestIdField = new JTextField();
+
+        JTextField prestIdField = new JTextField(prestatgeriaList.getSelectedValue());
+        prestIdField.setEditable(false);
         JTextField productNameField = new JTextField();
         JTextField quantityField = new JTextField();
-        
+
         panel.add(new JLabel("ID Prestatgeria:"));
         panel.add(prestIdField);
         panel.add(new JLabel("Nom Producte:"));
         panel.add(productNameField);
         panel.add(new JLabel("Quantitat:"));
         panel.add(quantityField);
-        
+
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
@@ -505,7 +512,7 @@ public class PrestatgeriesView extends JFrame {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-        
+
         panel.add(acceptButton);
         dialog.add(panel);
         dialog.pack();
@@ -514,26 +521,77 @@ public class PrestatgeriesView extends JFrame {
     }
 
     private void showAddShelfDialog() {
-        String id = JOptionPane.showInputDialog(this, "ID de la prestatgeria:");
-        if (id != null && !id.isEmpty()) {
+        JDialog dialog = new JDialog(this, "Afegir Prestatge", true);
+        JPanel panel = new JPanel(new GridLayout(2, 2));
+
+        JTextField prestIdField = new JTextField(prestatgeriaList.getSelectedValue());
+        prestIdField.setEditable(false);
+        JTextField shelfSizeField = new JTextField();
+
+        panel.add(new JLabel("ID Prestatgeria:"));
+        panel.add(prestIdField);
+
+        JButton acceptButton = new JButton("Acceptar");
+        acceptButton.addActionListener(e -> {
             try {
-                ctrlDomini.afegirPrestatge(id);
+                String prestId = prestIdField.getText();
+                ctrlDomini.afegirPrestatge(prestId);
                 refreshPrestatgeriesView();
+                dialog.dispose();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }
+        });
+
+        panel.add(acceptButton);
+        dialog.add(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }
 
     private void showRemoveShelfDialog() {
-        String id = JOptionPane.showInputDialog(this, "ID de la prestatgeria:");
-        if (id != null && !id.isEmpty()) {
+        JDialog dialog = new JDialog(this, "Eliminar Prestatge", true);
+        JPanel panel = new JPanel(new GridLayout(2, 2));
+
+        JTextField prestIdField = new JTextField(prestatgeriaList.getSelectedValue());
+        prestIdField.setEditable(false);
+        JTextField shelfIndexField = new JTextField();
+
+        panel.add(new JLabel("ID Prestatgeria:"));
+        panel.add(prestIdField);
+
+        JButton acceptButton = new JButton("Acceptar");
+        acceptButton.addActionListener(e -> {
             try {
-                ctrlDomini.eliminarPrestatge(id);
+                String prestId = prestIdField.getText();
+                ctrlDomini.eliminarPrestatge(prestId);
                 refreshPrestatgeriesView();
+                dialog.dispose();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
+        });
+
+        panel.add(acceptButton);
+        dialog.add(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+
+    private void showLeaveDialog(){
+        int result = JOptionPane.showConfirmDialog(this, "Quieres guardar los cambios antes de salir?", "Leave", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            try {
+                ctrlDomini.guardar();
+                dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error saving data: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else if (result == JOptionPane.NO_OPTION) {
+            dispose();
         }
     }
 }

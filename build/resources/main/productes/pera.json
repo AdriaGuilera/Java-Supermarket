@@ -2,7 +2,7 @@
   "nom" : "pera",
   "maxHueco" : 3,
   "maxMagatzem" : 3,
-  "stock" : 2,
+  "stock" : 1,
   "similitud" : {
     "pina" : 6.0,
     "pis" : 2.0
