@@ -331,7 +331,7 @@ public class DriverCtrlDomini {
      *
      * @return Un mapa de todas las Comandas creadas en el sistema.
      */
-    public static Map<String, Comanda> testGetComandes() {
+    public static Map<String, Comanda> testGetComandes() throws IOException {
         return ctrlDomini.getComandes();
     }
 

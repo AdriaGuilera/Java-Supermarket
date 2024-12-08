@@ -164,8 +164,8 @@ public class CtrlDomini {
      *
      * @return Un mapa con todas las comandas.
      */
-    public Map<String, Comanda> getComandes() {
-        return ctrlComandes.getComandes();
+    public Map<String, Comanda> getComandes() throws IOException {
+        return database.getComandes();
     }
 
     /**
@@ -213,6 +213,7 @@ public class CtrlDomini {
 
         Map<String, Comanda> comandesAExecutar = ctrlComandes.obtenirComandes(noms);
         ctrlProducte.executarComandes(comandesAExecutar);
+        database.saveProductes(ctrlProducte.getMagatzem().values());
     }
 
 

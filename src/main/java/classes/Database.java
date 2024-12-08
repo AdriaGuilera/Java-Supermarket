@@ -44,6 +44,26 @@ public class Database {
         return objectMapper.readValue(file, Comanda.class);
     }
 
+    // Método para cargar todas las comandas
+    public Map<String, Comanda> getComandes() throws IOException {
+        Map<String, Comanda> comandes = new HashMap<>();
+        File directory = new File(COMANDES_PATH);
+
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles((dir, name) -> name.endsWith(".json"));
+
+            if (files != null) {
+                for (File file : files) {
+                    Comanda comanda = objectMapper.readValue(file, Comanda.class);
+                    comandes.put(comanda.getNom(), comanda);
+                }
+            }
+        } else {
+            throw new IOException("El directorio de comandas no existe o no es válido: " + COMANDES_PATH);
+        }
+
+        return comandes;
+    }
 
     //Método que carga un producto a partir de su id
     public Producte getProducte(String id) throws ProductNotFoundMagatzemException, IOException {

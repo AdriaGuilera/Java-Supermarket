@@ -1,6 +1,7 @@
 package controladors;
 
 import Views.PrestatgeriesView;
+import Views.*;
 import javax.swing.*;
 import java.util.Map;
 import classes.Prestatgeria;
@@ -14,7 +15,7 @@ public class CtrlPresentation {
     
     private CtrlDomini ctrlDomini;
     private PrestatgeriesView prestatgeriesView;
-
+    private ComandesView comandesView;
     /**
      * Constructor initializes controllers and sets up initial state
      */
@@ -47,13 +48,21 @@ public class CtrlPresentation {
     }
 
     /**
+     * Initialize and display PrestatgeriesView
+     */
+    private void showComandesView() {
+        comandesView = new ComandesView(ctrlDomini);
+        comandesView.setVisible(true);
+    }
+
+    /**
      * Start the application UI 
      */
     public void initializePresentation() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.invokeLater(() -> {
-                showPrestatgeriesView();
+                showComandesView();
             });
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,
