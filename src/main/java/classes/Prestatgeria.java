@@ -22,6 +22,12 @@ public class Prestatgeria {
 	private Map<Integer, String> posicions; // Mapa de posiciones y productos
 	private Set<String> productesFixats; // Productos fijados
 
+
+	public Prestatgeria() {
+		this.productes = new HashMap<>();
+		this.posicions = new HashMap<>();
+		this.productesFixats = new HashSet<>();
+	}
 	/**
 	 * Constructor de la clase Prestatgeria.
 	 *
@@ -29,7 +35,7 @@ public class Prestatgeria {
 	 * @param midaPrestatgeria Tamaño total de la prestatgeria.
 	 * @param midaPrestatge    Tamaño de incremento por prestatge.
 	 */
-	public Prestatgeria(String id, int midaPrestatgeria, int midaPrestatge) {
+	public void InitializePrestatgeria(String id, int midaPrestatgeria, int midaPrestatge) {
 		this.id = id;
 		this.midaPrestatgeria = midaPrestatgeria;
 		this.midaPrestatge = midaPrestatge;
@@ -37,6 +43,8 @@ public class Prestatgeria {
 		this.posicions = new HashMap<>();
 		this.productesFixats = new HashSet<>();
 	}
+
+
 
 	/**
 	 * Devuelve el conjunto de productos fijados.
@@ -124,6 +132,15 @@ public class Prestatgeria {
 	 */
 	public int getMidaPrestatgeria() {
 		return midaPrestatgeria;
+	}
+
+	/**
+	 * Devuelve el tamaño del prestatge.
+	 *
+	 * @return El tamaño del prestatge.
+	 */
+	public int getMidaPrestatge() {
+		return midaPrestatge;
 	}
 
 	/**

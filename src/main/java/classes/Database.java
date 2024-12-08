@@ -1,5 +1,7 @@
 package classes;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -24,6 +26,8 @@ public class Database {
     //Constructor de la clase Database
     public Database() {
         this.objectMapper = new ObjectMapper();
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+        objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
@@ -79,6 +83,8 @@ public class Database {
         return objectMapper.readValue(file, Prestatgeria.class);
     }
 
+
+    //Método que carga todas las prestatgerias
     public Map<String, Prestatgeria> getPrestatgeries() throws IOException {
         Map<String, Prestatgeria> prestatgeries = new HashMap<>();
         File directory = new File(PRESTATGERIES_PATH);

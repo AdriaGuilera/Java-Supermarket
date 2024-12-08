@@ -36,7 +36,8 @@ public class CtrlPrestatgeria {
             if( midaPrestatge <= 0 || mida < 0 || mida < midaPrestatge || mida % midaPrestatge != 0 ){
                 throw new MidaPrestatgeriaInvalidException();
             } else {
-                Prestatgeria pr = new Prestatgeria(id, mida, midaPrestatge);
+                Prestatgeria pr = new Prestatgeria();
+                pr.InitializePrestatgeria(id, mida, midaPrestatge);
                 prestatgeries.put(id, pr);
             }
 

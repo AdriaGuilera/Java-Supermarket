@@ -524,8 +524,6 @@ public class DriverCtrlDomini {
     public static void testMoureProducteDeHueco(Scanner scanner) {
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
-        System.out.println("Nombre del Producto:");
-        String nomProducte = readLine(scanner);
         int huecoOrigen = 0;
         int huecoDestino = 0;
         try {
@@ -538,7 +536,7 @@ public class DriverCtrlDomini {
             return;
         }
         try {
-            ctrlDomini.moureProducteDeHueco(idPrestatgeria, nomProducte, huecoOrigen, huecoDestino);
+            ctrlDomini.moureProducteDeHueco(idPrestatgeria, huecoOrigen, huecoDestino);
             System.out.println("Producto movido de hueco.");
         } catch (Exception e) {
             System.out.println(e.getMessage());

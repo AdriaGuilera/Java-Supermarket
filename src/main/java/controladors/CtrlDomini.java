@@ -289,7 +289,6 @@ public class CtrlDomini {
      * Mueve un producto de un hueco a otro dentro de una prestatgeria.
      *
      * @param id_prestatgeria Identificador de la prestatgeria.
-     * @param nomProducte     Nombre del producto.
      * @param huecoOrigen     Índice del hueco de origen.
      * @param huecoDestino    Índice del hueco de destino.
      * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
@@ -297,13 +296,10 @@ public class CtrlDomini {
      * @throws InvalidHuecosException        Si los huecos son inválidos.
      * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
      */
-    public void moureProducteDeHueco(String id_prestatgeria, String nomProducte, int huecoOrigen, int huecoDestino)
-            throws PrestatgeriaNotFoundException, ProducteNotInHuecoException, InvalidHuecosException, IllegalArgumentException, IOException {
+    public void moureProducteDeHueco(String id_prestatgeria, int huecoOrigen, int huecoDestino)
+            throws PrestatgeriaNotFoundException, InvalidHuecosException, IllegalArgumentException, IOException {
         if (id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
-        }
-        if (nomProducte == null || nomProducte.isEmpty()) {
-            throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
         if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
             ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
@@ -577,16 +573,22 @@ public class CtrlDomini {
      * @throws IllegalArgumentException          Si los argumentos son nulos o inválidos.
      */
     public void retirarProducteAMagatzem(String id_prestatgeria,String nomProducte)
-    throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, ProductNotFoundPrestatgeriaException, QuanitatInvalidException, IllegalArgumentException {
+            throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, ProductNotFoundPrestatgeriaException, QuanitatInvalidException, IllegalArgumentException, IOException {
         if(id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
         if(nomProducte == null || nomProducte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
+        if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
+            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
+        }
         Pair<String,Integer> producteretirat = ctrlPrestatgeria.retirarProductePrestatgeria(id_prestatgeria, nomProducte);
         if(producteretirat.getKey() != null) {
             String nom = producteretirat.getKey();
+            if(!ctrlProducte.existeixProducte(nom)){
+                ctrlProducte.carregarProducte(database.getProducte(nom));
+            }
             int quantitat = producteretirat.getValue();
             ctrlProducte.incrementarStock(nom, quantitat);
         }
@@ -601,6 +603,21 @@ public class CtrlDomini {
      */
     public Prestatgeria getPrestatgeria(String id){
         return ctrlPrestatgeria.getPrestatgeria(id);
+    }
+
+    /**
+     * Obtiene todas las prestatgeries registradas.
+     *
+     * @return Un mapa con todas las prestatgeries.
+     */
+    public Map<String, Prestatgeria> getPrestatgeries() throws IOException {
+        Map<String, Prestatgeria> prestatgeries = database.getPrestatgeries();
+        for(Prestatgeria prestatgeria : prestatgeries.values()){
+            if(!ctrlPrestatgeria.existeixPrestatgeria(prestatgeria.getId())){
+                ctrlPrestatgeria.carregarPrestatgeria(prestatgeria);
+            }
+        }
+        return ctrlPrestatgeria.getPrestatgeries();
     }
 
     //Caixa
@@ -619,7 +636,7 @@ public class CtrlDomini {
      * @throws IllegalArgumentException            Si alguno de los argumentos es nulo o vacío.
      */
     public int afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria)
-    throws QuanitatInvalidException, ProductNotFoundMagatzemException, ProductNotFoundPrestatgeriaException, PrestatgeriaNotFoundException, IllegalArgumentException {
+            throws QuanitatInvalidException, ProductNotFoundMagatzemException, ProductNotFoundPrestatgeriaException, PrestatgeriaNotFoundException, IllegalArgumentException, IOException {
         if(nom_producte == null || nom_producte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
@@ -627,7 +644,7 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
         if(!ctrlProducte.existeixProducte(nom_producte)){
-            throw new ProductNotFoundMagatzemException(nom_producte);
+            ctrlProducte.carregarProducte(database.getProducte(nom_producte));
         }
         int quantitat_a_afegir = ctrlPrestatgeria.decrementarQuantitatProducte(id_prestatgeria, nom_producte,quantitat);
         caixa.afegirProducte(nom_producte, quantitat_a_afegir);

@@ -17,7 +17,8 @@ public class TestPrestatgeria {
     @Before
     public void setUp() {
         // Initialize a new Prestatgeria object before each test
-        prestatgeria = new Prestatgeria("ID1", 10, 2);
+        prestatgeria = new Prestatgeria();
+        prestatgeria.InitializePrestatgeria("ID1", 10, 2);
     }
 
     // Afegir Producte a Prestatgeria
