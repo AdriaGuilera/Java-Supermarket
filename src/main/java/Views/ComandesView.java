@@ -182,7 +182,7 @@ public class ComandesView extends JFrame {
                 }
             }
         } else {
-            JDialog dialog = new JDialog(this, "Crear Comanda", true);
+            JDialog dialog = new JDialog(this, "Eliminar Comanda", true);
             JPanel panel = new JPanel(new GridLayout(2, 2));
 
             JTextField idField = new JTextField();

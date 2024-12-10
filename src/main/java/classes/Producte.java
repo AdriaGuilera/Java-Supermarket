@@ -108,6 +108,10 @@ public class Producte {
         return similitud.getOrDefault(nomProducte, 0f);
     }
 
+    public Map<String,Float> getSimilituds() {
+        return similitud;
+    }
+
     ////////////////////// Modificadores de Stock //////////////////////
 
     /**

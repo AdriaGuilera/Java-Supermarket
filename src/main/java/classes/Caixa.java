@@ -92,4 +92,11 @@ public class Caixa {
     public void pagar() {
         productes.clear();
     }
+
+    public boolean existexProducte(String nomProducte) {
+        if (productes.containsKey(nomProducte)) {
+            return true;
+        }
+        else return false;
+    }
 }

@@ -799,7 +799,7 @@ public class DriverCtrlDomini {
             return;
         }
         try {
-            ctrlDomini.afegir_similitud(nom1, nom2, value);
+            ctrlDomini.afegirSimilitud(nom1, nom2, value);
             System.out.println("Similitud agregada correctamente.");
         } catch (Exception e) {
                 System.out.println("Error1: " + e.getMessage());
@@ -834,7 +834,7 @@ public class DriverCtrlDomini {
         System.out.println("Nombre del Producto:");
         String nom = readLine(scanner);
         try {
-            return ctrlDomini.get_producte(nom);
+            return ctrlDomini.getProducte(nom);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -846,7 +846,7 @@ public class DriverCtrlDomini {
      *
      * @return Un mapa con todos los productos del Magatzem.
      */
-    public static Map<String, Producte> testGetMagatzem() {
+    public static Map<String, Producte> testGetMagatzem() throws IOException {
         return ctrlDomini.getMagatzem();
     }
 

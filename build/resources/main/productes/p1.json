@@ -1,0 +1,9 @@
+{
+  "nom" : "p1",
+  "maxHueco" : 10,
+  "maxMagatzem" : 10,
+  "stock" : 5,
+  "similitud" : {
+    "p2" : 3.0
+  }
+}

@@ -16,6 +16,7 @@ public class CtrlPresentation {
     private CtrlDomini ctrlDomini;
     private PrestatgeriesView prestatgeriesView;
     private ComandesView comandesView;
+    private ProductesView productesView;
     /**
      * Constructor initializes controllers and sets up initial state
      */
@@ -56,13 +57,21 @@ public class CtrlPresentation {
     }
 
     /**
+     * Initialize and display PrestatgeriesView
+     */
+    private void showProductesView() {
+        productesView = new ProductesView(ctrlDomini);
+        productesView.setVisible(true);
+    }
+
+    /**
      * Start the application UI 
      */
     public void initializePresentation() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.invokeLater(() -> {
-                showComandesView();
+                showProductesView();
             });
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,

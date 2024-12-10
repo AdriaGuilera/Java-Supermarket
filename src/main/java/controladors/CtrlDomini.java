@@ -767,9 +767,12 @@ public class CtrlDomini {
 
         //Lo eliminamos de la caixa y guaradamos la caixa
         caixa = database.getCaixa();
-        int qcaixa = caixa.getQuantitat(nomProducte);
-        caixa.retirarProducte(nomProducte, qcaixa);
-        database.saveCaixa(caixa);
+
+        if(caixa.existexProducte(nomProducte)){
+            int qcaixa = caixa.getQuantitat(nomProducte);
+            caixa.retirarProducte(nomProducte, qcaixa);
+            database.saveCaixa(caixa);
+        }
     }
 
     /**
@@ -782,7 +785,7 @@ public class CtrlDomini {
      * @throws ProductNotFoundMagatzemException Si alguno de los productos no existe en el almacén.
      * @throws calculMateixosProductesSimilitud Si se intenta añadir una similitud con el mismo producto.
      */
-    public void afegir_similitud(String nom1, String nom2, float value) throws IllegalArgumentException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud, IOException {
+    public void afegirSimilitud(String nom1, String nom2, float value) throws IllegalArgumentException, ProductNotFoundMagatzemException, calculMateixosProductesSimilitud, IOException {
         if (nom1 == null || nom1.isEmpty()) {
             throw new IllegalArgumentException("El nom del primer producte no pot estar buit.");
         }
@@ -839,11 +842,8 @@ public class CtrlDomini {
      * @throws IllegalArgumentException         Si el argumento es nulo o vacío.
      * @throws ProductNotFoundMagatzemException Si el producto no existe en el almacén.
      */
-    public Producte get_producte(String nomProducte) throws IllegalArgumentException, ProductNotFoundMagatzemException {
-        if (nomProducte == null || nomProducte.isEmpty()) {
-            throw new IllegalArgumentException("El nom del producte no pot estar buit.");
-        }
-        return ctrlProducte.getProducte(nomProducte);
+    public Producte getProducte(String nomProducte) throws IllegalArgumentException, ProductNotFoundMagatzemException, IOException {
+        return database.getProducte(nomProducte);
     }
 
     /**
@@ -852,8 +852,8 @@ public class CtrlDomini {
      * @return Un mapa con los productos del almacén, donde las claves son los nombres de los productos
      * y los valores son los objetos {@code Producte}.
      */
-    public Map<String, Producte> getMagatzem() {
-        return ctrlProducte.getMagatzem();
+    public Map<String, Producte> getMagatzem() throws IOException {
+        return database.getProductes();
     }
 
 
