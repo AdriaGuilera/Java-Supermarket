@@ -22,6 +22,7 @@ public class Caixa {
         productes = new HashMap<>();
     }
 
+
     /**
      * Añade un producto a la caja. Si el producto ya existe, incrementa su cantidad.
      *
