@@ -711,7 +711,7 @@ public class DriverCtrlDomini {
      * @return Un mapa con los detalles del ticket, donde las claves son los nombres de los productos
      *         y los valores son las cantidades correspondientes.
      */
-    public static Map<String, Integer> testGetCaixa() {
+    public static Map<String, Integer> testGetCaixa() throws IOException {
         return ctrlDomini.getTicket();
     }
 

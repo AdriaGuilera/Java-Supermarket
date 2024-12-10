@@ -673,7 +673,7 @@ public class CtrlDomini {
      * @return La cantidad que realmente se pudo retirar de la caja.
      */
     public int retirar_producte_caixa(String nom_producte, int quantitat)
-            throws QuanitatInvalidException, IllegalArgumentException, ProductNotFoundCaixaException, IOException {
+    throws QuanitatInvalidException, IllegalArgumentException, ProductNotFoundCaixaException, IOException {
         if(nom_producte == null || nom_producte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
@@ -702,8 +702,11 @@ public class CtrlDomini {
      *
      * @return Un mapa con los productos en la caja y sus cantidades.
      */
-    public Map<String,Integer> getTicket() {
+    public Map<String,Integer> getTicket() throws IOException {
         return caixa.getTicket();
+    }
+    public void carregarCaixa() throws IOException {
+        caixa = database.getCaixa();
     }
 
     //Magatzem (Productes)

@@ -1,8 +1,8 @@
 package controladors;
 
-import Views.PrestatgeriesView;
 import Views.*;
 import javax.swing.*;
+
 import java.util.Map;
 import classes.Prestatgeria;
 import java.io.IOException;
@@ -17,6 +17,7 @@ public class CtrlPresentation {
     private PrestatgeriesView prestatgeriesView;
     private ComandesView comandesView;
     private ProductesView productesView;
+    private CaixaView caixaView;
     /**
      * Constructor initializes controllers and sets up initial state
      */
@@ -64,6 +65,11 @@ public class CtrlPresentation {
         productesView.setVisible(true);
     }
 
+    private void showCaixaView() {
+        CaixaView caixaView = new CaixaView(ctrlDomini);
+        caixaView.setVisible(true);
+    }
+
     /**
      * Start the application UI 
      */
@@ -71,7 +77,7 @@ public class CtrlPresentation {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.invokeLater(() -> {
-                showProductesView();
+                showCaixaView();
             });
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,
