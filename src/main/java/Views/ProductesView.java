@@ -2,6 +2,8 @@ package Views;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Map;
 
 import Components.SaveButton;
@@ -42,7 +44,6 @@ public class ProductesView extends JFrame {
         // Buttons
         JButton createComandaButton = new StyledButton("Crear Producte");
         JButton deleteComandaButton = new StyledButton("Eliminar producte");
-        JButton veureProducteButton = new StyledButton("Veure Info Producte");
         JButton addProductButton = new StyledButtonGuardar("Afegir Similitud Productes");
         JButton removeProductButton = new StyledButtonGuardar("Eliminar Similitud Productes");
 
@@ -50,21 +51,18 @@ public class ProductesView extends JFrame {
         Font buttonFont = new Font("Arial", Font.BOLD, 18);
         createComandaButton.setFont(buttonFont);
         deleteComandaButton.setFont(buttonFont);
-        veureProducteButton.setFont(buttonFont);
         addProductButton.setFont(buttonFont);
         removeProductButton.setFont(buttonFont);
 
         // Add buttons to panel
         buttonsPanel.add(createComandaButton);
         buttonsPanel.add(deleteComandaButton);
-        buttonsPanel.add(veureProducteButton);
         buttonsPanel.add(addProductButton);
         buttonsPanel.add(removeProductButton);
 
         // Add action listeners
         createComandaButton.addActionListener(e -> showCreateProducteDialog());
         deleteComandaButton.addActionListener(e -> showDeleteProducteDialog());
-        veureProducteButton.addActionListener(e -> showVeureProducteDialog());
         addProductButton.addActionListener(e -> showAddSimilitudDialog());
         removeProductButton.addActionListener(e -> showRemoveSimilitudDialog());
 
@@ -85,7 +83,19 @@ public class ProductesView extends JFrame {
         JScrollPane listScrollPane = new JScrollPane(productesList);
         listScrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-
+        productesList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) { // Detectar doble clic
+                    int index = productesList.locationToIndex(e.getPoint());
+                    if (index >= 0) {
+                        productesList.setSelectedIndex(index); // Seleccionar l'índex clicat
+                        showVeureProducteDialog(); // Mostrar la informació del producte
+                    }
+                }
+            }
+        });
+        productesList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         // Create a container panel for the list with padding
         JPanel listContainerPanel = new JPanel(new BorderLayout());
         listContainerPanel.setBorder(BorderFactory.createEmptyBorder(20, (getWidth()- 500)/2, 20, (getWidth()- 500)/2));
@@ -223,7 +233,8 @@ public class ProductesView extends JFrame {
             try {
                 Producte producte = ctrlDomini.getProducte(id);
                 String informacion = "Nom del producte: " + producte.getNom() + "\nMàxima Capacitat Prestatgeria: "+producte.getMaxHueco()
-                        + "\nMàxima Capacitat Magatzem "+ producte.getMaxMagatzem() + "\nSimilituds: " + producte.getSimilituds().toString() ;
+                        + "\nMàxima Capacitat Magatzem "+ producte.getMaxMagatzem() + "\nStock: " + producte.getStock() +
+                        "\nSimilituds: " + producte.getSimilituds().toString() ;
                 JOptionPane.showMessageDialog(this, informacion , "Detalls del Producte", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

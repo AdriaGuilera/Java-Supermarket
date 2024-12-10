@@ -65,7 +65,12 @@ public class Comanda {
         }
     }
 
+    public void eliminarProducteSenseExcepcio(String nomProducte) throws ProductNotFoundComandaException {
 
+        if (ordres.containsKey(nomProducte)) {
+            ordres.remove(nomProducte);
+        }
+    }
 
     /**
      * Verifica si un producto específico está presente en la comanda.

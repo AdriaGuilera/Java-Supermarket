@@ -83,6 +83,12 @@ public class CtrlComandes {
         comanda.afegirProducte(nomProducte, quantitat);
     }
 
+    public void eliminarProducteComandes(String nomProducte){
+        for (Comanda comanda : comandesCreades.values()) {
+            comanda.eliminarProducteSenseExcepcio(nomProducte);
+        }
+    }
+
     /**
      * Elimina un producto de una comanda existente.
      *

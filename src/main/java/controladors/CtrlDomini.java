@@ -764,7 +764,6 @@ public class CtrlDomini {
         }
         ctrlPrestatgeria.eliminarProducte(nomProducte);
         database.savePrestatgeries(ctrlPrestatgeria.getPrestatgeries().values());
-
         //Lo eliminamos de la caixa y guaradamos la caixa
         caixa = database.getCaixa();
 
@@ -773,6 +772,14 @@ public class CtrlDomini {
             caixa.retirarProducte(nomProducte, qcaixa);
             database.saveCaixa(caixa);
         }
+
+        //Lo eliminamos de todas las comandas
+        Map<String,Comanda> comandes = database.getComandes();
+        for (Comanda comanda : comandes.values()) {
+            ctrlComandes.cargarComanda(comanda);
+        }
+        ctrlComandes.eliminarProducteComandes(nomProducte);
+        database.saveComandes(ctrlComandes.getComandes().values());
     }
 
     /**

@@ -39,9 +39,9 @@ public class CtrlProducte {
                 String nom = ordre.getKey();
                 int quant = ordre.getValue();
                 Producte p = productesMagatzem.get(nom);
-                if (p.getStock() + quant > p.getMaxMagatzem()) {
+                if (p.getStock() + quant > p.getMaxMagatzem() && p!=null) {
                     p.incrementarStock(p.getMaxMagatzem() - p.getStock());
-                } else {
+                } else if(p!=null) {
                     p.incrementarStock(quant);
                 }
             }

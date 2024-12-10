@@ -1,9 +1,9 @@
 {
-  "nom" : "p2",
+  "nom" : "Manzana",
   "maxHueco" : 5,
   "maxMagatzem" : 5,
   "stock" : 5,
   "similitud" : {
-    "p1" : 3.0
+    "Patata" : 5.0
   }
 }
