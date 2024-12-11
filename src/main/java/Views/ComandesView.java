@@ -122,7 +122,7 @@ public class ComandesView extends JFrame {
         refreshComandesList();
     }
 
-    private void refreshComandesList() {
+    public void refreshComandesList() {
         try {
             listModel.clear();
             Map<String, Comanda> comandes = ctrlDomini.getComandes(); // Load comandes from the database

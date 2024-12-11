@@ -26,7 +26,7 @@ public class CaixaView extends JFrame {
     private void setupUI() {
         setTitle("Gestió de Caixa");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 600);
+        setSize(800, 600);
         // Main panel
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -86,7 +86,7 @@ public class CaixaView extends JFrame {
         refreshProductList();
     }
 
-    private void refreshProductList() {
+    public void refreshProductList() {
         productListModel.clear();
         try {
             Map<String, Integer> ticket = ctrlDomini.getTicket();

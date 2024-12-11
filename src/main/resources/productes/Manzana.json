@@ -4,6 +4,7 @@
   "maxMagatzem" : 5,
   "stock" : 5,
   "similitud" : {
-    "Patata" : 5.0
+    "Patata" : 5.0,
+    "Tomate" : 3.0
   }
 }

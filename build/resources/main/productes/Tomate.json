@@ -2,6 +2,8 @@
   "nom" : "Tomate",
   "maxHueco" : 5,
   "maxMagatzem" : 5,
-  "stock" : 5,
-  "similitud" : { }
+  "stock" : 3,
+  "similitud" : {
+    "Manzana" : 3.0
+  }
 }

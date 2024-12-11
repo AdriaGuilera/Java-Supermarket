@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map;
+import java.util.TimerTask;
 
 import Components.SaveButton;
 import Components.StyledButton;
@@ -127,7 +128,7 @@ public class ProductesView extends JFrame {
         refreshProductesList();
     }
 
-    private void refreshProductesList() {
+    public void refreshProductesList() {
         try {
             listModel.clear();
             Map<String, Producte> productes = ctrlDomini.getMagatzem(); // Load comandes from the database
@@ -362,5 +363,6 @@ public class ProductesView extends JFrame {
             return label;
         }
     }
+
 }
 

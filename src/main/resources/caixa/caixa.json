@@ -1,8 +1,3 @@
 {
-  "productes" : {
-    "pis" : 2,
-    "taronges" : 4,
-    "mandarines" : 5,
-    "prunes" : 6
-  }
+  "productes" : { }
 }

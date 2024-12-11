@@ -70,6 +70,11 @@ public class CtrlPresentation {
         caixaView.setVisible(true);
     }
 
+    private void showMainView() {
+        MainView mainView = new MainView(ctrlDomini);
+        mainView.setVisible(true);
+    }
+
     /**
      * Start the application UI 
      */
@@ -77,7 +82,7 @@ public class CtrlPresentation {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.invokeLater(() -> {
-                showCaixaView();
+                showMainView();
             });
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,
