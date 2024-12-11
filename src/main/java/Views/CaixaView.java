@@ -44,7 +44,13 @@ public class CaixaView extends JFrame {
         JPanel backPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
         BackButton backButton = new BackButton("Back", e -> showLeaveDialog());
         backPanel.add(backButton);
-
+        backButton.addActionListener(e -> {
+            MainView mainView = new MainView(ctrlDomini);
+            mainView.setSize(getSize());
+            mainView.setLocation(getLocation());
+            mainView.setVisible(true);
+            dispose(); // Cierra ProductesView
+        });
         JPanel operationButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
         StyledButton addButton = new StyledButton("Afegir Producte");
         StyledButton removeButton = new StyledButton("Retirar Producte");

@@ -37,6 +37,7 @@ public class CtrlDomini {
 
         database.saveAll(ctrlComandes.getComandes().values(), ctrlProducte.getMagatzem().values(), ctrlPrestatgeria.getPrestatgeries().values(), caixa);
 
+
         ctrlComandes = new CtrlComandes();
         ctrlProducte = new CtrlProducte();
         ctrlPrestatgeria = new CtrlPrestatgeria();
@@ -657,6 +658,9 @@ public class CtrlDomini {
         if(!ctrlProducte.existeixProducte(nom_producte)){
             ctrlProducte.carregarProducte(database.getProducte(nom_producte));
         }
+        if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
+            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
+        }
         int quantitat_a_afegir = ctrlPrestatgeria.decrementarQuantitatProducte(id_prestatgeria, nom_producte,quantitat);
         caixa.afegirProducte(nom_producte, quantitat_a_afegir);
         return quantitat_a_afegir;
@@ -680,6 +684,7 @@ public class CtrlDomini {
         int aafegir = min(caixa.getQuantitat(nom_producte), quantitat);
         caixa.retirarProducte(nom_producte, aafegir);
         if(!ctrlProducte.existeixProducte(nom_producte)){
+            System.out.println("hola");
             ctrlProducte.carregarProducte(database.getProducte(nom_producte));
         }
         ctrlProducte.incrementarStock(nom_producte, aafegir);

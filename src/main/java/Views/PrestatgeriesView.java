@@ -128,7 +128,13 @@ public class PrestatgeriesView extends JFrame {
         BackButton backButton = new BackButton("Back", e -> {showLeaveDialog();});
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
         backButtonPanel.add(backButton);
-
+        backButton.addActionListener(e -> {
+            MainView mainView = new MainView(ctrlDomini);
+            mainView.setSize(getSize());
+            mainView.setLocation(getLocation());
+            mainView.setVisible(true);
+            dispose(); // Cierra ProductesView
+        });
         // Create a panel to combine the back button and the top buttons
         JPanel combinedTopPanel = new JPanel(new BorderLayout());
         combinedTopPanel.add(backButtonPanel, BorderLayout.NORTH);

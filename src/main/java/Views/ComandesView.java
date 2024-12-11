@@ -36,7 +36,13 @@ public class ComandesView extends JFrame {
         backButton.setFont(new Font("Arial", Font.BOLD, 18));
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         backButtonPanel.add(backButton);
-
+        backButton.addActionListener(e -> {
+            MainView mainView = new MainView(ctrlDomini);
+            mainView.setSize(getSize());
+            mainView.setLocation(getLocation());
+            mainView.setVisible(true);
+            dispose(); // Cierra ProductesView
+        });
         // Buttons panel
         JPanel buttonsPanel = new JPanel(new GridLayout(2, 4, 5, 10));
 

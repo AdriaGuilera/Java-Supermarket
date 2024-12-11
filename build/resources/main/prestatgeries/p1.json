@@ -1,14 +1,8 @@
 {
   "id" : "p1",
-  "midaPrestatgeria" : 10,
+  "midaPrestatgeria" : 5,
   "midaPrestatge" : 5,
-  "productes" : {
-    "Tomate" : 1,
-    "pera" : 0
-  },
-  "posicions" : {
-    "1" : "pera",
-    "0" : "Tomate"
-  },
+  "productes" : { },
+  "posicions" : { },
   "productesFixats" : [ ]
 }

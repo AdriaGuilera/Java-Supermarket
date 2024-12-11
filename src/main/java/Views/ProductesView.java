@@ -2,10 +2,10 @@ package Views;
 
 import javax.swing.*;
 import java.awt.*;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map;
-import java.util.TimerTask;
 
 import Components.SaveButton;
 import Components.StyledButton;
@@ -38,6 +38,14 @@ public class ProductesView extends JFrame {
         backButton.setFont(new Font("Arial", Font.BOLD, 18));
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         backButtonPanel.add(backButton);
+
+        backButton.addActionListener(e -> {
+            MainView mainView = new MainView(ctrlDomini);
+            mainView.setSize(getSize());
+            mainView.setLocation(getLocation());
+            mainView.setVisible(true);
+            dispose(); // Cierra ProductesView
+        });
 
         // Buttons panel
         JPanel buttonsPanel = new JPanel(new GridLayout(2, 5, 10, 10));
@@ -140,6 +148,7 @@ public class ProductesView extends JFrame {
             JOptionPane.showMessageDialog(this, "Error loading comandes: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     private void showCreateProducteDialog() {
         JDialog dialog = new JDialog(this, "Alta Producte", true);

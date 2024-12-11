@@ -20,7 +20,7 @@ public class MainView extends JFrame {
     private void setupUI() {
         setTitle("Main Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 300);
+        setSize(800, 600);
         setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new GridLayout(4, 1, 10, 10));
@@ -45,13 +45,18 @@ public class MainView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(() -> {
+                    // Establecer tamaño y ubicación igual a la vista actual
+                    prestatgeriesView.setSize(getSize());
+                    prestatgeriesView.setLocation(getLocation());
+
                     prestatgeriesView.setVisible(true);
                     try {
                         prestatgeriesView.refreshPrestatgeriesView();
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
-                });
+                    // Ocultar MainView
+                    dispose();                });
             }
         });
 
@@ -59,9 +64,13 @@ public class MainView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(() -> {
+                    comandesView.setSize(getSize());
+                    comandesView.setLocation(getLocation());
+
                     comandesView.setVisible(true);
                     comandesView.refreshComandesList();
-                });
+                    // Ocultar MainView
+                    dispose();});
             }
         });
 
@@ -69,9 +78,13 @@ public class MainView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(() -> {
+                    productesView.setSize(getSize());
+                    productesView.setLocation(getLocation());
+
                     productesView.setVisible(true);
                     productesView.refreshProductesList();
-                });
+                    // Ocultar MainView
+                    dispose();                });
             }
         });
 
@@ -79,9 +92,13 @@ public class MainView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(() -> {
-                     caixaView.setVisible(true);
-                     caixaView.refreshProductList();
-                });
+                    caixaView.setSize(getSize());
+                    caixaView.setLocation(getLocation());
+
+                    caixaView.setVisible(true);
+                    caixaView.refreshProductList();
+                    // Ocultar MainView
+                    dispose();                });
             }
         });
 
