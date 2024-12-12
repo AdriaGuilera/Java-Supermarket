@@ -8,11 +8,6 @@ import classes.*;
 import static java.lang.Integer.max;
 import static java.lang.Integer.min;
 
-
-
-/**
- * Controlador principal del dominio para gestionar productos, prestatgeries, comandas y caja.
- */
 public class CtrlDomini {
 
     public CtrlProducte ctrlProducte; // Controlador de productos
@@ -35,13 +30,13 @@ public class CtrlDomini {
 
     public void guardar() throws IOException {
 
-        database.saveAll(ctrlComandes.getComandes().values(), ctrlProducte.getMagatzem().values(), ctrlPrestatgeria.getPrestatgeries().values(), caixa);
-
-
-        ctrlComandes = new CtrlComandes();
-        ctrlProducte = new CtrlProducte();
-        ctrlPrestatgeria = new CtrlPrestatgeria();
-        caixa = new Caixa();
+        Map<String, Producte> productes = ctrlProducte.getMagatzem();
+        database.saveEntities(productes.values(), productes.keySet());
+        Map<String, Prestatgeria> prestatgeries = ctrlPrestatgeria.getPrestatgeries();
+        database.saveEntities(prestatgeries.values(), prestatgeries.keySet());
+        Map<String, Comanda> comandes = ctrlComandes.getComandes();
+        database.saveEntities(comandes.values(), comandes.keySet());
+        database.saveCaixa(caixa);
     }
 
 
@@ -56,8 +51,7 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
         ctrlComandes.crearComanda(nomComanda);
-        database.addComanda(ctrlComandes.getComandaUnica(nomComanda));
-        ctrlComandes.eliminarComanda(nomComanda);
+        database.saveEntity(ctrlComandes.getComandaUnica(nomComanda), nomComanda);
     }
 
 
@@ -73,7 +67,8 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
 
-        database.deleteComanda(nomComanda);
+        database.deleteEntity(Comanda.class, nomComanda);
+        ctrlComandes.eliminarComanda(nomComanda);
     }
 
     /**
@@ -98,15 +93,15 @@ public class CtrlDomini {
         if (quantitat <= 0) {
             throw new IllegalArgumentException("La quantitat ha de ser > 0.");
         }
-        if (!database.existeixComanda(nomComanda)) {
+        if (!database.existeix(Comanda.class, nomComanda) & !ctrlComandes.existeixComanda(nomComanda)) {
             throw new ComandaNotFoundException(nomComanda);
         }
-        if (!database.existeixProducte(nomProducte)) {
+        if (!database.existeix(Producte.class, nomProducte) & !ctrlProducte.existeixProducte(nomProducte)) {
             throw new ProductNotFoundMagatzemException(nomProducte);
         }
         //Cargamos la comanda y el producte
-        Comanda comanda = database.getComanda(nomComanda);
-        Producte producte = database.getProducte(nomProducte);
+        Comanda comanda = database.getEntity(Comanda.class, nomComanda);
+        Producte producte = database.getEntity(Producte.class, nomProducte);
         ctrlComandes.cargarComanda(comanda);
         ctrlProducte.carregarProducte(producte);
 
@@ -136,8 +131,8 @@ public class CtrlDomini {
         }
 
         //Cargamos la comanda y el produco
-        Comanda comanda = database.getComanda(nomComanda);
-        Producte producte = database.getProducte(nomProducte);
+        Comanda comanda = database.getEntity(Comanda.class, nomComanda);
+        Producte producte = database.getEntity(Producte.class, nomProducte);
         ctrlComandes.cargarComanda(comanda);
         ctrlProducte.carregarProducte(producte);
 
@@ -166,7 +161,12 @@ public class CtrlDomini {
      * @return Un mapa con todas las comandas.
      */
     public Map<String, Comanda> getComandes() throws IOException {
-        return database.getComandes();
+        List<Comanda> comandes = database.getEntities(Comanda.class);
+        Map<String, Comanda> comandesMap = new HashMap<>();
+        for (Comanda comanda : comandes) {
+            comandesMap.put(comanda.getNom(), comanda);
+        }
+        return comandesMap;
     }
 
     /**
@@ -180,14 +180,14 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom de la comanda automatica no pot estar buit.");
         }
         //Cargamos el almazen
-        Map<String, Producte> productesMagatzem = database.getProductes();
-        for (Producte producte : productesMagatzem.values()) {
+        List<Producte> productesMagatzem = database.getEntities(Producte.class);
+        for (Producte producte : productesMagatzem) {
             ctrlProducte.carregarProducte(producte);
         }
         //Generamos comanda automatica y la guardamos
         Map<String, Integer> productosFaltantes = ctrlProducte.generarComandaAutomatica();
         ctrlComandes.crearComandaAutomatica(nomComanda, productosFaltantes);
-        database.addComanda(ctrlComandes.getComandaUnica(nomComanda));
+        database.saveEntity(ctrlComandes.getComandaUnica(nomComanda), nomComanda);
     }
 
     /**
@@ -201,20 +201,17 @@ public class CtrlDomini {
         if (noms == null) {
             throw new IllegalArgumentException("Els noms no poden estar buits.");
         }
-        //Cargamos las comandas y el magatzem
-        Map<String, Producte> productesMagatzem = database.getProductes();
-        for (Producte producte : productesMagatzem.values()) {
-            ctrlProducte.carregarProducte(producte);
+        for (String nom : noms) {
+            Comanda comanda = database.getEntity(Comanda.class, nom);
+            if(!ctrlComandes.existeixComanda(nom)) ctrlComandes.cargarComanda(comanda);
+            for(String producte:comanda.getOrdres().keySet()){
+                if(!ctrlProducte.existeixProducte(producte)){
+                    ctrlProducte.carregarProducte(database.getEntity(Producte.class, producte));
+                }
+            }
         }
-
-        for(String nom:noms){
-            ctrlComandes.cargarComanda(database.getComanda(nom));
-        }
-
-
         Map<String, Comanda> comandesAExecutar = ctrlComandes.obtenirComandes(noms);
         ctrlProducte.executarComandes(comandesAExecutar);
-        database.saveProductes(ctrlProducte.getMagatzem().values());
     }
 
 
@@ -246,10 +243,10 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
         if(!ctrlPrestatgeria.existeixPrestatgeria(idPrestatgeria)){
-            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(idPrestatgeria));
+            ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, idPrestatgeria));
         }
         if(!ctrlProducte.existeixProducte(nomProducte)){
-            ctrlProducte.carregarProducte(database.getProducte(nomProducte));
+            ctrlProducte.carregarProducte(database.getEntity(Producte.class, nomProducte));
         }
         int maxhueco = ctrlProducte.getMaxHueco(nomProducte);
         int stock = ctrlProducte.getStockMagatzem(nomProducte);
@@ -304,7 +301,7 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
         if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
-            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
+            ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, id_prestatgeria));
         }
         ctrlPrestatgeria.moureProducte(id_prestatgeria, huecoOrigen, huecoDestino);
     }
@@ -332,10 +329,10 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
         if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
-            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
+            ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, id_prestatgeria));
         }
         if(!ctrlProducte.existeixProducte(nomProducte)){
-            ctrlProducte.carregarProducte(database.getProducte(nomProducte));
+            ctrlProducte.carregarProducte(database.getEntity(Producte.class, nomProducte));
         }
         int quantitatelim = ctrlPrestatgeria.decrementarQuantitatProducte(id_prestatgeria, nomProducte, quantitat);
         ctrlProducte.incrementarStock(nomProducte, quantitatelim);
@@ -358,12 +355,12 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
         if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
-            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
+            ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, id_prestatgeria));
         }
         Vector<String> productes = ctrlPrestatgeria.getNomsProductes(id_prestatgeria);
         for(String producte:productes){
             if(!ctrlProducte.existeixProducte(producte)){
-                ctrlProducte.carregarProducte(database.getProducte(producte));
+                ctrlProducte.carregarProducte(database.getEntity(Producte.class, producte));
             }
         }
         Set<String> fixats = ctrlPrestatgeria.getProductesFixats(id_prestatgeria);
@@ -384,12 +381,12 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
         if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
-            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
+            ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, id_prestatgeria));
         }
         Vector<String> productes = ctrlPrestatgeria.getNomsProductes(id_prestatgeria);
         for(String producte:productes){
             if(!ctrlProducte.existeixProducte(producte)){
-                ctrlProducte.carregarProducte(database.getProducte(producte));
+                ctrlProducte.carregarProducte(database.getEntity(Producte.class, producte));
             }
         }
         Set<String> fixats = ctrlPrestatgeria.getProductesFixats(id_prestatgeria);
@@ -415,7 +412,7 @@ public class CtrlDomini {
         }
 
         ctrlPrestatgeria.afegirPrestatgeria(idPrestatgeria, midaPrestatgeria, midaPrestatge);
-        database.addPrestatgeria(ctrlPrestatgeria.getPrestatgeria(idPrestatgeria));
+        database.saveEntity(ctrlPrestatgeria.getPrestatgeria(idPrestatgeria), idPrestatgeria);
     }
 
     /**
@@ -427,22 +424,22 @@ public class CtrlDomini {
      */
     public void eliminarPrestatgeria(String idPrestatgeria)
             throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, MaxMagatzemWarning, QuanitatInvalidException, IllegalArgumentException, IOException {
-        if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
+        if (idPrestatgeria == null || idPrestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
-        if(!ctrlPrestatgeria.existeixPrestatgeria(idPrestatgeria)){
-            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(idPrestatgeria));
+        if (!ctrlPrestatgeria.existeixPrestatgeria(idPrestatgeria)) {
+            ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, idPrestatgeria));
         }
-        Map<String,Integer> producteseliminats = ctrlPrestatgeria.eliminarPrestatgeria(idPrestatgeria);
-        for(Map.Entry<String, Integer> entry : producteseliminats.entrySet()){
-            if(!ctrlProducte.existeixProducte(entry.getKey())){
-                ctrlProducte.carregarProducte(database.getProducte(entry.getKey()));
+        Map<String, Integer> producteseliminats = ctrlPrestatgeria.eliminarPrestatgeria(idPrestatgeria);
+        for (Map.Entry<String, Integer> entry : producteseliminats.entrySet()) {
+            if (!ctrlProducte.existeixProducte(entry.getKey())) {
+                ctrlProducte.carregarProducte(database.getEntity(Producte.class, entry.getKey()));
             }
             String nom = entry.getKey();
             int quantitat = entry.getValue();
             ctrlProducte.incrementarStock(nom, quantitat);
         }
-        database.deletePrestatgeria(idPrestatgeria);
+        database.deleteEntity(Prestatgeria.class, idPrestatgeria);
     }
 
     /**
@@ -458,7 +455,7 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
         if(!ctrlPrestatgeria.existeixPrestatgeria(idPrestatgeria)){
-            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(idPrestatgeria));
+            ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, idPrestatgeria));
         }
         ctrlPrestatgeria.afegirPrestatge(idPrestatgeria);
     }
@@ -476,14 +473,14 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
         if(!ctrlPrestatgeria.existeixPrestatgeria(idPrestatgeria)){
-            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(idPrestatgeria));
+            ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, idPrestatgeria));
         }
         Map<String,Integer> eliminats = ctrlPrestatgeria.eliminarPrestatge(idPrestatgeria);
         for(Map.Entry<String, Integer> entry : eliminats.entrySet()){
             String nom = entry.getKey();
             int quantitat = entry.getValue();
             if(!ctrlProducte.existeixProducte(nom)){
-                ctrlProducte.carregarProducte(database.getProducte(nom));
+                ctrlProducte.carregarProducte(database.getEntity(Producte.class, nom));
             }
             ctrlProducte.incrementarStock(nom, quantitat);
         }
@@ -502,12 +499,12 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
         if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
-            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
+            ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, id_prestatgeria));
         }
         Map<String,Integer> productes = ctrlPrestatgeria.getProductesPrestatgeria(id_prestatgeria);
         for(Map.Entry<String, Integer> entry : productes.entrySet()){
             if(!ctrlProducte.existeixProducte(entry.getKey())){
-                ctrlProducte.carregarProducte(database.getProducte(entry.getKey()));
+                ctrlProducte.carregarProducte(database.getEntity(Producte.class, entry.getKey()));
             }
             int stock = ctrlProducte.getStockMagatzem(entry.getKey());
             int max = ctrlProducte.getMaxHueco(entry.getKey());
@@ -545,7 +542,7 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
         if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
-            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
+            ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, id_prestatgeria));
         }
         ctrlPrestatgeria.fixarProducte(id_prestatgeria, nomProducte);
     }
@@ -568,7 +565,7 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
         if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
-            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
+            ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, id_prestatgeria));
         }
         ctrlPrestatgeria.desfixarProducte(id_prestatgeria, nomProducte);
     }
@@ -593,13 +590,13 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
         }
         if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
-            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
+            ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, id_prestatgeria));
         }
         Pair<String,Integer> producteretirat = ctrlPrestatgeria.retirarProductePrestatgeria(id_prestatgeria, nomProducte);
         if(producteretirat.getKey() != null) {
             String nom = producteretirat.getKey();
             if(!ctrlProducte.existeixProducte(nom)){
-                ctrlProducte.carregarProducte(database.getProducte(nom));
+                ctrlProducte.carregarProducte(database.getEntity(Producte.class, nom));
             }
             int quantitat = producteretirat.getValue();
             ctrlProducte.incrementarStock(nom, quantitat);
@@ -613,7 +610,10 @@ public class CtrlDomini {
      * @return La prestatgeria correspondiente.
      * @throws PrestatgeriaNotFoundException Si la prestatgeria no existe.
      */
-    public Prestatgeria getPrestatgeria(String id){
+    public Prestatgeria getPrestatgeria(String id) throws IOException {
+        if(!ctrlPrestatgeria.existeixPrestatgeria(id)){
+            ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, id));
+        }
         return ctrlPrestatgeria.getPrestatgeria(id);
     }
 
@@ -623,13 +623,12 @@ public class CtrlDomini {
      * @return Un mapa con todas las prestatgeries.
      */
     public Map<String, Prestatgeria> getPrestatgeries() throws IOException {
-        Map<String, Prestatgeria> prestatgeries = database.getPrestatgeries();
-        for(Prestatgeria prestatgeria : prestatgeries.values()){
-            if(!ctrlPrestatgeria.existeixPrestatgeria(prestatgeria.getId())){
-                ctrlPrestatgeria.carregarPrestatgeria(prestatgeria);
-            }
+        List<Prestatgeria> prestatgeries = database.getEntities(Prestatgeria.class);
+        Map<String, Prestatgeria> map = new HashMap<>();
+        for(Prestatgeria prestatgeria:prestatgeries){
+            map.put(prestatgeria.getId(), prestatgeria);
         }
-        return ctrlPrestatgeria.getPrestatgeries();
+        return map;
     }
 
     //Caixa
@@ -656,10 +655,10 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
         if(!ctrlProducte.existeixProducte(nom_producte)){
-            ctrlProducte.carregarProducte(database.getProducte(nom_producte));
+            ctrlProducte.carregarProducte(database.getEntity(Producte.class, nom_producte));
         }
         if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
-            ctrlPrestatgeria.carregarPrestatgeria(database.getPrestatgeria(id_prestatgeria));
+            ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, id_prestatgeria));
         }
         int quantitat_a_afegir = ctrlPrestatgeria.decrementarQuantitatProducte(id_prestatgeria, nom_producte,quantitat);
         caixa.afegirProducte(nom_producte, quantitat_a_afegir);
@@ -685,7 +684,7 @@ public class CtrlDomini {
         caixa.retirarProducte(nom_producte, aafegir);
         if(!ctrlProducte.existeixProducte(nom_producte)){
             System.out.println("hola");
-            ctrlProducte.carregarProducte(database.getProducte(nom_producte));
+            ctrlProducte.carregarProducte(database.getEntity(Producte.class, nom_producte));
         }
         ctrlProducte.incrementarStock(nom_producte, aafegir);
         return aafegir;
@@ -694,9 +693,12 @@ public class CtrlDomini {
     /**
      * Realiza el pago de la caja, eliminando los productos del sistema
      */
-    public void pagar_caixa() {
+    public void pagar_caixa() throws IOException {
         Map<String, Integer> productes = caixa.getTicket();
         for(Map.Entry<String, Integer> entry : productes.entrySet()){
+            if(!ctrlProducte.existeixProducte(entry.getKey())){
+                ctrlProducte.carregarProducte(database.getEntity(Producte.class, entry.getKey()));
+            }
             ctrlProducte.incrementarStock(entry.getKey(), entry.getValue());
         }
         caixa.pagar();
@@ -741,7 +743,7 @@ public class CtrlDomini {
         }
         Producte producte = new Producte(nomProducte,maxHueco,maxMagatzem,stockMagatzem);
 
-        database.addProducte(producte);
+        database.saveEntity(producte, nomProducte);
 
     }
 
@@ -759,19 +761,21 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
 
-        if(!database.existeixProducte(nomProducte)) throw new IllegalArgumentException("El Producte no existeix");
-        Producte producte = database.getProducte(nomProducte);
+        if(!database.existeix(Producte.class, nomProducte)) throw new IllegalArgumentException("El Producte no existeix");
+        Producte producte = database.getEntity(Producte.class, nomProducte);
 
         //Eliminamos el producto
-        database.deleteProducte(nomProducte);
+        database.deleteEntity(Producte.class, nomProducte);
 
         //Cargamos las prestatgeries y Lo eliminamos de las prestatgerias y guardamos las prestatgeries
-        Map<String, Prestatgeria> prestatgeries = database.getPrestatgeries();
-        for (Prestatgeria prestatgeria : prestatgeries.values()) {
+        List<Prestatgeria> prestatgeries = database.getEntities(Prestatgeria.class);
+        List<String> ids = new ArrayList<>();
+        for (Prestatgeria prestatgeria : prestatgeries){
             ctrlPrestatgeria.carregarPrestatgeria(prestatgeria);
+            ids.add(prestatgeria.getId());
         }
         ctrlPrestatgeria.eliminarProducte(nomProducte);
-        database.savePrestatgeries(ctrlPrestatgeria.getPrestatgeries().values());
+        database.saveEntities(prestatgeries, ids);
         //Lo eliminamos de la caixa y guaradamos la caixa
         caixa = database.getCaixa();
 
@@ -782,12 +786,13 @@ public class CtrlDomini {
         }
 
         //Lo eliminamos de todas las comandas
-        Map<String,Comanda> comandes = database.getComandes();
-        for (Comanda comanda : comandes.values()) {
+        List<Comanda> comandes = database.getEntities(Comanda.class);
+        for (Comanda comanda : comandes) {
             ctrlComandes.cargarComanda(comanda);
         }
         ctrlComandes.eliminarProducteComandes(nomProducte);
-        database.saveComandes(ctrlComandes.getComandes().values());
+        Map<String, Comanda> comandestosave = ctrlComandes.getComandes();
+        database.saveEntities(comandestosave.values(), comandestosave.keySet());
     }
 
     /**
@@ -812,8 +817,8 @@ public class CtrlDomini {
         }
         //Cargamos los dos productos
 
-        Producte producte1 = database.getProducte(nom1);
-        Producte producte2 = database.getProducte(nom2);
+        Producte producte1 = database.getEntity(Producte.class, nom1);
+        Producte producte2 = database.getEntity(Producte.class, nom2);
         ctrlProducte.carregarProducte(producte1);
         ctrlProducte.carregarProducte(producte2);
 
@@ -840,8 +845,8 @@ public class CtrlDomini {
 
         //Cargamos los dos productos
 
-        Producte producte1 = database.getProducte(nom1);
-        Producte producte2 = database.getProducte(nom2);
+        Producte producte1 = database.getEntity(Producte.class, nom1);
+        Producte producte2 = database.getEntity(Producte.class, nom2);
         ctrlProducte.carregarProducte(producte1);
         ctrlProducte.carregarProducte(producte2);
 
@@ -858,7 +863,7 @@ public class CtrlDomini {
      * @throws ProductNotFoundMagatzemException Si el producto no existe en el almacén.
      */
     public Producte getProducte(String nomProducte) throws IllegalArgumentException, ProductNotFoundMagatzemException, IOException {
-        return database.getProducte(nomProducte);
+        return database.getEntity(Producte.class, nomProducte);
     }
 
     /**
@@ -867,11 +872,25 @@ public class CtrlDomini {
      * @return Un mapa con los productos del almacén, donde las claves son los nombres de los productos
      * y los valores son los objetos {@code Producte}.
      */
-    public Map<String, Producte> getMagatzem() throws IOException {
-        return database.getProductes();
+    public List<Producte> getMagatzem() throws IOException {
+        return database.getEntities(Producte.class);
+    }
+    public List<String> getNomsProductes() throws IOException {
+        List<Producte> productes = database.getEntities(Producte.class);
+        List<String> noms = new ArrayList<>();
+        for(Producte producte : productes){
+            noms.add(producte.getNom());
+        }
+        return noms;
     }
 
 
-
-
+    public List<String> getIdsPrestatgeries() throws IOException {
+        List<Prestatgeria> prestatgeries = database.getEntities(Prestatgeria.class);
+        List<String> ids = new ArrayList<>();
+        for(Prestatgeria prestatgeria : prestatgeries){
+            ids.add(prestatgeria.getId());
+        }
+        return ids;
+    }
 }

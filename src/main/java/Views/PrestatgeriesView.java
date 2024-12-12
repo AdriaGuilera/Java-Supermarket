@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Map;
+import java.util.List;
 import controladors.CtrlDomini;
 import classes.Prestatgeria;
 import Exepcions.*;
@@ -128,13 +129,7 @@ public class PrestatgeriesView extends JFrame {
         BackButton backButton = new BackButton("Back", e -> {showLeaveDialog();});
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
         backButtonPanel.add(backButton);
-        backButton.addActionListener(e -> {
-            MainView mainView = new MainView(ctrlDomini);
-            mainView.setSize(getSize());
-            mainView.setLocation(getLocation());
-            mainView.setVisible(true);
-            dispose(); // Cierra ProductesView
-        });
+
         // Create a panel to combine the back button and the top buttons
         JPanel combinedTopPanel = new JPanel(new BorderLayout());
         combinedTopPanel.add(backButtonPanel, BorderLayout.NORTH);
@@ -160,52 +155,20 @@ public class PrestatgeriesView extends JFrame {
 
         prestatgeriesPanel.removeAll();
         listModel.clear();
-        Map<String, Prestatgeria> prestatgeries = ctrlDomini.getPrestatgeries();
+        List<String> prestatgeries = ctrlDomini.getIdsPrestatgeries();
 
         int maxElementWidth = 0;
         FontMetrics fontMetrics = prestatgeriaList.getFontMetrics(prestatgeriaList.getFont());
 
-        for (Map.Entry<String, Prestatgeria> entry : prestatgeries.entrySet()) {
-            Prestatgeria prest = entry.getValue();
-            listModel.addElement(prest.getId());
+        for (String id : prestatgeries) {
+            listModel.addElement(id);
 
-            int elementWidth = fontMetrics.stringWidth(prest.getId());
+            int elementWidth = fontMetrics.stringWidth(id);
             if (elementWidth > maxElementWidth) {
                 maxElementWidth = elementWidth;
             }
-
-            JPanel prestPanel = new JPanel(new BorderLayout());
-            TitledBorder border = BorderFactory.createTitledBorder(
-                    BorderFactory.createLineBorder(Color.BLACK, 2),
-                    "Prestatgeria " + prest.getId(),
-                    TitledBorder.CENTER,
-                    TitledBorder.TOP
-            );
-            border.setTitleFont(new Font("Segoe UI", Font.BOLD, 14));
-            border.setTitlePosition(TitledBorder.ABOVE_TOP);
-            border.setTitleJustification(TitledBorder.CENTER);
-            prestPanel.setBorder(border);
-
-            int numShelves = prest.getMidaPrestatgeria() / prest.getMidaPrestatge();
-            int shelfSize = prest.getMidaPrestatge();
-            JPanel shelvesPanel = new JPanel(new GridLayout(numShelves, 1, 5, 5));
-
-            for (int shelf = 0; shelf < numShelves; shelf++) {
-                JPanel shelfPanel = new JPanel(new GridLayout(1, shelfSize, 2, 2));
-                shelfPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-
-                for (int pos = shelf * shelfSize; pos < (shelf + 1) * shelfSize; pos++) {
-                    String productName = prest.getPosicions().get(pos);
-                    JPanel cellPanel = createProductCell(prest, pos, productName);
-                    shelfPanel.add(cellPanel);
-                }
-
-                shelvesPanel.add(shelfPanel);
-            }
-
-            prestPanel.add(shelvesPanel, BorderLayout.CENTER);
-            prestatgeriesPanel.add(prestPanel, prest.getId());
         }
+
 
         prestatgeriaList.setPreferredSize(new Dimension(maxElementWidth + 20, prestatgeriaList.getPreferredSize().height));
         prestatgeriesPanel.revalidate();
@@ -214,6 +177,47 @@ public class PrestatgeriesView extends JFrame {
         if (selectedId != null) {
             prestatgeriaList.setSelectedValue(selectedId, true); // Reselect the previously selected prestatgeria
         }
+        refreshShelf();
+    }
+    public void refreshShelf() throws IOException {
+        String selectedId = prestatgeriaList.getSelectedValue();
+        if(selectedId == null){
+            selectedId = prestatgeriaList.getModel().getElementAt(0);
+        }
+        //Show slected id in terminal
+        System.out.println(selectedId);
+        JPanel prestPanel = new JPanel(new BorderLayout());
+        TitledBorder border = BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.BLACK, 2),
+                "Prestatgeria " + selectedId,
+                TitledBorder.CENTER,
+                TitledBorder.TOP
+        );
+        border.setTitleFont(new Font("Segoe UI", Font.BOLD, 14));
+        border.setTitlePosition(TitledBorder.ABOVE_TOP);
+        border.setTitleJustification(TitledBorder.CENTER);
+        prestPanel.setBorder(border);
+
+        Prestatgeria prest = ctrlDomini.getPrestatgeria(selectedId);
+        int numShelves = prest.getMidaPrestatgeria() / prest.getMidaPrestatge();
+        int shelfSize = prest.getMidaPrestatge();
+        JPanel shelvesPanel = new JPanel(new GridLayout(numShelves, 1, 5, 5));
+
+        for (int shelf = 0; shelf < numShelves; shelf++) {
+            JPanel shelfPanel = new JPanel(new GridLayout(1, shelfSize, 2, 2));
+            shelfPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+            for (int pos = shelf * shelfSize; pos < (shelf + 1) * shelfSize; pos++) {
+                String productName = prest.getPosicions().get(pos);
+                JPanel cellPanel = createProductCell(prest, pos, productName);
+                shelfPanel.add(cellPanel);
+            }
+
+            shelvesPanel.add(shelfPanel);
+        }
+
+        prestPanel.add(shelvesPanel, BorderLayout.CENTER);
+        prestatgeriesPanel.add(prestPanel, selectedId);
     }
 
     private JPanel createProductCell(Prestatgeria prest, int position, String productName) {
@@ -586,18 +590,20 @@ public class PrestatgeriesView extends JFrame {
         dialog.setVisible(true);
     }
 
-    private void showLeaveDialog(){
-        int result = JOptionPane.showConfirmDialog(this, "Quieres guardar los cambios antes de salir?", "Leave", JOptionPane.YES_NO_OPTION);
+    private void showLeaveDialog() {
+        int result = JOptionPane.showConfirmDialog(this, "Voleu guardar els canvis abans de sortir?", "Sortir", JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) {
             try {
                 ctrlDomini.guardar();
-                dispose();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error saving data: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
         }
-        else if (result == JOptionPane.NO_OPTION) {
-            dispose();
-        }
+        dispose();
+        MainView mainView = new MainView(ctrlDomini);
+        mainView.setSize(getSize());
+        mainView.setLocation(getLocation());
+        mainView.setVisible(true);
     }
 }

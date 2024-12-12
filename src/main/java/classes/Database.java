@@ -23,6 +23,19 @@ public class Database {
     private final ObjectMapper objectMapper;
 
 
+    public void throwExcepcionNotFound(Class<?> clazz, String id)
+    throws ComandaNotFoundException, ProductNotFoundMagatzemException, PrestatgeriaNotFoundException {
+       if(clazz.equals(Comanda.class)) {
+           throw new ComandaNotFoundException(id);
+       }
+       if(clazz.equals(Producte.class)) {
+              throw new ProductNotFoundMagatzemException(id);
+       }
+         if(clazz.equals(Prestatgeria.class)) {
+              throw new PrestatgeriaNotFoundException(id);
+         }
+    }
+
     //Constructor de la clase Database
     public Database() {
         this.objectMapper = new ObjectMapper();
@@ -31,233 +44,103 @@ public class Database {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-
-    //OPERACIONES PARA CARGAR ELEMENTOS DE LA BASE DE DATOS (GET)
-
-    //Método que carga una comanda a partir de su id
-    public Comanda getComanda(String id) throws ComandaNotFoundException, IOException {
-        File file = new File(COMANDES_PATH + id + ".json");
+    public <T> T getEntity(Class<T> clazz, String id) throws IOException {
+        String path = getPathForClass(clazz);
+        File file = new File(path + id + ".json");
         if (!file.exists()) {
-            throw new ComandaNotFoundException(id);
+            throwExcepcionNotFound(clazz, id);
         }
-
-        return objectMapper.readValue(file, Comanda.class);
+        return objectMapper.readValue(file, clazz);
     }
 
-    // Método para cargar todas las comandas
-    public Map<String, Comanda> getComandes() throws IOException {
-        Map<String, Comanda> comandes = new HashMap<>();
-        File directory = new File(COMANDES_PATH);
+    public <T> List<T> getEntities(Class<T> clazz) throws IOException {
+        List<T> entities = new ArrayList<>();
+        String path = getPathForClass(clazz);
+        File directory = new File(path);
 
         if (directory.exists() && directory.isDirectory()) {
             File[] files = directory.listFiles((dir, name) -> name.endsWith(".json"));
 
             if (files != null) {
                 for (File file : files) {
-                    Comanda comanda = objectMapper.readValue(file, Comanda.class);
-                    comandes.put(comanda.getNom(), comanda);
+                    T entity = objectMapper.readValue(file, clazz);
+                    entities.add(entity);
                 }
             }
         } else {
-            throw new IOException("El directorio de comandas no existe o no es válido: " + COMANDES_PATH);
+            throw new IOException("The directory does not exist or is not valid: " + path);
         }
 
-        return comandes;
+        return entities;
     }
 
-    //Método que carga un producto a partir de su id
-    public Producte getProducte(String id) throws ProductNotFoundMagatzemException, IOException {
-        File file = new File(PRODUCTES_PATH + id + ".json");
-        if (!file.exists()) {
-            throw new ProductNotFoundMagatzemException(id);
+
+    public <T> boolean existeix(Class<T> clazz, String id) {
+        String path = getPathForClass(clazz);
+        File file = new File(path + id + ".json");
+        return file.exists();
+    }
+
+    // Generic method to save entities to the database
+    public <T> void saveEntities(Collection<T> entities, Collection<String> ids) throws IOException {
+        if (entities.isEmpty()) {
+            throw new IllegalArgumentException("Entities collection is empty.");
         }
-        return objectMapper.readValue(file, Producte.class);
-    }
-
-    public Map<String, Producte> getProductes() throws IOException {
-        Map<String, Producte> productes = new HashMap<>();
-        File directory = new File(PRODUCTES_PATH);
-
-        if (directory.exists() && directory.isDirectory()) {
-            File[] files = directory.listFiles((dir, name) -> name.endsWith(".json"));
-
-            if (files != null) {
-                for (File file : files) {
-                    Producte producte = objectMapper.readValue(file, Producte.class);
-                    productes.put(producte.getNom(), producte);
-                }
+        String path = getPathForClass(entities.iterator().next().getClass());
+        Iterator<String> idIterator = ids.iterator();
+        for (T entity : entities) {
+            if (!idIterator.hasNext()) {
+                throw new IllegalArgumentException("The number of IDs does not match the number of entities.");
             }
-        } else {
-            throw new IOException("El directorio de productos no existe o no es válido: " + PRODUCTES_PATH);
+            String id = idIterator.next();
+            File file = new File(path + id + ".json");
+            objectMapper.writeValue(file, entity);
         }
-
-        return productes;
+    }
+    public <T> void saveEntity(T entity, String id) throws IOException {
+        String path = getPathForClass(entity.getClass());
+        File file = new File(path + id + ".json");
+        objectMapper.writeValue(file, entity);
     }
 
-    //Método que carga una prestatgeria a partir de su id
-    public Prestatgeria getPrestatgeria(String id) throws PrestatgeriaNotFoundException, IOException {
-        File file = new File(PRESTATGERIES_PATH + id + ".json");
-        if (!file.exists()) {
-            throw new PrestatgeriaNotFoundException(id);
-        }
-        return objectMapper.readValue(file, Prestatgeria.class);
+    public void saveCaixa(Caixa caixa) throws IOException {
+        File file = new File(CAIXA_PATH);
+        objectMapper.writeValue(file, caixa);
     }
-
-
-    //Método que carga todas las prestatgerias
-    public Map<String, Prestatgeria> getPrestatgeries() throws IOException {
-        Map<String, Prestatgeria> prestatgeries = new HashMap<>();
-        File directory = new File(PRESTATGERIES_PATH);
-
-        if (directory.exists() && directory.isDirectory()) {
-            File[] files = directory.listFiles((dir, name) -> name.endsWith(".json"));
-
-            if (files != null) {
-                for (File file : files) {
-                    Prestatgeria prestatgeria = objectMapper.readValue(file, Prestatgeria.class);
-                    prestatgeries.put(prestatgeria.getId(), prestatgeria);
-                }
-            }
-        }
-
-        return prestatgeries;
-    }
-
-    //Método que carga la caja
     public Caixa getCaixa() throws IOException {
         File file = new File(CAIXA_PATH);
+        if (!file.exists()) {
+            throw new IOException("Caixa not found");
+        }
         return objectMapper.readValue(file, Caixa.class);
     }
 
-
-    //OPERACIONES PARA ACTUALIZAR ELEMENTOS DE LA BASE DE DATOS (SAVE)
-
-    //Actualiza las comandas de la base de datos
-    public void saveComandes(Collection<Comanda> comandes) throws IOException {
-        for (Comanda comanda : comandes) {
-            File file = new File(COMANDES_PATH + comanda.getNom() + ".json");
-            objectMapper.writeValue(file, comanda);
+    //genreic method to delete an entity
+    public <T> void deleteEntity(Class<T> clazz, String id) throws IOException {
+        String path = getPathForClass(clazz);
+        File file = new File(path + id + ".json");
+        if (!file.exists()) {
+            throw new IOException(clazz.getSimpleName() + " not found: " + id);
         }
-
+        file.delete();
     }
 
-    //Actualiza los productos de la base de datos
-    public void saveProductes(Collection<Producte> productes) throws IOException {
-        for (Producte producte : productes) {
-            File file = new File(PRODUCTES_PATH + producte.getNom() + ".json");
-            objectMapper.writeValue(file, producte);
-        }
-    }
-
-    //Actualiza las prestatgerias de la base de datos
-    public void savePrestatgeries(Collection<Prestatgeria> prestatgeries) throws IOException {
-        for (Prestatgeria prestatgeria : prestatgeries) {
-            File file = new File(PRESTATGERIES_PATH + prestatgeria.getId() + ".json");
-            objectMapper.writeValue(file, prestatgeria);
-        }
-    }
-
-    //Actualiza la caja de la base de datos
-    public void saveCaixa(Caixa caixa) throws IOException {
-        objectMapper.writeValue(new File(CAIXA_PATH), caixa);
-    }
-
-    //Actualiza todos los elementos de la base de datos
-    public void saveAll(Collection<Comanda> comandes, Collection<Producte> productes, Collection<Prestatgeria> prestatgeries, Caixa caixa) throws IOException {
-        saveComandes(comandes);
-        saveProductes(productes);
-        savePrestatgeries(prestatgeries);
-        saveCaixa(caixa);
-    }
-
-
-
-    //OPERACIONES PARA ELIMINAR ELEMENTOS DE LA BASE DE DATOS
-
-    //Elimina una comanda de la base de datos
-    public void deleteComanda(String id) throws ComandaNotFoundException {
-        if(existeixComanda(id)) {
-            File file = new File(COMANDES_PATH + id + ".json");
-            file.delete();
-        }
-        else {
-            throw new ComandaNotFoundException(id);
-        }
-    }
-
-    //Elimina un producto de la base de datos
-    public void deleteProducte(String id) throws ProductNotFoundMagatzemException {
-        if(existeixProducte(id)) {
-            File file = new File(PRODUCTES_PATH + id + ".json");
-            file.delete();
-        }
-        else {
-            throw new ProductNotFoundMagatzemException(id);
-        }
-    }
-
-    //Elimina una prestatgeria de la base de datos
-    public void deletePrestatgeria(String id) throws PrestatgeriaNotFoundException {
-        if(existeixPrestatgeria(id)) {
-            File file = new File(PRESTATGERIES_PATH + id + ".json");
-            file.delete();
-        }
-        else {
-            throw new PrestatgeriaNotFoundException(id);
+    private String getPathForClass(Class<?> clazz) {
+        if (clazz.equals(Comanda.class)) {
+            return COMANDES_PATH;
+        } else if (clazz.equals(Producte.class)) {
+            return PRODUCTES_PATH;
+        } else if (clazz.equals(Prestatgeria.class)) {
+            return PRESTATGERIES_PATH;
+        } else if (clazz.equals(Caixa.class)) {
+            return CAIXA_PATH;
+        } else {
+            throw new IllegalArgumentException("Unknown class: " + clazz.getSimpleName());
         }
     }
 
 
 
-    //OPERACIONES PARA AÑADIR ELEMENTOS A LA BASE DE DATOS
-
-    //Añade una comanda a la base de datos
-    public void addComanda(Comanda comanda) throws IOException, ComandaAlreadyExistsException {
-        if(existeixComanda(comanda.getNom())) {
-            throw new ComandaAlreadyExistsException(comanda.getNom());
-        }
-        File file = new File(COMANDES_PATH + comanda.getNom() + ".json");
-        objectMapper.writeValue(file, comanda);
-    }
-
-    //Añade un producto a la base de datos
-    public void addProducte(Producte producte) throws IOException, ProducteAlreadyExistsException {
-        if(existeixProducte(producte.getNom())) {
-            throw new ProducteAlreadyExistsException(producte.getNom());
-        }
-        File file = new File(PRODUCTES_PATH + producte.getNom() + ".json");
-        objectMapper.writeValue(file, producte);
-    }
-
-    //Añade una prestatgeria a la base de datos
-    public void addPrestatgeria(Prestatgeria prestatgeria) throws IOException, PrestatgeriaAlreadyExistsException {
-        if(existeixPrestatgeria(prestatgeria.getId())) {
-            throw new PrestatgeriaAlreadyExistsException(prestatgeria.getId());
-        }
-        File file = new File(PRESTATGERIES_PATH + prestatgeria.getId() + ".json");
-        objectMapper.writeValue(file, prestatgeria);
-    }
-
-
-    //OPERACIONES PARA COMPROBAR LA EXISTENCIA DE ELEMENTOS EN LA BASE DE DATOS
-
-    //Comprueba si una comanda existe
-    public boolean existeixComanda(String id) {
-        File file = new File(COMANDES_PATH + id + ".json");
-        return file.exists();
-    }
-
-    //Comprueba si un producto existe
-    public boolean existeixProducte(String id){
-        File file = new File(PRODUCTES_PATH + id + ".json");
-        return file.exists();
-    }
-
-    //Comprueba si una prestatgeria existe
-    public boolean existeixPrestatgeria(String id) {
-        File file = new File(PRESTATGERIES_PATH + id + ".json");
-        return file.exists();
-    }
 
 
 }

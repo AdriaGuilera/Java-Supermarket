@@ -2,9 +2,7 @@ package Views;
 
 import javax.swing.*;
 import java.awt.*;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.Map;
 
 import Components.SaveButton;
@@ -34,18 +32,10 @@ public class ProductesView extends JFrame {
         mainPanel = new JPanel(new BorderLayout());
 
         // Back button
-        JButton backButton = new BackButton("Back", e -> dispose());
+        JButton backButton = new BackButton("Back", e -> showLeaveDialog());
         backButton.setFont(new Font("Arial", Font.BOLD, 18));
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         backButtonPanel.add(backButton);
-
-        backButton.addActionListener(e -> {
-            MainView mainView = new MainView(ctrlDomini);
-            mainView.setSize(getSize());
-            mainView.setLocation(getLocation());
-            mainView.setVisible(true);
-            dispose(); // Cierra ProductesView
-        });
 
         // Buttons panel
         JPanel buttonsPanel = new JPanel(new GridLayout(2, 5, 10, 10));
@@ -53,6 +43,7 @@ public class ProductesView extends JFrame {
         // Buttons
         JButton createComandaButton = new StyledButton("Crear Producte");
         JButton deleteComandaButton = new StyledButton("Eliminar producte");
+        JButton veureProducteButton = new StyledButton("Veure Info Producte");
         JButton addProductButton = new StyledButtonGuardar("Afegir Similitud Productes");
         JButton removeProductButton = new StyledButtonGuardar("Eliminar Similitud Productes");
 
@@ -60,18 +51,21 @@ public class ProductesView extends JFrame {
         Font buttonFont = new Font("Arial", Font.BOLD, 18);
         createComandaButton.setFont(buttonFont);
         deleteComandaButton.setFont(buttonFont);
+        veureProducteButton.setFont(buttonFont);
         addProductButton.setFont(buttonFont);
         removeProductButton.setFont(buttonFont);
 
         // Add buttons to panel
         buttonsPanel.add(createComandaButton);
         buttonsPanel.add(deleteComandaButton);
+        buttonsPanel.add(veureProducteButton);
         buttonsPanel.add(addProductButton);
         buttonsPanel.add(removeProductButton);
 
         // Add action listeners
         createComandaButton.addActionListener(e -> showCreateProducteDialog());
         deleteComandaButton.addActionListener(e -> showDeleteProducteDialog());
+        veureProducteButton.addActionListener(e -> showVeureProducteDialog());
         addProductButton.addActionListener(e -> showAddSimilitudDialog());
         removeProductButton.addActionListener(e -> showRemoveSimilitudDialog());
 
@@ -92,19 +86,7 @@ public class ProductesView extends JFrame {
         JScrollPane listScrollPane = new JScrollPane(productesList);
         listScrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        productesList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) { // Detectar doble clic
-                    int index = productesList.locationToIndex(e.getPoint());
-                    if (index >= 0) {
-                        productesList.setSelectedIndex(index); // Seleccionar l'índex clicat
-                        showVeureProducteDialog(); // Mostrar la informació del producte
-                    }
-                }
-            }
-        });
-        productesList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         // Create a container panel for the list with padding
         JPanel listContainerPanel = new JPanel(new BorderLayout());
         listContainerPanel.setBorder(BorderFactory.createEmptyBorder(20, (getWidth()- 500)/2, 20, (getWidth()- 500)/2));
@@ -136,19 +118,16 @@ public class ProductesView extends JFrame {
         refreshProductesList();
     }
 
-    public void refreshProductesList() {
+    private void refreshProductesList() {
         try {
             listModel.clear();
-            Map<String, Producte> productes = ctrlDomini.getMagatzem(); // Load comandes from the database
-            for (Map.Entry<String, Producte> entry : productes.entrySet()) {
-                Producte producte = entry.getValue();
-                listModel.addElement(producte.getNom());
+            for(String name : ctrlDomini.getNomsProductes()){
+                listModel.addElement(name);
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error loading comandes: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     private void showCreateProducteDialog() {
         JDialog dialog = new JDialog(this, "Alta Producte", true);
@@ -243,8 +222,7 @@ public class ProductesView extends JFrame {
             try {
                 Producte producte = ctrlDomini.getProducte(id);
                 String informacion = "Nom del producte: " + producte.getNom() + "\nMàxima Capacitat Prestatgeria: "+producte.getMaxHueco()
-                        + "\nMàxima Capacitat Magatzem "+ producte.getMaxMagatzem() + "\nStock: " + producte.getStock() +
-                        "\nSimilituds: " + producte.getSimilituds().toString() ;
+                        + "\nMàxima Capacitat Magatzem "+ producte.getMaxMagatzem() + "\nSimilituds: " + producte.getSimilituds().toString() ;
                 JOptionPane.showMessageDialog(this, informacion , "Detalls del Producte", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -372,6 +350,21 @@ public class ProductesView extends JFrame {
             return label;
         }
     }
-
+    private void showLeaveDialog() {
+        int result = JOptionPane.showConfirmDialog(this, "Voleu guardar els canvis abans de sortir?", "Sortir", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            try {
+                ctrlDomini.guardar();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        dispose();
+        MainView mainView = new MainView(ctrlDomini);
+        mainView.setSize(getSize());
+        mainView.setLocation(getLocation());
+        mainView.setVisible(true);
+    }
 }
 

@@ -50,11 +50,6 @@ public class MainView extends JFrame {
                     prestatgeriesView.setLocation(getLocation());
 
                     prestatgeriesView.setVisible(true);
-                    try {
-                        prestatgeriesView.refreshPrestatgeriesView();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
                     // Ocultar MainView
                     dispose();                });
             }
@@ -68,7 +63,6 @@ public class MainView extends JFrame {
                     comandesView.setLocation(getLocation());
 
                     comandesView.setVisible(true);
-                    comandesView.refreshComandesList();
                     // Ocultar MainView
                     dispose();});
             }
@@ -82,7 +76,6 @@ public class MainView extends JFrame {
                     productesView.setLocation(getLocation());
 
                     productesView.setVisible(true);
-                    productesView.refreshProductesList();
                     // Ocultar MainView
                     dispose();                });
             }
@@ -96,7 +89,6 @@ public class MainView extends JFrame {
                     caixaView.setLocation(getLocation());
 
                     caixaView.setVisible(true);
-                    caixaView.refreshProductList();
                     // Ocultar MainView
                     dispose();                });
             }

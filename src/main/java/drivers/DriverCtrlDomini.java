@@ -10,6 +10,7 @@ import controladors.CtrlDomini;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -700,7 +701,7 @@ public class DriverCtrlDomini {
     /**
      * Prueba la funcionalidad de pagar todos los productos en la Caixa y vaciarla.
      */
-    public static void testPagar() {
+    public static void testPagar() throws IOException {
         ctrlDomini.pagar_caixa();
         System.out.println("Caja pagada y vaciada!");
     }
@@ -846,7 +847,7 @@ public class DriverCtrlDomini {
      *
      * @return Un mapa con todos los productos del Magatzem.
      */
-    public static Map<String, Producte> testGetMagatzem() throws IOException {
+    public static List<Producte> testGetMagatzem() throws IOException {
         return ctrlDomini.getMagatzem();
     }
 
@@ -967,7 +968,7 @@ public class DriverCtrlDomini {
                 Producte producte=testGetProducte(scanner);
                 break;
             case CONSULTAR_MAGATZEM:
-                Map<String, Producte> magatzem=testGetMagatzem();
+                List<Producte> magatzem=testGetMagatzem();
                 break;
 
             // Extras

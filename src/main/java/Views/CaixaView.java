@@ -44,13 +44,6 @@ public class CaixaView extends JFrame {
         JPanel backPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
         BackButton backButton = new BackButton("Back", e -> showLeaveDialog());
         backPanel.add(backButton);
-        backButton.addActionListener(e -> {
-            MainView mainView = new MainView(ctrlDomini);
-            mainView.setSize(getSize());
-            mainView.setLocation(getLocation());
-            mainView.setVisible(true);
-            dispose(); // Cierra ProductesView
-        });
         JPanel operationButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
         StyledButton addButton = new StyledButton("Afegir Producte");
         StyledButton removeButton = new StyledButton("Retirar Producte");
@@ -223,13 +216,16 @@ public class CaixaView extends JFrame {
         if (result == JOptionPane.YES_OPTION) {
             try {
                 ctrlDomini.guardar();
-                dispose();
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
-        } else if (result == JOptionPane.NO_OPTION) {
-            dispose();
         }
+        dispose();
+        MainView mainView = new MainView(ctrlDomini);
+        mainView.setSize(getSize());
+        mainView.setLocation(getLocation());
+        mainView.setVisible(true);
     }
 
     // Custom cell renderer for coloring list items

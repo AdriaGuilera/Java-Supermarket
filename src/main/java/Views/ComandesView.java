@@ -2,6 +2,7 @@ package Views;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -32,17 +33,11 @@ public class ComandesView extends JFrame {
         mainPanel = new JPanel(new BorderLayout());
 
         // Back button
-        JButton backButton = new BackButton("Back", e -> dispose());
+        JButton backButton = new BackButton("Back", e -> showLeaveDialog());
         backButton.setFont(new Font("Arial", Font.BOLD, 18));
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         backButtonPanel.add(backButton);
-        backButton.addActionListener(e -> {
-            MainView mainView = new MainView(ctrlDomini);
-            mainView.setSize(getSize());
-            mainView.setLocation(getLocation());
-            mainView.setVisible(true);
-            dispose(); // Cierra ProductesView
-        });
+
         // Buttons panel
         JPanel buttonsPanel = new JPanel(new GridLayout(2, 4, 5, 10));
 
@@ -128,7 +123,7 @@ public class ComandesView extends JFrame {
         refreshComandesList();
     }
 
-    public void refreshComandesList() {
+    private void refreshComandesList() {
         try {
             listModel.clear();
             Map<String, Comanda> comandes = ctrlDomini.getComandes(); // Load comandes from the database
@@ -385,5 +380,21 @@ public class ComandesView extends JFrame {
             }
             return label;
         }
+    }
+    private void showLeaveDialog() {
+        int result = JOptionPane.showConfirmDialog(this, "Voleu guardar els canvis abans de sortir?", "Sortir", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            try {
+                ctrlDomini.guardar();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        dispose();
+        MainView mainView = new MainView(ctrlDomini);
+        mainView.setSize(getSize());
+        mainView.setLocation(getLocation());
+        mainView.setVisible(true);
     }
 }
