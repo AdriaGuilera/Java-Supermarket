@@ -18,7 +18,7 @@ public class ComandesView extends JFrame {
     private JPanel mainPanel;
     private JList<String> comandesList;
     private DefaultListModel<String> listModel;
-
+    boolean canvis=false;
     public ComandesView(CtrlDomini ctrlDomini) {
         this.ctrlDomini = ctrlDomini;
         setupUI();
@@ -106,6 +106,7 @@ public class ComandesView extends JFrame {
         saveButton.addActionListener(e -> {
             try {
                 ctrlDomini.guardar();
+                canvis=false;
                 refreshComandesList();
                 JOptionPane.showMessageDialog(this, "Dades guardades correctament!", "Èxit", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
@@ -247,6 +248,7 @@ public class ComandesView extends JFrame {
                 int quantity = Integer.parseInt(quantityField.getText());
                 if (quantity <= 0) throw new NumberFormatException();
                 ctrlDomini.afegirProducteComanda(comandaId, productName, quantity);
+                canvis=true;
                 dialog.dispose();
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(dialog, "La quantitat ha de ser un nombre positiu.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -294,6 +296,7 @@ public class ComandesView extends JFrame {
                 int quantity = Integer.parseInt(quantityField.getText());
                 if (quantity <= 0) throw new NumberFormatException();
                 ctrlDomini.eliminarProducteComanda(comandaId, productName, quantity);
+                canvis=true;
                 dialog.dispose();
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(dialog, "La quantitat ha de ser un nombre positiu.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -382,15 +385,18 @@ public class ComandesView extends JFrame {
         }
     }
     private void showLeaveDialog() {
-        int result = JOptionPane.showConfirmDialog(this, "Voleu guardar els canvis abans de sortir?", "Sortir", JOptionPane.YES_NO_OPTION);
-        if (result == JOptionPane.YES_OPTION) {
-            try {
-                ctrlDomini.guardar();
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+        if(canvis){
+            int result = JOptionPane.showConfirmDialog(this, "Voleu guardar els canvis abans de sortir?", "Sortir", JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                try {
+                    ctrlDomini.guardar();
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             }
         }
+
         dispose();
         MainView mainView = new MainView(ctrlDomini);
         mainView.setSize(getSize());

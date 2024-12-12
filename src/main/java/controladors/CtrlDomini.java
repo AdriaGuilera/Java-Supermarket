@@ -29,13 +29,13 @@ public class CtrlDomini {
     }
 
     public void guardar() throws IOException {
-
         Map<String, Producte> productes = ctrlProducte.getMagatzem();
-        database.saveEntities(productes.values(), productes.keySet());
+        System.out.println(productes);
+        if(!productes.isEmpty())database.saveEntities(productes.values(), productes.keySet());
         Map<String, Prestatgeria> prestatgeries = ctrlPrestatgeria.getPrestatgeries();
-        database.saveEntities(prestatgeries.values(), prestatgeries.keySet());
+        if(!prestatgeries.isEmpty())database.saveEntities(prestatgeries.values(), prestatgeries.keySet());
         Map<String, Comanda> comandes = ctrlComandes.getComandes();
-        database.saveEntities(comandes.values(), comandes.keySet());
+        if(!comandes.isEmpty())database.saveEntities(comandes.values(), comandes.keySet());
         database.saveCaixa(caixa);
     }
 
@@ -212,6 +212,7 @@ public class CtrlDomini {
         }
         Map<String, Comanda> comandesAExecutar = ctrlComandes.obtenirComandes(noms);
         ctrlProducte.executarComandes(comandesAExecutar);
+        database.saveEntities(ctrlProducte.getMagatzem().values(), ctrlProducte.getMagatzem().keySet());
     }
 
 

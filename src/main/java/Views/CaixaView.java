@@ -11,7 +11,7 @@ public class CaixaView extends JFrame {
     private final CtrlDomini ctrlDomini;
     private  DefaultListModel<String> productListModel;
     private  JList<String> productList;
-
+    boolean canvis = false;
     public CaixaView(CtrlDomini ctrlDomini)  {
         this.ctrlDomini = ctrlDomini;
         try {
@@ -64,6 +64,7 @@ public class CaixaView extends JFrame {
         saveButton.addActionListener(e -> {
             try {
                 ctrlDomini.guardar();
+                canvis=false;
                 JOptionPane.showMessageDialog(this, "Dades guardades correctament!", "Èxit", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -127,6 +128,7 @@ public class CaixaView extends JFrame {
                 int quantity = Integer.parseInt(quantityField.getText());
                 String prestatgeria = prestatgeriaField.getText();
                 ctrlDomini.afegir_producte_caixa(product, quantity, prestatgeria);
+                canvis=true;
                 dialog.dispose();
                 refreshProductList();
             } catch (Exception ex) {
@@ -185,6 +187,7 @@ public class CaixaView extends JFrame {
                 }
 
                 ctrlDomini.retirar_producte_caixa(product, quantity);
+                canvis=true;
                 dialog.dispose();
                 refreshProductList();
             } catch (Exception ex) {
@@ -204,6 +207,7 @@ public class CaixaView extends JFrame {
     private void payCaixa() {
         try {
             ctrlDomini.pagar_caixa();
+            canvis=true;
             refreshProductList();
             JOptionPane.showMessageDialog(this, "Pagament realitzat!", "Èxit", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
@@ -212,15 +216,18 @@ public class CaixaView extends JFrame {
     }
 
     private void showLeaveDialog() {
-        int result = JOptionPane.showConfirmDialog(this, "Voleu guardar els canvis abans de sortir?", "Sortir", JOptionPane.YES_NO_OPTION);
-        if (result == JOptionPane.YES_OPTION) {
-            try {
-                ctrlDomini.guardar();
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+        if (canvis) {
+            int result = JOptionPane.showConfirmDialog(this, "Voleu guardar els canvis abans de sortir?", "Sortir", JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                try {
+                    ctrlDomini.guardar();
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             }
         }
+
         dispose();
         MainView mainView = new MainView(ctrlDomini);
         mainView.setSize(getSize());

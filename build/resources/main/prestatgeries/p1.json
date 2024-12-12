@@ -1,12 +1,12 @@
 {
   "id" : "p1",
-  "midaPrestatgeria" : 5,
+  "midaPrestatgeria" : 10,
   "midaPrestatge" : 5,
   "productes" : {
-    "Manzana" : 1
+    "Producte" : 2
   },
   "posicions" : {
-    "2" : "Manzana"
+    "0" : "Producte"
   },
   "productesFixats" : [ ]
 }
