@@ -47,6 +47,11 @@ public class PrestatgeriesView extends JFrame {
         prestatgeriaList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 String selectedId = prestatgeriaList.getSelectedValue();
+                try {
+                    refreshShelf();
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 if (selectedId != null) {
                     cardLayout.show(prestatgeriesPanel, selectedId);
                 }
