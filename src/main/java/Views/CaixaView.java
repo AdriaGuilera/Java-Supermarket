@@ -59,21 +59,6 @@ public class CaixaView extends JFrame {
 
         mainPanel.add(topButtonsPanel, BorderLayout.NORTH);
 
-        // Save button at the bottom
-        SaveButton saveButton = new SaveButton("Guardar");
-        saveButton.addActionListener(e -> {
-            try {
-                ctrlDomini.guardar();
-                canvis=false;
-                JOptionPane.showMessageDialog(this, "Dades guardades correctament!", "Èxit", JOptionPane.INFORMATION_MESSAGE);
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
-        JPanel savePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        savePanel.add(saveButton);
-        mainPanel.add(savePanel, BorderLayout.SOUTH);
 
         add(mainPanel);
 
@@ -124,9 +109,9 @@ public class CaixaView extends JFrame {
 
         confirmButton.addActionListener(e -> {
             try {
-                String product = productField.getText();
+                String product = productField.getText().toLowerCase();;
                 int quantity = Integer.parseInt(quantityField.getText());
-                String prestatgeria = prestatgeriaField.getText();
+                String prestatgeria = prestatgeriaField.getText().toLowerCase();;
                 ctrlDomini.afegir_producte_caixa(product, quantity, prestatgeria);
                 canvis=true;
                 dialog.dispose();
@@ -171,7 +156,7 @@ public class CaixaView extends JFrame {
         JButton confirmButton = new JButton("Acceptar");
         confirmButton.addActionListener(e -> {
             try {
-                String product = productField.getText();
+                String product = productField.getText().toLowerCase();;
                 if (product.isEmpty()) {
                     throw new IllegalArgumentException("Cal seleccionar un producte");
                 }
@@ -217,17 +202,12 @@ public class CaixaView extends JFrame {
 
     private void showLeaveDialog() {
         if (canvis) {
-            int result = JOptionPane.showConfirmDialog(this, "Voleu guardar els canvis abans de sortir?", "Sortir", JOptionPane.YES_NO_OPTION);
-            if (result == JOptionPane.YES_OPTION) {
-                try {
-                    ctrlDomini.guardar();
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+            try {
+                ctrlDomini.guardar();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-
         dispose();
         MainView mainView = new MainView(ctrlDomini);
         mainView.setSize(getSize());

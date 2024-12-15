@@ -20,6 +20,7 @@ public class PrestatgeriesView extends JFrame {
     private CardLayout cardLayout;
     private JList<String> prestatgeriaList;
     private DefaultListModel<String> listModel;
+    boolean canvis = false;
 
     public PrestatgeriesView(CtrlDomini ctrlDomini) {
         this.ctrlDomini = ctrlDomini;
@@ -98,15 +99,6 @@ public class PrestatgeriesView extends JFrame {
         mainPanel.add(new JScrollPane(prestatgeriaList), BorderLayout.WEST);
         mainPanel.add(new JScrollPane(prestatgeriesPanel), BorderLayout.CENTER);
 
-        // Define the save button
-        SaveButton saveButton = new SaveButton("Guardar");
-
-        // Add the save button to a new panel at the bottom
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        bottomPanel.add(saveButton);
-
-        // Add the bottom panel to the main panel
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         // Add button listeners
         addButton.addActionListener(e -> showAddPrestatgeriaDialog());
@@ -119,16 +111,6 @@ public class PrestatgeriesView extends JFrame {
         decrementStockButton.addActionListener(e -> showDecrementStockDialog());
         addShelfButton.addActionListener(e -> showAddShelfDialog());
         removeShelfButton.addActionListener(e -> showRemoveShelfDialog());
-
-        // Implement the action listener for the save button
-        saveButton.addActionListener(e -> {
-            try {
-                ctrlDomini.guardar();
-                JOptionPane.showMessageDialog(this, "Data saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error saving data: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
 
         // Add the back button to the top left corner
         BackButton backButton = new BackButton("Back", e -> {showLeaveDialog();});
@@ -150,21 +132,24 @@ public class PrestatgeriesView extends JFrame {
             if (!listModel.isEmpty()) {
                 prestatgeriaList.setSelectedIndex(0); // Select the first element
             }
+            refreshShelf();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public void refreshPrestatgeriesView() throws IOException {
-        String selectedId = prestatgeriaList.getSelectedValue(); // Store the selected prestatgeria ID
+        // Save the currently selected prestatgeria ID
+        String selectedId = prestatgeriaList.getSelectedValue();
 
-        prestatgeriesPanel.removeAll();
-        listModel.clear();
-        List<String> prestatgeries = ctrlDomini.getIdsPrestatgeries();
+        prestatgeriesPanel.removeAll(); // Clear existing components
+        listModel.clear(); // Clear the list model
+        List<String> prestatgeries = ctrlDomini.getIdsPrestatgeries(); // Fetch the IDs
 
         int maxElementWidth = 0;
         FontMetrics fontMetrics = prestatgeriaList.getFontMetrics(prestatgeriaList.getFont());
 
+        // Add IDs to the list model and compute the widest element's width
         for (String id : prestatgeries) {
             listModel.addElement(id);
 
@@ -174,23 +159,42 @@ public class PrestatgeriesView extends JFrame {
             }
         }
 
+        // Restore the previously selected prestatgeria, if it still exists
+        if (selectedId != null && prestatgeries.contains(selectedId)) {
+            prestatgeriaList.setSelectedValue(selectedId, true);
+        } else if (!listModel.isEmpty()) {
+            prestatgeriaList.setSelectedIndex(0); // Default to the first item if no valid selection
+        }
 
+        // Adjust the preferred size of the list to accommodate new content
         prestatgeriaList.setPreferredSize(new Dimension(maxElementWidth + 20, prestatgeriaList.getPreferredSize().height));
-        prestatgeriesPanel.revalidate();
-        prestatgeriesPanel.repaint();
+        prestatgeriaList.revalidate(); // Revalidate the JList
+        prestatgeriesPanel.revalidate(); // Revalidate the panel to apply layout changes
+        prestatgeriesPanel.repaint(); // Repaint the panel
 
-        if (selectedId != null) {
-            prestatgeriaList.setSelectedValue(selectedId, true); // Reselect the previously selected prestatgeria
+        mainPanel.revalidate(); // Revalidate the main panel to apply layout changes
+        mainPanel.repaint(); // Repaint the main panel
+
+        // Show the card for the currently selected prestatgeria
+        if (!listModel.isEmpty()) {
+            cardLayout.show(prestatgeriesPanel, prestatgeriaList.getSelectedValue());
         }
-        refreshShelf();
     }
+
     public void refreshShelf() throws IOException {
-        String selectedId = prestatgeriaList.getSelectedValue();
-        if(selectedId == null){
-            selectedId = prestatgeriaList.getModel().getElementAt(0);
+        if (listModel.isEmpty()) {
+            prestatgeriesPanel.removeAll();
+            prestatgeriesPanel.revalidate();
+            prestatgeriesPanel.repaint();
+            return;
         }
-        //Show slected id in terminal
-        System.out.println(selectedId);
+        // Get the currently selected ID
+        String selectedId = prestatgeriaList.getSelectedValue();
+        if (selectedId == null) {
+            return; // Do nothing if no selection
+        }
+        // Clear the panel and set up the new prestatgeria view
+        prestatgeriesPanel.removeAll();
         JPanel prestPanel = new JPanel(new BorderLayout());
         TitledBorder border = BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(Color.BLACK, 2),
@@ -223,7 +227,11 @@ public class PrestatgeriesView extends JFrame {
 
         prestPanel.add(shelvesPanel, BorderLayout.CENTER);
         prestatgeriesPanel.add(prestPanel, selectedId);
+
+        prestatgeriesPanel.revalidate();
+        prestatgeriesPanel.repaint();
     }
+
 
     private JPanel createProductCell(Prestatgeria prest, int position, String productName) {
         JPanel cell = new JPanel(new BorderLayout());
@@ -284,9 +292,10 @@ public class PrestatgeriesView extends JFrame {
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
-                String id = idField.getText();
+                String id = idField.getText().toLowerCase();
                 int mida = Integer.parseInt(midaField.getText());
                 int midaPrest = Integer.parseInt(midaPrestField.getText());
+                System.out.println(id);
                 ctrlDomini.afegirPrestatgeria(id, midaPrest, mida);
                 refreshPrestatgeriesView();
                 dialog.dispose();
@@ -306,10 +315,14 @@ public class PrestatgeriesView extends JFrame {
         String id = JOptionPane.showInputDialog(this, "ID de la prestatgeria a eliminar:",prestatgeriaList.getSelectedValue());
         if (id != null && !id.isEmpty()) {
             try {
-                ctrlDomini.ctrlPrestatgeria.eliminarPrestatgeria(id);
-                refreshPrestatgeriesView();
+                ctrlDomini.eliminarPrestatgeria(id);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            try {
+                refreshPrestatgeriesView();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "I crash here", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -333,11 +346,12 @@ public class PrestatgeriesView extends JFrame {
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
-                String prestId = prestIdField.getText();
-                String productName = productNameField.getText();
+                String prestId = prestIdField.getText().toLowerCase();
+                String productName = productNameField.getText().toLowerCase();
                 int quantity = Integer.parseInt(quantityField.getText());
                 ctrlDomini.afegirProductePrestatgeria(productName, quantity, prestId);
-                refreshPrestatgeriesView();
+                refreshShelf();
+                canvis = true;
                 dialog.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -367,10 +381,11 @@ public class PrestatgeriesView extends JFrame {
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
-                String prestId = prestIdField.getText();
-                String productName = productNameField.getText();
+                String prestId = prestIdField.getText().toLowerCase();
+                String productName = productNameField.getText().toLowerCase();
                 ctrlDomini.retirarProducteAMagatzem(prestId, productName);
-                refreshPrestatgeriesView();
+                refreshShelf();
+                canvis = true;
                 dialog.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -400,10 +415,11 @@ public class PrestatgeriesView extends JFrame {
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
-                String prestId = prestIdField.getText();
-                String productName = productNameField.getText();
+                String prestId = prestIdField.getText().toLowerCase();
+                String productName = productNameField.getText().toLowerCase();
                 ctrlDomini.fixarProducte(prestId, productName);
-                refreshPrestatgeriesView();
+                refreshShelf();
+                canvis = true;
                 dialog.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -433,10 +449,11 @@ public class PrestatgeriesView extends JFrame {
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
-                String prestId = prestIdField.getText();
-                String productName = productNameField.getText();
+                String prestId = prestIdField.getText().toLowerCase();
+                String productName = productNameField.getText().toLowerCase();
                 ctrlDomini.desfixarProducte(prestId, productName);
-                refreshPrestatgeriesView();
+                refreshShelf();
+                canvis = true;
                 dialog.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -466,9 +483,10 @@ public class PrestatgeriesView extends JFrame {
 
         hillClimbingButton.addActionListener(e -> {
             try {
-                String id = prestIdField.getText();
+                String id = prestIdField.getText().toLowerCase();
                 ctrlDomini.generarDistribucioHillClimbing(id);
-                refreshPrestatgeriesView();
+                refreshShelf();
+                canvis = true;
                 dialog.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -477,9 +495,10 @@ public class PrestatgeriesView extends JFrame {
 
         backtrackingButton.addActionListener(e -> {
             try {
-                String id = prestIdField.getText();
+                String id = prestIdField.getText().toLowerCase();
                 ctrlDomini.generarDistribucioBacktracking(id);
-                refreshPrestatgeriesView();
+                refreshShelf();
+                canvis = true;
                 dialog.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -517,11 +536,12 @@ public class PrestatgeriesView extends JFrame {
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
-                String prestId = prestIdField.getText();
-                String productName = productNameField.getText();
+                String prestId = prestIdField.getText().toLowerCase();
+                String productName = productNameField.getText().toLowerCase();
                 int quantity = Integer.parseInt(quantityField.getText());
                 ctrlDomini.decrementarStockAProducte(prestId, productName, quantity);
-                refreshPrestatgeriesView();
+                refreshShelf();
+                canvis = true;
                 dialog.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -549,9 +569,10 @@ public class PrestatgeriesView extends JFrame {
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
-                String prestId = prestIdField.getText();
+                String prestId = prestIdField.getText().toLowerCase();
                 ctrlDomini.afegirPrestatge(prestId);
-                refreshPrestatgeriesView();
+                refreshShelf();
+                canvis = true;
                 dialog.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -579,9 +600,10 @@ public class PrestatgeriesView extends JFrame {
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
-                String prestId = prestIdField.getText();
+                String prestId = prestIdField.getText().toLowerCase();
                 ctrlDomini.eliminarPrestatge(prestId);
-                refreshPrestatgeriesView();
+                refreshShelf();
+                canvis = true;
                 dialog.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -596,8 +618,7 @@ public class PrestatgeriesView extends JFrame {
     }
 
     private void showLeaveDialog() {
-        int result = JOptionPane.showConfirmDialog(this, "Voleu guardar els canvis abans de sortir?", "Sortir", JOptionPane.YES_NO_OPTION);
-        if (result == JOptionPane.YES_OPTION) {
+        if (canvis) {
             try {
                 ctrlDomini.guardar();
             } catch (IOException ex) {
