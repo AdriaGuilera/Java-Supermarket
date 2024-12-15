@@ -116,7 +116,6 @@ public class Algorismes {
                 maxSimilitud = mejorSimilitudVecino;
             }
         }
-
         return mejorDistribucion;
     }
 

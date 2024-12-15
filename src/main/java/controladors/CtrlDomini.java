@@ -370,8 +370,19 @@ public class CtrlDomini {
                 ctrlProducte.carregarProducte(database.getEntity(Producte.class, producte));
             }
         }
+        Prestatgeria a = ctrlPrestatgeria.getPrestatgeria(id_prestatgeria);
+        //Creates a vector with the products in the prestatgeria in the same order as they are in the prestatgeria with null in empty huecos
+        Vector<String> posicions = new Vector<String>();
+        for (int i = 0; i < a.getMidaPrestatgeria(); i++) {
+            if (a.getPosicions().get(i) == null) {
+                posicions.add(null);
+            } else {
+                posicions.add(a.getProductPos(i));
+            }
+        }
         Set<String> fixats = ctrlPrestatgeria.getProductesFixats(id_prestatgeria);
-        Vector<String> novadist = algorismes.encontrarMejorDistribucionBacktracking(productes , fixats, ctrlProducte.getMagatzem());
+        Vector<String> novadist = algorismes.encontrarMejorDistribucionBacktracking(posicions , fixats, ctrlProducte.getMagatzem());
+        System.out.println(novadist);
         ctrlPrestatgeria.setDistribucio(id_prestatgeria, novadist);
     }
 
@@ -390,16 +401,26 @@ public class CtrlDomini {
         if(!ctrlPrestatgeria.existeixPrestatgeria(id_prestatgeria)){
             ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, id_prestatgeria));
         }
+        //Creamos un vector del tamaño de la prestatgeria con null y nombres de productos en sus posicines
         Vector<String> productes = ctrlPrestatgeria.getNomsProductes(id_prestatgeria);
         for(String producte:productes){
             if(!ctrlProducte.existeixProducte(producte)){
                 ctrlProducte.carregarProducte(database.getEntity(Producte.class, producte));
             }
         }
+        Prestatgeria a = ctrlPrestatgeria.getPrestatgeria(id_prestatgeria);
+        //Creates a vector with the products in the prestatgeria in the same order as they are in the prestatgeria with null in empty huecos
+        Vector<String> posicions = new Vector<String>();
+        for (int i = 0; i < a.getMidaPrestatgeria(); i++) {
+            if (a.getPosicions().get(i) == null) {
+                posicions.add(null);
+            } else {
+                posicions.add(a.getProductPos(i));
+            }
+        }
         Set<String> fixats = ctrlPrestatgeria.getProductesFixats(id_prestatgeria);
-        Vector<String> novadist = algorismes.encontrarMejorDistribucionHillClimbing(productes , fixats, ctrlProducte.getMagatzem());
+        Vector<String> novadist = algorismes.encontrarMejorDistribucionHillClimbing(posicions , fixats, ctrlProducte.getMagatzem());
         ctrlPrestatgeria.setDistribucio(id_prestatgeria, novadist);
-
     }
 
     /**

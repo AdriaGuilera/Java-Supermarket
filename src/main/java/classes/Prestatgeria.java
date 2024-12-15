@@ -392,13 +392,14 @@ public class Prestatgeria {
 		int i = 0;
 		posicions.clear();
 		for (String nomP : ordre) {
-			posicions.put(i, nomP);
+			if(nomP != null) posicions.put(i, nomP);
 			i++;
 		}
 	}
     public String getProductPos(int i) {
 		return posicions.get(i);
     }
+
 }
 
 
