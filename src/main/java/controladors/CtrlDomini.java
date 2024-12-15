@@ -417,7 +417,9 @@ public class CtrlDomini {
         if(idPrestatgeria == null || idPrestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
-
+        if(database.existeix(Prestatgeria.class, idPrestatgeria)){
+            throw new PrestatgeriaAlreadyExistsException(idPrestatgeria);
+        }
         ctrlPrestatgeria.afegirPrestatgeria(idPrestatgeria, midaPrestatgeria, midaPrestatge);
         database.saveEntity(ctrlPrestatgeria.getPrestatgeria(idPrestatgeria), idPrestatgeria);
     }
@@ -446,7 +448,9 @@ public class CtrlDomini {
             int quantitat = entry.getValue();
             ctrlProducte.incrementarStock(nom, quantitat);
         }
+        System.out.println("Prestatgeria eliminada");
         database.deleteEntity(Prestatgeria.class, idPrestatgeria);
+
     }
 
     /**
