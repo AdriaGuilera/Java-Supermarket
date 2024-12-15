@@ -60,9 +60,8 @@ public class CtrlComandes {
      * @throws ComandaNotFoundException Si la comanda no existe.
      */
     public void eliminarComanda(String nomComanda) throws IllegalArgumentException {
-        if (comandesCreades.remove(nomComanda) == null) {
-            throw new ComandaNotFoundException(nomComanda);
-        }
+        comandesCreades.remove(nomComanda);
+
     }
 
     /**
