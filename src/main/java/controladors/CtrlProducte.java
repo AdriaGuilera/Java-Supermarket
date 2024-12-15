@@ -59,7 +59,7 @@ public class CtrlProducte {
         productesMagatzem.forEach((key, value) -> {
             int maximo = value.getMaxMagatzem();
             int diferencia = maximo - value.getStock();
-            productosRestantes.put(key, diferencia);
+            if(diferencia>0)productosRestantes.put(key, diferencia);
         });
         return productosRestantes;
     }

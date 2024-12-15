@@ -1,11 +1,9 @@
 {
-  "nom" : "c",
+  "nom" : "p2",
   "maxHueco" : 3,
   "maxMagatzem" : 3,
   "stock" : 3,
-  "similitud" : {
-    "v" : 4.0
-  },
+  "similitud" : { },
   "comandes" : [ ],
   "prestatgeries" : [ ]
 }
