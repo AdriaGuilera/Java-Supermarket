@@ -694,7 +694,6 @@ public class CtrlDomini {
         int aafegir = min(caixa.getQuantitat(nom_producte), quantitat);
         caixa.retirarProducte(nom_producte, aafegir);
         if(!ctrlProducte.existeixProducte(nom_producte)){
-            System.out.println("hola");
             ctrlProducte.carregarProducte(database.getEntity(Producte.class, nom_producte));
         }
         ctrlProducte.incrementarStock(nom_producte, aafegir);
@@ -781,12 +780,17 @@ public class CtrlDomini {
         //Cargamos las prestatgeries y Lo eliminamos de las prestatgerias y guardamos las prestatgeries
         List<Prestatgeria> prestatgeries = database.getEntities(Prestatgeria.class);
         List<String> ids = new ArrayList<>();
+
         for (Prestatgeria prestatgeria : prestatgeries){
             ctrlPrestatgeria.carregarPrestatgeria(prestatgeria);
             ids.add(prestatgeria.getId());
         }
+
         ctrlPrestatgeria.eliminarProducte(nomProducte);
-        database.saveEntities(prestatgeries, ids);
+        if(!prestatgeries.isEmpty()){
+            database.saveEntities(prestatgeries, ids);
+        }
+
         //Lo eliminamos de la caixa y guaradamos la caixa
         caixa = database.getCaixa();
 
@@ -795,15 +799,16 @@ public class CtrlDomini {
             caixa.retirarProducte(nomProducte, qcaixa);
             database.saveCaixa(caixa);
         }
-
         //Lo eliminamos de todas las comandas
         List<Comanda> comandes = database.getEntities(Comanda.class);
         for (Comanda comanda : comandes) {
             ctrlComandes.cargarComanda(comanda);
         }
+
         ctrlComandes.eliminarProducteComandes(nomProducte);
         Map<String, Comanda> comandestosave = ctrlComandes.getComandes();
-        database.saveEntities(comandestosave.values(), comandestosave.keySet());
+
+        if(!comandestosave.isEmpty())database.saveEntities(comandestosave.values(), comandestosave.keySet());
     }
 
 

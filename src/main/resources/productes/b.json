@@ -1,0 +1,11 @@
+{
+  "nom" : "b",
+  "maxHueco" : 3,
+  "maxMagatzem" : 3,
+  "stock" : 3,
+  "similitud" : {
+    "a" : 5.0
+  },
+  "comandes" : [ ],
+  "prestatgeries" : [ ]
+}
