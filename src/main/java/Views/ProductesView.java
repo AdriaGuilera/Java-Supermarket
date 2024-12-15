@@ -19,7 +19,6 @@ public class ProductesView extends JFrame {
     private JPanel mainPanel;
     private JList<String> productesList;
     private DefaultListModel<String> listModel;
-    boolean canvis=false;
     public ProductesView(CtrlDomini ctrlDomini) {
         this.ctrlDomini = ctrlDomini;
         setupUI();
@@ -46,8 +45,8 @@ public class ProductesView extends JFrame {
         JButton createComandaButton = new StyledButton("Crear Producte");
         JButton deleteComandaButton = new StyledButton("Eliminar producte");
         JButton veureProducteButton = new StyledButton("Veure Info Producte");
-        JButton addProductButton = new StyledButtonGuardar("Afegir Similitud Productes");
-        JButton removeProductButton = new StyledButtonGuardar("Eliminar Similitud Productes");
+        JButton addProductButton = new StyledButton("Afegir Similitud Productes");
+        JButton removeProductButton = new StyledButton("Eliminar Similitud Productes");
 
         // Set larger font for buttons
         Font buttonFont = new Font("Arial", Font.BOLD, 18);
@@ -108,24 +107,6 @@ public class ProductesView extends JFrame {
 
         // Add the container panel to the main panel
         mainPanel.add(listContainerPanel, BorderLayout.CENTER);
-
-        // Save button
-        JButton saveButton = new SaveButton("Guardar");
-        saveButton.setFont(buttonFont); // Set larger font for save button
-        saveButton.addActionListener(e -> {
-            try {
-                ctrlDomini.guardar();
-                refreshProductesList();
-                canvis=false;
-                JOptionPane.showMessageDialog(this, "Dades guardades correctament!", "Èxit", JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error en guardar les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        bottomPanel.add(saveButton);
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         // Add main panel to frame
         add(mainPanel);
@@ -238,7 +219,8 @@ public class ProductesView extends JFrame {
                 Producte producte = ctrlDomini.getProducte(id);
                 String informacion = "Nom del producte: " + producte.getNom() + "\nMàxima Capacitat Prestatgeria: "+producte.getMaxHueco()
                         + "\nMàxima Capacitat Magatzem "+ producte.getMaxMagatzem() + "\nStock: " + producte.getStock() +
-                        "\nSimilituds: " + producte.getSimilituds().toString() ;
+                        "\nSimilituds: " + producte.getSimilituds().toString() + "\nComandes: " + producte.getComandes() + "\nPrestatgeries: "
+                        + producte.getPrestatgeries();
                 JOptionPane.showMessageDialog(this, informacion , "Detalls del Producte", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -275,7 +257,6 @@ public class ProductesView extends JFrame {
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
-                canvis=true;
                 String producte1 = producte1NameField.getText();
                 String producte2 = producte2NameField.getText();
                 int quantity = Integer.parseInt(quantityField.getText());
@@ -326,7 +307,6 @@ public class ProductesView extends JFrame {
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
-                canvis=true;
                 String producte1 = producte1NameField.getText();
                 String producte2 = producte2NameField.getText();
 
@@ -369,18 +349,6 @@ public class ProductesView extends JFrame {
         }
     }
     private void showLeaveDialog() {
-        if(canvis){
-            int result = JOptionPane.showConfirmDialog(this, "Voleu guardar els canvis abans de sortir?", "Sortir", JOptionPane.YES_NO_OPTION);
-            if (result == JOptionPane.YES_OPTION) {
-                try {
-                    ctrlDomini.guardar();
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            }
-        }
-
         dispose();
         MainView mainView = new MainView(ctrlDomini);
         mainView.setSize(getSize());

@@ -10,27 +10,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
 
 import static java.lang.Integer.max;
 
-/**
- * Clase que representa un producto con su información asociada, como nombre, stock, y valores de similitud con otros productos.
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Producte {
     @JsonProperty("nom")
     private String nom; // Nombre del producto
+
     @JsonProperty("maxHueco")
     private int maxHueco; // Capacidad máxima por hueco
+
     @JsonProperty("maxMagatzem")
     private int maxMagatzem; // Capacidad máxima en el almacén
+
     @JsonProperty("stock")
     private int stock; // Cantidad actual en el almacén
+
     @JsonProperty("similitud")
     private Map<String, Float> similitud = new HashMap<>(); // Mapa de similitudes con otros productos
 
+    @JsonProperty("comandes")
+    private Set<String> comandes = new HashSet<>(); // Conjunto de comandas donde aparece el producto
 
-
+    @JsonProperty("prestatgeries")
+    private Set<String> prestatgeries = new HashSet<>(); // Conjunto de prestatgeries donde se encuentra el producto
 
     // Constructor por defecto
     public Producte() {
@@ -39,6 +45,8 @@ public class Producte {
         this.maxMagatzem = 1;
         this.similitud = new HashMap<>();
         this.stock = 0;
+        this.comandes = new HashSet<>();
+        this.prestatgeries = new HashSet<>();
     }
 
     // Constructor principal
@@ -59,76 +67,97 @@ public class Producte {
         this.maxMagatzem = maxMagatzem;
         this.similitud = new HashMap<>();
         this.stock = stock;
+        this.comandes = new HashSet<>();
+        this.prestatgeries = new HashSet<>();
     }
+
     ////////////////////// Getters //////////////////////
 
-    /**
-     * Obtiene el nombre del producto.
-     *
-     * @return El nombre del producto.
-     */
     public String getNom() {
         return nom;
     }
 
-    /**
-     * Obtiene la capacidad máxima por hueco.
-     *
-     * @return La capacidad máxima por hueco.
-     */
     public int getMaxHueco() {
         return maxHueco;
     }
 
-    /**
-     * Obtiene la capacidad máxima del almacén.
-     *
-     * @return La capacidad máxima del almacén.
-     */
     public int getMaxMagatzem() {
         return maxMagatzem;
     }
 
-    /**
-     * Obtiene el stock actual del producto en el almacén.
-     *
-     * @return El stock actual.
-     */
     public int getStock() {
         return stock;
     }
 
-    /**
-     * Obtiene la similitud del producto actual con otro producto dado.
-     *
-     * @param nomProducte Nombre del otro producto.
-     * @return El valor de similitud, o 0 si no existe en el mapa.
-     */
     public float getSimilitud(String nomProducte) {
         return similitud.getOrDefault(nomProducte, 0f);
     }
 
-    public Map<String,Float> getSimilituds() {
+    public Map<String, Float> getSimilituds() {
         return similitud;
+    }
+
+    public Set<String> getComandes() {
+        return comandes;
+    }
+
+    public Set<String> getPrestatgeries() {
+        return prestatgeries;
+    }
+
+    ////////////////////// Gestión individual de Comandes //////////////////////
+
+    /**
+     * Añade una única comanda al conjunto de comandes.
+     *
+     * @param comanda Nombre de la comanda.
+     */
+    public void afegirComanda(String comanda) {
+        if (comanda != null && !comanda.isEmpty()) {
+            System.out.println(comanda);
+            comandes.add(comanda);
+        }
+    }
+
+    /**
+     * Elimina una única comanda del conjunto de comandes.
+     *
+     * @param comanda Nombre de la comanda a eliminar.
+     */
+    public void eliminarComanda(String comanda) {
+        System.out.println("lala");
+        System.out.println(comanda);
+        comandes.remove(comanda);
+    }
+
+    ////////////////////// Gestión individual de Prestatgeries //////////////////////
+
+    /**
+     * Añade una única prestatgeria al conjunto de prestatgeries.
+     *
+     * @param prestatgeria Nombre de la prestatgeria.
+     */
+    public void addPrestatgeria(String prestatgeria) {
+        if (prestatgeria != null && !prestatgeria.isEmpty()) {
+            prestatgeries.add(prestatgeria);
+        }
+    }
+
+    /**
+     * Elimina una única prestatgeria del conjunto de prestatgeries.
+     *
+     * @param prestatgeria Nombre de la prestatgeria a eliminar.
+     */
+    public void removePrestatgeria(String prestatgeria) {
+        prestatgeries.remove(prestatgeria);
     }
 
     ////////////////////// Modificadores de Stock //////////////////////
 
-    /**
-     * Modifica el stock actual del producto.
-     *
-     * @param nouStock Nuevo valor de stock.
-     */
     public void modStock(int nouStock) {
         stock = nouStock;
     }
 
-    /**
-     * Incrementa el stock del producto en una cantidad específica.
-     *
-     * @param quantitat Cantidad a incrementar.
-     * @throws QuanitatInvalidException Si la cantidad es negativa.
-     */
     public void incrementarStock(int quantitat) throws QuanitatInvalidException {
         if (quantitat < 0) {
             throw new QuanitatInvalidException(0);
@@ -140,12 +169,6 @@ public class Producte {
         }
     }
 
-    /**
-     * Decrementa el stock del producto en una cantidad específica.
-     *
-     * @param quant Cantidad a decrementar.
-     * @throws QuanitatInvalidException Si la cantidad es negativa.
-     */
     public void decrementarStock(int quant) throws QuanitatInvalidException {
         if (quant < 0) {
             throw new QuanitatInvalidException(0);
@@ -155,21 +178,10 @@ public class Producte {
 
     ////////////////////// Gestión de Similitud //////////////////////
 
-    /**
-     * Asigna un valor de similitud con otro producto. Si ya existe una similitud, esta se sobreescribe.
-     *
-     * @param nom   Nombre del producto con el que se establece la similitud.
-     * @param valor Valor de similitud.
-     */
     public void afegirSimilitud(String nom, float valor) {
         similitud.put(nom, valor);
     }
 
-    /**
-     * Elimina la relación de similitud con otro producto.
-     *
-     * @param nom Nombre del producto cuya similitud se elimina.
-     */
     public void eliminarSimilitud(String nom) {
         similitud.remove(nom);
     }

@@ -1,7 +1,8 @@
 {
   "nom" : "caa",
   "ordres" : {
-    "Producte" : 1,
-    "Manzana" : 0
+    "Manzana" : 2,
+    "Producte" : 5,
+    "david" : 2
   }
 }

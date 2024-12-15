@@ -107,6 +107,9 @@ public class CtrlDomini {
 
         //Afegim el producte a al comanda
         ctrlComandes.afegirProducteComanda(nomComanda, nomProducte, quantitat);
+        ctrlProducte.afegirComandaProducte(nomProducte, nomComanda);
+        database.saveEntity(ctrlComandes.getComandaUnica(nomComanda), nomComanda);
+        database.saveEntity(ctrlProducte.getProducte(nomProducte), nomProducte);
     }
 
     /**
@@ -138,6 +141,9 @@ public class CtrlDomini {
 
         //Eliminamos el producto de la comanda
         ctrlComandes.eliminarProducteComanda(nomComanda, nomProducte, quantitat);
+        ctrlProducte.eliminarComandaProducte(nomProducte, nomComanda);
+        database.saveEntity(ctrlComandes.getComandaUnica(nomComanda),nomComanda);
+        database.saveEntity(ctrlProducte.getProducte(nomProducte), nomProducte);
     }
 
     /**
@@ -787,7 +793,11 @@ public class CtrlDomini {
         }
 
         //Lo eliminamos de todas las comandas
-        List<Comanda> comandes = database.getEntities(Comanda.class);
+        List<Comanda> comandes = new ArrayList<>();
+        Set<String> comandesProducte = ctrlProducte.getComandes(nomProducte);
+        for (String comanda: comandesProducte){
+            comandes.add(database.getEntity(Comanda.class, comanda));
+        }
         for (Comanda comanda : comandes) {
             ctrlComandes.cargarComanda(comanda);
         }
@@ -825,6 +835,9 @@ public class CtrlDomini {
 
         //Añadimos la similitud
         ctrlProducte.afegirSimilitud(nom1, nom2, value);
+
+        database.saveEntity(ctrlProducte.getProducte(nom1),nom1);
+        database.saveEntity(ctrlProducte.getProducte(nom2),nom2);
     }
 
     /**
@@ -853,6 +866,9 @@ public class CtrlDomini {
 
         //Eliminamos la similitud
         ctrlProducte.eliminarSimilitud(nom1, nom2);
+
+        database.saveEntity(ctrlProducte.getProducte(nom1),nom1);
+        database.saveEntity(ctrlProducte.getProducte(nom2),nom2);
     }
 
     /**

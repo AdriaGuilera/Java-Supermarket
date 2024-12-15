@@ -6,6 +6,7 @@ import classes.Producte;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Clase controladora para gestionar los productos en el almacén.
@@ -278,4 +279,15 @@ public class CtrlProducte {
     public void carregarProducte(Producte producte) {
         productesMagatzem.put(producte.getNom(), producte);
     }
+
+    public Set<String> getComandes(String nomProducte){
+        return  productesMagatzem.get(nomProducte).getComandes();
+    }
+    public void afegirComandaProducte(String nomProducte, String nomComanda){
+        productesMagatzem.get(nomProducte).afegirComanda(nomComanda);
+    }
+    public void eliminarComandaProducte(String nomProducte, String nomComanda){
+        productesMagatzem.get(nomProducte).eliminarComanda(nomComanda);
+    }
+
 }
