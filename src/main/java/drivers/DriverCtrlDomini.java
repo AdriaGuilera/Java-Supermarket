@@ -8,17 +8,13 @@ import controladors.CtrlDomini;
 
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
+
 /**
  * Esta es una clase driver para probar la funcionalidad de la clase CtrlDomini.
  * Proporciona una interfaz de línea de comandos para probar operaciones relacionadas con
@@ -215,7 +211,7 @@ public class DriverCtrlDomini {
     public static void testGuardar(Scanner scanner) throws IOException {
         // Guardar Comandas nuevas o modificadas
         try{
-            ctrlDomini.guardar();
+            ctrlDomini.guardartot();
         } catch (IOException e) {
             System.out.println("Error: " +e.getMessage());
         }

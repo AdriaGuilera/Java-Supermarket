@@ -6,11 +6,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.util.Map;
 import java.util.List;
 import controladors.CtrlDomini;
 import classes.Prestatgeria;
-import Exepcions.*;
 import Components.*;
 
 public class PrestatgeriesView extends JFrame {
@@ -620,7 +618,9 @@ public class PrestatgeriesView extends JFrame {
     private void showLeaveDialog() {
         if (canvis) {
             try {
-                ctrlDomini.guardar();
+                ctrlDomini.guardarPrestatgeries();
+                ctrlDomini.guardarProductes();
+
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 return;

@@ -4,7 +4,6 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Map;
 import controladors.CtrlDomini;
-import Exepcions.*;
 import Components.*;
 
 public class CaixaView extends JFrame {
@@ -203,7 +202,8 @@ public class CaixaView extends JFrame {
     private void showLeaveDialog() {
         if (canvis) {
             try {
-                ctrlDomini.guardar();
+                ctrlDomini.guardarCaixa();
+                ctrlDomini.guardarProductes();
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }

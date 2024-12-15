@@ -5,7 +5,6 @@ import java.util.*;
 import Exepcions.*;
 import classes.*;
 
-import static java.lang.Integer.max;
 import static java.lang.Integer.min;
 
 public class CtrlDomini {
@@ -28,14 +27,24 @@ public class CtrlDomini {
         database = new Database();
     }
 
-    public void guardar() throws IOException {
+    public void guardartot() throws IOException {
         Map<String, Producte> productes = ctrlProducte.getMagatzem();
-        System.out.println(productes);
         if(!productes.isEmpty())database.saveEntities(productes.values(), productes.keySet());
         Map<String, Prestatgeria> prestatgeries = ctrlPrestatgeria.getPrestatgeries();
         if(!prestatgeries.isEmpty())database.saveEntities(prestatgeries.values(), prestatgeries.keySet());
         Map<String, Comanda> comandes = ctrlComandes.getComandes();
         if(!comandes.isEmpty())database.saveEntities(comandes.values(), comandes.keySet());
+        database.saveCaixa(caixa);
+    }
+    public void guardarPrestatgeries() throws IOException {
+        Map<String, Prestatgeria> prestatgeries = ctrlPrestatgeria.getPrestatgeries();
+        if(!prestatgeries.isEmpty())database.saveEntities(prestatgeries.values(), prestatgeries.keySet());
+    }
+    public void guardarProductes() throws IOException {
+        Map<String, Producte> productes = ctrlProducte.getMagatzem();
+        if(!productes.isEmpty())database.saveEntities(productes.values(), productes.keySet());
+    }
+    public void guardarCaixa() throws IOException {
         database.saveCaixa(caixa);
     }
 
@@ -46,9 +55,12 @@ public class CtrlDomini {
      * @param nomComanda Nombre de la comanda.
      * @throws IllegalArgumentException Si el nombre de la comanda es nulo o vacío.
      */
-    public void crearComanda(String nomComanda) throws IllegalArgumentException, IOException {
+    public void crearComanda(String nomComanda) throws IllegalArgumentException, IOException, ComandaAlreadyExistsException {
         if (nomComanda == null || nomComanda.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
+        }
+        if(ctrlComandes.existeixComanda(nomComanda) || database.existeix(Comanda.class, nomComanda)){
+            throw new ComandaAlreadyExistsException(nomComanda);
         }
         ctrlComandes.crearComanda(nomComanda);
         database.saveEntity(ctrlComandes.getComandaUnica(nomComanda), nomComanda);
@@ -793,8 +805,7 @@ public class CtrlDomini {
         }
 
         if(!database.existeix(Producte.class, nomProducte)) throw new IllegalArgumentException("El Producte no existeix");
-        Producte producte = database.getEntity(Producte.class, nomProducte);
-
+       
         //Eliminamos el producto
         database.deleteEntity(Producte.class, nomProducte);
 
