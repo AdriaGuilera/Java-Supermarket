@@ -797,11 +797,7 @@ public class CtrlDomini {
         }
 
         //Lo eliminamos de todas las comandas
-        List<Comanda> comandes = new ArrayList<>();
-        Set<String> comandesProducte = ctrlProducte.getComandes(nomProducte);
-        for (String comanda: comandesProducte){
-            comandes.add(database.getEntity(Comanda.class, comanda));
-        }
+        List<Comanda> comandes = database.getEntities(Comanda.class);
         for (Comanda comanda : comandes) {
             ctrlComandes.cargarComanda(comanda);
         }
@@ -809,6 +805,7 @@ public class CtrlDomini {
         Map<String, Comanda> comandestosave = ctrlComandes.getComandes();
         database.saveEntities(comandestosave.values(), comandestosave.keySet());
     }
+
 
     /**
      * Añade una relación de similitud entre dos productos.

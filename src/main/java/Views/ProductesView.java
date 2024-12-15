@@ -146,10 +146,10 @@ public class ProductesView extends JFrame {
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
-                String id = idField.getText();
-                int maxPres = Integer.parseInt(maxPresField.getText());
-                int maxMag = Integer.parseInt(maxMagField.getText());
-                int stock = Integer.parseInt(StockField.getText());
+                String id = idField.getText().toLowerCase();
+                int maxPres = Integer.parseInt(maxPresField.getText().toLowerCase());
+                int maxMag = Integer.parseInt(maxMagField.getText().toLowerCase());
+                int stock = Integer.parseInt(StockField.getText().toLowerCase());
                 if (id.isEmpty()) throw new IllegalArgumentException("El Nom del producte no pot estar buit.");
                 ctrlDomini.altaProducte(id, maxPres, maxMag, stock);
                 refreshProductesList();
@@ -191,7 +191,7 @@ public class ProductesView extends JFrame {
             JButton acceptButton = new JButton("Acceptar");
             acceptButton.addActionListener(e -> {
                 try {
-                    String id2 = idField.getText();
+                    String id2 = idField.getText().toLowerCase();
                     if (id2.isEmpty()) throw new IllegalArgumentException("El Nom del Producte no pot estar buit.");
                     ctrlDomini.eliminarProducte(id2);
                     refreshProductesList();
@@ -219,8 +219,9 @@ public class ProductesView extends JFrame {
                 Producte producte = ctrlDomini.getProducte(id);
                 String informacion = "Nom del producte: " + producte.getNom() + "\nMàxima Capacitat Prestatgeria: "+producte.getMaxHueco()
                         + "\nMàxima Capacitat Magatzem "+ producte.getMaxMagatzem() + "\nStock: " + producte.getStock() +
-                        "\nSimilituds: " + producte.getSimilituds().toString() + "\nComandes: " + producte.getComandes() + "\nPrestatgeries: "
-                        + producte.getPrestatgeries();
+                        "\nSimilituds: " + producte.getSimilituds().toString() ;
+                        //+ "\nComandes: " + producte.getComandes() + "\nPrestatgeries: "
+                        //+ producte.getPrestatgeries();
                 JOptionPane.showMessageDialog(this, informacion , "Detalls del Producte", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -257,9 +258,9 @@ public class ProductesView extends JFrame {
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
-                String producte1 = producte1NameField.getText();
-                String producte2 = producte2NameField.getText();
-                int quantity = Integer.parseInt(quantityField.getText());
+                String producte1 = producte1NameField.getText().toLowerCase();
+                String producte2 = producte2NameField.getText().toLowerCase();
+                int quantity = Integer.parseInt(quantityField.getText().toLowerCase());
                 if (quantity <= 0) throw new NumberFormatException();
                 ctrlDomini.afegirSimilitud(producte1, producte2, quantity);
                 dialog.dispose();
@@ -307,8 +308,8 @@ public class ProductesView extends JFrame {
         JButton acceptButton = new JButton("Acceptar");
         acceptButton.addActionListener(e -> {
             try {
-                String producte1 = producte1NameField.getText();
-                String producte2 = producte2NameField.getText();
+                String producte1 = producte1NameField.getText().toLowerCase();
+                String producte2 = producte2NameField.getText().toLowerCase();
 
                 ctrlDomini.eliminarSimilitud(producte1, producte2);
                 dialog.dispose();

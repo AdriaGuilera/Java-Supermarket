@@ -281,6 +281,8 @@ public class CtrlProducte {
     }
 
     public Set<String> getComandes(String nomProducte){
+        System.out.println("hola");
+        System.out.println(productesMagatzem.get(nomProducte));
         return  productesMagatzem.get(nomProducte).getComandes();
     }
     public void afegirComandaProducte(String nomProducte, String nomComanda){

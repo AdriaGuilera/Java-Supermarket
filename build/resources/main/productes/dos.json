@@ -1,9 +1,0 @@
-{
-  "nom" : "dos",
-  "maxHueco" : 5,
-  "maxMagatzem" : 5,
-  "stock" : 5,
-  "similitud" : { },
-  "comandes" : [ "lala" ],
-  "prestatgeries" : [ ]
-}
