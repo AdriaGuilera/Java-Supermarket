@@ -14,10 +14,6 @@ import java.util.Vector;
 public class CtrlPresentation {
     
     private CtrlDomini ctrlDomini;
-    private PrestatgeriesView prestatgeriesView;
-    private ComandesView comandesView;
-    private ProductesView productesView;
-    private CaixaView caixaView;
     private MainView mainView;
     /**
      * Constructor initializes controllers and sets up initial state
@@ -40,36 +36,6 @@ public class CtrlPresentation {
         ctrlDomini = new CtrlDomini();
     }
 
-
-
-    /**
-     * Initialize and display PrestatgeriesView
-     */
-    private void showPrestatgeriesView() {
-        prestatgeriesView = new PrestatgeriesView(ctrlDomini);
-        prestatgeriesView.setVisible(true);
-    }
-
-    /**
-     * Initialize and display PrestatgeriesView
-     */
-    private void showComandesView() {
-        comandesView = new ComandesView(ctrlDomini);
-        comandesView.setVisible(true);
-    }
-
-    /**
-     * Initialize and display PrestatgeriesView
-     */
-    private void showProductesView() {
-        productesView = new ProductesView(ctrlDomini);
-        productesView.setVisible(true);
-    }
-
-    private void showCaixaView() {
-        CaixaView caixaView = new CaixaView(ctrlDomini);
-        caixaView.setVisible(true);
-    }
     private void showMainView(){
         MainView mainView = new MainView(ctrlDomini);
         mainView.setVisible(true);

@@ -115,6 +115,14 @@ public class PrestatgeriesView extends JFrame {
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
         backButtonPanel.add(backButton);
 
+        //When the user closes window show leave dialog
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                showLeaveDialog();
+            }
+        });
+
         // Create a panel to combine the back button and the top buttons
         JPanel combinedTopPanel = new JPanel(new BorderLayout());
         combinedTopPanel.add(backButtonPanel, BorderLayout.NORTH);

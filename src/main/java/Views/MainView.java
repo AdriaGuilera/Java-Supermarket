@@ -11,6 +11,10 @@ import controladors.CtrlDomini;
 public class MainView extends JFrame {
 
     private CtrlDomini ctrlDomini;
+    private PrestatgeriesView prestatgeriesView;
+    private ComandesView comandesView;
+    private CaixaView caixaView;
+    private ProductesView productesView;
 
     public MainView(CtrlDomini ctrlDomini) {
         this.ctrlDomini = ctrlDomini;
@@ -36,10 +40,10 @@ public class MainView extends JFrame {
         productesButton.setFont(new Font("Arial", Font.BOLD, 16));
         caixaButton.setFont(new Font("Arial", Font.BOLD, 16));
 
-        PrestatgeriesView prestatgeriesView = new PrestatgeriesView(ctrlDomini);
-        ComandesView comandesView = new ComandesView(ctrlDomini);
-        CaixaView caixaView = new CaixaView(ctrlDomini);
-        ProductesView productesView = new ProductesView(ctrlDomini);
+        prestatgeriesView = new PrestatgeriesView(ctrlDomini);
+        comandesView = new ComandesView(ctrlDomini);
+        caixaView = new CaixaView(ctrlDomini);
+        productesView = new ProductesView(ctrlDomini);
 
         prestatgeriesButton.addActionListener(new ActionListener() {
             @Override
