@@ -3,7 +3,9 @@
   "maxHueco" : 1,
   "maxMagatzem" : 1,
   "stock" : 1,
-  "similitud" : { },
+  "similitud" : {
+    "c" : 3.0
+  },
   "comandes" : [ ],
   "prestatgeries" : [ ]
 }
