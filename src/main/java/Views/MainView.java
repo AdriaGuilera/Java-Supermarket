@@ -34,6 +34,11 @@ public class MainView extends JFrame {
         JButton comandesButton = new JButton("Gestió de Comandes");
         JButton productesButton = new JButton("Gestió de Productes");
         JButton caixaButton = new JButton("Gestió de Caixa");
+        
+        prestatgeriesButton.setFocusable(false);
+        comandesButton.setFocusable(false);
+        productesButton.setFocusable(false);
+        caixaButton.setFocusable(false);
 
         prestatgeriesButton.setFont(new Font("Arial", Font.BOLD, 16));
         comandesButton.setFont(new Font("Arial", Font.BOLD, 16));
