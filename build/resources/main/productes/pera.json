@@ -1,0 +1,9 @@
+{
+  "nom" : "pera",
+  "maxHueco" : 1,
+  "maxMagatzem" : 1,
+  "stock" : 1,
+  "similitud" : { },
+  "comandes" : [ ],
+  "prestatgeries" : [ ]
+}

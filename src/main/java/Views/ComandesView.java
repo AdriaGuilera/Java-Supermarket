@@ -298,6 +298,7 @@ public class ComandesView extends JFrame {
         String nomComanda = JOptionPane.showInputDialog(this, "Nom de la Comanda Automàtica:");
         if (nomComanda != null && !nomComanda.trim().isEmpty()) {
             try {
+                nomComanda = nomComanda.toLowerCase();
                 ctrlDomini.generarComandaAutomatica(nomComanda);
                 refreshComandesList();
             } catch (Exception ex) {
@@ -319,8 +320,9 @@ public class ComandesView extends JFrame {
             }
             // Procesar la entrada del usuario
             String[] manualIds = input.split(",");
+
             for (int i = 0; i < manualIds.length; i++) {
-                manualIds[i] = manualIds[i].trim();
+                manualIds[i] = manualIds[i].trim().toLowerCase();
             }
             try {
                 ctrlDomini.executarComandes(manualIds);

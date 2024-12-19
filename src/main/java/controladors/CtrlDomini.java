@@ -784,8 +784,11 @@ public class CtrlDomini {
         if (maxMagatzem <=0) {
             throw new IllegalArgumentException("El maxim d'estock en magatzem ha de ser > 0");
         }
-        Producte producte = new Producte(nomProducte,maxHueco,maxMagatzem,stockMagatzem);
+        if (database.existeix(Producte.class, nomProducte)){
+            throw new IllegalArgumentException("La comanda amb aquest nom ja existeix.");
+        }
 
+        Producte producte = new Producte(nomProducte,maxHueco,maxMagatzem,stockMagatzem);
         database.saveEntity(producte, nomProducte);
 
     }

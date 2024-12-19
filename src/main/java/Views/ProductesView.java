@@ -220,8 +220,6 @@ public class ProductesView extends JFrame {
                 String informacion = "Nom del producte: " + producte.getNom() + "\nMàxima Capacitat Prestatgeria: "+producte.getMaxHueco()
                         + "\nMàxima Capacitat Magatzem "+ producte.getMaxMagatzem() + "\nStock: " + producte.getStock() +
                         "\nSimilituds: " + producte.getSimilituds().toString() ;
-                        //+ "\nComandes: " + producte.getComandes() + "\nPrestatgeries: "
-                        //+ producte.getPrestatgeries();
                 JOptionPane.showMessageDialog(this, informacion , "Detalls del Producte", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
