@@ -785,13 +785,13 @@ public class CtrlDomini {
             throw new IllegalArgumentException("El maxim d'estock en magatzem ha de ser > 0");
         }
         if (database.existeix(Producte.class, nomProducte)){
-            throw new IllegalArgumentException("La comanda amb aquest nom ja existeix.");
+            throw new IllegalArgumentException("El producte amb aquest nom ja existeix.");
         }
 
         Producte producte = new Producte(nomProducte,maxHueco,maxMagatzem,stockMagatzem);
         database.saveEntity(producte, nomProducte);
 
-    }
+    }Y
 
     /**
      * Elimina un producto del sistema.

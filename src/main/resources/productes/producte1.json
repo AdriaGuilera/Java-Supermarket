@@ -4,6 +4,6 @@
   "maxMagatzem" : 5,
   "stock" : 0,
   "similitud" : { },
-  "comandes" : [ "comanda1" ],
+  "comandes" : [ ],
   "prestatgeries" : [ ]
 }
