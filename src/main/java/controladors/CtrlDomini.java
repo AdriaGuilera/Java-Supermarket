@@ -791,7 +791,7 @@ public class CtrlDomini {
         Producte producte = new Producte(nomProducte,maxHueco,maxMagatzem,stockMagatzem);
         database.saveEntity(producte, nomProducte);
 
-    }Y
+    }
 
     /**
      * Elimina un producto del sistema.
