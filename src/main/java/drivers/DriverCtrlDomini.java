@@ -663,8 +663,7 @@ public class DriverCtrlDomini {
         System.out.println("ID de la Prestatgeria:");
         String idPrestatgeria = readLine(scanner);
         try {
-            int quantitat_afegida = ctrlDomini.afegir_producte_caixa(nomProducte, quantitat, idPrestatgeria);
-            System.out.println(quantitat_afegida + " unidades del producto " + nomProducte + " de la prestatgeria " + idPrestatgeria + " añadidos a la Caja!");
+            ctrlDomini.afegir_producte_caixa(nomProducte, quantitat, idPrestatgeria);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }

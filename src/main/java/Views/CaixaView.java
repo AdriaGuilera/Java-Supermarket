@@ -109,8 +109,7 @@ public class CaixaView extends JFrame {
         dialog.add(new JLabel("Prestatgeria:"));
         dialog.add(prestatgeriaField);
 
-        JButton confirmButton = new JButton("Confirmar");
-        JButton cancelButton = new JButton("Cancel·lar");
+        JButton confirmButton = new JButton("Acceptar");
 
         confirmButton.addActionListener(e -> {
             try {
@@ -129,10 +128,8 @@ public class CaixaView extends JFrame {
             }
         });
 
-        cancelButton.addActionListener(e -> dialog.dispose());
 
         dialog.add(confirmButton);
-        dialog.add(cancelButton);
 
         dialog.pack();
         dialog.setLocationRelativeTo(this);
@@ -210,6 +207,7 @@ public class CaixaView extends JFrame {
             try {
                 ctrlDomini.guardarCaixa();
                 ctrlDomini.guardarProductes();
+                ctrlDomini.guardarPrestatgeries();
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error guardant les dades: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }

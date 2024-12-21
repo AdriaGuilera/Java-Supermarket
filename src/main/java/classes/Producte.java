@@ -1,6 +1,5 @@
 package classes;
 
-import Exepcions.MaxMagatzemWarning;
 import Exepcions.QuanitatInvalidException;
 import Exepcions.StockTooBigException;
 import Exepcions.ZeroStockMagatzemWarning;

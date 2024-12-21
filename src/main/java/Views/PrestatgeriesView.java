@@ -318,19 +318,33 @@ public class PrestatgeriesView extends JFrame {
     }
 
     private void showDeletePrestatgeriaDialog() {
-        String id = JOptionPane.showInputDialog(this, "ID de la prestatgeria a eliminar:",prestatgeriaList.getSelectedValue());
-        if (id != null && !id.isEmpty()) {
+        JDialog dialog = new JDialog(this, "Eliminar Prestatgeria", true);
+        JPanel panel = new JPanel(new GridLayout(2, 2));
+
+        JTextField prestIdField = new JTextField(prestatgeriaList.getSelectedValue());
+        prestIdField.setEditable(false);
+
+        panel.add(new JLabel("ID Prestatgeria:"));
+        panel.add(prestIdField);
+
+        JButton acceptButton = new JButton("Acceptar");
+        acceptButton.addActionListener(e -> {
             try {
-                ctrlDomini.eliminarPrestatgeria(id);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            try {
+                String prestId = prestIdField.getText().toLowerCase();
+                ctrlDomini.eliminarPrestatgeria(prestId);
                 refreshPrestatgeriesView();
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "I crash here", "Error", JOptionPane.ERROR_MESSAGE);
+                canvis = true;
+                dialog.dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }
+        });
+
+        panel.add(acceptButton);
+        dialog.add(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }
 
     private void showAddProductDialog() {

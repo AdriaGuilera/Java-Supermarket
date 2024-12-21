@@ -251,7 +251,7 @@ public class CtrlDomini {
      * @throws IllegalArgumentException           Si los argumentos son nulos o inválidos.
      */
     public void afegirProductePrestatgeria(String nomProducte, int quantitat, String idPrestatgeria)
-            throws PrestatgeriaNotFoundException, QuanitatInvalidException, MaxHuecoWarning, ProductNotFoundMagatzemException,
+            throws PrestatgeriaNotFoundException, QuanitatInvalidException, ProductNotFoundMagatzemException,
             JaExisteixProucteaPrestatgeriaException, NotEnoughQuantityMagatzem, IllegalArgumentException, IOException {
 
         if (idPrestatgeria == null || idPrestatgeria.isEmpty()) {
@@ -331,13 +331,10 @@ public class CtrlDomini {
      * @throws QuanitatInvalidException            Si la cantidad es inválida.
      * @throws ProductNotFoundPrestatgeriaException Si el producto no está en la prestatgeria.
      * @throws PrestatgeriaNotFoundException       Si la prestatgeria no existe.
-     * @throws MaxMagatzemWarning                  Si el almacén no tiene capacidad suficiente.
-     * @throws NotEnoughQuantityPrestatgeriaWarning Si no hay suficiente cantidad en la prestatgeria.
      * @throws IllegalArgumentException            Si los argumentos son nulos o inválidos.
      */
     public void decrementarStockAProducte(String id_prestatgeria, String nomProducte, int quantitat)
-            throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException, PrestatgeriaNotFoundException, MaxMagatzemWarning, ProductNotFoundMagatzemException,
-            NotEnoughQuantityPrestatgeriaWarning, IllegalArgumentException, IOException {
+            throws QuanitatInvalidException, ProductNotFoundPrestatgeriaException, PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, IllegalArgumentException, IOException {
         if (id_prestatgeria == null || id_prestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la comanda no pot estar buit.");
         }
@@ -352,9 +349,6 @@ public class CtrlDomini {
         }
         int quantitatelim = ctrlPrestatgeria.decrementarQuantitatProducte(id_prestatgeria, nomProducte, quantitat);
         ctrlProducte.incrementarStock(nomProducte, quantitatelim);
-        if(quantitatelim == 0){
-            throw new NotEnoughQuantityPrestatgeriaWarning(id_prestatgeria, nomProducte);
-        }
 
     }
 
@@ -462,7 +456,7 @@ public class CtrlDomini {
      * @throws IllegalArgumentException      Si los argumentos son nulos o inválidos.
      */
     public void eliminarPrestatgeria(String idPrestatgeria)
-            throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, MaxMagatzemWarning, QuanitatInvalidException, IllegalArgumentException, IOException {
+            throws PrestatgeriaNotFoundException, ProductNotFoundMagatzemException, QuanitatInvalidException, IllegalArgumentException, IOException {
         if (idPrestatgeria == null || idPrestatgeria.isEmpty()) {
             throw new IllegalArgumentException("El nom de la Prestatgeria no pot estar buit.");
         }
@@ -687,7 +681,7 @@ public class CtrlDomini {
      * @throws PrestatgeriaNotFoundException       Si la prestatgeria no existe.
      * @throws IllegalArgumentException            Si alguno de los argumentos es nulo o vacío.
      */
-    public int afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria)
+    public void afegir_producte_caixa(String nom_producte, int quantitat, String id_prestatgeria)
             throws QuanitatInvalidException, ProductNotFoundMagatzemException, ProductNotFoundPrestatgeriaException, PrestatgeriaNotFoundException, IllegalArgumentException, IOException {
         if(nom_producte == null || nom_producte.isEmpty()) {
             throw new IllegalArgumentException("El nom del Producte no pot estar buit.");
@@ -702,8 +696,7 @@ public class CtrlDomini {
             ctrlPrestatgeria.carregarPrestatgeria(database.getEntity(Prestatgeria.class, id_prestatgeria));
         }
         int quantitat_a_afegir = ctrlPrestatgeria.decrementarQuantitatProducte(id_prestatgeria, nom_producte,quantitat);
-        caixa.afegirProducte(nom_producte, quantitat_a_afegir);
-        return quantitat_a_afegir;
+        if(quantitat_a_afegir > 0) caixa.afegirProducte(nom_producte, quantitat_a_afegir);
     }
 
     /**

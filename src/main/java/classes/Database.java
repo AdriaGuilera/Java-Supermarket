@@ -110,7 +110,7 @@ public class Database {
     public Caixa getCaixa() throws IOException {
         File file = new File(CAIXA_PATH);
         if (!file.exists()) {
-            throw new IOException("Caixa not found");
+            return new Caixa();
         }
         return objectMapper.readValue(file, Caixa.class);
     }

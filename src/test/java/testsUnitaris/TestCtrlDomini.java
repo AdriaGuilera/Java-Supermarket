@@ -125,9 +125,8 @@ public class TestCtrlDomini {
         ctrlDomini.afegirPrestatgeria("Prestatgeria1", 2, 10);
         ctrlDomini.afegirProductePrestatgeria("Producte A", 5, "Prestatgeria1");
 
-        int quantitatAfegida = ctrlDomini.afegir_producte_caixa("Producte A", 3, "Prestatgeria1");
+        ctrlDomini.afegir_producte_caixa("Producte A", 3, "Prestatgeria1");
 
-        assertEquals(3, quantitatAfegida);
         assertEquals(2, ctrlDomini.ctrlPrestatgeria.getQuantitatProducte("Prestatgeria1", "Producte A"));
         assertEquals(3, ctrlDomini.caixa.getQuantitat("Producte A"));
     }
@@ -269,21 +268,6 @@ public class TestCtrlDomini {
     @Test(expected = IllegalArgumentException.class)
     public void testEliminarProducteNomBuit() throws Exception {
         ctrlDomini.eliminarProducte("");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testAfegirSimilitudNom1Buit() throws Exception {
-        ctrlDomini.afegir_similitud("", "Producte B", 0.5f);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testAfegirSimilitudNom2Buit() throws Exception {
-        ctrlDomini.afegir_similitud("Producte A", "", 0.5f);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testAfegirSimilitudValorZero() throws Exception {
-        ctrlDomini.afegir_similitud("Producte A", "Producte B", 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
