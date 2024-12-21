@@ -245,7 +245,6 @@ public class CtrlDomini {
      * @param idPrestatgeria Identificador de la prestatgeria.
      * @throws PrestatgeriaNotFoundException       Si la prestatgeria no existe.
      * @throws QuanitatInvalidException           Si la cantidad es inválida.
-     * @throws MaxHuecoWarning                    Si la cantidad supera el máximo permitido por hueco.
      * @throws ProductNotFoundMagatzemException   Si el producto no está en el almacén.
      * @throws JaExisteixProucteaPrestatgeriaException Si el producto ya existe en la prestatgeria.
      * @throws NotEnoughQuantityMagatzem          Si no hay suficiente cantidad en el almacén.
@@ -280,7 +279,6 @@ public class CtrlDomini {
                 if (quantitat + actual > maxhueco) {
                     ctrlPrestatgeria.incrementarQuantitatProducte(idPrestatgeria, nomProducte, maxhueco - actual);
                     ctrlProducte.decrementarStock(nomProducte, maxhueco - actual);
-                    throw new MaxHuecoWarning(nomProducte);
                 } else {
                     ctrlPrestatgeria.incrementarQuantitatProducte(idPrestatgeria, nomProducte, quantitat);
                     ctrlProducte.decrementarStock(nomProducte, quantitat);
@@ -289,7 +287,6 @@ public class CtrlDomini {
                 if (quantitat > maxhueco) {
                     ctrlPrestatgeria.afegirProducte(idPrestatgeria, nomProducte, maxhueco);
                     ctrlProducte.decrementarStock(nomProducte, maxhueco);
-                    throw new MaxHuecoWarning(nomProducte);
                 } else {
                     ctrlPrestatgeria.afegirProducte(idPrestatgeria, nomProducte, quantitat);
                     ctrlProducte.decrementarStock(nomProducte, quantitat);
@@ -844,6 +841,8 @@ public class CtrlDomini {
         Map<String, Comanda> comandestosave = ctrlComandes.getComandes();
 
         if(!comandestosave.isEmpty())database.saveEntities(comandestosave.values(), comandestosave.keySet());
+
+        ctrlProducte.eliminarProducte(nomProducte);
     }
 
 
