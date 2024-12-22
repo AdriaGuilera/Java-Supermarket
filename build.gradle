@@ -6,7 +6,7 @@ plugins {
 }
 
 ext {
-    javaMainClass = 'drivers.DriverCtrlDomini'
+    javaMainClass = 'controladors.CtrlPresentation'
 }
 
 application {
@@ -19,7 +19,21 @@ jar {
     manifest {
         attributes 'Main-Class': javaMainClass
     }
-    archiveBaseName.set("DriverCtrlDomini")
+    archiveBaseName.set("CtrlPresentation")
+}
+tasks.jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes(
+                'Main-Class': 'controladors.CtrlPresentation'
+        )
+    }
+    from {
+        // Esto toma todos los .jar (dependencias) del classpath y los incluye
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
 }
 
 java {
