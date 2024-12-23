@@ -11,7 +11,7 @@ import java.util.*;
 import Exepcions.*;
 
 public class Database {
-    private static final String RESOURCES_PATH = "src/main/resources/";
+    private static final String RESOURCES_PATH = "resources/";
     private static final String COMANDES_PATH = RESOURCES_PATH + "comandes/";
     private static final String PRODUCTES_PATH = RESOURCES_PATH + "productes/";
     private static final String PRESTATGERIES_PATH = RESOURCES_PATH + "prestatgeries/";
