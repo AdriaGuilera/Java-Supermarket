@@ -4,23 +4,55 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-
 import controladors.CtrlDomini;
 
+/**
+ * Classe principal de la interfície gràfica, que mostra el menú principal de l'aplicació.
+ * Permet accedir a diferents vistes (PrestatgeriesView, ComandesView, CaixaView i ProductesView).
+ * Hereta de {@link JFrame}.
+ */
 public class MainView extends JFrame {
 
+    /**
+     * Controlador de domini compartit per les diferents vistes.
+     */
     private CtrlDomini ctrlDomini;
+
+    /**
+     * Vista de prestatgeries.
+     */
     private PrestatgeriesView prestatgeriesView;
+
+    /**
+     * Vista de comandes.
+     */
     private ComandesView comandesView;
+
+    /**
+     * Vista de caixa.
+     */
     private CaixaView caixaView;
+
+    /**
+     * Vista de productes.
+     */
     private ProductesView productesView;
 
+    /**
+     * Constructor de la classe MainView. Inicialitza el controlador de domini i
+     * configura la interfície gràfica.
+     *
+     * @param ctrlDomini Controlador de domini utilitzat per gestionar l'aplicació.
+     */
     public MainView(CtrlDomini ctrlDomini) {
         this.ctrlDomini = ctrlDomini;
         setupUI();
     }
 
+    /**
+     * Configura la interfície gràfica principal, amb botons que permeten l'accés
+     * a les vistes de Prestatgeries, Comandes, Productes i Caixa.
+     */
     private void setupUI() {
         setTitle("Main Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,7 +66,7 @@ public class MainView extends JFrame {
         JButton comandesButton = new JButton("Gestió de Comandes");
         JButton productesButton = new JButton("Gestió de Productes");
         JButton caixaButton = new JButton("Gestió de Caixa");
-        
+
         prestatgeriesButton.setFocusable(false);
         comandesButton.setFocusable(false);
         productesButton.setFocusable(false);
@@ -54,13 +86,11 @@ public class MainView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(() -> {
-                    // Establecer tamaño y ubicación igual a la vista actual
                     prestatgeriesView.setSize(getSize());
                     prestatgeriesView.setLocation(getLocation());
-
                     prestatgeriesView.setVisible(true);
-                    // Ocultar MainView
-                    dispose();                });
+                    dispose();
+                });
             }
         });
 
@@ -70,10 +100,9 @@ public class MainView extends JFrame {
                 SwingUtilities.invokeLater(() -> {
                     comandesView.setSize(getSize());
                     comandesView.setLocation(getLocation());
-
                     comandesView.setVisible(true);
-                    // Ocultar MainView
-                    dispose();});
+                    dispose();
+                });
             }
         });
 
@@ -83,10 +112,9 @@ public class MainView extends JFrame {
                 SwingUtilities.invokeLater(() -> {
                     productesView.setSize(getSize());
                     productesView.setLocation(getLocation());
-
                     productesView.setVisible(true);
-                    // Ocultar MainView
-                    dispose();                });
+                    dispose();
+                });
             }
         });
 
@@ -96,10 +124,9 @@ public class MainView extends JFrame {
                 SwingUtilities.invokeLater(() -> {
                     caixaView.setSize(getSize());
                     caixaView.setLocation(getLocation());
-
                     caixaView.setVisible(true);
-                    // Ocultar MainView
-                    dispose();                });
+                    dispose();
+                });
             }
         });
 
@@ -110,6 +137,4 @@ public class MainView extends JFrame {
 
         add(mainPanel);
     }
-
 }
-

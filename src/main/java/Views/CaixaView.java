@@ -1,4 +1,5 @@
 package Views;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -6,11 +7,37 @@ import java.util.Map;
 import controladors.CtrlDomini;
 import Components.*;
 
+/**
+ * Classe que gestiona la vista de la Caixa, permet afegir, retirar productes i realitzar el pagament.
+ * Hereta de JFrame.
+ */
 public class CaixaView extends JFrame {
+    /**
+     * Controlador de domini associat a la gestió de la Caixa.
+     */
     private final CtrlDomini ctrlDomini;
-    private  DefaultListModel<String> productListModel;
-    private  JList<String> productList;
+
+    /**
+     * Model per representar la llista de productes a la Caixa.
+     */
+    private DefaultListModel<String> productListModel;
+
+    /**
+     * Element gràfic que mostra la llista de productes a la Caixa.
+     */
+    private JList<String> productList;
+
+    /**
+     * Indicador de si hi ha hagut canvis a la Caixa.
+     */
     boolean canvis = false;
+
+    /**
+     * Constructor de la classe CaixaView.
+     * Carrega l'estat de la Caixa i inicialitza la interfície gràfica.
+     *
+     * @param ctrlDomini Controlador de domini utilitzat per gestionar la Caixa.
+     */
     public CaixaView(CtrlDomini ctrlDomini)  {
         this.ctrlDomini = ctrlDomini;
         try {
@@ -22,10 +49,14 @@ public class CaixaView extends JFrame {
         setupUI();
     }
 
+    /**
+     * Configura i disposa els elements de la interfície gràfica de l'aplicació.
+     */
     private void setupUI() {
         setTitle("Gestió de Caixa");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 600);
+
         // Main panel
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -76,6 +107,9 @@ public class CaixaView extends JFrame {
         refreshProductList();
     }
 
+    /**
+     * Actualitza la llista de productes mostrada a la interfície gràfica amb les dades del controlador de domini.
+     */
     public void refreshProductList() {
         productListModel.clear();
         try {
@@ -86,6 +120,10 @@ public class CaixaView extends JFrame {
         }
     }
 
+    /**
+     * Mostra el diàleg per afegir un producte a la Caixa.
+     * Permet introduir el nom, la quantitat i la prestatgeria del producte.
+     */
     private void showAddProductDialog() {
         JDialog dialog = new JDialog(this, "Afegir Producte a la Caixa", true);
         dialog.setLayout(new GridLayout(4, 2));
@@ -113,21 +151,20 @@ public class CaixaView extends JFrame {
 
         confirmButton.addActionListener(e -> {
             try {
-                String product = productField.getText().toLowerCase();;
+                String product = productField.getText().toLowerCase();
                 int quantity = Integer.parseInt(quantityField.getText());
-                String prestatgeria = prestatgeriaField.getText().toLowerCase();;
+                String prestatgeria = prestatgeriaField.getText().toLowerCase();
                 ctrlDomini.afegir_producte_caixa(product, quantity, prestatgeria);
-                canvis=true;
+                canvis = true;
                 dialog.dispose();
                 refreshProductList();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog,
-                    "Error: " + ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+                        "Error: " + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
-
 
         dialog.add(confirmButton);
 
@@ -136,6 +173,10 @@ public class CaixaView extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Mostra el diàleg per retirar un producte de la Caixa.
+     * Permet introduir el nom i la quantitat del producte a retirar.
+     */
     private void showRemoveProductDialog() {
         JDialog dialog = new JDialog(this, "Retirar Producte de la Caixa", true);
         dialog.setLayout(new GridLayout(3, 2));
@@ -158,11 +199,11 @@ public class CaixaView extends JFrame {
         JButton confirmButton = new JButton("Acceptar");
         confirmButton.addActionListener(e -> {
             try {
-                String product = productField.getText().toLowerCase();;
+                String product = productField.getText().toLowerCase();
                 if (product.isEmpty()) {
                     throw new IllegalArgumentException("Cal seleccionar un producte");
                 }
-                
+
                 int quantity;
                 try {
                     quantity = Integer.parseInt(quantityField.getText());
@@ -174,14 +215,14 @@ public class CaixaView extends JFrame {
                 }
 
                 ctrlDomini.retirar_producte_caixa(product, quantity);
-                canvis=true;
+                canvis = true;
                 dialog.dispose();
                 refreshProductList();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog,
-                    "Error: " + ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+                        "Error: " + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -191,10 +232,14 @@ public class CaixaView extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Realitza l'operació de pagament de la Caixa i actualitza la llista de productes.
+     * En cas d'error, mostra un missatge d'error a l'usuari.
+     */
     private void payCaixa() {
         try {
             ctrlDomini.pagar_caixa();
-            canvis=true;
+            canvis = true;
             refreshProductList();
             JOptionPane.showMessageDialog(this, "Pagament realitzat!", "Èxit", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
@@ -202,6 +247,10 @@ public class CaixaView extends JFrame {
         }
     }
 
+    /**
+     * Mostra un diàleg per sortir de la finestra de gestió de Caixa.
+     * Si hi ha hagut canvis, guarda les dades abans de tancar la finestra i obrir la MainView.
+     */
     private void showLeaveDialog() {
         if (canvis) {
             try {
@@ -219,8 +268,21 @@ public class CaixaView extends JFrame {
         mainView.setVisible(true);
     }
 
-    // Custom cell renderer for coloring list items
+    /**
+     * Renderer personalitzat per a la llista de productes.
+     * Canvia el color de fons, la mida de la font i el color del text de l'element seleccionat.
+     */
     private static class CustomListCellRenderer extends DefaultListCellRenderer {
+        /**
+         * Mètode sobrescrit que retorna el component per representar cada element de la llista.
+         *
+         * @param list         la JList on es mostra l'element
+         * @param value        l'objecte que s'està representant a la llista
+         * @param index        l'índex de l'element
+         * @param isSelected   indica si l'element està seleccionat
+         * @param cellHasFocus indica si la cel·la té el focus
+         * @return el component que representa l'element de la llista
+         */
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);

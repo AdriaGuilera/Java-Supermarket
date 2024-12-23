@@ -65,36 +65,17 @@ public class Comanda {
         }
     }
 
+    /**
+     * Elimina un producte de la comanda si existeix en les ordres.
+     * Si el producte no existeix, no realitza cap acció addicional.
+     *
+     * @param nomProducte Nom del producte que es vol eliminar de la comanda.
+     * @throws ProductNotFoundComandaException Excepció que indica que el producte no s'ha trobat a la comanda.
+     */
     public void eliminarProducteSenseExcepcio(String nomProducte) throws ProductNotFoundComandaException {
-
         if (ordres.containsKey(nomProducte)) {
             ordres.remove(nomProducte);
         }
-    }
-
-    /**
-     * Verifica si un producto específico está presente en la comanda.
-     *
-     * @param nomProducte Nombre del producto a verificar.
-     * @return {@code true} si el producto está presente, de lo contrario {@code false}.
-     */
-    public boolean conteProducte(String nomProducte) {
-        return ordres.containsKey(nomProducte);
-    }
-
-    /**
-     * Obtiene la cantidad de un producto específico en la comanda.
-     *
-     * @param nomProducte Nombre del producto.
-     * @return La cantidad del producto.
-     * @throws ProductNotFoundComandaException Si el producto no se encuentra en la comanda.
-     */
-    public int getQuantitat(String nomProducte) {
-        Integer quantitat = ordres.get(nomProducte);
-        if (quantitat == null) {
-            throw new ProductNotFoundComandaException(nomProducte);
-        }
-        return quantitat;
     }
 
 
@@ -119,12 +100,14 @@ public class Comanda {
     }
 
 
-    // Setters
+    /**
+     * Estableix el nom de la comanda.
+     *
+     * @param nom Nom que s'assignarà a la comanda.
+     */
     public void setNom(String nom) {
         this.nom = nom;
     }
 
-    public void setOrdres(Map<String, Integer> ordres) {
-        this.ordres = ordres;
-    }
+
 }

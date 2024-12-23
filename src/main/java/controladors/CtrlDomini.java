@@ -119,7 +119,6 @@ public class CtrlDomini {
 
         //Afegim el producte a al comanda
         ctrlComandes.afegirProducteComanda(nomComanda, nomProducte, quantitat);
-        ctrlProducte.afegirComandaProducte(nomProducte, nomComanda);
         database.saveEntity(ctrlComandes.getComandaUnica(nomComanda), nomComanda);
         database.saveEntity(ctrlProducte.getProducte(nomProducte), nomProducte);
     }
@@ -153,7 +152,6 @@ public class CtrlDomini {
 
         //Eliminamos el producto de la comanda
         ctrlComandes.eliminarProducteComanda(nomComanda, nomProducte, quantitat);
-        ctrlProducte.eliminarComandaProducte(nomProducte, nomComanda);
         database.saveEntity(ctrlComandes.getComandaUnica(nomComanda),nomComanda);
         database.saveEntity(ctrlProducte.getProducte(nomProducte), nomProducte);
     }

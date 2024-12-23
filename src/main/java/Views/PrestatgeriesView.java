@@ -11,20 +11,65 @@ import controladors.CtrlDomini;
 import classes.Prestatgeria;
 import Components.*;
 
+/**
+ * Classe que gestiona la vista de Prestatgeries dins l'aplicació.
+ * Ofereix funcionalitats per visualitzar, afegir, eliminar i modificar prestatgeries
+ * i els productes que contenen.
+ * Hereta de {@link JFrame}.
+ */
 public class PrestatgeriesView extends JFrame {
+
+    /**
+     * Controlador de domini que gestiona les operacions relacionades amb prestatgeries i productes.
+     */
     public CtrlDomini ctrlDomini;
+
+    /**
+     * Panell principal de la interfície de Prestatgeries.
+     */
     private JPanel mainPanel;
+
+    /**
+     * Panell que conté les prestatgeries i permet canviar entre elles mitjançant un {@link CardLayout}.
+     */
     private JPanel prestatgeriesPanel;
+
+    /**
+     * Disposició utilitzada per canviar entre les diverses prestatgeries al panell {@code prestatgeriesPanel}.
+     */
     private CardLayout cardLayout;
+
+    /**
+     * Llista gràfica que mostra els identificadors de les prestatgeries.
+     */
     private JList<String> prestatgeriaList;
+
+    /**
+     * Model de la llista de prestatgeries que permet afegir i eliminar elements dinàmicament.
+     */
     private DefaultListModel<String> listModel;
+
+    /**
+     * Booleà que indica si s'han produït canvis en les prestatgeries.
+     * Si és cert, caldrà guardar-los abans de tancar la finestra.
+     */
     boolean canvis = false;
 
+    /**
+     * Constructor de la classe PrestatgeriesView. Inicialitza la interfície i carrega la informació
+     * de les prestatgeries des del controlador de domini.
+     *
+     * @param ctrlDomini Controlador de domini utilitzat per gestionar les operacions de prestatgeries.
+     */
     public PrestatgeriesView(CtrlDomini ctrlDomini) {
         this.ctrlDomini = ctrlDomini;
         setupUI();
     }
 
+    /**
+     * Configura la interfície gràfica: crea els botons, la llista de prestatgeries i el panell
+     * principal on es mostren els detalls de cada prestatgeria.
+     */
     private void setupUI() {
         setTitle("Gestió de Prestatgeries");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -97,7 +142,6 @@ public class PrestatgeriesView extends JFrame {
         mainPanel.add(new JScrollPane(prestatgeriaList), BorderLayout.WEST);
         mainPanel.add(new JScrollPane(prestatgeriesPanel), BorderLayout.CENTER);
 
-
         // Add button listeners
         addButton.addActionListener(e -> showAddPrestatgeriaDialog());
         deleteButton.addActionListener(e -> showDeletePrestatgeriaDialog());
@@ -144,6 +188,12 @@ public class PrestatgeriesView extends JFrame {
         }
     }
 
+    /**
+     * Actualitza la llista de prestatgeries i el panell corresponent amb les darreres dades
+     * obtingudes del controlador de domini.
+     *
+     * @throws IOException si hi ha algun problema en carregar la informació de les prestatgeries.
+     */
     public void refreshPrestatgeriesView() throws IOException {
         // Save the currently selected prestatgeria ID
         String selectedId = prestatgeriaList.getSelectedValue();
@@ -187,6 +237,12 @@ public class PrestatgeriesView extends JFrame {
         }
     }
 
+    /**
+     * Actualitza la visualització de la prestatgeria seleccionada. Dibuixa cada prestatge
+     * i la seva distribució de productes.
+     *
+     * @throws IOException si hi ha algun problema en carregar la informació de la prestatgeria.
+     */
     public void refreshShelf() throws IOException {
         if (listModel.isEmpty()) {
             prestatgeriesPanel.removeAll();
@@ -238,7 +294,15 @@ public class PrestatgeriesView extends JFrame {
         prestatgeriesPanel.repaint();
     }
 
-
+    /**
+     * Crea un panell que representa una posició concreta dins d'una prestatgeria, mostrant
+     * el producte i la quantitat que conté.
+     *
+     * @param prest        La prestatgeria a la qual pertany la posició.
+     * @param position     La posició dins de la prestatgeria.
+     * @param productName  El nom del producte en aquesta posició (pot ser null si està buit).
+     * @return Un {@link JPanel} configurat per representar la posició i, si escau, el seu producte.
+     */
     private JPanel createProductCell(Prestatgeria prest, int position, String productName) {
         JPanel cell = new JPanel(new BorderLayout());
         cell.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
@@ -280,6 +344,10 @@ public class PrestatgeriesView extends JFrame {
         return cell;
     }
 
+    /**
+     * Mostra un diàleg per afegir una nova prestatgeria al sistema.
+     * Demana l'ID de la prestatgeria, la mida total i la mida de cada prestatge.
+     */
     private void showAddPrestatgeriaDialog() {
         JDialog dialog = new JDialog(this, "Afegir Prestatgeria", true);
         JPanel panel = new JPanel(new GridLayout(4, 2));
@@ -317,6 +385,9 @@ public class PrestatgeriesView extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Mostra un diàleg per eliminar la prestatgeria seleccionada.
+     */
     private void showDeletePrestatgeriaDialog() {
         JDialog dialog = new JDialog(this, "Eliminar Prestatgeria", true);
         JPanel panel = new JPanel(new GridLayout(2, 2));
@@ -347,6 +418,10 @@ public class PrestatgeriesView extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Mostra un diàleg per afegir un producte a la prestatgeria seleccionada.
+     * Demana el nom del producte i la quantitat a afegir.
+     */
     private void showAddProductDialog() {
         JDialog dialog = new JDialog(this, "Afegir Producte", true);
         JPanel panel = new JPanel(new GridLayout(4, 2));
@@ -385,6 +460,10 @@ public class PrestatgeriesView extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Mostra un diàleg per retirar un producte de la prestatgeria seleccionada.
+     * Demana el nom del producte a retirar.
+     */
     private void showRemoveProductDialog() {
         JDialog dialog = new JDialog(this, "Retirar Producte", true);
         JPanel panel = new JPanel(new GridLayout(3, 2));
@@ -419,6 +498,10 @@ public class PrestatgeriesView extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Mostra un diàleg per fixar un producte dins la prestatgeria seleccionada.
+     * Un producte fixat no es mourà automàticament durant la generació de distribucions.
+     */
     private void showFixProductDialog() {
         JDialog dialog = new JDialog(this, "Fixar Producte", true);
         JPanel panel = new JPanel(new GridLayout(3, 2));
@@ -453,6 +536,9 @@ public class PrestatgeriesView extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Mostra un diàleg per desfixar un producte fixat prèviament a la prestatgeria seleccionada.
+     */
     private void showUnfixProductDialog() {
         JDialog dialog = new JDialog(this, "Desfixar Producte", true);
         JPanel panel = new JPanel(new GridLayout(3, 2));
@@ -487,6 +573,10 @@ public class PrestatgeriesView extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Mostra un diàleg per generar una distribució automàtica de productes en la prestatgeria seleccionada.
+     * Permet triar entre els algorismes de Hill Climbing i Backtracking.
+     */
     private void showGenerateDistributionDialog() {
         JDialog dialog = new JDialog(this, "Generar Distribució", true);
         JPanel panel = new JPanel(new GridLayout(3, 1, 5, 5));
@@ -537,6 +627,10 @@ public class PrestatgeriesView extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Mostra un diàleg per disminuir la quantitat d'un producte a la prestatgeria seleccionada.
+     * Demana el nom del producte i la quantitat que es vol restar del seu estoc.
+     */
     private void showDecrementStockDialog() {
         JDialog dialog = new JDialog(this, "Decrementar Stock", true);
         JPanel panel = new JPanel(new GridLayout(4, 2));
@@ -575,6 +669,9 @@ public class PrestatgeriesView extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Mostra un diàleg per afegir un prestatge addicional a la prestatgeria seleccionada.
+     */
     private void showAddShelfDialog() {
         JDialog dialog = new JDialog(this, "Afegir Prestatge", true);
         JPanel panel = new JPanel(new GridLayout(2, 2));
@@ -606,6 +703,9 @@ public class PrestatgeriesView extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Mostra un diàleg per eliminar el darrer prestatge de la prestatgeria seleccionada.
+     */
     private void showRemoveShelfDialog() {
         JDialog dialog = new JDialog(this, "Eliminar Prestatge", true);
         JPanel panel = new JPanel(new GridLayout(2, 2));
@@ -637,6 +737,11 @@ public class PrestatgeriesView extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Mostra un diàleg per confirmar la sortida d'aquesta vista.
+     * Si {@code canvis} és cert, guarda les dades abans de tancar la finestra.
+     * Retorna a la vista principal {@link MainView}.
+     */
     private void showLeaveDialog() {
         if (canvis) {
             try {

@@ -280,14 +280,6 @@ public class CtrlProducte {
         productesMagatzem.put(producte.getNom(), producte);
     }
 
-    public Set<String> getComandes(String nomProducte){
-        return  productesMagatzem.get(nomProducte).getComandes();
-    }
-    public void afegirComandaProducte(String nomProducte, String nomComanda){
-        productesMagatzem.get(nomProducte).afegirComanda(nomComanda);
-    }
-    public void eliminarComandaProducte(String nomProducte, String nomComanda){
-        productesMagatzem.get(nomProducte).eliminarComanda(nomComanda);
-    }
+
 
 }

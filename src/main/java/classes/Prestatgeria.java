@@ -153,15 +153,6 @@ public class Prestatgeria {
 	}
 
 	/**
-	 * Devuelve el número de productos en la prestatgeria.
-	 *
-	 * @return El número de productos.
-	 */
-	public int getProductesSize() {
-		return productes.size();
-	}
-
-	/**
 	 * Devuelve el mapa de productos y cantidades.
 	 *
 	 * @return Un mapa de productos y sus cantidades.
@@ -310,14 +301,7 @@ public class Prestatgeria {
 		productesFixats.remove(nomP);
 	}
 
-	/**
-	 * Devuelve la distribución actual de productos en la prestatgeria.
-	 *
-	 * @return Un mapa que asocia posiciones con nombres de productos.
-	 */
-	public Map<Integer, String> getDistribucio() {
-		return posicions;
-	}
+
 
 	/**
 	 * Verifica si un producto específico está presente en la prestatgeria.

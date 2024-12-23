@@ -3,10 +3,7 @@ package controladors;
 import Views.*;
 import javax.swing.*;
 
-import java.util.Map;
-import classes.Prestatgeria;
-import java.io.IOException;
-import java.util.Vector;
+
 
 /**
  * Controller for managing the presentation layer
