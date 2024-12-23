@@ -96,8 +96,6 @@ public class CtrlProducte {
     public void eliminarProducte(String nomProducte) throws ProductNotFoundMagatzemException {
         if (productesMagatzem.containsKey(nomProducte)) {
             productesMagatzem.remove(nomProducte);
-        } else {
-            throw new ProductNotFoundMagatzemException(nomProducte);
         }
     }
 
