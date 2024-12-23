@@ -1,9 +1,0 @@
-{
-  "nom" : "Producte A",
-  "maxHueco" : 10,
-  "maxMagatzem" : 100,
-  "stock" : 50,
-  "similitud" : { },
-  "comandes" : [ ],
-  "prestatgeries" : [ ]
-}

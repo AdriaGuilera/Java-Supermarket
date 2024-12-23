@@ -19,7 +19,7 @@ jar {
     manifest {
         attributes 'Main-Class': javaMainClass
     }
-    archiveBaseName.set("CtrlPresentation")
+    archiveBaseName.set("Supermercat")
 }
 tasks.jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE

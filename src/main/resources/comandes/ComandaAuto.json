@@ -1,8 +1,0 @@
-{
-  "nom" : "ComandaAuto",
-  "ordres" : {
-    "Producte A" : 50,
-    "Producto B" : 200,
-    "Producto A" : 300
-  }
-}
