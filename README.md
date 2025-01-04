@@ -1,5 +1,5 @@
 # Supermarket Management System
-This project implements a comprehensive supermarket management system developed in Java. It follows a three-layer architecture pattern comprising:
+University project implementing a comprehensive supermarket management system developed in Java. It follows a three-layer architecture pattern comprising:
 - Custom database implementation for data persistence
 - Domain layer for business logic
 - Interactive presentation layer using Swing
@@ -10,28 +10,28 @@ The system optimizes supermarket operations through efficient inventory manageme
 ## Features
 
 - Product Management (Productes)
-  - Add/remove products
-  - Set product specifications (max storage, shelf capacity)
-  - Manage product similarities
-  - View product details
+    - Add/remove products
+    - Set product specifications (max storage, shelf capacity)
+    - Manage product similarities
+    - View product details
 
 - Shelf Management (Prestatgeries)
-  - Create and manage shelves
-  - Add/remove products from shelves
-  - Fix/unfix products to specific positions
-  - Optimize product distribution using backtracking and hill climbing algorithms
+    - Create and manage shelves
+    - Add/remove products from shelves
+    - Fix/unfix products to specific positions
+    - Optimize product distribution using backtracking and hill climbing algorithms
 
 - Order Management (Comandes)
-  - Create and manage orders
-  - Add/remove products from orders
-  - Generate automatic orders based on product's stock
-  - Execute multiple orders simultaneously
+    - Create and manage orders
+    - Add/remove products from orders
+    - Generate automatic orders based on product's stock
+    - Execute multiple orders simultaneously
 
 - Cash Register (Caixa)
-  - Add products to cart
-  - Remove products from cart
-  - Process payments
-  - View current transaction details
+    - Add products to cart
+    - Remove products from cart
+    - Process payments
+    - View current transaction details
 
 ## Technical Details
 
